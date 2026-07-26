@@ -1,0 +1,23 @@
+:root {
+
+    /* ===========================
+       Palette principale
+    =========================== */
+
+    --color-background: #1C1C1F;
+    --color-surface:    #394054;
+    --color-primary:    #5DA6B3;
+    --color-secondary:  #BCCDD4;
+    --color-text:       #DCE2EA;
+
+    /* ===========================
+       Palette Accent
+    =========================== */
+
+    --color-success:    #05EA6F;
+    --color-warning:    #F7B800;
+    --color-error:      #DD006B;
+    --color-action:     #0064FA;
+    --color-reward:     #87FF00;
+
+}

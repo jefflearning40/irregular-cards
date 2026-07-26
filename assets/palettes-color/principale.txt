@@ -1,0 +1,10 @@
+🌊 Palette principale (Univers marin)
+
+Cette palette servira pour 80 % de l'interface.
+
+Couleur	Hex
+Noir profond	#1C1C1F
+Bleu ardoise	#394054
+Bleu océan	#5DA6B3
+Bleu brume	#BCCDD4
+Blanc glacé	#DCE2EA
