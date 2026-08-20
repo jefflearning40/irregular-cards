@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Test Professeur Complet</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+
+            background: #1C1C1F;
+        }
+
+        .professeur {
+            width: 500px;
+            max-width: 90vw;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <object
+        id="professeur"
+        class="professeur"
+        type="image/svg+xml"
+        data="assets/images/decor/personnages/professeur_pasgif_animation_bravo.svg">
+    </object>
+
+    <div class="actions">
+        <button id="btn-erreur">Erreur</button>
+        <button id="btn-bravo">Bravo</button>
+    </div>
+
+    <script src="assets/js/test-professeur-complet.js"></script>
+
+</body>
+
+</html>
