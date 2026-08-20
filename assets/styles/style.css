@@ -1,0 +1,248 @@
+/* ===========================
+   RESET
+=========================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: var(--color-text);
+    background: var(--color-background);
+}
+
+button,
+img {
+    display: block;
+}
+
+/* ===========================
+   SCÈNE MARITIME
+=========================== */
+
+.sea-scene {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    background-image:
+        linear-gradient(
+            rgba(28, 28, 31, 0.08),
+            rgba(28, 28, 31, 0.08)
+        ),
+        url("../images/logos/image_fond_mer.png");
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+/* ===========================
+   TITRE
+=========================== */
+
+.sea-scene__title {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    z-index: 20;
+
+    transform: translateX(-50%);
+
+    width: max-content;
+    max-width: calc(100% - 40px);
+
+    padding: 12px 24px;
+
+    border-radius: 12px;
+
+    color: var(--color-background);
+    background: rgba(220, 226, 234, 0.85);
+
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    text-align: center;
+}
+
+/* ===========================
+   BOUTON
+=========================== */
+
+.sea-scene__button {
+    position: absolute;
+    top: 115px;
+    left: 50%;
+    z-index: 20;
+
+    transform: translateX(-50%);
+
+    padding: 13px 24px;
+
+    border: 2px solid var(--color-secondary);
+    border-radius: 10px;
+
+    color: var(--color-text);
+    background: var(--color-surface);
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        color 200ms ease,
+        background-color 200ms ease,
+        border-color 200ms ease,
+        transform 200ms ease;
+}
+
+.sea-scene__button:hover {
+    color: var(--color-background);
+    background: var(--color-success);
+    border-color: var(--color-success);
+
+    transform:
+        translateX(-50%)
+        scale(1.04);
+}
+
+.sea-scene__button:focus-visible {
+    outline: 4px solid var(--color-warning);
+    outline-offset: 4px;
+}
+
+.sea-scene__button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+/* ===========================
+   TRANSLATION DU BATEAU
+=========================== */
+
+.boat-translation {
+    position: absolute;
+    bottom: 7%;
+    left: 0;
+    z-index: 10;
+
+    width: clamp(250px, 34vw, 560px);
+
+    /*
+        La position horizontale sera définie
+        par JavaScript.
+    */
+    transform: translateX(-120%);
+}
+
+/* ===========================
+   OSCILLATION DU BATEAU
+=========================== */
+
+.boat-oscillation {
+    width: 100%;
+
+    transform-origin: 50% 85%;
+
+    animation:
+        boat-rocking 2.8s ease-in-out infinite,
+        boat-floating 2.1s ease-in-out infinite;
+}
+
+.boat {
+    width: 100%;
+    height: auto;
+
+    user-select: none;
+    pointer-events: none;
+
+    filter:
+        drop-shadow(
+            0 14px 8px rgba(28, 28, 31, 0.25)
+        );
+}
+
+/* ===========================
+   TANGAGE
+=========================== */
+
+@keyframes boat-rocking {
+    0%,
+    100% {
+        rotate: -2deg;
+    }
+
+    50% {
+        rotate: 2deg;
+    }
+}
+
+/* ===========================
+   MOUVEMENT VERTICAL
+=========================== */
+
+@keyframes boat-floating {
+    0%,
+    100% {
+        translate: 0 0;
+    }
+
+    50% {
+        translate: 0 -10px;
+    }
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width: 768px) {
+    .sea-scene__title {
+        top: 20px;
+
+        padding: 10px 18px;
+    }
+
+    .sea-scene__button {
+        top: 95px;
+
+        width: max-content;
+        max-width: calc(100% - 40px);
+    }
+
+    .boat-translation {
+        bottom: 10%;
+
+        width: clamp(230px, 60vw, 420px);
+    }
+}
+
+/* ===========================
+   ACCESSIBILITÉ
+=========================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .boat-oscillation {
+        animation: none;
+    }
+
+    .sea-scene__button {
+        transition: none;
+    }
+}

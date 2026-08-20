@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Traversée de la Manche</title>
+
+    <link
+        rel="stylesheet"
+        href="assets/styles/variables.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="assets/styles/style.css"
+    >
+
+</head>
+
+<body>
+
+    <main class="sea-scene">
+
+        <!-- ===========================
+             TITRE
+        ============================ -->
+
+        <h1 class="sea-scene__title">
+            Traversée de la Manche
+        </h1>
+
+        <!-- ===========================
+             BOUTON
+        ============================ -->
+
+        <button
+            class="sea-scene__button"
+            id="start-crossing"
+            type="button"
+        >
+            Démarrer la traversée
+        </button>
+
+        <!-- ===========================
+             BATEAU
+        ============================ -->
+
+        <div
+            class="boat-translation"
+            id="boat-translation"
+        >
+
+            <div
+                class="boat-oscillation"
+                id="boat-oscillation"
+            >
+
+                <img
+                    class="boat"
+                    id="boat"
+                    src="assets/images/decor/boat_inkscape.svg"
+                    alt="Petit bateau traversant la Manche"
+                    draggable="false"
+                >
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="assets/JS/script.js"></script>
+
+</body>
+
+</html>
