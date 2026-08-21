@@ -30,6 +30,7 @@ img {
     display: block;
 }
 
+
 /* ===========================
    SCÈNE MARITIME
 =========================== */
@@ -47,12 +48,13 @@ img {
             rgba(28, 28, 31, 0.08),
             rgba(28, 28, 31, 0.08)
         ),
-        url("../images/logos/image_fond_mer.png");
+        url("../images/decor/image_fond_mer.png");
 
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
 }
+
 
 /* ===========================
    TITRE
@@ -79,6 +81,7 @@ img {
     font-size: clamp(1.5rem, 4vw, 3rem);
     text-align: center;
 }
+
 
 /* ===========================
    BOUTON
@@ -132,6 +135,7 @@ img {
     cursor: default;
 }
 
+
 /* ===========================
    TRANSLATION DU BATEAU
 =========================== */
@@ -145,11 +149,12 @@ img {
     width: clamp(250px, 34vw, 560px);
 
     /*
-        La position horizontale sera définie
-        par JavaScript.
+        La position horizontale est
+        contrôlée par JavaScript.
     */
     transform: translateX(-120%);
 }
+
 
 /* ===========================
    OSCILLATION DU BATEAU
@@ -165,6 +170,11 @@ img {
         boat-floating 2.1s ease-in-out infinite;
 }
 
+
+/* ===========================
+   IMAGE DU BATEAU
+=========================== */
+
 .boat {
     width: 100%;
     height: auto;
@@ -178,11 +188,13 @@ img {
         );
 }
 
+
 /* ===========================
-   TANGAGE
+   TANGAGE DU BATEAU
 =========================== */
 
 @keyframes boat-rocking {
+
     0%,
     100% {
         rotate: -2deg;
@@ -193,11 +205,13 @@ img {
     }
 }
 
+
 /* ===========================
-   MOUVEMENT VERTICAL
+   FLOTTEMENT DU BATEAU
 =========================== */
 
 @keyframes boat-floating {
+
     0%,
     100% {
         translate: 0 0;
@@ -208,11 +222,93 @@ img {
     }
 }
 
+
+/* ===========================
+   MOUETTES
+=========================== */
+
+.seagull-flight {
+    position: absolute;
+    z-index: 6;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+.seagull {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+
+/* ===========================
+   MOUETTE 1
+=========================== */
+
+.seagull-flight--1 {
+    top: 12%;
+
+    width: 150px;
+
+    animation:
+        seagull-crossing-1 14s linear infinite;
+}
+
+
+/* ===========================
+   TRAJECTOIRE MOUETTE 1
+=========================== */
+
+@keyframes seagull-crossing-1 {
+
+    0% {
+        left: -180px;
+    }
+
+    100% {
+        left: calc(100% + 180px);
+    }
+}
+/* ===========================
+   MOUETTE 9 - GROUPE ÉLOIGNÉ
+=========================== */
+
+.seagull-flight--9 {
+    top: 7%;
+
+    width: 110px;
+
+    animation:
+        seagull-crossing-9 24s linear infinite;
+}
+
+
+/* ===========================
+   MOUETTE 9 - PHARE
+=========================== */
+
+.seagull-flight--9 {
+    top: 16%;
+    left: 4%;
+
+    width: 110px;
+
+    animation:
+        seagull-lighthouse 8s ease-in-out infinite alternate;
+}
+
+
 /* ===========================
    RESPONSIVE
 =========================== */
 
 @media (max-width: 768px) {
+
     .sea-scene__title {
         top: 20px;
 
@@ -231,14 +327,24 @@ img {
 
         width: clamp(230px, 60vw, 420px);
     }
+
+    .seagull-flight--1 {
+        width: 100px;
+    }
 }
+
 
 /* ===========================
    ACCESSIBILITÉ
 =========================== */
 
 @media (prefers-reduced-motion: reduce) {
+
     .boat-oscillation {
+        animation: none;
+    }
+
+    .seagull-flight {
         animation: none;
     }
 
