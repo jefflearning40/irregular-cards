@@ -8,7 +8,9 @@
     box-sizing: border-box;
 }
 
-html {
+html,
+body {
+    width: 100%;
     min-height: 100%;
 }
 
@@ -26,8 +28,150 @@ body {
 }
 
 button,
-img {
+img,
+object {
     display: block;
+}
+
+
+/* ===========================
+   ÉCRANS CARTE POSTALE
+=========================== */
+
+.postcard-screen {
+    position: relative;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--color-background);
+}
+
+
+/* ===========================
+   IMAGE CARTE POSTALE
+=========================== */
+
+.postcard {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+
+/* ===========================
+   PROFESSEUR
+=========================== */
+
+.postcard-professor {
+    position: absolute;
+
+    z-index: 10;
+
+    width: clamp(220px, 24vw, 430px);
+    max-height: 62vh;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+
+/* ===========================
+   PROFESSEUR - DÉPART
+=========================== */
+
+.postcard-professor--neutral {
+    right: 22%;
+    bottom: 7%;
+}
+
+
+/* ===========================
+   PROFESSEUR - ARRIVÉE
+=========================== */
+
+.postcard-professor--bravo {
+    right: 22%;
+    bottom: 6%;
+}
+
+
+/* ===========================
+   BOUTONS DES CARTES
+=========================== */
+
+.postcard-button {
+    position: absolute;
+
+    left: 50%;
+    bottom: clamp(15px, 4vh, 40px);
+
+    z-index: 20;
+
+    transform: translateX(-50%);
+
+    width: max-content;
+    max-width: calc(100% - 30px);
+
+    padding:
+        clamp(9px, 1.4vh, 13px)
+        clamp(16px, 2vw, 24px);
+
+    border: 2px solid var(--color-secondary);
+    border-radius: 10px;
+
+    color: var(--color-text);
+    background: var(--color-surface);
+
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        color 200ms ease,
+        background-color 200ms ease,
+        border-color 200ms ease,
+        transform 200ms ease;
+}
+
+.postcard-button:hover {
+    color: var(--color-background);
+    background: var(--color-success);
+    border-color: var(--color-success);
+
+    transform:
+        translateX(-50%)
+        scale(1.04);
+}
+
+.postcard-button:focus-visible {
+    outline: 4px solid var(--color-warning);
+    outline-offset: 4px;
+}
+
+
+/* ===========================
+   ÉTAT INITIAL
+=========================== */
+
+#crossing-screen,
+#arrival-screen {
+    display: none;
 }
 
 
@@ -38,8 +182,8 @@ img {
 .sea-scene {
     position: relative;
 
-    width: 100%;
-    min-height: 100vh;
+    width: 100vw;
+    height: 100vh;
 
     overflow: hidden;
 
@@ -62,40 +206,51 @@ img {
 
 .sea-scene__title {
     position: absolute;
-    top: 30px;
+
+    top: clamp(15px, 3vh, 30px);
     left: 50%;
+
     z-index: 20;
 
     transform: translateX(-50%);
 
     width: max-content;
-    max-width: calc(100% - 40px);
+    max-width: calc(100% - 30px);
 
-    padding: 12px 24px;
+    padding:
+        clamp(8px, 1.5vh, 12px)
+        clamp(14px, 2vw, 24px);
 
     border-radius: 12px;
 
     color: var(--color-background);
     background: rgba(220, 226, 234, 0.85);
 
-    font-size: clamp(1.5rem, 4vw, 3rem);
+    font-size: clamp(1.3rem, 3vw, 3rem);
     text-align: center;
 }
 
 
 /* ===========================
-   BOUTON
+   BOUTON TRAVERSÉE
 =========================== */
 
 .sea-scene__button {
     position: absolute;
-    top: 115px;
+
+    top: clamp(75px, 12vh, 115px);
     left: 50%;
+
     z-index: 20;
 
     transform: translateX(-50%);
 
-    padding: 13px 24px;
+    width: max-content;
+    max-width: calc(100% - 30px);
+
+    padding:
+        clamp(9px, 1.4vh, 13px)
+        clamp(16px, 2vw, 24px);
 
     border: 2px solid var(--color-secondary);
     border-radius: 10px;
@@ -103,7 +258,7 @@ img {
     color: var(--color-text);
     background: var(--color-surface);
 
-    font-size: 1rem;
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
     font-weight: 700;
 
     cursor: pointer;
@@ -142,16 +297,14 @@ img {
 
 .boat-translation {
     position: absolute;
-    bottom: 7%;
+
     left: 0;
+    bottom: clamp(4%, 7vh, 10%);
+
     z-index: 10;
 
-    width: clamp(250px, 34vw, 560px);
+    width: clamp(220px, 34vw, 560px);
 
-    /*
-        La position horizontale est
-        contrôlée par JavaScript.
-    */
     transform: translateX(-120%);
 }
 
@@ -161,6 +314,8 @@ img {
 =========================== */
 
 .boat-oscillation {
+    position: relative;
+
     width: 100%;
 
     transform-origin: 50% 85%;
@@ -176,6 +331,10 @@ img {
 =========================== */
 
 .boat {
+    position: relative;
+
+    z-index: 1;
+
     width: 100%;
     height: auto;
 
@@ -186,6 +345,165 @@ img {
         drop-shadow(
             0 14px 8px rgba(28, 28, 31, 0.25)
         );
+}
+
+
+/* ===========================
+   EAU DEVANT LA COQUE
+=========================== */
+
+.boat-oscillation::after {
+    content: "";
+
+    position: absolute;
+
+    left: 3%;
+    right: 3%;
+
+    bottom: -2%;
+
+    z-index: 2;
+
+    height: 15%;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(64, 184, 220, 0.22) 0%,
+            rgba(35, 161, 203, 0.55) 28%,
+            rgba(19, 137, 184, 0.82) 60%,
+            rgba(11, 111, 163, 0.94) 100%
+        );
+
+    border-radius:
+        46% 54% 30% 35% /
+        45% 38% 58% 50%;
+
+    transform-origin: center;
+
+    animation:
+        water-front-wave
+        2.2s
+        ease-in-out
+        infinite;
+}
+
+
+/* ===========================
+   ÉCUME DEVANT LA COQUE
+=========================== */
+
+.boat-oscillation::before {
+    content: "";
+
+    position: absolute;
+
+    left: 5%;
+    right: 5%;
+
+    bottom: 9%;
+
+    z-index: 3;
+
+    height: 22px;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at 8% 65%,
+            rgba(255, 255, 255, 0.95) 0 8%,
+            transparent 10%
+        ),
+        radial-gradient(
+            ellipse at 20% 40%,
+            rgba(255, 255, 255, 0.90) 0 10%,
+            transparent 12%
+        ),
+        radial-gradient(
+            ellipse at 35% 70%,
+            rgba(255, 255, 255, 0.95) 0 9%,
+            transparent 11%
+        ),
+        radial-gradient(
+            ellipse at 50% 42%,
+            rgba(255, 255, 255, 0.92) 0 11%,
+            transparent 13%
+        ),
+        radial-gradient(
+            ellipse at 66% 68%,
+            rgba(255, 255, 255, 0.95) 0 9%,
+            transparent 11%
+        ),
+        radial-gradient(
+            ellipse at 80% 38%,
+            rgba(255, 255, 255, 0.90) 0 10%,
+            transparent 12%
+        ),
+        radial-gradient(
+            ellipse at 93% 65%,
+            rgba(255, 255, 255, 0.95) 0 8%,
+            transparent 10%
+        );
+
+    filter:
+        blur(0.4px);
+
+    opacity: 0.95;
+
+    animation:
+        boat-foam
+        1.8s
+        ease-in-out
+        infinite;
+}
+
+
+/* ===========================
+   MOUVEMENT DE L'EAU
+=========================== */
+
+@keyframes water-front-wave {
+
+    0%,
+    100% {
+        transform:
+            translateY(2px)
+            scaleX(0.98);
+    }
+
+    50% {
+        transform:
+            translateY(-5px)
+            scaleX(1.03);
+    }
+}
+
+
+/* ===========================
+   MOUVEMENT DE L'ÉCUME
+=========================== */
+
+@keyframes boat-foam {
+
+    0%,
+    100% {
+        transform:
+            translateY(0)
+            scaleX(0.96);
+
+        opacity: 0.75;
+    }
+
+    50% {
+        transform:
+            translateY(-4px)
+            scaleX(1.03);
+
+        opacity: 1;
+    }
 }
 
 
@@ -229,6 +547,7 @@ img {
 
 .seagull-flight {
     position: absolute;
+
     z-index: 6;
 
     pointer-events: none;
@@ -236,8 +555,6 @@ img {
 }
 
 .seagull {
-    display: block;
-
     width: 100%;
     height: auto;
 
@@ -253,16 +570,14 @@ img {
 .seagull-flight--1 {
     top: 12%;
 
-    width: 150px;
+    width: clamp(70px, 8vw, 150px);
 
     animation:
-        seagull-crossing-1 14s linear infinite;
+        seagull-crossing-1
+        14s
+        linear
+        infinite;
 }
-
-
-/* ===========================
-   TRAJECTOIRE MOUETTE 1
-=========================== */
 
 @keyframes seagull-crossing-1 {
 
@@ -274,62 +589,274 @@ img {
         left: calc(100% + 180px);
     }
 }
-/* ===========================
-   MOUETTE 9 - GROUPE ÉLOIGNÉ
-=========================== */
-
-.seagull-flight--9 {
-    top: 7%;
-
-    width: 110px;
-
-    animation:
-        seagull-crossing-9 24s linear infinite;
-}
 
 
 /* ===========================
-   MOUETTE 9 - PHARE
+   MOUETTE 9
 =========================== */
 
 .seagull-flight--9 {
     top: 16%;
     left: 4%;
 
-    width: 110px;
+    width: clamp(60px, 6vw, 110px);
 
     animation:
-        seagull-lighthouse 8s ease-in-out infinite alternate;
+        seagull-lighthouse
+        8s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+@keyframes seagull-lighthouse {
+
+    0% {
+        transform:
+            translate(0, 0)
+            rotate(-3deg);
+    }
+
+    50% {
+        transform:
+            translate(40px, -15px)
+            rotate(3deg);
+    }
+
+    100% {
+        transform:
+            translate(80px, 5px)
+            rotate(-2deg);
+    }
 }
 
 
-/* ===========================
-   RESPONSIVE
-=========================== */
+/* ==========================================================
+   PORTABLES
+========================================================== */
 
-@media (max-width: 768px) {
+@media (max-height: 800px) and (min-width: 769px) {
+
+    .postcard-professor {
+        width: clamp(190px, 20vw, 330px);
+        max-height: 56vh;
+    }
+
+    .postcard-professor--neutral {
+        right: 22%;
+        bottom: 9%;
+    }
+
+    .postcard-professor--bravo {
+        right: 22%;
+        bottom: 7%;
+    }
+
+    .postcard-button {
+        bottom: 15px;
+    }
 
     .sea-scene__title {
-        top: 20px;
+        top: 15px;
 
-        padding: 10px 18px;
+        font-size: clamp(
+            1.2rem,
+            2.5vw,
+            2rem
+        );
     }
 
     .sea-scene__button {
-        top: 95px;
-
-        width: max-content;
-        max-width: calc(100% - 40px);
+        top: 80px;
     }
 
     .boat-translation {
-        bottom: 10%;
+        bottom: 5%;
 
-        width: clamp(230px, 60vw, 420px);
+        width: clamp(
+            210px,
+            30vw,
+            430px
+        );
+    }
+}
+
+
+/* ==========================================================
+   TABLETTES
+========================================================== */
+
+@media (max-width: 1024px) {
+
+    .postcard-professor {
+        width: clamp(
+            180px,
+            25vw,
+            310px
+        );
+
+        max-height: 55vh;
     }
 
-    .seagull-flight--1 {
-        width: 100px;
+    .postcard-professor--neutral {
+        right: 19%;
+        bottom: 9%;
+    }
+
+    .postcard-professor--bravo {
+        right: 19%;
+        bottom: 7%;
+    }
+
+    .boat-translation {
+        width: clamp(
+            220px,
+            40vw,
+            440px
+        );
+    }
+}
+
+
+/* ==========================================================
+   MOBILES
+========================================================== */
+
+@media (max-width: 768px) {
+
+    .postcard-screen,
+    .sea-scene {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .postcard {
+        object-fit: contain;
+    }
+
+    .postcard-professor {
+        width: clamp(
+            140px,
+            34vw,
+            240px
+        );
+
+        max-height: 48vh;
+    }
+
+    .postcard-professor--neutral {
+        right: 15%;
+        bottom: 10%;
+    }
+
+    .postcard-professor--bravo {
+        right: 15%;
+        bottom: 8%;
+    }
+
+    .postcard-button {
+        bottom: 15px;
+
+        padding: 10px 16px;
+
+        font-size: 0.85rem;
+    }
+
+    .sea-scene__title {
+        top: 15px;
+
+        padding: 8px 14px;
+
+        font-size: clamp(
+            1.2rem,
+            5vw,
+            1.8rem
+        );
+    }
+
+    .sea-scene__button {
+        top: 75px;
+
+        padding: 10px 16px;
+
+        font-size: 0.85rem;
+    }
+
+    .boat-translation {
+        bottom: 8%;
+
+        width: clamp(
+            200px,
+            58vw,
+            350px
+        );
+    }
+}
+
+
+/* ==========================================================
+   PETITS MOBILES
+========================================================== */
+
+@media (max-width: 480px) {
+
+    .postcard-professor {
+        width: clamp(
+            125px,
+            36vw,
+            185px
+        );
+
+        max-height: 42vh;
+    }
+
+    .postcard-professor--neutral {
+        right: 12%;
+        bottom: 11%;
+    }
+
+    .postcard-professor--bravo {
+        right: 12%;
+        bottom: 9%;
+    }
+
+    .postcard-button {
+        bottom: 10px;
+
+        font-size: 0.78rem;
+    }
+
+    .boat-translation {
+        width: clamp(
+            180px,
+            65vw,
+            290px
+        );
+    }
+}
+
+
+/* ==========================================================
+   GRANDS ÉCRANS
+========================================================== */
+
+@media (min-width: 1800px) {
+
+    .postcard-professor {
+        width: min(
+            24vw,
+            430px
+        );
+    }
+
+    .postcard-professor--neutral {
+        right: 22%;
+        bottom: 7%;
+    }
+
+    .postcard-professor--bravo {
+        right: 22%;
+        bottom: 6%;
     }
 }
 
@@ -340,15 +867,15 @@ img {
 
 @media (prefers-reduced-motion: reduce) {
 
-    .boat-oscillation {
+    .boat-oscillation,
+    .seagull-flight,
+    .boat-oscillation::before,
+    .boat-oscillation::after {
         animation: none;
     }
 
-    .seagull-flight {
-        animation: none;
-    }
-
-    .sea-scene__button {
+    .sea-scene__button,
+    .postcard-button {
         transition: none;
     }
 }

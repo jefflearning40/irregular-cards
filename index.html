@@ -26,7 +26,58 @@
 
 <body>
 
-    <main class="sea-scene">
+
+    <!-- ===========================
+         CARTE DE DÉPART
+    ============================ -->
+
+    <section
+        class="postcard-screen"
+        id="departure-screen"
+    >
+
+        <!-- CARTE -->
+
+        <img
+            class="postcard"
+            src="assets/images/decor/cartepostaledepart.png"
+            alt="Carte postale de départ"
+            draggable="false"
+        >
+
+
+        <!-- PROFESSEUR NEUTRE -->
+
+        <object
+            class="postcard-professor postcard-professor--neutral"
+            id="professeur-depart"
+            data="assets/images/decor/personnages/professeur_pasgif_animation_neutre.svg"
+            type="image/svg+xml"
+            aria-label="Professeur prêt pour le départ"
+        ></object>
+
+
+        <!-- BOUTON DÉPART -->
+
+        <button
+            class="postcard-button"
+            id="departure-button"
+            type="button"
+        >
+            Partir pour l'Angleterre
+        </button>
+
+    </section>
+
+
+    <!-- ===========================
+         TRAVERSÉE DE LA MANCHE
+    ============================ -->
+
+    <main
+        class="sea-scene"
+        id="crossing-screen"
+    >
 
         <!-- ===========================
              TITRE
@@ -55,7 +106,7 @@
 
 
         <!-- ===========================
-             MOUETTE 9 - GROUPE
+             MOUETTE 9
         ============================ -->
 
         <div class="seagull-flight seagull-flight--9">
@@ -72,7 +123,7 @@
 
 
         <!-- ===========================
-             BOUTON
+             BOUTON TRAVERSÉE
         ============================ -->
 
         <button
@@ -111,6 +162,54 @@
         </div>
 
     </main>
+
+
+    <!-- ===========================
+         CARTE D'ARRIVÉE
+    ============================ -->
+
+    <section
+        class="postcard-screen"
+        id="arrival-screen"
+    >
+
+        <!-- CARTE -->
+
+        <img
+            class="postcard"
+            src="assets/images/decor/cartepostalearrivee.png"
+            alt="Carte postale d'arrivée en Angleterre"
+            draggable="false"
+        >
+
+
+        <!-- PROFESSEUR BRAVO -->
+
+        <object
+            class="postcard-professor postcard-professor--bravo"
+            id="professeur-arrivee"
+            data="assets/images/decor/personnages/professeur_pasgif_animation_bravo.svg"
+            type="image/svg+xml"
+            aria-label="Professeur félicitant l'élève"
+        ></object>
+
+
+        <!-- BOUTON RETOUR -->
+
+        <button
+            class="postcard-button"
+            id="return-button"
+            type="button"
+        >
+            Retour en France
+        </button>
+
+    </section>
+
+
+    <!-- ===========================
+         JAVASCRIPT
+    ============================ -->
 
     <script src="assets/JS/script.js"></script>
 
