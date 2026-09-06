@@ -1,5 +1,6 @@
 "use strict";
 
+
 /* ==========================================================
    GESTION DES ÉCRANS
 ========================================================== */
@@ -12,6 +13,9 @@
 const departureScreen =
     document.getElementById("departure-screen");
 
+const classroomScreen =
+    document.getElementById("classroom-screen");
+
 const crossingScreen =
     document.getElementById("crossing-screen");
 
@@ -20,16 +24,48 @@ const arrivalScreen =
 
 
 /* ==========================================================
+   MASQUER TOUS LES ÉCRANS
+========================================================== */
+
+function hideAllScreens()
+{
+    departureScreen.style.display =
+        "none";
+
+    classroomScreen.style.display =
+        "none";
+
+    crossingScreen.style.display =
+        "none";
+
+    arrivalScreen.style.display =
+        "none";
+}
+
+
+/* ==========================================================
    ÉCRAN DE DÉPART
 ========================================================== */
 
 function showDeparture()
 {
-    departureScreen.style.display = "flex";
+    hideAllScreens();
 
-    crossingScreen.style.display = "none";
+    departureScreen.style.display =
+        "flex";
+}
 
-    arrivalScreen.style.display = "none";
+
+/* ==========================================================
+   ÉCRAN CLASSE / APPRENTISSAGE
+========================================================== */
+
+function showClassroom()
+{
+    hideAllScreens();
+
+    classroomScreen.style.display =
+        "flex";
 }
 
 
@@ -39,11 +75,10 @@ function showDeparture()
 
 function showCrossing()
 {
-    departureScreen.style.display = "none";
+    hideAllScreens();
 
-    crossingScreen.style.display = "block";
-
-    arrivalScreen.style.display = "none";
+    crossingScreen.style.display =
+        "block";
 }
 
 
@@ -53,14 +88,8 @@ function showCrossing()
 
 function showArrival()
 {
-    departureScreen.style.display = "none";
+    hideAllScreens();
 
-    crossingScreen.style.display = "none";
-
-    arrivalScreen.style.display = "flex";
+    arrivalScreen.style.display =
+        "flex";
 }
-
-
-/* ==========================================================
-   FIN
-========================================================== */
