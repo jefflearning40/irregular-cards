@@ -25,7 +25,8 @@
 </head>
 
 <body>
-
+<!--tout le decor est posé
+-->
 
     <!-- ===========================
          CARTE DE DÉPART
@@ -36,8 +37,6 @@
         id="departure-screen"
     >
 
-        <!-- CARTE -->
-
         <img
             class="postcard"
             src="assets/images/decor/cartepostaledepart.png"
@@ -46,7 +45,28 @@
         >
 
 
-        <!-- PROFESSEUR NEUTRE -->
+        <!-- ZONE APPRENTISSAGE -->
+
+        <button
+            class="learning-hotspot"
+            id="learning-button"
+            type="button"
+            aria-label="Ouvrir l'apprentissage"
+        ></button>
+
+
+        <!-- MOUETTE -->
+
+        <img
+            class="postcard-seagull postcard-seagull--departure"
+            src="assets/images/decor/mouette3.gif"
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+        >
+
+
+        <!-- PROFESSEUR -->
 
         <object
             class="postcard-professor postcard-professor--neutral"
@@ -71,7 +91,34 @@
 
 
     <!-- ===========================
-         TRAVERSÉE DE LA MANCHE
+         CLASSE / APPRENTISSAGE
+    ============================ -->
+
+    <section
+        class="classroom-screen"
+        id="classroom-screen"
+    >
+
+        <img
+            class="classroom-image"
+            src="assets/images/decor/carteclasse.png"
+            alt="Classe d'apprentissage des verbes irréguliers"
+            draggable="false"
+        >
+
+        <button
+            class="classroom-back-button"
+            id="classroom-back-button"
+            type="button"
+        >
+            Retour
+        </button>
+
+    </section>
+
+
+    <!-- ===========================
+         TRAVERSÉE
     ============================ -->
 
     <main
@@ -79,18 +126,36 @@
         id="crossing-screen"
     >
 
-        <!-- ===========================
-             TITRE
-        ============================ -->
+        <video
+            class="sea-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            aria-hidden="true"
+        >
+
+            <source
+                src="assets/videos/mer1.mp4"
+                type="video/mp4"
+            >
+
+        </video>
+
+
+        <img
+            class="sea-overlay"
+            src="assets/images/decor/image_fond_sans_mer.png"
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+        >
+
 
         <h1 class="sea-scene__title">
             Traversée de la Manche
         </h1>
 
-
-        <!-- ===========================
-             MOUETTE 1
-        ============================ -->
 
         <div class="seagull-flight seagull-flight--1">
 
@@ -105,10 +170,6 @@
         </div>
 
 
-        <!-- ===========================
-             MOUETTE 9
-        ============================ -->
-
         <div class="seagull-flight seagull-flight--9">
 
             <img
@@ -122,10 +183,6 @@
         </div>
 
 
-        <!-- ===========================
-             BOUTON TRAVERSÉE
-        ============================ -->
-
         <button
             class="sea-scene__button"
             id="start-crossing"
@@ -134,10 +191,6 @@
             Démarrer la traversée
         </button>
 
-
-        <!-- ===========================
-             BATEAU
-        ============================ -->
 
         <div
             class="boat-translation"
@@ -149,10 +202,27 @@
                 id="boat-oscillation"
             >
 
+                <div
+                    class="boat-wake"
+                    id="boat-wake"
+                    aria-hidden="true"
+                >
+
+                    <img
+                        class="boat-wake__image"
+                        id="boat-wake-image"
+                        src="assets/images/decor/vaguelette-sillage.png"
+                        alt=""
+                        draggable="false"
+                    >
+
+                </div>
+
+
                 <img
                     class="boat"
                     id="boat"
-                    src="assets/images/decor/boat_inkscape.svg"
+                    src="assets/images/decor/boat.png"
                     alt="Petit bateau traversant la Manche"
                     draggable="false"
                 >
@@ -173,8 +243,6 @@
         id="arrival-screen"
     >
 
-        <!-- CARTE -->
-
         <img
             class="postcard"
             src="assets/images/decor/cartepostalearrivee.png"
@@ -183,7 +251,14 @@
         >
 
 
-        <!-- PROFESSEUR BRAVO -->
+        <img
+            class="postcard-seagull postcard-seagull--arrival"
+            src="assets/images/decor/mouette3.gif"
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+        >
+
 
         <object
             class="postcard-professor postcard-professor--bravo"
@@ -193,8 +268,6 @@
             aria-label="Professeur félicitant l'élève"
         ></object>
 
-
-        <!-- BOUTON RETOUR -->
 
         <button
             class="postcard-button"
@@ -206,10 +279,6 @@
 
     </section>
 
-
-    <!-- ===========================
-         JAVASCRIPT
-    ============================ -->
 
     <script src="assets/JS/script.js"></script>
 

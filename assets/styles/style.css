@@ -1,6 +1,6 @@
-/* ===========================
+/* ==========================================================
    RESET
-=========================== */
+========================================================== */
 
 * {
     margin: 0;
@@ -11,98 +11,138 @@
 html,
 body {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
 }
 
 body {
-    min-height: 100vh;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family: Arial, Helvetica, sans-serif;
     color: var(--color-text);
     background: var(--color-background);
 }
 
 button,
 img,
-object {
+object,
+video {
     display: block;
 }
 
 
-/* ===========================
-   ÉCRANS CARTE POSTALE
-=========================== */
+/* ==========================================================
+   CARTES POSTALES
+========================================================== */
 
 .postcard-screen {
     position: relative;
-
     width: 100vw;
     height: 100vh;
-
     overflow: hidden;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     background: var(--color-background);
 }
-
-
-/* ===========================
-   IMAGE CARTE POSTALE
-=========================== */
 
 .postcard {
     position: absolute;
     inset: 0;
-
     width: 100%;
     height: 100%;
-
     object-fit: contain;
     object-position: center;
-
     user-select: none;
     pointer-events: none;
 }
 
 
-/* ===========================
+/* ==========================================================
+   ZONE CLIQUABLE APPRENTISSAGE
+========================================================== */
+
+.learning-hotspot {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    z-index: 15;
+
+    width: 36%;
+    height: 31%;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================================
+   MOUETTES POSÉES - CARTES POSTALES
+========================================================== */
+
+.postcard-seagull {
+    position: absolute;
+    z-index: 8;
+    height: auto;
+    user-select: none;
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   MOUETTE - CARTE DE DÉPART FRANCE
+========================================================== */
+
+.postcard-seagull--departure {
+    left: 25%;
+    top: 73%;
+
+    width: clamp(120px, 13vw, 200px);
+
+    transform:
+        translateY(55px)
+        scaleX(-1);
+}
+
+
+/* ==========================================================
+   MOUETTE - CARTE D'ARRIVÉE ANGLETERRE
+========================================================== */
+
+.postcard-seagull--arrival {
+    left: 48.5%;
+    top: 82%;
+
+    width: clamp(90px, 9vw, 145px);
+
+    transform: scaleX(-1);
+}
+
+
+/* ==========================================================
    PROFESSEUR
-=========================== */
+========================================================== */
 
 .postcard-professor {
     position: absolute;
-
     z-index: 10;
-
     width: clamp(220px, 24vw, 430px);
     max-height: 62vh;
-
     user-select: none;
     pointer-events: none;
 }
-
-
-/* ===========================
-   PROFESSEUR - DÉPART
-=========================== */
 
 .postcard-professor--neutral {
     right: 22%;
     bottom: 7%;
 }
-
-
-/* ===========================
-   PROFESSEUR - ARRIVÉE
-=========================== */
 
 .postcard-professor--bravo {
     right: 22%;
@@ -110,16 +150,14 @@ object {
 }
 
 
-/* ===========================
-   BOUTONS DES CARTES
-=========================== */
+/* ==========================================================
+   BOUTONS CARTES POSTALES
+========================================================== */
 
 .postcard-button {
     position: absolute;
-
     left: 50%;
     bottom: clamp(15px, 4vh, 40px);
-
     z-index: 20;
 
     transform: translateX(-50%);
@@ -165,51 +203,164 @@ object {
 }
 
 
-/* ===========================
-   ÉTAT INITIAL
-=========================== */
+/* ==========================================================
+   ÉCRAN CLASSE / APPRENTISSAGE
+========================================================== */
+
+.classroom-screen {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--color-background);
+}
+
+.classroom-image {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   BOUTON RETOUR CLASSE
+========================================================== */
+
+.classroom-back-button {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(15px, 4vh, 40px);
+    z-index: 20;
+
+    transform: translateX(-50%);
+
+    width: max-content;
+    max-width: calc(100% - 30px);
+
+    padding:
+        clamp(9px, 1.4vh, 13px)
+        clamp(16px, 2vw, 24px);
+
+    border: 2px solid var(--color-secondary);
+    border-radius: 10px;
+
+    color: var(--color-text);
+    background: var(--color-surface);
+
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        color 200ms ease,
+        background-color 200ms ease,
+        border-color 200ms ease,
+        transform 200ms ease;
+}
+
+.classroom-back-button:hover {
+    color: var(--color-background);
+    background: var(--color-success);
+    border-color: var(--color-success);
+
+    transform:
+        translateX(-50%)
+        scale(1.04);
+}
+
+.classroom-back-button:focus-visible {
+    outline: 4px solid var(--color-warning);
+    outline-offset: 4px;
+}
+
+
+/* ==========================================================
+   ÉTAT INITIAL DES ÉCRANS
+========================================================== */
 
 #crossing-screen,
-#arrival-screen {
+#arrival-screen,
+#classroom-screen {
     display: none;
 }
 
 
-/* ===========================
+/* ==========================================================
    SCÈNE MARITIME
-=========================== */
+========================================================== */
 
 .sea-scene {
     position: relative;
-
     width: 100vw;
     height: 100vh;
-
     overflow: hidden;
-
-    background-image:
-        linear-gradient(
-            rgba(28, 28, 31, 0.08),
-            rgba(28, 28, 31, 0.08)
-        ),
-        url("../images/decor/image_fond_mer.png");
-
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    background: transparent;
+    isolation: isolate;
 }
 
 
-/* ===========================
+/* ==========================================================
+   VIDÉO DE LA MER
+========================================================== */
+
+.sea-video {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   DÉCOR SANS LA MER
+========================================================== */
+
+.sea-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+
+/* ==========================================================
    TITRE
-=========================== */
+========================================================== */
 
 .sea-scene__title {
     position: absolute;
-
     top: clamp(15px, 3vh, 30px);
     left: 50%;
-
     z-index: 20;
 
     transform: translateX(-50%);
@@ -231,16 +382,14 @@ object {
 }
 
 
-/* ===========================
+/* ==========================================================
    BOUTON TRAVERSÉE
-=========================== */
+========================================================== */
 
 .sea-scene__button {
     position: absolute;
-
     top: clamp(75px, 12vh, 115px);
     left: 50%;
-
     z-index: 20;
 
     transform: translateX(-50%);
@@ -291,49 +440,67 @@ object {
 }
 
 
-/* ===========================
-   TRANSLATION DU BATEAU
-=========================== */
+/* ==========================================================
+   BATEAU
+========================================================== */
 
 .boat-translation {
     position: absolute;
-
     left: 0;
-    bottom: clamp(4%, 7vh, 10%);
-
+    bottom: 5%;
     z-index: 10;
 
     width: clamp(220px, 34vw, 560px);
 
     transform: translateX(-120%);
+
+    pointer-events: none;
 }
-
-
-/* ===========================
-   OSCILLATION DU BATEAU
-=========================== */
 
 .boat-oscillation {
     position: relative;
+    width: 100%;
+    transform-origin: center center;
+    pointer-events: none;
+}
+
+.boat {
+    display: block;
+    position: relative;
+    z-index: 2;
 
     width: 100%;
+    height: auto;
 
-    transform-origin: 50% 85%;
+    transform-origin: center center;
 
-    animation:
-        boat-rocking 2.8s ease-in-out infinite,
-        boat-floating 2.1s ease-in-out infinite;
+    user-select: none;
+    pointer-events: none;
+
+    filter: none;
 }
 
 
-/* ===========================
-   IMAGE DU BATEAU
-=========================== */
+/* ==========================================================
+   SILLAGE / ÉCUME
+========================================================== */
 
-.boat {
-    position: relative;
+.boat-wake {
+    position: absolute;
+    z-index: 3;
 
-    z-index: 1;
+    width: 155%;
+
+    left: -48%;
+    bottom: -30%;
+
+    transform-origin: center center;
+
+    pointer-events: none;
+}
+
+.boat-wake__image {
+    display: block;
 
     width: 100%;
     height: auto;
@@ -341,215 +508,17 @@ object {
     user-select: none;
     pointer-events: none;
 
-    filter:
-        drop-shadow(
-            0 14px 8px rgba(28, 28, 31, 0.25)
-        );
+    filter: none;
 }
 
 
-/* ===========================
-   EAU DEVANT LA COQUE
-=========================== */
-
-.boat-oscillation::after {
-    content: "";
-
-    position: absolute;
-
-    left: 3%;
-    right: 3%;
-
-    bottom: -2%;
-
-    z-index: 2;
-
-    height: 15%;
-
-    pointer-events: none;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(64, 184, 220, 0.22) 0%,
-            rgba(35, 161, 203, 0.55) 28%,
-            rgba(19, 137, 184, 0.82) 60%,
-            rgba(11, 111, 163, 0.94) 100%
-        );
-
-    border-radius:
-        46% 54% 30% 35% /
-        45% 38% 58% 50%;
-
-    transform-origin: center;
-
-    animation:
-        water-front-wave
-        2.2s
-        ease-in-out
-        infinite;
-}
-
-
-/* ===========================
-   ÉCUME DEVANT LA COQUE
-=========================== */
-
-.boat-oscillation::before {
-    content: "";
-
-    position: absolute;
-
-    left: 5%;
-    right: 5%;
-
-    bottom: 9%;
-
-    z-index: 3;
-
-    height: 22px;
-
-    pointer-events: none;
-
-    background:
-        radial-gradient(
-            ellipse at 8% 65%,
-            rgba(255, 255, 255, 0.95) 0 8%,
-            transparent 10%
-        ),
-        radial-gradient(
-            ellipse at 20% 40%,
-            rgba(255, 255, 255, 0.90) 0 10%,
-            transparent 12%
-        ),
-        radial-gradient(
-            ellipse at 35% 70%,
-            rgba(255, 255, 255, 0.95) 0 9%,
-            transparent 11%
-        ),
-        radial-gradient(
-            ellipse at 50% 42%,
-            rgba(255, 255, 255, 0.92) 0 11%,
-            transparent 13%
-        ),
-        radial-gradient(
-            ellipse at 66% 68%,
-            rgba(255, 255, 255, 0.95) 0 9%,
-            transparent 11%
-        ),
-        radial-gradient(
-            ellipse at 80% 38%,
-            rgba(255, 255, 255, 0.90) 0 10%,
-            transparent 12%
-        ),
-        radial-gradient(
-            ellipse at 93% 65%,
-            rgba(255, 255, 255, 0.95) 0 8%,
-            transparent 10%
-        );
-
-    filter:
-        blur(0.4px);
-
-    opacity: 0.95;
-
-    animation:
-        boat-foam
-        1.8s
-        ease-in-out
-        infinite;
-}
-
-
-/* ===========================
-   MOUVEMENT DE L'EAU
-=========================== */
-
-@keyframes water-front-wave {
-
-    0%,
-    100% {
-        transform:
-            translateY(2px)
-            scaleX(0.98);
-    }
-
-    50% {
-        transform:
-            translateY(-5px)
-            scaleX(1.03);
-    }
-}
-
-
-/* ===========================
-   MOUVEMENT DE L'ÉCUME
-=========================== */
-
-@keyframes boat-foam {
-
-    0%,
-    100% {
-        transform:
-            translateY(0)
-            scaleX(0.96);
-
-        opacity: 0.75;
-    }
-
-    50% {
-        transform:
-            translateY(-4px)
-            scaleX(1.03);
-
-        opacity: 1;
-    }
-}
-
-
-/* ===========================
-   TANGAGE DU BATEAU
-=========================== */
-
-@keyframes boat-rocking {
-
-    0%,
-    100% {
-        rotate: -2deg;
-    }
-
-    50% {
-        rotate: 2deg;
-    }
-}
-
-
-/* ===========================
-   FLOTTEMENT DU BATEAU
-=========================== */
-
-@keyframes boat-floating {
-
-    0%,
-    100% {
-        translate: 0 0;
-    }
-
-    50% {
-        translate: 0 -10px;
-    }
-}
-
-
-/* ===========================
-   MOUETTES
-=========================== */
+/* ==========================================================
+   MOUETTES TRAVERSÉE
+========================================================== */
 
 .seagull-flight {
     position: absolute;
-
     z-index: 6;
-
     pointer-events: none;
     user-select: none;
 }
@@ -557,26 +526,19 @@ object {
 .seagull {
     width: 100%;
     height: auto;
-
     pointer-events: none;
     user-select: none;
 }
 
 
-/* ===========================
+/* ==========================================================
    MOUETTE 1
-=========================== */
+========================================================== */
 
 .seagull-flight--1 {
     top: 12%;
-
     width: clamp(70px, 8vw, 150px);
-
-    animation:
-        seagull-crossing-1
-        14s
-        linear
-        infinite;
+    animation: seagull-crossing-1 14s linear infinite;
 }
 
 @keyframes seagull-crossing-1 {
@@ -591,9 +553,9 @@ object {
 }
 
 
-/* ===========================
+/* ==========================================================
    MOUETTE 9
-=========================== */
+========================================================== */
 
 .seagull-flight--9 {
     top: 16%;
@@ -612,27 +574,21 @@ object {
 @keyframes seagull-lighthouse {
 
     0% {
-        transform:
-            translate(0, 0)
-            rotate(-3deg);
+        transform: translate(0, 0) rotate(-3deg);
     }
 
     50% {
-        transform:
-            translate(40px, -15px)
-            rotate(3deg);
+        transform: translate(40px, -15px) rotate(3deg);
     }
 
     100% {
-        transform:
-            translate(80px, 5px)
-            rotate(-2deg);
+        transform: translate(80px, 5px) rotate(-2deg);
     }
 }
 
 
 /* ==========================================================
-   PORTABLES
+   ÉCRANS PEU HAUTS / PORTABLES
 ========================================================== */
 
 @media (max-height: 800px) and (min-width: 769px) {
@@ -652,18 +608,41 @@ object {
         bottom: 7%;
     }
 
-    .postcard-button {
+    .postcard-button,
+    .classroom-back-button {
         bottom: 15px;
+    }
+
+    .learning-hotspot {
+        top: 5%;
+        right: 5%;
+        width: 36%;
+        height: 31%;
+    }
+
+    .postcard-seagull--departure {
+        left: 25%;
+        top: 73%;
+
+        width: clamp(95px, 12vw, 165px);
+
+        transform:
+            translateY(55px)
+            scaleX(-1);
+    }
+
+    .postcard-seagull--arrival {
+        left: 48.5%;
+        top: 82%;
+
+        width: clamp(75px, 8vw, 120px);
+
+        transform: scaleX(-1);
     }
 
     .sea-scene__title {
         top: 15px;
-
-        font-size: clamp(
-            1.2rem,
-            2.5vw,
-            2rem
-        );
+        font-size: clamp(1.2rem, 2.5vw, 2rem);
     }
 
     .sea-scene__button {
@@ -672,12 +651,7 @@ object {
 
     .boat-translation {
         bottom: 5%;
-
-        width: clamp(
-            210px,
-            30vw,
-            430px
-        );
+        width: clamp(210px, 30vw, 430px);
     }
 }
 
@@ -689,12 +663,7 @@ object {
 @media (max-width: 1024px) {
 
     .postcard-professor {
-        width: clamp(
-            180px,
-            25vw,
-            310px
-        );
-
+        width: clamp(180px, 25vw, 310px);
         max-height: 55vh;
     }
 
@@ -708,12 +677,35 @@ object {
         bottom: 7%;
     }
 
+    .learning-hotspot {
+        top: 5%;
+        right: 5%;
+        width: 36%;
+        height: 31%;
+    }
+
+    .postcard-seagull--departure {
+        left: 25%;
+        top: 73%;
+
+        width: clamp(90px, 14vw, 150px);
+
+        transform:
+            translateY(55px)
+            scaleX(-1);
+    }
+
+    .postcard-seagull--arrival {
+        left: 48.5%;
+        top: 82%;
+
+        width: clamp(70px, 10vw, 110px);
+
+        transform: scaleX(-1);
+    }
+
     .boat-translation {
-        width: clamp(
-            220px,
-            40vw,
-            440px
-        );
+        width: clamp(220px, 40vw, 440px);
     }
 }
 
@@ -725,22 +717,19 @@ object {
 @media (max-width: 768px) {
 
     .postcard-screen,
+    .classroom-screen,
     .sea-scene {
         width: 100vw;
         height: 100vh;
     }
 
-    .postcard {
+    .postcard,
+    .classroom-image {
         object-fit: contain;
     }
 
     .postcard-professor {
-        width: clamp(
-            140px,
-            34vw,
-            240px
-        );
-
+        width: clamp(140px, 34vw, 240px);
         max-height: 48vh;
     }
 
@@ -754,42 +743,55 @@ object {
         bottom: 8%;
     }
 
-    .postcard-button {
+    .postcard-button,
+    .classroom-back-button {
         bottom: 15px;
-
         padding: 10px 16px;
-
         font-size: 0.85rem;
+    }
+
+    .learning-hotspot {
+        top: 7%;
+        right: 5%;
+        width: 38%;
+        height: 28%;
+    }
+
+    .postcard-seagull--departure {
+        left: 25%;
+        top: 72%;
+
+        width: clamp(75px, 18vw, 125px);
+
+        transform:
+            translateY(40px)
+            scaleX(-1);
+    }
+
+    .postcard-seagull--arrival {
+        left: 48%;
+        top: 81%;
+
+        width: clamp(60px, 14vw, 95px);
+
+        transform: scaleX(-1);
     }
 
     .sea-scene__title {
         top: 15px;
-
         padding: 8px 14px;
-
-        font-size: clamp(
-            1.2rem,
-            5vw,
-            1.8rem
-        );
+        font-size: clamp(1.2rem, 5vw, 1.8rem);
     }
 
     .sea-scene__button {
         top: 75px;
-
         padding: 10px 16px;
-
         font-size: 0.85rem;
     }
 
     .boat-translation {
         bottom: 8%;
-
-        width: clamp(
-            200px,
-            58vw,
-            350px
-        );
+        width: clamp(200px, 58vw, 350px);
     }
 }
 
@@ -801,12 +803,7 @@ object {
 @media (max-width: 480px) {
 
     .postcard-professor {
-        width: clamp(
-            125px,
-            36vw,
-            185px
-        );
-
+        width: clamp(125px, 36vw, 185px);
         max-height: 42vh;
     }
 
@@ -820,18 +817,41 @@ object {
         bottom: 9%;
     }
 
-    .postcard-button {
+    .postcard-button,
+    .classroom-back-button {
         bottom: 10px;
-
         font-size: 0.78rem;
     }
 
+    .learning-hotspot {
+        top: 8%;
+        right: 4%;
+        width: 40%;
+        height: 26%;
+    }
+
+    .postcard-seagull--departure {
+        left: 24%;
+        top: 71%;
+
+        width: clamp(65px, 20vw, 105px);
+
+        transform:
+            translateY(30px)
+            scaleX(-1);
+    }
+
+    .postcard-seagull--arrival {
+        left: 47%;
+        top: 80%;
+
+        width: clamp(50px, 16vw, 80px);
+
+        transform: scaleX(-1);
+    }
+
     .boat-translation {
-        width: clamp(
-            180px,
-            65vw,
-            290px
-        );
+        width: clamp(180px, 65vw, 290px);
     }
 }
 
@@ -843,10 +863,7 @@ object {
 @media (min-width: 1800px) {
 
     .postcard-professor {
-        width: min(
-            24vw,
-            430px
-        );
+        width: min(24vw, 430px);
     }
 
     .postcard-professor--neutral {
@@ -858,24 +875,51 @@ object {
         right: 22%;
         bottom: 6%;
     }
+
+    .learning-hotspot {
+        top: 5%;
+        right: 5%;
+        width: 36%;
+        height: 31%;
+    }
+
+    .postcard-seagull--departure {
+        left: 25%;
+        top: 73%;
+        width: 200px;
+
+        transform:
+            translateY(55px)
+            scaleX(-1);
+    }
+
+    .postcard-seagull--arrival {
+        left: 48.5%;
+        top: 82%;
+        width: 145px;
+
+        transform: scaleX(-1);
+    }
+
+    .boat-translation {
+        width: min(30vw, 560px);
+    }
 }
 
 
-/* ===========================
+/* ==========================================================
    ACCESSIBILITÉ
-=========================== */
+========================================================== */
 
 @media (prefers-reduced-motion: reduce) {
 
-    .boat-oscillation,
-    .seagull-flight,
-    .boat-oscillation::before,
-    .boat-oscillation::after {
+    .seagull-flight {
         animation: none;
     }
 
     .sea-scene__button,
-    .postcard-button {
+    .postcard-button,
+    .classroom-back-button {
         transition: none;
     }
 }

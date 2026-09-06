@@ -1,10 +1,5 @@
 "use strict";
 
-/* ==========================================================
-   TRAVERSÉE DE LA MANCHE
-   VERSION TEST ALLER / RETOUR
-========================================================== */
-
 
 /* ==========================================================
    ÉLÉMENTS HTML
@@ -13,12 +8,21 @@
 const departureScreen =
     document.getElementById("departure-screen");
 
+const classroomScreen =
+    document.getElementById("classroom-screen");
+
 const crossingScreen =
     document.getElementById("crossing-screen");
 
 const arrivalScreen =
     document.getElementById("arrival-screen");
 
+
+const learningButton =
+    document.getElementById("learning-button");
+
+const classroomBackButton =
+    document.getElementById("classroom-back-button");
 
 const departureButton =
     document.getElementById("departure-button");
@@ -38,6 +42,13 @@ const boatTranslation =
 
 const boatOscillation =
     document.getElementById("boat-oscillation");
+
+
+const boatWake =
+    document.getElementById("boat-wake");
+
+const boatWakeImage =
+    document.getElementById("boat-wake-image");
 
 
 const professeurDepart =
@@ -63,79 +74,122 @@ const OSCILLATION_SPEED = 0.008;
 
 
 /* ==========================================================
-   IMAGES DU BATEAU
+   BATEAU
 ========================================================== */
 
-const BOAT_FORWARD =
-    "assets/images/decor/boat_inkscape.svg";
-
-const BOAT_BACK =
-    "assets/images/decor/back-boat_inkscape.svg";
+const BOAT_IMAGE =
+    "assets/images/decor/boat.png";
 
 
 /* ==========================================================
-   ÉTAT DU JEU
+   IMAGES DU SILLAGE INKSCAPE
 ========================================================== */
 
-/*
-    direction :
+const WAKE_IMAGES =
+[
+    "assets/images/decor/vaguelette-sillage.png",
 
-    "forward" = France -> Angleterre
-    "back"    = Angleterre -> France
-*/
+    "assets/images/decor/vaguelette-sillage2.png",
 
-let direction = "forward";
+    "assets/images/decor/vaguelette-sillage3.png",
 
-let currentStep = 0;
+    "assets/images/decor/vaguelettes1.png"
+];
 
-let currentX = 0;
 
-let targetX = 0;
+let wakeIndex = 0;
 
-let startX = 0;
-
-let animationStart = null;
-
-let animationId = null;
-
-let isMoving = false;
-
-let boatWidth = 0;
-
-let maxTravel = 0;
+let wakeTimer = null;
 
 
 /* ==========================================================
-   AFFICHAGE DES ÉCRANS
+   ÉTAT
 ========================================================== */
+
+let direction =
+    "forward";
+
+let currentStep =
+    0;
+
+let currentX =
+    0;
+
+let targetX =
+    0;
+
+let startX =
+    0;
+
+let animationStart =
+    null;
+
+let animationId =
+    null;
+
+let isMoving =
+    false;
+
+let boatWidth =
+    0;
+
+let maxTravel =
+    0;
+
+
+/* ==========================================================
+   ÉCRANS
+========================================================== */
+
+function hideAllScreens()
+{
+    departureScreen.style.display =
+        "none";
+
+    classroomScreen.style.display =
+        "none";
+
+    crossingScreen.style.display =
+        "none";
+
+    arrivalScreen.style.display =
+        "none";
+}
+
 
 function showDeparture()
 {
-    departureScreen.style.display = "flex";
+    hideAllScreens();
 
-    crossingScreen.style.display = "none";
+    departureScreen.style.display =
+        "flex";
+}
 
-    arrivalScreen.style.display = "none";
+
+function showClassroom()
+{
+    hideAllScreens();
+
+    classroomScreen.style.display =
+        "flex";
 }
 
 
 function showCrossing()
 {
-    departureScreen.style.display = "none";
+    hideAllScreens();
 
-    crossingScreen.style.display = "block";
-
-    arrivalScreen.style.display = "none";
+    crossingScreen.style.display =
+        "block";
 }
 
 
 function showArrival()
 {
-    departureScreen.style.display = "none";
+    hideAllScreens();
 
-    crossingScreen.style.display = "none";
-
-    arrivalScreen.style.display = "flex";
+    arrivalScreen.style.display =
+        "flex";
 }
 
 
@@ -189,17 +243,9 @@ function setProfessorState(
         !brasBravo
     )
     {
-        console.error(
-            "Les bras du professeur sont introuvables."
-        );
-
         return;
     }
 
-
-    /*
-        On commence par tout masquer.
-    */
 
     brasNeutre.style.display =
         "none";
@@ -211,15 +257,12 @@ function setProfessorState(
         "none";
 
 
-    /*
-        Sourcils normaux.
-    */
-
     if (sourcilG)
     {
         sourcilG.style.transform =
             "rotate(0deg)";
     }
+
 
     if (sourcilD)
     {
@@ -227,10 +270,6 @@ function setProfessorState(
             "rotate(0deg)";
     }
 
-
-    /*
-        NEUTRE
-    */
 
     if (state === "neutral")
     {
@@ -240,10 +279,6 @@ function setProfessorState(
         return;
     }
 
-
-    /*
-        BRAVO
-    */
 
     if (state === "bravo")
     {
@@ -263,10 +298,6 @@ function setProfessorState(
             "rotate(0deg)";
 
 
-        /*
-            Petit mouvement du bras.
-        */
-
         setTimeout(
             () =>
             {
@@ -275,6 +306,7 @@ function setProfessorState(
             },
             300
         );
+
 
         setTimeout(
             () =>
@@ -285,6 +317,7 @@ function setProfessorState(
             700
         );
 
+
         setTimeout(
             () =>
             {
@@ -293,6 +326,7 @@ function setProfessorState(
             },
             1100
         );
+
 
         setTimeout(
             () =>
@@ -306,10 +340,6 @@ function setProfessorState(
 }
 
 
-/* ==========================================================
-   PROFESSEUR DÉPART
-========================================================== */
-
 function initialiseDepartureProfessor()
 {
     setProfessorState(
@@ -318,10 +348,6 @@ function initialiseDepartureProfessor()
     );
 }
 
-
-/* ==========================================================
-   PROFESSEUR ARRIVÉE
-========================================================== */
 
 function initialiseArrivalProfessor()
 {
@@ -333,7 +359,98 @@ function initialiseArrivalProfessor()
 
 
 /* ==========================================================
-   INITIALISATION DU BATEAU
+   ORIENTATION BATEAU + SILLAGE
+========================================================== */
+
+function setBoatDirection()
+{
+    boat.style.transform =
+        "scaleX(1)";
+
+    boatWake.style.transform =
+        "scaleX(1)";
+
+
+    if (direction === "forward")
+    {
+        boatOscillation.style.scale =
+            "1 1";
+
+        return;
+    }
+
+
+    boatOscillation.style.scale =
+        "-1 1";
+}
+
+
+/* ==========================================================
+   ANIMATION DU SILLAGE
+========================================================== */
+
+function updateWake()
+{
+    wakeIndex++;
+
+
+    if (wakeIndex >= WAKE_IMAGES.length)
+    {
+        wakeIndex =
+            0;
+    }
+
+
+    boatWakeImage.src =
+        WAKE_IMAGES[wakeIndex];
+}
+
+
+function startWake()
+{
+    stopWake();
+
+
+    wakeIndex =
+        0;
+
+
+    boatWakeImage.src =
+        WAKE_IMAGES[0];
+
+
+    boatWake.style.display =
+        "block";
+
+
+    wakeTimer =
+        setInterval(
+            updateWake,
+            120
+        );
+}
+
+
+function stopWake()
+{
+    if (wakeTimer !== null)
+    {
+        clearInterval(
+            wakeTimer
+        );
+
+        wakeTimer =
+            null;
+    }
+
+
+    boatWake.style.display =
+        "none";
+}
+
+
+/* ==========================================================
+   INITIALISATION BATEAU
 ========================================================== */
 
 function initialiseBoat()
@@ -341,7 +458,10 @@ function initialiseBoat()
     boatWidth =
         boatTranslation.offsetWidth;
 
-    currentStep = 0;
+
+    currentStep =
+        0;
+
 
     maxTravel =
         window.innerWidth +
@@ -349,23 +469,12 @@ function initialiseBoat()
         OUTSIDE_MARGIN * 2;
 
 
-    /*
-        ALLER
-        bateau hors écran à gauche.
-    */
-
     if (direction === "forward")
     {
         currentX =
             -boatWidth -
             OUTSIDE_MARGIN;
     }
-
-
-    /*
-        RETOUR
-        bateau hors écran à droite.
-    */
 
     else
     {
@@ -381,12 +490,15 @@ function initialiseBoat()
     startX =
         currentX;
 
+
+    stopWake();
+
     updateBoat();
 }
 
 
 /* ==========================================================
-   POSITION DU BATEAU
+   POSITION
 ========================================================== */
 
 function updateBoat()
@@ -397,7 +509,7 @@ function updateBoat()
 
 
 /* ==========================================================
-   COURBE D'ANIMATION
+   COURBE
 ========================================================== */
 
 function ease(progress)
@@ -411,12 +523,13 @@ function ease(progress)
 
 
 /* ==========================================================
-   CALCUL DE LA PROCHAINE POSITION
+   PROCHAINE POSITION
 ========================================================== */
 
 function computeTarget()
 {
     currentStep++;
+
 
     if (currentStep > TOTAL_STEPS)
     {
@@ -429,10 +542,6 @@ function computeTarget()
         currentX;
 
 
-    /*
-        ALLER
-    */
-
     if (direction === "forward")
     {
         targetX =
@@ -444,11 +553,6 @@ function computeTarget()
             boatWidth -
             OUTSIDE_MARGIN;
     }
-
-
-    /*
-        RETOUR
-    */
 
     else
     {
@@ -467,7 +571,7 @@ function computeTarget()
 
 
 /* ==========================================================
-   FAIRE AVANCER LE BATEAU
+   AVANCER
 ========================================================== */
 
 function advanceBoat()
@@ -490,8 +594,12 @@ function advanceBoat()
     animationStart =
         null;
 
+
     isMoving =
         true;
+
+
+    startWake();
 
 
     animationId =
@@ -502,7 +610,7 @@ function advanceBoat()
 
 
 /* ==========================================================
-   ANIMATION DU BATEAU
+   ANIMATION BATEAU
 ========================================================== */
 
 function animateBoat(time)
@@ -543,10 +651,6 @@ function animateBoat(time)
     updateBoat();
 
 
-    /*
-        Oscillation verticale.
-    */
-
     const wave =
         Math.sin(
             time *
@@ -570,12 +674,9 @@ function animateBoat(time)
     }
 
 
-    /*
-        Fin d'une avancée.
-    */
-
     currentX =
         targetX;
+
 
     updateBoat();
 
@@ -588,9 +689,8 @@ function animateBoat(time)
         false;
 
 
-    /*
-        Traversée terminée.
-    */
+    stopWake();
+
 
     if (currentStep >= TOTAL_STEPS)
     {
@@ -600,7 +700,7 @@ function animateBoat(time)
 
 
 /* ==========================================================
-   FIN DE TRAVERSÉE
+   FIN TRAVERSÉE
 ========================================================== */
 
 function finishCrossing()
@@ -609,20 +709,14 @@ function finishCrossing()
         true;
 
 
-    /*
-        ARRIVÉE EN ANGLETERRE
-    */
+    stopWake();
+
 
     if (direction === "forward")
     {
         crossingButton.textContent =
             "Arrivée en Angleterre !";
 
-
-        /*
-            Petite attente avant
-            d'afficher la carte.
-        */
 
         setTimeout(
             () =>
@@ -634,13 +728,10 @@ function finishCrossing()
             700
         );
 
+
         return;
     }
 
-
-    /*
-        RETOUR EN FRANCE
-    */
 
     crossingButton.textContent =
         "Retour en France !";
@@ -659,7 +750,7 @@ function finishCrossing()
 
 
 /* ==========================================================
-   DÉPART VERS L'ANGLETERRE
+   ALLER
 ========================================================== */
 
 function startForwardCrossing()
@@ -669,11 +760,15 @@ function startForwardCrossing()
 
 
     boat.src =
-        BOAT_FORWARD;
+        BOAT_IMAGE;
+
+
+    setBoatDirection();
 
 
     crossingButton.disabled =
         false;
+
 
     crossingButton.textContent =
         "Faire avancer le bateau";
@@ -682,12 +777,6 @@ function startForwardCrossing()
     showCrossing();
 
 
-    /*
-        Il faut attendre que la scène
-        soit visible avant de mesurer
-        la largeur du bateau.
-    */
-
     requestAnimationFrame(
         initialiseBoat
     );
@@ -695,7 +784,7 @@ function startForwardCrossing()
 
 
 /* ==========================================================
-   RETOUR VERS LA FRANCE
+   RETOUR
 ========================================================== */
 
 function startBackCrossing()
@@ -705,11 +794,15 @@ function startBackCrossing()
 
 
     boat.src =
-        BOAT_BACK;
+        BOAT_IMAGE;
+
+
+    setBoatDirection();
 
 
     crossingButton.disabled =
         false;
+
 
     crossingButton.textContent =
         "Faire avancer le bateau";
@@ -730,11 +823,6 @@ function startBackCrossing()
 
 function handleResize()
 {
-    /*
-        Pas besoin de recalculer le bateau
-        lorsque la traversée est cachée.
-    */
-
     if (
         crossingScreen.style.display ===
         "none"
@@ -759,10 +847,6 @@ function handleResize()
         OUTSIDE_MARGIN * 2;
 
 
-    /*
-        ALLER
-    */
-
     if (direction === "forward")
     {
         currentX =
@@ -773,11 +857,6 @@ function handleResize()
             boatWidth -
             OUTSIDE_MARGIN;
     }
-
-
-    /*
-        RETOUR
-    */
 
     else
     {
@@ -808,6 +887,18 @@ function handleResize()
    ÉVÉNEMENTS
 ========================================================== */
 
+learningButton.addEventListener(
+    "click",
+    showClassroom
+);
+
+
+classroomBackButton.addEventListener(
+    "click",
+    showDeparture
+);
+
+
 departureButton.addEventListener(
     "click",
     startForwardCrossing
@@ -833,7 +924,7 @@ window.addEventListener(
 
 
 /* ==========================================================
-   CHARGEMENT DES PROFESSEURS
+   PROFESSEURS
 ========================================================== */
 
 professeurDepart.addEventListener(
@@ -846,12 +937,6 @@ professeurArrivee.addEventListener(
     "load",
     () =>
     {
-        /*
-            On le prépare sans lancer
-            Bravo tant que la carte
-            d'arrivée n'est pas affichée.
-        */
-
         setProfessorState(
             professeurArrivee,
             "neutral"
@@ -861,16 +946,8 @@ professeurArrivee.addEventListener(
 
 
 /* ==========================================================
-   API DU BATEAU
+   API
 ========================================================== */
-
-/*
-    Plus tard le QCM pourra simplement faire :
-
-    boatGame.advance();
-
-    à chaque bonne réponse.
-*/
 
 const boatGame =
 {
@@ -882,15 +959,23 @@ const boatGame =
 
     reset()
     {
-        cancelAnimationFrame(
-            animationId
-        );
+        if (animationId !== null)
+        {
+            cancelAnimationFrame(
+                animationId
+            );
+        }
+
 
         animationId =
             null;
 
+
         isMoving =
             false;
+
+
+        stopWake();
 
         initialiseBoat();
     }
@@ -898,12 +983,17 @@ const boatGame =
 
 
 /* ==========================================================
-   INITIALISATION GÉNÉRALE
+   INITIALISATION
 ========================================================== */
+
+boat.src =
+    BOAT_IMAGE;
+
+
+setBoatDirection();
+
+
+stopWake();
+
 
 showDeparture();
-
-
-/* ==========================================================
-   FIN
-========================================================== */
