@@ -1,0 +1,22 @@
+/* ==========================================================
+   PROFESSEUR
+========================================================== */
+
+.postcard-professor {
+    position: absolute;
+    z-index: 10;
+    width: clamp(220px, 24vw, 430px);
+    max-height: 62vh;
+    user-select: none;
+    pointer-events: none;
+}
+
+.postcard-professor--neutral {
+    right: 22%;
+    bottom: 7%;
+}
+
+.postcard-professor--bravo {
+    right: 22%;
+    bottom: 6%;
+}

@@ -1,0 +1,73 @@
+/* ==========================================================
+   MOUETTES TRAVERSÉE
+========================================================== */
+
+.seagull-flight {
+    position: absolute;
+    z-index: 6;
+    pointer-events: none;
+    user-select: none;
+}
+
+.seagull {
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+    user-select: none;
+}
+
+
+/* ==========================================================
+   MOUETTE 1
+========================================================== */
+
+.seagull-flight--1 {
+    top: 12%;
+    width: clamp(70px, 8vw, 150px);
+    animation: seagull-crossing-1 14s linear infinite;
+}
+
+@keyframes seagull-crossing-1 {
+
+    0% {
+        left: -180px;
+    }
+
+    100% {
+        left: calc(100% + 180px);
+    }
+}
+
+
+/* ==========================================================
+   MOUETTE 9
+========================================================== */
+
+.seagull-flight--9 {
+    top: 16%;
+    left: 4%;
+
+    width: clamp(60px, 6vw, 110px);
+
+    animation:
+        seagull-lighthouse
+        8s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+@keyframes seagull-lighthouse {
+
+    0% {
+        transform: translate(0, 0) rotate(-3deg);
+    }
+
+    50% {
+        transform: translate(40px, -15px) rotate(3deg);
+    }
+
+    100% {
+        transform: translate(80px, 5px) rotate(-2deg);
+    }
+}

@@ -1,0 +1,44 @@
+/* ==========================================================
+   CARTE DE DÉPART
+========================================================== */
+
+
+/* ==========================================================
+   ZONE CLIQUABLE APPRENTISSAGE
+========================================================== */
+
+.learning-hotspot {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    z-index: 15;
+
+    width: 36%;
+    height: 31%;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================================
+   MOUETTE - CARTE DE DÉPART FRANCE
+========================================================== */
+
+.postcard-seagull--departure {
+    left: 25%;
+    top: 73%;
+
+    width: clamp(120px, 13vw, 200px);
+
+    transform:
+        translateY(55px)
+        scaleX(-1);
+}
