@@ -294,19 +294,20 @@
         height: 31%;
     }
 
-    .postcard-seagull--departure {
-        left: 25%;
-        top: 73%;
-        width: 200px;
+   .postcard-seagull--departure {
+    left: 45%;
+    top: 64%;
 
-        transform:
-            translateY(55px)
-            scaleX(-1);
-    }
+    width: clamp(130px, 15vw, 210px);
+
+    transform:
+        translateY(55px)
+        scaleX(-1);
+}
 
     .postcard-seagull--arrival {
         left: 48.5%;
-        top: 82%;
+        top: 85%;
         width: 145px;
 
         transform: scaleX(-1);

@@ -11,60 +11,18 @@
     >
 
     <title>Traversée de la Manche</title>
-
-    <link
-        rel="stylesheet"
-        href="assets/styles/variables.css"
-    >
-
-    <link
-        rel="stylesheet"
-        href="assets/styles/style.css"
-    >
-
-    <link
-        rel="stylesheet"
-        href="assets/styles/professeur.css"
-    >
-
-    <link
-        rel="stylesheet"
-        href="assets/styles/boat.css"
-    >
-
-    <link
-        rel="stylesheet"
-        href="assets/styles/departure.css"
-    >
-   
-    <link
-    rel="stylesheet"
-    href="assets/styles/arrival.css"
-    >
-
-    <link
-    rel="stylesheet"
-    href="assets/styles/crossing.css"
-    >
-
-    <link
-    rel="stylesheet"
-    href="assets/styles/seagulls.css"
-    >
-    <link
-    rel="stylesheet"
-    href="assets/styles/classroom.css"
-    >
-
-    <link
-    rel="stylesheet"
-    href="assets/styles/postcard.css"
-    >   
-
-    <link
-        rel="stylesheet"
-        href="assets/styles/responsive.css"
-    >
+    <link rel="stylesheet" href="assets/styles/variables.css">
+    <link rel="stylesheet" href="assets/styles/style.css" >
+    <link rel="stylesheet" href="assets/styles/professeur.css"  >
+    <link rel="stylesheet" href="assets/styles/boat.css"  >
+    <link rel="stylesheet" href="assets/styles/departure.css"  >
+    <link rel="stylesheet" href="assets/styles/arrival.css"   >
+    <link rel="stylesheet" href="assets/styles/crossing.css"   >
+    <link rel="stylesheet" href="assets/styles/seagulls.css"   >
+    <link rel="stylesheet" href="assets/styles/classroom.css"    >
+    <link rel="stylesheet" href="assets/styles/postcard.css">   
+    <link rel="stylesheet" href="assets/styles/quiz.css" >
+    <link rel="stylesheet" href="assets/styles/responsive.css" >
 
 </head>
 
@@ -119,17 +77,111 @@
         ></object>
 
 
-        <!-- BOUTON DÉPART -->
+        <!-- ZONE QUIZ -->
 
-        <button
-            class="postcard-button"
-            id="departure-button"
-            type="button"
-        >
-            Partir pour l'Angleterre
-        </button>
+<button
+    class="quiz-hotspot"
+    id="quiz-button"
+    type="button"
+    aria-label="Lancer le quiz"
+></button>
 
     </section>
+
+    <!-- ===========================
+     MODALE DE CONFIGURATION DU QUIZ
+    ============================ -->
+
+<div
+    class="quiz-modal"
+    id="quiz-modal"
+    aria-hidden="true"
+>
+    <div class="quiz-modal__content">
+
+        <h2>
+            Prépare ta traversée
+        </h2>
+
+        <p>
+            Choisis ton niveau et ton type de questions.
+        </p>
+        <div class="quiz-difficulty">
+
+    <h3>
+        Difficulté
+    </h3>
+
+    <div class="quiz-difficulty__choices">
+
+        <button
+            type="button"
+            data-difficulty="easy"
+        >
+            Facile
+        </button>
+
+        <button
+            type="button"
+            data-difficulty="medium"
+        >
+            Moyen
+        </button>
+
+        <button
+            type="button"
+            data-difficulty="hard"
+        >
+            Difficile
+        </button>
+
+    </div>
+    <div class="quiz-type">
+
+    <h3>
+        Type de questions
+    </h3>
+
+    <div class="quiz-type__choices">
+
+        <button
+            type="button"
+            data-quiz-type="preterite"
+        >
+            Trouver le prétérit
+        </button>
+
+        <button
+            type="button"
+            data-quiz-type="infinitive"
+        >
+            Trouver l'infinitif
+        </button>
+
+        <button
+            type="button"
+            data-quiz-type="translation"
+        >
+            Traduction
+        </button>
+
+    </div>
+    <button
+    class="quiz-start-button"
+    id="quiz-start-button"
+    type="button"
+    disabled
+>
+    Commencer la traversée
+</button>
+
+</div>
+    
+
+</div>
+
+    </div>
+</div>
 
 
     <!-- ===========================
@@ -325,6 +377,7 @@
     <script src="assets/JS/screen.js"></script>
     <script src="assets/JS/professeur.js"></script>
     <script src="assets/JS/boat.js"></script>
+    <script src="assets/JS/quiz.js"></script>
     <script src="assets/JS/script.js"></script>
 
 </body>

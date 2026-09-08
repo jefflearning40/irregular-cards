@@ -5,15 +5,11 @@
    ÉLÉMENTS HTML
 ========================================================== */
 
-
 const learningButton =
     document.getElementById("learning-button");
 
 const classroomBackButton =
     document.getElementById("classroom-back-button");
-
-const departureButton =
-    document.getElementById("departure-button");
 
 const returnButton =
     document.getElementById("return-button");
@@ -35,12 +31,6 @@ learningButton.addEventListener(
 classroomBackButton.addEventListener(
     "click",
     showDeparture
-);
-
-
-departureButton.addEventListener(
-    "click",
-    startForwardCrossing
 );
 
 
@@ -82,7 +72,6 @@ professeurArrivee.addEventListener(
         );
     }
 );
-
 
 
 /* ==========================================================

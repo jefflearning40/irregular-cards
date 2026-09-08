@@ -5,15 +5,19 @@
 .postcard-professor {
     position: absolute;
     z-index: 10;
+
     width: clamp(220px, 24vw, 430px);
     max-height: 62vh;
+
     user-select: none;
     pointer-events: none;
 }
 
 .postcard-professor--neutral {
-    right: 22%;
+    right: 16%;
     bottom: 7%;
+
+    transform: scale(0.75);
 }
 
 .postcard-professor--bravo {

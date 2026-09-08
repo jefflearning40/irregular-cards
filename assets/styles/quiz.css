@@ -1,0 +1,376 @@
+/* ==========================================================
+   MODALE DU QUIZ
+========================================================== */
+
+.quiz-modal {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(18, 32, 42, 0.55);
+}
+
+
+.quiz-modal--open {
+    display: flex;
+}
+
+
+/* ==========================================================
+   PARCHEMIN
+========================================================== */
+
+.quiz-modal__content {
+    position: relative;
+
+    width: min(92%, 650px);
+
+    padding: 32px 42px 36px;
+
+    border: 2px solid #9b6c35;
+    border-radius: 12px;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(255, 248, 218, 0.95) 0%,
+            rgba(248, 226, 174, 0.95) 55%,
+            rgba(222, 181, 111, 0.98) 100%
+        );
+
+    color: #123f64;
+
+    box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.40),
+        inset 0 0 18px rgba(111, 69, 27, 0.22),
+        inset 0 0 4px rgba(90, 54, 20, 0.45);
+
+    text-align: center;
+}
+
+
+/* ==========================================================
+   EFFET BORDURE DU PARCHEMIN
+========================================================== */
+
+.quiz-modal__content::before {
+    content: "";
+
+    position: absolute;
+    inset: 5px;
+
+    border: 1px solid rgba(139, 91, 39, 0.32);
+    border-radius: 8px;
+
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   TITRE
+========================================================== */
+
+.quiz-modal__content h2 {
+    position: relative;
+
+    margin: 0 0 8px;
+
+    color: #073f69;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 2.15rem;
+    font-style: italic;
+    font-weight: 700;
+
+    line-height: 1.1;
+}
+
+
+/* TRAIT ROUGE SOUS LE TITRE */
+
+.quiz-modal__content h2::after {
+    content: "";
+
+    display: block;
+
+    width: 58%;
+    height: 4px;
+
+    margin: 9px auto 13px;
+
+    border-radius: 50%;
+
+    background: #9e1f2f;
+
+    transform: rotate(-1deg);
+}
+
+
+/* ==========================================================
+   SOUS-TITRE
+========================================================== */
+
+.quiz-modal__content > p {
+    margin: 0 0 24px;
+
+    color: #173b59;
+
+    font-size: 1rem;
+}
+
+
+/* ==========================================================
+   GROUPES
+========================================================== */
+
+.quiz-difficulty,
+.quiz-type {
+    position: relative;
+
+    width: 100%;
+
+    margin: 0 0 20px;
+}
+
+
+.quiz-difficulty h3,
+.quiz-type h3 {
+    margin: 0 0 10px;
+
+    color: #073f69;
+
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+
+/* ==========================================================
+   LIGNES DE CHOIX
+========================================================== */
+
+.quiz-difficulty__choices,
+.quiz-type__choices {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 12px;
+
+    width: 100%;
+}
+
+
+/* ==========================================================
+   BOUTONS DE CHOIX
+========================================================== */
+
+.quiz-difficulty__choices button,
+.quiz-type__choices button {
+    width: 100%;
+    min-width: 0;
+
+    padding: 11px 8px;
+
+    border: 2px solid #07558a;
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fae9bd 0%,
+            #efd29a 100%
+        );
+
+    color: #073f69;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+
+    box-shadow:
+        0 3px 5px rgba(74, 48, 20, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.60);
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* ==========================================================
+   SURVOL
+========================================================== */
+
+.quiz-difficulty__choices button:hover,
+.quiz-type__choices button:hover {
+    border-color: #073f69;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff2cf 0%,
+            #f4dca7 100%
+        );
+
+    transform: translateY(-2px);
+}
+
+
+/* ==========================================================
+   CHOIX SÉLECTIONNÉ
+========================================================== */
+
+.quiz-difficulty__choices .quiz-choice--selected,
+.quiz-type__choices .quiz-choice--selected {
+    border-color: #073f69;
+
+    background:
+        linear-gradient(
+            180deg,
+            #1477ad 0%,
+            #064a78 100%
+        );
+
+    color: #ffffff;
+
+    box-shadow:
+        0 3px 7px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+    transform: translateY(-2px);
+}
+
+
+/* ==========================================================
+   BOUTON COMMENCER
+========================================================== */
+
+.quiz-start-button {
+    display: block;
+
+    position: relative;
+
+    width: min(100%, 390px);
+
+    margin: 8px auto 0;
+    padding: 14px 28px;
+
+    border: 4px solid #b98542;
+    border-radius: 28px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #0875b5 0%,
+            #064b7c 55%,
+            #033b65 100%
+        );
+
+    color: #ffffff;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: 700;
+
+    box-shadow:
+        0 0 0 2px #6e481f,
+        0 5px 9px rgba(0, 0, 0, 0.32),
+        inset 0 2px 2px rgba(255, 255, 255, 0.25);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        filter 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+/* FLÈCHE */
+
+.quiz-start-button::after {
+    content: "➜";
+
+    margin-left: 14px;
+
+    font-style: normal;
+    font-size: 1.25rem;
+}
+
+
+/* ==========================================================
+   SURVOL BOUTON COMMENCER
+========================================================== */
+
+.quiz-start-button:not(:disabled):hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.1);
+}
+
+
+/* ==========================================================
+   BOUTON DÉSACTIVÉ
+========================================================== */
+
+.quiz-start-button:disabled {
+    opacity: 0.42;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 600px) {
+
+    .quiz-modal {
+        padding: 14px;
+    }
+
+
+    .quiz-modal__content {
+        width: 100%;
+
+        padding: 26px 18px 28px;
+    }
+
+
+    .quiz-modal__content h2 {
+        font-size: 1.7rem;
+    }
+
+
+    .quiz-difficulty__choices,
+    .quiz-type__choices {
+        grid-template-columns: 1fr;
+    }
+
+
+    .quiz-difficulty,
+    .quiz-type {
+        margin-bottom: 17px;
+    }
+
+
+    .quiz-start-button {
+        width: 100%;
+    }
+}
