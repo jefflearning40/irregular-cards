@@ -64,12 +64,69 @@ function setProfessorState(
     if (
         !brasNeutre ||
         !brasErreur ||
-        !brasBravo
+        !brasBravo ||
+        !sourcilG ||
+        !sourcilD
     )
     {
         return;
     }
 
+
+    /* ======================================================
+       PRÉPARATION DES SOURCILS
+    ====================================================== */
+
+    sourcilG.style.transformBox =
+        "fill-box";
+
+    sourcilD.style.transformBox =
+        "fill-box";
+
+    sourcilG.style.transformOrigin =
+        "center";
+
+    sourcilD.style.transformOrigin =
+        "center";
+
+    sourcilG.style.transition =
+        "transform 0.3s ease";
+
+    sourcilD.style.transition =
+        "transform 0.3s ease";
+
+
+    /* ======================================================
+       PRÉPARATION DU BRAS ERREUR
+    ====================================================== */
+
+    brasErreur.style.transformBox =
+        "fill-box";
+
+    brasErreur.style.transformOrigin =
+        "0% 50%";
+
+    brasErreur.style.transition =
+        "transform 0.5s ease";
+
+
+    /* ======================================================
+       PRÉPARATION DU BRAS BRAVO
+    ====================================================== */
+
+    brasBravo.style.transformBox =
+        "fill-box";
+
+    brasBravo.style.transformOrigin =
+        "0% 50%";
+
+    brasBravo.style.transition =
+        "transform 0.3s ease";
+
+
+    /* ======================================================
+       REMISE À ZÉRO
+    ====================================================== */
 
     brasNeutre.style.display =
         "none";
@@ -80,20 +137,22 @@ function setProfessorState(
     brasBravo.style.display =
         "none";
 
+    brasErreur.style.transform =
+        "rotate(0deg)";
 
-    if (sourcilG)
-    {
-        sourcilG.style.transform =
-            "rotate(0deg)";
-    }
+    brasBravo.style.transform =
+        "rotate(0deg)";
+
+    sourcilG.style.transform =
+        "rotate(0deg)";
+
+    sourcilD.style.transform =
+        "rotate(0deg)";
 
 
-    if (sourcilD)
-    {
-        sourcilD.style.transform =
-            "rotate(0deg)";
-    }
-
+    /* ======================================================
+       NEUTRE
+    ====================================================== */
 
     if (state === "neutral")
     {
@@ -104,22 +163,91 @@ function setProfessorState(
     }
 
 
+    /* ======================================================
+       ERREUR
+    ====================================================== */
+
+    if (state === "error")
+    {
+        brasErreur.style.display =
+            "inline";
+
+
+        /* Sourcils froncés */
+
+        sourcilG.style.transform =
+            "rotate(-45deg)";
+
+        sourcilD.style.transform =
+            "rotate(45deg)";
+
+
+        /* Mouvement du bras */
+
+        setTimeout(
+            () =>
+            {
+                let mouvements = 0;
+
+                const animationBras =
+                    setInterval(
+                        () =>
+                        {
+                            if (
+                                mouvements % 2 === 0
+                            )
+                            {
+                                brasErreur.style.transform =
+                                    "rotate(-10deg)";
+                            }
+                            else
+                            {
+                                brasErreur.style.transform =
+                                    "rotate(5deg)";
+                            }
+
+
+                            mouvements++;
+
+
+                            if (
+                                mouvements === 4
+                            )
+                            {
+                                clearInterval(
+                                    animationBras
+                                );
+
+
+                                setTimeout(
+                                    () =>
+                                    {
+                                        brasErreur.style.transform =
+                                            "rotate(0deg)";
+                                    },
+                                    500
+                                );
+                            }
+                        },
+                        600
+                    );
+            },
+            100
+        );
+
+
+        return;
+    }
+
+
+    /* ======================================================
+       BRAVO
+    ====================================================== */
+
     if (state === "bravo")
     {
         brasBravo.style.display =
             "inline";
-
-        brasBravo.style.transformBox =
-            "fill-box";
-
-        brasBravo.style.transformOrigin =
-            "0% 50%";
-
-        brasBravo.style.transition =
-            "transform 0.3s ease";
-
-        brasBravo.style.transform =
-            "rotate(0deg)";
 
 
         setTimeout(
@@ -160,6 +288,9 @@ function setProfessorState(
             },
             1500
         );
+
+
+        return;
     }
 }
 
