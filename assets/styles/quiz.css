@@ -17,7 +17,6 @@
     background: rgba(18, 32, 42, 0.55);
 }
 
-
 .quiz-modal--open {
     display: flex;
 }
@@ -92,9 +91,6 @@
     line-height: 1.1;
 }
 
-
-/* TRAIT ROUGE SOUS LE TITRE */
-
 .quiz-modal__content h2::after {
     content: "";
 
@@ -112,11 +108,6 @@
     transform: rotate(-1deg);
 }
 
-
-/* ==========================================================
-   SOUS-TITRE
-========================================================== */
-
 .quiz-modal__content > p {
     margin: 0 0 24px;
 
@@ -127,7 +118,7 @@
 
 
 /* ==========================================================
-   GROUPES
+   CHOIX DU QUIZ
 ========================================================== */
 
 .quiz-difficulty,
@@ -139,7 +130,6 @@
     margin: 0 0 20px;
 }
 
-
 .quiz-difficulty h3,
 .quiz-type h3 {
     margin: 0 0 10px;
@@ -149,11 +139,6 @@
     font-size: 1.15rem;
     font-weight: 700;
 }
-
-
-/* ==========================================================
-   LIGNES DE CHOIX
-========================================================== */
 
 .quiz-difficulty__choices,
 .quiz-type__choices {
@@ -165,11 +150,6 @@
 
     width: 100%;
 }
-
-
-/* ==========================================================
-   BOUTONS DE CHOIX
-========================================================== */
 
 .quiz-difficulty__choices button,
 .quiz-type__choices button {
@@ -208,11 +188,6 @@
         box-shadow 0.2s ease;
 }
 
-
-/* ==========================================================
-   SURVOL
-========================================================== */
-
 .quiz-difficulty__choices button:hover,
 .quiz-type__choices button:hover {
     border-color: #073f69;
@@ -226,11 +201,6 @@
 
     transform: translateY(-2px);
 }
-
-
-/* ==========================================================
-   CHOIX SÉLECTIONNÉ
-========================================================== */
 
 .quiz-difficulty__choices .quiz-choice--selected,
 .quiz-type__choices .quiz-choice--selected {
@@ -254,7 +224,7 @@
 
 
 /* ==========================================================
-   BOUTON COMMENCER
+   BOUTON DÉMARRAGE DU QUIZ
 ========================================================== */
 
 .quiz-start-button {
@@ -298,9 +268,6 @@
         opacity 0.2s ease;
 }
 
-
-/* FLÈCHE */
-
 .quiz-start-button::after {
     content: "➜";
 
@@ -310,21 +277,11 @@
     font-size: 1.25rem;
 }
 
-
-/* ==========================================================
-   SURVOL BOUTON COMMENCER
-========================================================== */
-
 .quiz-start-button:not(:disabled):hover {
     transform: translateY(-2px);
 
     filter: brightness(1.1);
 }
-
-
-/* ==========================================================
-   BOUTON DÉSACTIVÉ
-========================================================== */
 
 .quiz-start-button:disabled {
     opacity: 0.42;
@@ -332,6 +289,175 @@
     cursor: not-allowed;
 
     transform: none;
+}
+
+
+/* ==========================================================
+   CHRONO DE LA TRAVERSÉE
+========================================================== */
+
+.quiz-timer {
+    position: absolute;
+
+    top: 90px;
+    left: 50%;
+
+    z-index: 50;
+
+    transform: translateX(-50%);
+
+    min-width: 80px;
+
+    padding: 10px 18px;
+
+    border: 3px solid #ffffff;
+    border-radius: 12px;
+
+    background: rgba(7, 63, 105, 0.90);
+
+    color: #ffffff;
+
+    font-size: 2rem;
+    font-weight: 700;
+
+    text-align: center;
+
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+
+/* ==========================================================
+   QUESTION DU QUIZ
+========================================================== */
+
+.quiz-question {
+    position: absolute;
+
+    top: 165px;
+    left: 50%;
+
+    z-index: 50;
+
+    transform: translateX(-50%);
+
+    width: min(90%, 600px);
+
+    padding: 20px 24px;
+
+    border: 3px solid #9b6c35;
+    border-radius: 14px;
+
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            rgba(255, 248, 218, 0.97) 0%,
+            rgba(248, 226, 174, 0.97) 65%,
+            rgba(222, 181, 111, 0.98) 100%
+        );
+
+    color: #073f69;
+
+    text-align: center;
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.35),
+        inset 0 0 10px rgba(111, 69, 27, 0.20);
+}
+
+
+/* ==========================================================
+   NUMÉRO DE QUESTION
+========================================================== */
+
+.quiz-question__number {
+    margin: 0 0 8px;
+
+    color: #9e1f2f;
+
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+
+/* ==========================================================
+   TEXTE DE LA QUESTION
+========================================================== */
+
+.quiz-question__text {
+    margin: 0 0 18px;
+
+    color: #073f69;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+
+/* ==========================================================
+   RÉPONSES
+========================================================== */
+
+.quiz-question__answers {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+
+    width: 100%;
+}
+
+
+/* ==========================================================
+   BOUTONS DE RÉPONSE
+========================================================== */
+
+.quiz-answer-button {
+    width: 100%;
+
+    padding: 12px 16px;
+
+    border: 2px solid #07558a;
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff2cf 0%,
+            #efd29a 100%
+        );
+
+    color: #073f69;
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 3px 5px rgba(74, 48, 20, 0.22);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.quiz-answer-button:hover {
+    background:
+        linear-gradient(
+            180deg,
+            #1477ad 0%,
+            #064a78 100%
+        );
+
+    color: #ffffff;
+
+    transform:
+        translateY(-2px);
 }
 
 
@@ -345,32 +471,67 @@
         padding: 14px;
     }
 
-
     .quiz-modal__content {
         width: 100%;
 
         padding: 26px 18px 28px;
     }
 
-
     .quiz-modal__content h2 {
         font-size: 1.7rem;
     }
-
 
     .quiz-difficulty__choices,
     .quiz-type__choices {
         grid-template-columns: 1fr;
     }
 
-
     .quiz-difficulty,
     .quiz-type {
         margin-bottom: 17px;
     }
 
-
     .quiz-start-button {
         width: 100%;
+    }
+
+
+    /* CHRONO */
+
+    .quiz-timer {
+        top: 70px;
+
+        min-width: 65px;
+
+        padding: 7px 12px;
+
+        font-size: 1.5rem;
+    }
+
+
+    /* QUESTION */
+
+    .quiz-question {
+        top: 130px;
+
+        width: calc(100% - 28px);
+
+        padding: 15px;
+    }
+
+    .quiz-question__text {
+        font-size: 1.1rem;
+    }
+
+    .quiz-question__answers {
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+    }
+
+    .quiz-answer-button {
+        padding: 9px 12px;
+
+        font-size: 0.9rem;
     }
 }

@@ -6,21 +6,29 @@
     position: absolute;
     z-index: 10;
 
-    width: clamp(220px, 24vw, 430px);
-    max-height: 62vh;
+    width: 19%;
+    max-height: 70%;
 
     user-select: none;
     pointer-events: none;
 }
 
-.postcard-professor--neutral {
-    right: 16%;
-    bottom: 7%;
 
-    transform: scale(0.75);
+/* ==========================================================
+   PROFESSEUR DÉPART
+========================================================== */
+
+.postcard-professor--neutral {
+    right: 12%;
+    bottom: 3%;
 }
 
+
+/* ==========================================================
+   PROFESSEUR ARRIVÉE
+========================================================== */
+
 .postcard-professor--bravo {
-    right: 22%;
-    bottom: 6%;
+    right: 12%;
+    bottom: 3%;
 }

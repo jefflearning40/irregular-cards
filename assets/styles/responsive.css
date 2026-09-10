@@ -1,28 +1,92 @@
 /* ==========================================================
-   ÉCRANS PEU HAUTS / PORTABLES
+   RESPONSIVE.CSS
 ========================================================== */
 
-@media (max-height: 800px) and (min-width: 769px) {
+
+/* ==========================================================
+   PETITS MOBILES - PORTRAIT
+   0px à 480px
+========================================================== */
+
+@media (max-width: 480px) {
+
+    /* CARTE POSTALE */
+
+    .postcard-screen {
+        width: 100vw;
+        height: 100vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+    }
+
+    .postcard-container {
+        position: relative;
+
+        width: 100vw;
+        height: auto;
+
+        aspect-ratio: 3 / 2;
+        flex-shrink: 0;
+    }
+
+    .postcard {
+        position: absolute;
+        inset: 0;
+
+        width: 100%;
+        height: 100%;
+
+        object-fit: contain;
+    }
+
+
+    /* PROFESSEUR */
 
     .postcard-professor {
-        width: clamp(190px, 20vw, 330px);
-        max-height: 56vh;
+        width: 24%;
+        max-height: 70%;
     }
 
     .postcard-professor--neutral {
-        right: 22%;
-        bottom: 9%;
+        right: 12%;
+        bottom: 3%;
     }
 
     .postcard-professor--bravo {
-        right: 22%;
-        bottom: 7%;
+        right: 12%;
+        bottom: 3%;
     }
 
-    .postcard-button,
-    .classroom-back-button {
-        bottom: 15px;
+
+    /* MOUETTE DÉPART */
+
+    .postcard-seagull--departure {
+        left: 58%;
+        top: 66%;
+        width: 11%;
+
+        transform:
+            translateY(0)
+            scaleX(-1);
     }
+
+
+    /* MOUETTE ARRIVÉE */
+
+    .postcard-seagull--arrival {
+        left: 54%;
+        top: 70%;
+        width: 10%;
+
+        transform: scaleX(-1);
+    }
+
+
+    /* HOTSPOTS */
 
     .learning-hotspot {
         top: 5%;
@@ -31,62 +95,390 @@
         height: 31%;
     }
 
-    .postcard-seagull--departure {
-        left: 25%;
-        top: 73%;
-
-        width: clamp(95px, 12vw, 165px);
-
-        transform:
-            translateY(55px)
-            scaleX(-1);
+    .quiz-hotspot {
+        top: 5%;
+        left: 5%;
+        width: 36%;
+        height: 31%;
     }
 
-    .postcard-seagull--arrival {
-        left: 48.5%;
-        top: 82%;
 
-        width: clamp(75px, 8vw, 120px);
+    /* BOUTON ARRIVÉE */
 
-        transform: scaleX(-1);
+    .postcard-button {
+        bottom: 4%;
+
+        padding: 6px 10px;
+
+        font-size: 0.65rem;
+    }
+
+
+    /* CLASSE */
+
+    .classroom-screen {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .classroom-image {
+        object-fit: contain;
+    }
+
+    .classroom-back-button {
+        bottom: 15px;
+
+        padding: 8px 12px;
+
+        font-size: 0.75rem;
+    }
+
+
+    /* TRAVERSÉE */
+
+    .sea-scene {
+        width: 100vw;
+        height: 100vh;
     }
 
     .sea-scene__title {
         top: 15px;
-        font-size: clamp(1.2rem, 2.5vw, 2rem);
+
+        padding: 8px 14px;
+
+        font-size: clamp(
+            1.2rem,
+            5vw,
+            1.8rem
+        );
     }
 
     .sea-scene__button {
-        top: 80px;
+        top: 75px;
+
+        padding: 10px 16px;
+
+        font-size: 0.85rem;
     }
 
     .boat-translation {
-        bottom: 5%;
-        width: clamp(210px, 30vw, 430px);
+        bottom: 8%;
+
+        width: clamp(
+            180px,
+            65vw,
+            290px
+        );
+    }
+}
+
+
+/* ==========================================================
+   MOBILES - PORTRAIT
+   481px à 768px
+========================================================== */
+
+@media (min-width: 481px) and (max-width: 768px) {
+
+    /* CARTE POSTALE */
+
+    .postcard-screen {
+        width: 100vw;
+        height: 100vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+    }
+
+    .postcard-container {
+        position: relative;
+
+        width: 100vw;
+        height: auto;
+
+        aspect-ratio: 3 / 2;
+        flex-shrink: 0;
+    }
+
+    .postcard {
+        position: absolute;
+        inset: 0;
+
+        width: 100%;
+        height: 100%;
+
+        object-fit: contain;
+    }
+
+
+    /* PROFESSEUR */
+
+    .postcard-professor {
+        width: 24%;
+        max-height: 70%;
+    }
+
+    .postcard-professor--neutral {
+        right: 12%;
+        bottom: 3%;
+    }
+
+    .postcard-professor--bravo {
+        right: 12%;
+        bottom: 3%;
+    }
+
+
+    /* MOUETTE DÉPART */
+
+    .postcard-seagull--departure {
+        left: 58%;
+        top: 66%;
+        width: 11%;
+
+        transform:
+            translateY(0)
+            scaleX(-1);
+    }
+
+
+    /* MOUETTE ARRIVÉE */
+
+    .postcard-seagull--arrival {
+        left: 54%;
+        top: 70%;
+        width: 10%;
+
+        transform: scaleX(-1);
+    }
+
+
+    /* HOTSPOTS */
+
+    .learning-hotspot {
+        top: 5%;
+        right: 5%;
+        width: 36%;
+        height: 31%;
+    }
+
+    .quiz-hotspot {
+        top: 5%;
+        left: 5%;
+        width: 36%;
+        height: 31%;
+    }
+
+
+    /* BOUTON ARRIVÉE */
+
+    .postcard-button {
+        bottom: 4%;
+
+        padding: 7px 12px;
+
+        font-size: clamp(
+            0.55rem,
+            2vw,
+            0.8rem
+        );
+    }
+
+
+    /* CLASSE */
+
+    .classroom-screen {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .classroom-image {
+        object-fit: contain;
+    }
+
+    .classroom-back-button {
+        bottom: 15px;
+
+        padding: 8px 12px;
+
+        font-size: 0.75rem;
+    }
+
+
+    /* TRAVERSÉE */
+
+    .sea-scene {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .sea-scene__title {
+        top: 15px;
+
+        padding: 8px 14px;
+
+        font-size: clamp(
+            1.2rem,
+            5vw,
+            1.8rem
+        );
+    }
+
+    .sea-scene__button {
+        top: 75px;
+
+        padding: 10px 16px;
+
+        font-size: 0.85rem;
+    }
+
+    .boat-translation {
+        bottom: 8%;
+
+        width: clamp(
+            200px,
+            58vw,
+            350px
+        );
+    }
+}
+
+
+/* ==========================================================
+   MOBILES - PAYSAGE
+   jusqu'à 932px × 480px
+========================================================== */
+
+@media (max-width: 932px) and
+       (max-height: 480px) and
+       (orientation: landscape) {
+
+    /* CARTE POSTALE */
+
+    .postcard-container {
+        position: relative;
+
+        width: min(100vw, 150vh);
+        height: auto;
+
+        aspect-ratio: 3 / 2;
+        flex-shrink: 0;
+    }
+
+
+    /* PROFESSEUR */
+
+    .postcard-professor {
+        width: 24%;
+        max-height: 70%;
+    }
+
+    .postcard-professor--neutral {
+        right: 12%;
+        bottom: 3%;
+    }
+
+    .postcard-professor--bravo {
+        right: 12%;
+        bottom: 3%;
+    }
+
+
+    /* MOUETTE DÉPART */
+
+    .postcard-seagull--departure {
+        left: 58%;
+        top: 65%;
+        width: 11%;
+
+        transform:
+            translateY(0)
+            scaleX(-1);
+    }
+
+
+    /* MOUETTE ARRIVÉE */
+
+    .postcard-seagull--arrival {
+        left: 54%;
+        top: 70%;
+        width: 10%;
+
+        transform: scaleX(-1);
+    }
+
+
+    /* HOTSPOTS */
+
+    .learning-hotspot {
+        top: 5%;
+        right: 5%;
+        width: 36%;
+        height: 31%;
+    }
+
+    .quiz-hotspot {
+        top: 5%;
+        left: 5%;
+        width: 36%;
+        height: 31%;
     }
 }
 
 
 /* ==========================================================
    TABLETTES
+   769px à 1024px
 ========================================================== */
 
-@media (max-width: 1024px) {
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    /* PROFESSEUR */
 
     .postcard-professor {
-        width: clamp(180px, 25vw, 310px);
-        max-height: 55vh;
+        width: 24%;
+        max-height: 70%;
     }
 
     .postcard-professor--neutral {
-        right: 19%;
-        bottom: 9%;
+        right: 12%;
+        bottom: 3%;
     }
 
     .postcard-professor--bravo {
-        right: 19%;
-        bottom: 7%;
+        right: 12%;
+        bottom: 3%;
     }
+
+
+    /* MOUETTE DÉPART */
+
+    .postcard-seagull--departure {
+        left: 58%;
+        top: 66%;
+        width: 11%;
+
+        transform:
+            translateY(0)
+            scaleX(-1);
+    }
+
+
+    /* MOUETTE ARRIVÉE */
+
+    .postcard-seagull--arrival {
+        left: 54%;
+        top: 70%;
+        width: 10%;
+
+        transform: scaleX(-1);
+    }
+
+
+    /* HOTSPOTS */
 
     .learning-hotspot {
         top: 5%;
@@ -95,197 +487,167 @@
         height: 31%;
     }
 
-    .postcard-seagull--departure {
-        left: 25%;
-        top: 73%;
-
-        width: clamp(90px, 14vw, 150px);
-
-        transform:
-            translateY(55px)
-            scaleX(-1);
+    .quiz-hotspot {
+        top: 5%;
+        left: 5%;
+        width: 36%;
+        height: 31%;
     }
 
-    .postcard-seagull--arrival {
-        left: 48.5%;
-        top: 82%;
 
-        width: clamp(70px, 10vw, 110px);
-
-        transform: scaleX(-1);
-    }
+    /* TRAVERSÉE */
 
     .boat-translation {
-        width: clamp(220px, 40vw, 440px);
+        width: clamp(
+            220px,
+            40vw,
+            440px
+        );
     }
 }
 
 
 /* ==========================================================
-   MOBILES
+   DESKTOP
+   1025px à 1799px
 ========================================================== */
 
-@media (max-width: 768px) {
+@media (min-width: 1025px) and (max-width: 1799px) {
 
-    .postcard-screen,
-    .classroom-screen,
-    .sea-scene {
-        width: 100vw;
-        height: 100vh;
+    /* CARTE POSTALE */
+
+    .postcard-container {
+        position: relative;
+
+        width: min(100vw, 150vh);
+        height: auto;
+
+        aspect-ratio: 3 / 2;
+        flex-shrink: 0;
     }
 
-    .postcard,
-    .classroom-image {
-        object-fit: contain;
-    }
+
+    /* PROFESSEUR */
 
     .postcard-professor {
-        width: clamp(140px, 34vw, 240px);
-        max-height: 48vh;
+        width: 24%;
+        max-height: 70%;
     }
 
     .postcard-professor--neutral {
-        right: 15%;
-        bottom: 10%;
+        right: 12%;
+        bottom: 3%;
     }
 
     .postcard-professor--bravo {
-        right: 15%;
-        bottom: 8%;
+        right: 12%;
+        bottom: 3%;
     }
 
-    .postcard-button,
-    .classroom-back-button {
-        bottom: 15px;
-        padding: 10px 16px;
-        font-size: 0.85rem;
+
+    /* MOUETTE DÉPART */
+
+    .postcard-seagull--departure {
+        left: 59%;
+        top: 64%;
+        width: 11%;
+
+        transform:
+            translateY(0)
+            scaleX(-1);
     }
+
+
+    /* MOUETTE ARRIVÉE */
+
+    .postcard-seagull--arrival {
+        left: 54%;
+        top: 70%;
+        width: 10%;
+
+        transform: scaleX(-1);
+    }
+
+
+    /* HOTSPOTS */
 
     .learning-hotspot {
-        top: 7%;
+        top: 5%;
         right: 5%;
-        width: 38%;
-        height: 28%;
+        width: 36%;
+        height: 31%;
     }
 
-    .postcard-seagull--departure {
-        left: 25%;
-        top: 72%;
-
-        width: clamp(75px, 18vw, 125px);
-
-        transform:
-            translateY(40px)
-            scaleX(-1);
+    .quiz-hotspot {
+        top: 5%;
+        left: 5%;
+        width: 36%;
+        height: 31%;
     }
 
-    .postcard-seagull--arrival {
-        left: 48%;
-        top: 81%;
 
-        width: clamp(60px, 14vw, 95px);
-
-        transform: scaleX(-1);
-    }
-
-    .sea-scene__title {
-        top: 15px;
-        padding: 8px 14px;
-        font-size: clamp(1.2rem, 5vw, 1.8rem);
-    }
-
-    .sea-scene__button {
-        top: 75px;
-        padding: 10px 16px;
-        font-size: 0.85rem;
-    }
+    /* TRAVERSÉE */
 
     .boat-translation {
-        bottom: 8%;
-        width: clamp(200px, 58vw, 350px);
-    }
-}
-
-
-/* ==========================================================
-   PETITS MOBILES
-========================================================== */
-
-@media (max-width: 480px) {
-
-    .postcard-professor {
-        width: clamp(125px, 36vw, 185px);
-        max-height: 42vh;
-    }
-
-    .postcard-professor--neutral {
-        right: 12%;
-        bottom: 11%;
-    }
-
-    .postcard-professor--bravo {
-        right: 12%;
-        bottom: 9%;
-    }
-
-    .postcard-button,
-    .classroom-back-button {
-        bottom: 10px;
-        font-size: 0.78rem;
-    }
-
-    .learning-hotspot {
-        top: 8%;
-        right: 4%;
-        width: 40%;
-        height: 26%;
-    }
-
-    .postcard-seagull--departure {
-        left: 24%;
-        top: 71%;
-
-        width: clamp(65px, 20vw, 105px);
-
-        transform:
-            translateY(30px)
-            scaleX(-1);
-    }
-
-    .postcard-seagull--arrival {
-        left: 47%;
-        top: 80%;
-
-        width: clamp(50px, 16vw, 80px);
-
-        transform: scaleX(-1);
-    }
-
-    .boat-translation {
-        width: clamp(180px, 65vw, 290px);
+        width: clamp(
+            210px,
+            30vw,
+            430px
+        );
     }
 }
 
 
 /* ==========================================================
    GRANDS ÉCRANS
+   à partir de 1800px
 ========================================================== */
 
 @media (min-width: 1800px) {
 
+    /* PROFESSEUR */
+
     .postcard-professor {
-        width: min(24vw, 430px);
+        width: 24%;
+        max-height: 70%;
     }
 
     .postcard-professor--neutral {
-        right: 22%;
-        bottom: 7%;
+        right: 12%;
+        bottom: 3%;
     }
 
     .postcard-professor--bravo {
-        right: 22%;
-        bottom: 6%;
+        right: 12%;
+        bottom: 3%;
     }
+
+
+    /* MOUETTE DÉPART */
+
+    .postcard-seagull--departure {
+        left: 59%;
+        top: 64%;
+        width: 11%;
+
+        transform:
+            translateY(0)
+            scaleX(-1);
+    }
+
+
+    /* MOUETTE ARRIVÉE */
+
+    .postcard-seagull--arrival {
+        left: 54%;
+        top: 70%;
+        width: 10%;
+
+        transform: scaleX(-1);
+    }
+
+
+    /* HOTSPOTS */
 
     .learning-hotspot {
         top: 5%;
@@ -294,24 +656,15 @@
         height: 31%;
     }
 
-   .postcard-seagull--departure {
-    left: 45%;
-    top: 64%;
-
-    width: clamp(130px, 15vw, 210px);
-
-    transform:
-        translateY(55px)
-        scaleX(-1);
-}
-
-    .postcard-seagull--arrival {
-        left: 48.5%;
-        top: 85%;
-        width: 145px;
-
-        transform: scaleX(-1);
+    .quiz-hotspot {
+        top: 5%;
+        left: 5%;
+        width: 36%;
+        height: 31%;
     }
+
+
+    /* TRAVERSÉE */
 
     .boat-translation {
         width: min(30vw, 560px);

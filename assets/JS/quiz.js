@@ -150,6 +150,11 @@ quizStartButton.addEventListener(
             "true"
         );
 
+        initialiseQuizGame(
+            selectedDifficulty,
+            selectedQuizType
+        );
+
         startForwardCrossing();
     }
 );

@@ -11,182 +11,216 @@
     >
 
     <title>Traversée de la Manche</title>
+
     <link rel="stylesheet" href="assets/styles/variables.css">
-    <link rel="stylesheet" href="assets/styles/style.css" >
-    <link rel="stylesheet" href="assets/styles/professeur.css"  >
-    <link rel="stylesheet" href="assets/styles/boat.css"  >
-    <link rel="stylesheet" href="assets/styles/departure.css"  >
-    <link rel="stylesheet" href="assets/styles/arrival.css"   >
-    <link rel="stylesheet" href="assets/styles/crossing.css"   >
-    <link rel="stylesheet" href="assets/styles/seagulls.css"   >
-    <link rel="stylesheet" href="assets/styles/classroom.css"    >
-    <link rel="stylesheet" href="assets/styles/postcard.css">   
-    <link rel="stylesheet" href="assets/styles/quiz.css" >
-    <link rel="stylesheet" href="assets/styles/responsive.css" >
+    <link rel="stylesheet" href="assets/styles/style.css">
+    <link rel="stylesheet" href="assets/styles/professeur.css">
+    <link rel="stylesheet" href="assets/styles/boat.css">
+    <link rel="stylesheet" href="assets/styles/departure.css">
+    <link rel="stylesheet" href="assets/styles/arrival.css">
+    <link rel="stylesheet" href="assets/styles/crossing.css">
+    <link rel="stylesheet" href="assets/styles/seagulls.css">
+    <link rel="stylesheet" href="assets/styles/classroom.css">
+    <link rel="stylesheet" href="assets/styles/postcard.css">
+    <link rel="stylesheet" href="assets/styles/quiz.css">
+    <link rel="stylesheet" href="assets/styles/responsive.css">
 
 </head>
 
 <body>
 
-    <!-- ===========================
+
+    <!-- =====================================================
          CARTE DE DÉPART
-    ============================ -->
+    ====================================================== -->
 
     <section
         class="postcard-screen"
         id="departure-screen"
     >
 
-        <img
-            class="postcard"
-            src="assets/images/decor/cartepostaledepart.png"
-            alt="Carte postale de départ"
-            draggable="false"
-        >
+        <div class="postcard-container">
+
+            <img
+                class="postcard"
+                src="assets/images/decor/cartepostaledepart.png"
+                alt="Carte postale de départ"
+                draggable="false"
+            >
 
 
-        <!-- ZONE APPRENTISSAGE -->
+            <!-- ZONE APPRENTISSAGE -->
 
-        <button
-            class="learning-hotspot"
-            id="learning-button"
-            type="button"
-            aria-label="Ouvrir l'apprentissage"
-        ></button>
-
-
-        <!-- MOUETTE -->
-
-        <img
-            class="postcard-seagull postcard-seagull--departure"
-            src="assets/images/decor/mouette3.gif"
-            alt=""
-            aria-hidden="true"
-            draggable="false"
-        >
+            <button
+                class="learning-hotspot"
+                id="learning-button"
+                type="button"
+                aria-label="Ouvrir l'apprentissage"
+            ></button>
 
 
-        <!-- PROFESSEUR -->
+            <!-- MOUETTE -->
 
-        <object
-            class="postcard-professor postcard-professor--neutral"
-            id="professeur-depart"
-            data="assets/images/decor/personnages/professeur_pasgif_animation_neutre.svg"
-            type="image/svg+xml"
-            aria-label="Professeur prêt pour le départ"
-        ></object>
+            <img
+                class="postcard-seagull postcard-seagull--departure"
+                src="assets/images/decor/mouette3.gif"
+                alt=""
+                aria-hidden="true"
+                draggable="false"
+            >
 
 
-        <!-- ZONE QUIZ -->
+            <!-- PROFESSEUR -->
 
-<button
-    class="quiz-hotspot"
-    id="quiz-button"
-    type="button"
-    aria-label="Lancer le quiz"
-></button>
+            <object
+                class="postcard-professor postcard-professor--neutral"
+                id="professeur-depart"
+                data="assets/images/decor/personnages/professeur_pasgif_animation_neutre.svg"
+                type="image/svg+xml"
+                aria-label="Professeur prêt pour le départ"
+            ></object>
+
+
+            <!-- ZONE QUIZ -->
+
+            <button
+                class="quiz-hotspot"
+                id="quiz-button"
+                type="button"
+                aria-label="Lancer le quiz"
+            ></button>
+
+        </div>
 
     </section>
 
-    <!-- ===========================
-     MODALE DE CONFIGURATION DU QUIZ
-    ============================ -->
 
-<div
-    class="quiz-modal"
-    id="quiz-modal"
-    aria-hidden="true"
->
-    <div class="quiz-modal__content">
+    <!-- =====================================================
+         MODALE DE CONFIGURATION DU QUIZ
+    ====================================================== -->
 
-        <h2>
-            Prépare ta traversée
-        </h2>
+    <div
+        class="quiz-modal"
+        id="quiz-modal"
+        aria-hidden="true"
+    >
 
-        <p>
-            Choisis ton niveau et ton type de questions.
-        </p>
-        <div class="quiz-difficulty">
+        <div class="quiz-modal__content">
 
-    <h3>
-        Difficulté
-    </h3>
+            <h2>
+                Prépare ton quiz
+            </h2>
 
-    <div class="quiz-difficulty__choices">
+            <p>
+                Choisis ton niveau et ton type de questions.
+            </p>
 
-        <button
-            type="button"
-            data-difficulty="easy"
-        >
-            Facile
-        </button>
 
-        <button
-            type="button"
-            data-difficulty="medium"
-        >
-            Moyen
-        </button>
+            <!-- DIFFICULTÉ -->
 
-        <button
-            type="button"
-            data-difficulty="hard"
-        >
-            Difficile
-        </button>
+            <div class="quiz-difficulty">
+
+                <h3>
+                    Difficulté
+                </h3>
+
+                <div class="quiz-difficulty__choices">
+
+                    <button
+                        type="button"
+                        data-difficulty="easy"
+                    >
+                        Facile
+                    </button>
+
+                    <button
+                        type="button"
+                        data-difficulty="medium"
+                    >
+                        Moyen
+                    </button>
+
+                    <button
+                        type="button"
+                        data-difficulty="hard"
+                    >
+                        Difficile
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- TYPE DE QUESTIONS -->
+
+            <div class="quiz-type">
+
+                <h3>
+                    Type de questions
+                </h3>
+
+                <div class="quiz-type__choices">
+
+                    <button
+                        type="button"
+                        data-quiz-type="preterite"
+                    >
+                        Trouver le prétérit
+                    </button>
+
+                    <button
+                        type="button"
+                        data-quiz-type="infinitive"
+                    >
+                        Trouver l'infinitif
+                    </button>
+
+                    <button
+                        type="button"
+                        data-quiz-type="translation"
+                    >
+                        Traduction
+                    </button>
+
+                    <button
+                        type="button"
+                        data-quiz-type="complete"
+                    >
+                        Trouver les 2 manquants
+                    </button>
+
+                    <button
+                        type="button"
+                        data-quiz-type="voice"
+                    >
+                        Défi vocal
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- DÉMARRAGE DU QUIZ -->
+
+            <button
+                class="quiz-start-button"
+                id="quiz-start-button"
+                type="button"
+                disabled
+            >
+                Commencer la traversée
+            </button>
+
+        </div>
 
     </div>
-    <div class="quiz-type">
-
-    <h3>
-        Type de questions
-    </h3>
-
-    <div class="quiz-type__choices">
-
-        <button
-            type="button"
-            data-quiz-type="preterite"
-        >
-            Trouver le prétérit
-        </button>
-
-        <button
-            type="button"
-            data-quiz-type="infinitive"
-        >
-            Trouver l'infinitif
-        </button>
-
-        <button
-            type="button"
-            data-quiz-type="translation"
-        >
-            Traduction
-        </button>
-
-    </div>
-    <button
-    class="quiz-start-button"
-    id="quiz-start-button"
-    type="button"
-    disabled
->
-    Commencer la traversée
-</button>
-
-</div>
-    
-
-</div>
-
-    </div>
-</div>
 
 
-    <!-- ===========================
+    <!-- =====================================================
          CLASSE / APPRENTISSAGE
-    ============================ -->
+    ====================================================== -->
 
     <section
         class="classroom-screen"
@@ -211,9 +245,9 @@
     </section>
 
 
-    <!-- ===========================
+    <!-- =====================================================
          TRAVERSÉE
-    ============================ -->
+    ====================================================== -->
 
     <main
         class="sea-scene"
@@ -246,10 +280,54 @@
         >
 
 
+        <!-- TITRE -->
+
         <h1 class="sea-scene__title">
             Traversée de la Manche
         </h1>
 
+
+        <!-- CHRONO DU QUIZ -->
+
+        <div
+            class="quiz-timer"
+            id="quiz-timer"
+            aria-live="polite"
+        >
+            20
+        </div>
+
+
+        <!-- QUESTION DU QUIZ -->
+
+        <div
+            class="quiz-question"
+            id="quiz-question"
+        >
+
+            <p
+                class="quiz-question__number"
+                id="quiz-question-number"
+            >
+                Question 1 / 20
+            </p>
+
+            <p
+                class="quiz-question__text"
+                id="quiz-question-text"
+            >
+                Question
+            </p>
+
+            <div
+                class="quiz-question__answers"
+                id="quiz-question-answers"
+            ></div>
+
+        </div>
+
+
+        <!-- MOUETTE 1 -->
 
         <div class="seagull-flight seagull-flight--1">
 
@@ -264,6 +342,8 @@
         </div>
 
 
+        <!-- MOUETTE 9 -->
+
         <div class="seagull-flight seagull-flight--9">
 
             <img
@@ -277,6 +357,8 @@
         </div>
 
 
+        <!-- BOUTON TRAVERSÉE -->
+
         <button
             class="sea-scene__button"
             id="start-crossing"
@@ -285,6 +367,8 @@
             Démarrer la traversée
         </button>
 
+
+        <!-- BATEAU -->
 
         <div
             class="boat-translation"
@@ -328,55 +412,71 @@
     </main>
 
 
-    <!-- ===========================
+    <!-- =====================================================
          CARTE D'ARRIVÉE
-    ============================ -->
+    ====================================================== -->
 
     <section
         class="postcard-screen"
         id="arrival-screen"
     >
 
-        <img
-            class="postcard"
-            src="assets/images/decor/cartepostalearrivee.png"
-            alt="Carte postale d'arrivée en Angleterre"
-            draggable="false"
-        >
+        <div class="postcard-container">
+
+            <img
+                class="postcard"
+                src="assets/images/decor/cartepostalearrivee.png"
+                alt="Carte postale d'arrivée en Angleterre"
+                draggable="false"
+            >
 
 
-        <img
-            class="postcard-seagull postcard-seagull--arrival"
-            src="assets/images/decor/mouette3.gif"
-            alt=""
-            aria-hidden="true"
-            draggable="false"
-        >
+            <!-- MOUETTE -->
+
+            <img
+                class="postcard-seagull postcard-seagull--arrival"
+                src="assets/images/decor/mouette3.gif"
+                alt=""
+                aria-hidden="true"
+                draggable="false"
+            >
 
 
-        <object
-            class="postcard-professor postcard-professor--bravo"
-            id="professeur-arrivee"
-            data="assets/images/decor/personnages/professeur_pasgif_animation_bravo.svg"
-            type="image/svg+xml"
-            aria-label="Professeur félicitant l'élève"
-        ></object>
+            <!-- PROFESSEUR -->
+
+            <object
+                class="postcard-professor postcard-professor--bravo"
+                id="professeur-arrivee"
+                data="assets/images/decor/personnages/professeur_pasgif_animation_bravo.svg"
+                type="image/svg+xml"
+                aria-label="Professeur félicitant l'élève"
+            ></object>
 
 
-        <button
-            class="postcard-button"
-            id="return-button"
-            type="button"
-        >
-            Retour en France
-        </button>
+            <!-- RETOUR EN FRANCE -->
+
+            <button
+                class="postcard-button"
+                id="return-button"
+                type="button"
+            >
+                Retour en France
+            </button>
+
+        </div>
 
     </section>
 
 
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
     <script src="assets/JS/screen.js"></script>
     <script src="assets/JS/professeur.js"></script>
     <script src="assets/JS/boat.js"></script>
+    <script src="assets/JS/quiz-timer.js"></script>
+    <script src="assets/JS/quiz-game.js"></script>
     <script src="assets/JS/quiz.js"></script>
     <script src="assets/JS/script.js"></script>
 
