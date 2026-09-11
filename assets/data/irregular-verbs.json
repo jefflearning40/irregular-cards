@@ -1,0 +1,1861 @@
+[
+    {
+        "infinitive": "arise",
+        "preterite": "arose",
+        "pastParticiple": "arisen",
+        "translation": "survenir / se lever",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["raise", "rise", "arouse"],
+            "preterite": ["arise", "rose", "aroused"],
+            "pastParticiple": ["arose", "risen", "raised"],
+            "translation": ["augmenter", "réveiller", "tomber"]
+        }
+    },
+    {
+        "infinitive": "awake",
+        "preterite": "awoke",
+        "pastParticiple": "awoken",
+        "translation": "se réveiller",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["wake", "waken", "awaken"],
+            "preterite": ["awake", "woke", "awaked"],
+            "pastParticiple": ["awoke", "woken", "awaked"],
+            "translation": ["s'endormir", "se lever", "rêver"]
+        }
+    },
+    {
+        "infinitive": "be",
+        "preterite": "was/were",
+        "pastParticiple": "been",
+        "translation": "être",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["been", "being", "was"],
+            "preterite": ["been", "be", "being"],
+            "pastParticiple": ["was", "were", "being"],
+            "translation": ["avoir", "faire", "devenir"]
+        }
+    },
+    {
+        "infinitive": "bear",
+        "preterite": "bore",
+        "pastParticiple": "borne/born",
+        "translation": "porter / supporter / mettre au monde",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["bare", "bore", "born"],
+            "preterite": ["bear", "bare", "born"],
+            "pastParticiple": ["bore", "bare", "bearing"],
+            "translation": ["naître", "casser", "apporter"]
+        }
+    },
+    {
+        "infinitive": "beat",
+        "preterite": "beat",
+        "pastParticiple": "beaten",
+        "translation": "battre",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["beaten", "bite", "bet"],
+            "preterite": ["beaten", "bit", "bet"],
+            "pastParticiple": ["beat", "bitten", "bet"],
+            "translation": ["mordre", "parier", "frapper"]
+        }
+    },
+    {
+        "infinitive": "become",
+        "preterite": "became",
+        "pastParticiple": "become",
+        "translation": "devenir",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["became", "come", "overcome"],
+            "preterite": ["become", "came", "becomed"],
+            "pastParticiple": ["became", "came", "becomed"],
+            "translation": ["venir", "surmonter", "commencer"]
+        }
+    },
+    {
+        "infinitive": "begin",
+        "preterite": "began",
+        "pastParticiple": "begun",
+        "translation": "commencer",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["began", "begun", "beginning"],
+            "preterite": ["begun", "begin", "beginned"],
+            "pastParticiple": ["began", "begin", "beginned"],
+            "translation": ["finir", "devenir", "continuer"]
+        }
+    },
+    {
+        "infinitive": "bend",
+        "preterite": "bent",
+        "pastParticiple": "bent",
+        "translation": "plier",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["bent", "bind", "blend"],
+            "preterite": ["bend", "bound", "bended"],
+            "pastParticiple": ["bend", "bound", "bended"],
+            "translation": ["lier", "casser", "étendre"]
+        }
+    },
+    {
+        "infinitive": "bet",
+        "preterite": "bet",
+        "pastParticiple": "bet",
+        "translation": "parier",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["beat", "bit", "bid"],
+            "preterite": ["betted", "beat", "bit"],
+            "pastParticiple": ["betted", "beaten", "bitten"],
+            "translation": ["battre", "mordre", "payer"]
+        }
+    },
+    {
+        "infinitive": "bind",
+        "preterite": "bound",
+        "pastParticiple": "bound",
+        "translation": "lier / attacher",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["bend", "bound", "wind"],
+            "preterite": ["bind", "bent", "binded"],
+            "pastParticiple": ["bind", "bent", "binded"],
+            "translation": ["plier", "enrouler", "détacher"]
+        }
+    },
+    {
+        "infinitive": "bite",
+        "preterite": "bit",
+        "pastParticiple": "bitten",
+        "translation": "mordre",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["bit", "beat", "biteen"],
+            "preterite": ["bite", "beat", "bited"],
+            "pastParticiple": ["bit", "beat", "beaten"],
+            "translation": ["battre", "manger", "frapper"]
+        }
+    },
+    {
+        "infinitive": "bleed",
+        "preterite": "bled",
+        "pastParticiple": "bled",
+        "translation": "saigner",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["breed", "bled", "feed"],
+            "preterite": ["bleed", "bred", "bleeded"],
+            "pastParticiple": ["bleed", "bred", "bleeded"],
+            "translation": ["élever", "nourrir", "blesser"]
+        }
+    },
+    {
+        "infinitive": "blow",
+        "preterite": "blew",
+        "pastParticiple": "blown",
+        "translation": "souffler",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["blew", "blown", "flow"],
+            "preterite": ["blow", "blown", "blowed"],
+            "pastParticiple": ["blew", "blow", "blowed"],
+            "translation": ["voler", "couler", "respirer"]
+        }
+    },
+    {
+        "infinitive": "break",
+        "preterite": "broke",
+        "pastParticiple": "broken",
+        "translation": "casser",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["broke", "broken", "brake"],
+            "preterite": ["break", "broken", "breaked"],
+            "pastParticiple": ["broke", "break", "breaked"],
+            "translation": ["plier", "couper", "réparer"]
+        }
+    },
+    {
+        "infinitive": "breed",
+        "preterite": "bred",
+        "pastParticiple": "bred",
+        "translation": "élever / se reproduire",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["bleed", "bred", "feed"],
+            "preterite": ["breed", "bled", "breeded"],
+            "pastParticiple": ["breed", "bled", "breeded"],
+            "translation": ["saigner", "nourrir", "grandir"]
+        }
+    },
+    {
+        "infinitive": "bring",
+        "preterite": "brought",
+        "pastParticiple": "brought",
+        "translation": "apporter",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["buy", "bring", "brought"],
+            "preterite": ["bring", "bought", "bringed"],
+            "pastParticiple": ["bring", "bought", "bringed"],
+            "translation": ["acheter", "prendre", "envoyer"]
+        }
+    },
+    {
+        "infinitive": "broadcast",
+        "preterite": "broadcast",
+        "pastParticiple": "broadcast",
+        "translation": "diffuser",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["forecast", "cast", "spread"],
+            "preterite": ["broadcasted", "forecast", "cast"],
+            "pastParticiple": ["broadcasted", "forecast", "spread"],
+            "translation": ["prévoir", "jeter", "répandre"]
+        }
+    },
+    {
+        "infinitive": "build",
+        "preterite": "built",
+        "pastParticiple": "built",
+        "translation": "construire",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["built", "bind", "bring"],
+            "preterite": ["build", "builded", "brought"],
+            "pastParticiple": ["build", "builded", "bound"],
+            "translation": ["détruire", "apporter", "fabriquer"]
+        }
+    },
+    {
+        "infinitive": "burn",
+        "preterite": "burnt/burned",
+        "pastParticiple": "burnt/burned",
+        "translation": "brûler",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["burst", "turn", "burnt"],
+            "preterite": ["burn", "burst", "born"],
+            "pastParticiple": ["burn", "borne", "burst"],
+            "translation": ["éclater", "geler", "allumer"]
+        }
+    },
+    {
+        "infinitive": "burst",
+        "preterite": "burst",
+        "pastParticiple": "burst",
+        "translation": "éclater",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["burn", "bursting", "break"],
+            "preterite": ["bursted", "burnt", "broke"],
+            "pastParticiple": ["bursted", "burned", "broken"],
+            "translation": ["brûler", "casser", "exploser"]
+        }
+    },
+    {
+        "infinitive": "buy",
+        "preterite": "bought",
+        "pastParticiple": "bought",
+        "translation": "acheter",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["bring", "pay", "sell"],
+            "preterite": ["buyed", "brought", "paid"],
+            "pastParticiple": ["buyed", "brought", "sold"],
+            "translation": ["vendre", "payer", "apporter"]
+        }
+    },
+    {
+        "infinitive": "cast",
+        "preterite": "cast",
+        "pastParticiple": "cast",
+        "translation": "jeter / distribuer un rôle",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["cost", "cut", "forecast"],
+            "preterite": ["casted", "cost", "cut"],
+            "pastParticiple": ["casted", "cost", "forecast"],
+            "translation": ["coûter", "couper", "prévoir"]
+        }
+    },
+    {
+        "infinitive": "catch",
+        "preterite": "caught",
+        "pastParticiple": "caught",
+        "translation": "attraper",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["teach", "catching", "choose"],
+            "preterite": ["catched", "taught", "chose"],
+            "pastParticiple": ["catched", "taught", "chosen"],
+            "translation": ["enseigner", "choisir", "lâcher"]
+        }
+    },
+    {
+        "infinitive": "choose",
+        "preterite": "chose",
+        "pastParticiple": "chosen",
+        "translation": "choisir",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["chose", "chosen", "lose"],
+            "preterite": ["choose", "chosen", "choosed"],
+            "pastParticiple": ["chose", "choose", "choosed"],
+            "translation": ["perdre", "trouver", "prendre"]
+        }
+    },
+    {
+        "infinitive": "cling",
+        "preterite": "clung",
+        "pastParticiple": "clung",
+        "translation": "s'accrocher",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["clang", "clink", "clinged"],
+            "preterite": ["clang", "clinged", "clanged"],
+            "pastParticiple": ["clang", "clinged", "clanged"],
+            "translation": ["sonner", "serrer", "suspendre"]
+        }
+    },
+    {
+        "infinitive": "come",
+        "preterite": "came",
+        "pastParticiple": "come",
+        "translation": "venir",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["came", "become", "go"],
+            "preterite": ["come", "become", "comed"],
+            "pastParticiple": ["came", "gone", "comed"],
+            "translation": ["aller", "devenir", "partir"]
+        }
+    },
+    {
+        "infinitive": "cost",
+        "preterite": "cost",
+        "pastParticiple": "cost",
+        "translation": "coûter",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["cast", "cut", "pay"],
+            "preterite": ["costed", "cast", "paid"],
+            "pastParticiple": ["costed", "cast", "paid"],
+            "translation": ["payer", "acheter", "vendre"]
+        }
+    },
+    {
+        "infinitive": "creep",
+        "preterite": "crept",
+        "pastParticiple": "crept",
+        "translation": "ramper / se glisser",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["keep", "sleep", "weep"],
+            "preterite": ["creeped", "kept", "slept"],
+            "pastParticiple": ["creeped", "wept", "kept"],
+            "translation": ["dormir", "pleurer", "courir"]
+        }
+    },
+    {
+        "infinitive": "cut",
+        "preterite": "cut",
+        "pastParticiple": "cut",
+        "translation": "couper",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["put", "shut", "hurt"],
+            "preterite": ["cutted", "put", "shut"],
+            "pastParticiple": ["cutted", "hurt", "put"],
+            "translation": ["mettre", "fermer", "blesser"]
+        }
+    },
+    {
+        "infinitive": "deal",
+        "preterite": "dealt",
+        "pastParticiple": "dealt",
+        "translation": "traiter / distribuer",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["lead", "feel", "mean"],
+            "preterite": ["dealed", "led", "felt"],
+            "pastParticiple": ["dealed", "meant", "led"],
+            "translation": ["mener", "ressentir", "signifier"]
+        }
+    },
+    {
+        "infinitive": "dig",
+        "preterite": "dug",
+        "pastParticiple": "dug",
+        "translation": "creuser",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["digging", "do", "draw"],
+            "preterite": ["digged", "did", "drawn"],
+            "pastParticiple": ["digged", "done", "drew"],
+            "translation": ["dessiner", "faire", "enterrer"]
+        }
+    },
+    {
+        "infinitive": "do",
+        "preterite": "did",
+        "pastParticiple": "done",
+        "translation": "faire",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["did", "done", "make"],
+            "preterite": ["done", "do", "made"],
+            "pastParticiple": ["did", "do", "made"],
+            "translation": ["avoir", "aller", "dire"]
+        }
+    },
+    {
+        "infinitive": "draw",
+        "preterite": "drew",
+        "pastParticiple": "drawn",
+        "translation": "dessiner / tirer",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["drew", "drawn", "throw"],
+            "preterite": ["draw", "drawn", "drawed"],
+            "pastParticiple": ["drew", "draw", "drawed"],
+            "translation": ["jeter", "écrire", "montrer"]
+        }
+    },
+    {
+        "infinitive": "dream",
+        "preterite": "dreamt/dreamed",
+        "pastParticiple": "dreamt/dreamed",
+        "translation": "rêver",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["sleep", "dreamt", "weep"],
+            "preterite": ["dream", "slept", "drank"],
+            "pastParticiple": ["dream", "slept", "drunk"],
+            "translation": ["dormir", "penser", "se réveiller"]
+        }
+    },
+    {
+        "infinitive": "drink",
+        "preterite": "drank",
+        "pastParticiple": "drunk",
+        "translation": "boire",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["drank", "drunk", "sink"],
+            "preterite": ["drink", "drunk", "drinked"],
+            "pastParticiple": ["drank", "drink", "drinked"],
+            "translation": ["manger", "couler", "nager"]
+        }
+    },
+    {
+        "infinitive": "drive",
+        "preterite": "drove",
+        "pastParticiple": "driven",
+        "translation": "conduire",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["drove", "driven", "ride"],
+            "preterite": ["drive", "driven", "drived"],
+            "pastParticiple": ["drove", "drive", "drived"],
+            "translation": ["monter", "courir", "voler"]
+        }
+    },
+    {
+        "infinitive": "eat",
+        "preterite": "ate",
+        "pastParticiple": "eaten",
+        "translation": "manger",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["ate", "eaten", "feed"],
+            "preterite": ["eat", "eaten", "eated"],
+            "pastParticiple": ["ate", "eat", "eated"],
+            "translation": ["boire", "nourrir", "mordre"]
+        }
+    },
+    {
+        "infinitive": "fall",
+        "preterite": "fell",
+        "pastParticiple": "fallen",
+        "translation": "tomber",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["fell", "fallen", "feel"],
+            "preterite": ["fall", "fallen", "falled"],
+            "pastParticiple": ["fell", "fall", "falled"],
+            "translation": ["se lever", "ressentir", "courir"]
+        }
+    },
+    {
+        "infinitive": "feed",
+        "preterite": "fed",
+        "pastParticiple": "fed",
+        "translation": "nourrir",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["feel", "flee", "breed"],
+            "preterite": ["feeded", "felt", "fled"],
+            "pastParticiple": ["feeded", "bred", "felt"],
+            "translation": ["ressentir", "fuir", "élever"]
+        }
+    },
+    {
+        "infinitive": "feel",
+        "preterite": "felt",
+        "pastParticiple": "felt",
+        "translation": "sentir / ressentir",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["feed", "fell", "flee"],
+            "preterite": ["feeled", "fed", "fell"],
+            "pastParticiple": ["feeled", "fed", "fled"],
+            "translation": ["nourrir", "tomber", "entendre"]
+        }
+    },
+    {
+        "infinitive": "fight",
+        "preterite": "fought",
+        "pastParticiple": "fought",
+        "translation": "se battre",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["light", "fighted", "think"],
+            "preterite": ["fighted", "thought", "lit"],
+            "pastParticiple": ["fighted", "thought", "lit"],
+            "translation": ["penser", "éclairer", "frapper"]
+        }
+    },
+    {
+        "infinitive": "find",
+        "preterite": "found",
+        "pastParticiple": "found",
+        "translation": "trouver",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["bind", "wind", "found"],
+            "preterite": ["finded", "bound", "wound"],
+            "pastParticiple": ["finded", "bound", "wound"],
+            "translation": ["chercher", "perdre", "cacher"]
+        }
+    },
+    {
+        "infinitive": "flee",
+        "preterite": "fled",
+        "pastParticiple": "fled",
+        "translation": "fuir",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["fly", "feel", "feed"],
+            "preterite": ["fleed", "flew", "felt"],
+            "pastParticiple": ["fleed", "flown", "fed"],
+            "translation": ["voler", "courir", "tomber"]
+        }
+    },
+    {
+        "infinitive": "fly",
+        "preterite": "flew",
+        "pastParticiple": "flown",
+        "translation": "voler",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["flee", "flow", "flew"],
+            "preterite": ["fly", "flown", "flied"],
+            "pastParticiple": ["flew", "fly", "flied"],
+            "translation": ["fuir", "tomber", "conduire"]
+        }
+    },
+    {
+        "infinitive": "forbid",
+        "preterite": "forbade",
+        "pastParticiple": "forbidden",
+        "translation": "interdire",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["forgave", "forbidden", "forget"],
+            "preterite": ["forbid", "forbidden", "forbidded"],
+            "pastParticiple": ["forbade", "forbid", "forbidded"],
+            "translation": ["pardonner", "oublier", "autoriser"]
+        }
+    },
+    {
+        "infinitive": "forecast",
+        "preterite": "forecast",
+        "pastParticiple": "forecast",
+        "translation": "prévoir",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["broadcast", "cast", "foresee"],
+            "preterite": ["forecasted", "broadcast", "cast"],
+            "pastParticiple": ["forecasted", "broadcast", "cast"],
+            "translation": ["diffuser", "jeter", "montrer"]
+        }
+    },
+    {
+        "infinitive": "forget",
+        "preterite": "forgot",
+        "pastParticiple": "forgotten",
+        "translation": "oublier",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["forgive", "forgot", "forgotten"],
+            "preterite": ["forget", "forgotten", "forgetted"],
+            "pastParticiple": ["forgot", "forget", "forgetted"],
+            "translation": ["pardonner", "se souvenir", "interdire"]
+        }
+    },
+    {
+        "infinitive": "forgive",
+        "preterite": "forgave",
+        "pastParticiple": "forgiven",
+        "translation": "pardonner",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["forget", "give", "forgiven"],
+            "preterite": ["forgive", "forgiven", "forgived"],
+            "pastParticiple": ["forgave", "forgive", "forgived"],
+            "translation": ["oublier", "donner", "interdire"]
+        }
+    },
+    {
+        "infinitive": "freeze",
+        "preterite": "froze",
+        "pastParticiple": "frozen",
+        "translation": "geler",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["froze", "frozen", "freeze"],
+            "preterite": ["freeze", "frozen", "freezed"],
+            "pastParticiple": ["froze", "freeze", "freezed"],
+            "translation": ["brûler", "fondre", "refroidir"]
+        }
+    },
+    {
+        "infinitive": "get",
+        "preterite": "got",
+        "pastParticiple": "got/gotten",
+        "translation": "obtenir / recevoir",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["give", "got", "take"],
+            "preterite": ["get", "give", "getted"],
+            "pastParticiple": ["get", "given", "taken"],
+            "translation": ["donner", "prendre", "envoyer"]
+        }
+    },
+    {
+        "infinitive": "give",
+        "preterite": "gave",
+        "pastParticiple": "given",
+        "translation": "donner",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["gave", "given", "get"],
+            "preterite": ["give", "given", "gived"],
+            "pastParticiple": ["gave", "give", "gived"],
+            "translation": ["recevoir", "prendre", "apporter"]
+        }
+    },
+    {
+        "infinitive": "go",
+        "preterite": "went",
+        "pastParticiple": "gone",
+        "translation": "aller",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["come", "gone", "went"],
+            "preterite": ["goed", "gone", "came"],
+            "pastParticiple": ["went", "goed", "came"],
+            "translation": ["venir", "partir", "courir"]
+        }
+    },
+    {
+        "infinitive": "grind",
+        "preterite": "ground",
+        "pastParticiple": "ground",
+        "translation": "moudre / broyer",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["find", "bind", "ground"],
+            "preterite": ["grinded", "found", "bound"],
+            "pastParticiple": ["grinded", "found", "bound"],
+            "translation": ["creuser", "couper", "écraser"]
+        }
+    },
+    {
+        "infinitive": "grow",
+        "preterite": "grew",
+        "pastParticiple": "grown",
+        "translation": "grandir / pousser",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["grew", "grown", "throw"],
+            "preterite": ["grow", "grown", "growed"],
+            "pastParticiple": ["grew", "grow", "growed"],
+            "translation": ["rétrécir", "semer", "tomber"]
+        }
+    },
+    {
+        "infinitive": "hang",
+        "preterite": "hung",
+        "pastParticiple": "hung",
+        "translation": "suspendre",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["swing", "hung", "cling"],
+            "preterite": ["hanged", "swung", "hang"],
+            "pastParticiple": ["hanged", "swung", "hang"],
+            "translation": ["se balancer", "s'accrocher", "tenir"]
+        }
+    },
+    {
+        "infinitive": "have",
+        "preterite": "had",
+        "pastParticiple": "had",
+        "translation": "avoir",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["had", "give", "make"],
+            "preterite": ["haved", "have", "made"],
+            "pastParticiple": ["haved", "have", "given"],
+            "translation": ["être", "faire", "donner"]
+        }
+    },
+    {
+        "infinitive": "hear",
+        "preterite": "heard",
+        "pastParticiple": "heard",
+        "translation": "entendre",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["wear", "hear", "heard"],
+            "preterite": ["heared", "wore", "hearded"],
+            "pastParticiple": ["heared", "worn", "hearded"],
+            "translation": ["voir", "parler", "écouter"]
+        }
+    },
+    {
+        "infinitive": "hide",
+        "preterite": "hid",
+        "pastParticiple": "hidden",
+        "translation": "cacher",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["hid", "hidden", "ride"],
+            "preterite": ["hide", "hidden", "hided"],
+            "pastParticiple": ["hid", "hide", "hided"],
+            "translation": ["trouver", "montrer", "chercher"]
+        }
+    },
+    {
+        "infinitive": "hit",
+        "preterite": "hit",
+        "pastParticiple": "hit",
+        "translation": "frapper",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["hurt", "bite", "beat"],
+            "preterite": ["hitted", "hurt", "bit"],
+            "pastParticiple": ["hitted", "hurt", "beaten"],
+            "translation": ["blesser", "mordre", "battre"]
+        }
+    },
+    {
+        "infinitive": "hold",
+        "preterite": "held",
+        "pastParticiple": "held",
+        "translation": "tenir",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["held", "hide", "hang"],
+            "preterite": ["holded", "hid", "hung"],
+            "pastParticiple": ["holded", "hidden", "hung"],
+            "translation": ["suspendre", "porter", "laisser"]
+        }
+    },
+    {
+        "infinitive": "hurt",
+        "preterite": "hurt",
+        "pastParticiple": "hurt",
+        "translation": "blesser / faire mal",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["hit", "cut", "burst"],
+            "preterite": ["hurted", "hit", "cut"],
+            "pastParticiple": ["hurted", "hit", "cut"],
+            "translation": ["frapper", "couper", "soigner"]
+        }
+    },
+    {
+        "infinitive": "keep",
+        "preterite": "kept",
+        "pastParticiple": "kept",
+        "translation": "garder",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["sleep", "creep", "weep"],
+            "preterite": ["keeped", "slept", "crept"],
+            "pastParticiple": ["keeped", "slept", "wept"],
+            "translation": ["laisser", "dormir", "tenir"]
+        }
+    },
+    {
+        "infinitive": "kneel",
+        "preterite": "knelt/kneeled",
+        "pastParticiple": "knelt/kneeled",
+        "translation": "s'agenouiller",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["lean", "kneeling", "stand"],
+            "preterite": ["kneel", "leant", "stood"],
+            "pastParticiple": ["kneel", "leaned", "stood"],
+            "translation": ["se tenir debout", "se pencher", "s'asseoir"]
+        }
+    },
+    {
+        "infinitive": "know",
+        "preterite": "knew",
+        "pastParticiple": "known",
+        "translation": "savoir / connaître",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["knew", "known", "show"],
+            "preterite": ["know", "known", "knowed"],
+            "pastParticiple": ["knew", "know", "knowed"],
+            "translation": ["montrer", "penser", "comprendre"]
+        }
+    },
+    {
+        "infinitive": "lay",
+        "preterite": "laid",
+        "pastParticiple": "laid",
+        "translation": "poser / étendre",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["lie", "laid", "laying"],
+            "preterite": ["layed", "lay", "lain"],
+            "pastParticiple": ["layed", "lay", "lain"],
+            "translation": ["être allongé", "mettre", "tenir"]
+        }
+    },
+    {
+        "infinitive": "lead",
+        "preterite": "led",
+        "pastParticiple": "led",
+        "translation": "mener / diriger",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["read", "lend", "deal"],
+            "preterite": ["leaded", "read", "lent"],
+            "pastParticiple": ["leaded", "read", "dealt"],
+            "translation": ["lire", "prêter", "suivre"]
+        }
+    },
+    {
+        "infinitive": "lean",
+        "preterite": "leant/leaned",
+        "pastParticiple": "leant/leaned",
+        "translation": "se pencher / s'appuyer",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["learn", "leap", "kneel"],
+            "preterite": ["learnt", "leapt", "knelt"],
+            "pastParticiple": ["learnt", "leaped", "kneeled"],
+            "translation": ["apprendre", "bondir", "s'agenouiller"]
+        }
+    },
+    {
+        "infinitive": "leap",
+        "preterite": "leapt/leaped",
+        "pastParticiple": "leapt/leaped",
+        "translation": "bondir / sauter",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["lean", "leave", "learn"],
+            "preterite": ["leant", "left", "learnt"],
+            "pastParticiple": ["leaned", "left", "learned"],
+            "translation": ["se pencher", "partir", "apprendre"]
+        }
+    },
+    {
+        "infinitive": "learn",
+        "preterite": "learnt/learned",
+        "pastParticiple": "learnt/learned",
+        "translation": "apprendre",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["lean", "teach", "read"],
+            "preterite": ["leant", "taught", "read"],
+            "pastParticiple": ["leaned", "taught", "read"],
+            "translation": ["enseigner", "lire", "comprendre"]
+        }
+    },
+    {
+        "infinitive": "leave",
+        "preterite": "left",
+        "pastParticiple": "left",
+        "translation": "quitter / partir",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["live", "leap", "let"],
+            "preterite": ["leaved", "leapt", "let"],
+            "pastParticiple": ["leaved", "leaped", "let"],
+            "translation": ["venir", "rester", "laisser"]
+        }
+    },
+    {
+        "infinitive": "lend",
+        "preterite": "lent",
+        "pastParticiple": "lent",
+        "translation": "prêter",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["send", "bend", "lead"],
+            "preterite": ["lended", "sent", "bent"],
+            "pastParticiple": ["lended", "sent", "led"],
+            "translation": ["envoyer", "emprunter", "donner"]
+        }
+    },
+    {
+        "infinitive": "let",
+        "preterite": "let",
+        "pastParticiple": "let",
+        "translation": "laisser",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["leave", "lend", "set"],
+            "preterite": ["letted", "left", "lent"],
+            "pastParticiple": ["letted", "left", "set"],
+            "translation": ["quitter", "prêter", "interdire"]
+        }
+    },
+    {
+        "infinitive": "lie",
+        "preterite": "lay",
+        "pastParticiple": "lain",
+        "translation": "être allongé",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["lay", "lain", "lie"],
+            "preterite": ["lied", "lain", "laid"],
+            "pastParticiple": ["lay", "lied", "laid"],
+            "translation": ["poser", "s'asseoir", "se tenir debout"]
+        }
+    },
+    {
+        "infinitive": "light",
+        "preterite": "lit/lighted",
+        "pastParticiple": "lit/lighted",
+        "translation": "allumer / éclairer",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["fight", "shine", "lit"],
+            "preterite": ["fought", "shone", "light"],
+            "pastParticiple": ["fought", "shone", "light"],
+            "translation": ["briller", "éteindre", "se battre"]
+        }
+    },
+    {
+        "infinitive": "lose",
+        "preterite": "lost",
+        "pastParticiple": "lost",
+        "translation": "perdre",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["choose", "find", "lost"],
+            "preterite": ["losed", "found", "chose"],
+            "pastParticiple": ["losed", "found", "chosen"],
+            "translation": ["trouver", "gagner", "choisir"]
+        }
+    },
+    {
+        "infinitive": "make",
+        "preterite": "made",
+        "pastParticiple": "made",
+        "translation": "faire / fabriquer",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["do", "take", "made"],
+            "preterite": ["maked", "did", "took"],
+            "pastParticiple": ["maked", "done", "taken"],
+            "translation": ["prendre", "avoir", "construire"]
+        }
+    },
+    {
+        "infinitive": "mean",
+        "preterite": "meant",
+        "pastParticiple": "meant",
+        "translation": "signifier / vouloir dire",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["meet", "lean", "mean"],
+            "preterite": ["meaned", "met", "leant"],
+            "pastParticiple": ["meaned", "met", "leaned"],
+            "translation": ["rencontrer", "penser", "comprendre"]
+        }
+    },
+    {
+        "infinitive": "meet",
+        "preterite": "met",
+        "pastParticiple": "met",
+        "translation": "rencontrer",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["mean", "meet", "see"],
+            "preterite": ["meeted", "meant", "saw"],
+            "pastParticiple": ["meeted", "meant", "seen"],
+            "translation": ["voir", "signifier", "quitter"]
+        }
+    },
+    {
+        "infinitive": "mistake",
+        "preterite": "mistook",
+        "pastParticiple": "mistaken",
+        "translation": "se tromper sur / confondre",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["take", "mistook", "mistaken"],
+            "preterite": ["mistaked", "taken", "took"],
+            "pastParticiple": ["mistook", "mistaked", "took"],
+            "translation": ["prendre", "comprendre", "oublier"]
+        }
+    },
+    {
+        "infinitive": "overcome",
+        "preterite": "overcame",
+        "pastParticiple": "overcome",
+        "translation": "surmonter",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["become", "come", "overcame"],
+            "preterite": ["overcomed", "became", "came"],
+            "pastParticiple": ["overcame", "overcomed", "became"],
+            "translation": ["devenir", "venir", "abandonner"]
+        }
+    },
+    {
+        "infinitive": "pay",
+        "preterite": "paid",
+        "pastParticiple": "paid",
+        "translation": "payer",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["lay", "say", "buy"],
+            "preterite": ["payed", "laid", "said"],
+            "pastParticiple": ["payed", "laid", "bought"],
+            "translation": ["acheter", "vendre", "prêter"]
+        }
+    },
+    {
+        "infinitive": "prove",
+        "preterite": "proved",
+        "pastParticiple": "proven/proved",
+        "translation": "prouver",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["prove", "provide", "show"],
+            "preterite": ["proven", "showed", "prove"],
+            "pastParticiple": ["prove", "shown", "proving"],
+            "translation": ["montrer", "penser", "dire"]
+        }
+    },
+    {
+        "infinitive": "put",
+        "preterite": "put",
+        "pastParticiple": "put",
+        "translation": "mettre",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["cut", "set", "let"],
+            "preterite": ["putted", "cut", "set"],
+            "pastParticiple": ["putted", "cut", "let"],
+            "translation": ["couper", "placer", "prendre"]
+        }
+    },
+    {
+        "infinitive": "quit",
+        "preterite": "quit",
+        "pastParticiple": "quit",
+        "translation": "quitter / abandonner",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["leave", "cut", "quit"],
+            "preterite": ["quitted", "left", "cut"],
+            "pastParticiple": ["quitted", "left", "cut"],
+            "translation": ["rester", "continuer", "couper"]
+        }
+    },
+    {
+        "infinitive": "read",
+        "preterite": "read",
+        "pastParticiple": "read",
+        "translation": "lire",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["lead", "write", "learn"],
+            "preterite": ["readed", "led", "wrote"],
+            "pastParticiple": ["readed", "led", "written"],
+            "translation": ["écrire", "parler", "enseigner"]
+        }
+    },
+    {
+        "infinitive": "ride",
+        "preterite": "rode",
+        "pastParticiple": "ridden",
+        "translation": "monter / faire du vélo",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["drive", "hide", "rise"],
+            "preterite": ["rided", "drove", "rose"],
+            "pastParticiple": ["rode", "driven", "risen"],
+            "translation": ["conduire", "cacher", "courir"]
+        }
+    },
+    {
+        "infinitive": "ring",
+        "preterite": "rang",
+        "pastParticiple": "rung",
+        "translation": "sonner",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["sing", "spring", "sting"],
+            "preterite": ["ringed", "sang", "sprang"],
+            "pastParticiple": ["rang", "sung", "sprung"],
+            "translation": ["chanter", "piquer", "appeler"]
+        }
+    },
+    {
+        "infinitive": "rise",
+        "preterite": "rose",
+        "pastParticiple": "risen",
+        "translation": "se lever / monter",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["raise", "arise", "ride"],
+            "preterite": ["rised", "arose", "rode"],
+            "pastParticiple": ["rose", "arisen", "ridden"],
+            "translation": ["tomber", "soulever", "conduire"]
+        }
+    },
+    {
+        "infinitive": "run",
+        "preterite": "ran",
+        "pastParticiple": "run",
+        "translation": "courir",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["ran", "run", "ride"],
+            "preterite": ["runned", "run", "rode"],
+            "pastParticiple": ["ran", "runned", "ridden"],
+            "translation": ["marcher", "conduire", "nager"]
+        }
+    },
+    {
+        "infinitive": "say",
+        "preterite": "said",
+        "pastParticiple": "said",
+        "translation": "dire",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["tell", "speak", "say"],
+            "preterite": ["sayed", "told", "spoke"],
+            "pastParticiple": ["sayed", "told", "spoken"],
+            "translation": ["raconter", "parler", "entendre"]
+        }
+    },
+    {
+        "infinitive": "see",
+        "preterite": "saw",
+        "pastParticiple": "seen",
+        "translation": "voir",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["saw", "seen", "seek"],
+            "preterite": ["see", "seen", "seed"],
+            "pastParticiple": ["saw", "see", "seed"],
+            "translation": ["chercher", "montrer", "entendre"]
+        }
+    },
+    {
+        "infinitive": "seek",
+        "preterite": "sought",
+        "pastParticiple": "sought",
+        "translation": "chercher",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["see", "seek", "think"],
+            "preterite": ["seeked", "saw", "thought"],
+            "pastParticiple": ["seeked", "seen", "thought"],
+            "translation": ["voir", "trouver", "penser"]
+        }
+    },
+    {
+        "infinitive": "sell",
+        "preterite": "sold",
+        "pastParticiple": "sold",
+        "translation": "vendre",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["buy", "tell", "sell"],
+            "preterite": ["selled", "bought", "told"],
+            "pastParticiple": ["selled", "bought", "told"],
+            "translation": ["acheter", "payer", "donner"]
+        }
+    },
+    {
+        "infinitive": "send",
+        "preterite": "sent",
+        "pastParticiple": "sent",
+        "translation": "envoyer",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["lend", "spend", "send"],
+            "preterite": ["sended", "lent", "spent"],
+            "pastParticiple": ["sended", "lent", "spent"],
+            "translation": ["prêter", "recevoir", "apporter"]
+        }
+    },
+    {
+        "infinitive": "set",
+        "preterite": "set",
+        "pastParticiple": "set",
+        "translation": "placer / fixer",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["put", "let", "sit"],
+            "preterite": ["setted", "put", "sat"],
+            "pastParticiple": ["setted", "put", "sat"],
+            "translation": ["mettre", "s'asseoir", "retirer"]
+        }
+    },
+    {
+        "infinitive": "shake",
+        "preterite": "shook",
+        "pastParticiple": "shaken",
+        "translation": "secouer",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["take", "shook", "shaken"],
+            "preterite": ["shaked", "taken", "took"],
+            "pastParticiple": ["shook", "shaked", "taken"],
+            "translation": ["prendre", "frapper", "tourner"]
+        }
+    },
+    {
+        "infinitive": "shine",
+        "preterite": "shone",
+        "pastParticiple": "shone",
+        "translation": "briller",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["show", "shine", "light"],
+            "preterite": ["shined", "showed", "lit"],
+            "pastParticiple": ["shined", "shown", "lit"],
+            "translation": ["montrer", "éclairer", "éteindre"]
+        }
+    },
+    {
+        "infinitive": "shoot",
+        "preterite": "shot",
+        "pastParticiple": "shot",
+        "translation": "tirer",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["show", "throw", "shoot"],
+            "preterite": ["shooted", "showed", "threw"],
+            "pastParticiple": ["shooted", "shown", "thrown"],
+            "translation": ["jeter", "montrer", "frapper"]
+        }
+    },
+    {
+        "infinitive": "show",
+        "preterite": "showed",
+        "pastParticiple": "shown/showed",
+        "translation": "montrer",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["shine", "see", "show"],
+            "preterite": ["shown", "shone", "saw"],
+            "pastParticiple": ["show", "shone", "seen"],
+            "translation": ["voir", "cacher", "briller"]
+        }
+    },
+    {
+        "infinitive": "shrink",
+        "preterite": "shrank",
+        "pastParticiple": "shrunk",
+        "translation": "rétrécir",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["drink", "sink", "shrink"],
+            "preterite": ["shrinked", "drank", "sank"],
+            "pastParticiple": ["shrank", "drunk", "sunk"],
+            "translation": ["grandir", "couler", "boire"]
+        }
+    },
+    {
+        "infinitive": "shut",
+        "preterite": "shut",
+        "pastParticiple": "shut",
+        "translation": "fermer",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["cut", "put", "shoot"],
+            "preterite": ["shutted", "cut", "shot"],
+            "pastParticiple": ["shutted", "put", "shot"],
+            "translation": ["ouvrir", "couper", "mettre"]
+        }
+    },
+    {
+        "infinitive": "sing",
+        "preterite": "sang",
+        "pastParticiple": "sung",
+        "translation": "chanter",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["ring", "sink", "swing"],
+            "preterite": ["singed", "rang", "sank"],
+            "pastParticiple": ["sang", "rung", "sunk"],
+            "translation": ["sonner", "parler", "danser"]
+        }
+    },
+    {
+        "infinitive": "sink",
+        "preterite": "sank",
+        "pastParticiple": "sunk",
+        "translation": "couler",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["sing", "shrink", "swim"],
+            "preterite": ["sinked", "sang", "shrank"],
+            "pastParticiple": ["sank", "sung", "shrunk"],
+            "translation": ["nager", "rétrécir", "flotter"]
+        }
+    },
+    {
+        "infinitive": "sit",
+        "preterite": "sat",
+        "pastParticiple": "sat",
+        "translation": "s'asseoir",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["set", "stand", "sit"],
+            "preterite": ["sitted", "set", "stood"],
+            "pastParticiple": ["sitted", "set", "stood"],
+            "translation": ["se tenir debout", "se coucher", "placer"]
+        }
+    },
+    {
+        "infinitive": "sleep",
+        "preterite": "slept",
+        "pastParticiple": "slept",
+        "translation": "dormir",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["creep", "weep", "dream"],
+            "preterite": ["sleeped", "crept", "wept"],
+            "pastParticiple": ["sleeped", "crept", "dreamt"],
+            "translation": ["rêver", "se réveiller", "pleurer"]
+        }
+    },
+    {
+        "infinitive": "slide",
+        "preterite": "slid",
+        "pastParticiple": "slid",
+        "translation": "glisser",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["ride", "hide", "slide"],
+            "preterite": ["slided", "rode", "hid"],
+            "pastParticiple": ["slided", "ridden", "hidden"],
+            "translation": ["monter", "cacher", "tomber"]
+        }
+    },
+    {
+        "infinitive": "smell",
+        "preterite": "smelt/smelled",
+        "pastParticiple": "smelt/smelled",
+        "translation": "sentir",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["spell", "feel", "smell"],
+            "preterite": ["spelt", "felt", "smell"],
+            "pastParticiple": ["spelled", "felt", "smell"],
+            "translation": ["épeler", "ressentir", "entendre"]
+        }
+    },
+    {
+        "infinitive": "sow",
+        "preterite": "sowed",
+        "pastParticiple": "sown/sowed",
+        "translation": "semer",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["show", "grow", "sow"],
+            "preterite": ["sown", "showed", "grew"],
+            "pastParticiple": ["sow", "shown", "grown"],
+            "translation": ["montrer", "grandir", "récolter"]
+        }
+    },
+    {
+        "infinitive": "speak",
+        "preterite": "spoke",
+        "pastParticiple": "spoken",
+        "translation": "parler",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["spoke", "spoken", "say"],
+            "preterite": ["speak", "spoken", "speaked"],
+            "pastParticiple": ["spoke", "speak", "speaked"],
+            "translation": ["dire", "écouter", "écrire"]
+        }
+    },
+    {
+        "infinitive": "speed",
+        "preterite": "sped/speeded",
+        "pastParticiple": "sped/speeded",
+        "translation": "accélérer",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["spend", "speed", "ride"],
+            "preterite": ["spent", "drove", "speed"],
+            "pastParticiple": ["spent", "driven", "speed"],
+            "translation": ["ralentir", "dépenser", "conduire"]
+        }
+    },
+    {
+        "infinitive": "spell",
+        "preterite": "spelt/spelled",
+        "pastParticiple": "spelt/spelled",
+        "translation": "épeler",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["smell", "spill", "spell"],
+            "preterite": ["smelt", "spilt", "spell"],
+            "pastParticiple": ["smelled", "spilled", "spell"],
+            "translation": ["sentir", "renverser", "écrire"]
+        }
+    },
+    {
+        "infinitive": "spend",
+        "preterite": "spent",
+        "pastParticiple": "spent",
+        "translation": "dépenser / passer du temps",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["send", "speed", "spend"],
+            "preterite": ["spended", "sent", "sped"],
+            "pastParticiple": ["spended", "sent", "speeded"],
+            "translation": ["envoyer", "payer", "économiser"]
+        }
+    },
+    {
+        "infinitive": "spill",
+        "preterite": "spilt/spilled",
+        "pastParticiple": "spilt/spilled",
+        "translation": "renverser",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["spell", "split", "spill"],
+            "preterite": ["spelt", "split", "spill"],
+            "pastParticiple": ["spelled", "split", "spill"],
+            "translation": ["épeler", "diviser", "remplir"]
+        }
+    },
+    {
+        "infinitive": "spin",
+        "preterite": "spun",
+        "pastParticiple": "spun",
+        "translation": "tourner / filer",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["spit", "swing", "spin"],
+            "preterite": ["spinned", "spat", "swung"],
+            "pastParticiple": ["spinned", "spit", "swung"],
+            "translation": ["cracher", "se balancer", "arrêter"]
+        }
+    },
+    {
+        "infinitive": "spit",
+        "preterite": "spat/spit",
+        "pastParticiple": "spat/spit",
+        "translation": "cracher",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["spin", "split", "spit"],
+            "preterite": ["spitted", "spun", "split"],
+            "pastParticiple": ["spitted", "spun", "split"],
+            "translation": ["tourner", "diviser", "avaler"]
+        }
+    },
+    {
+        "infinitive": "split",
+        "preterite": "split",
+        "pastParticiple": "split",
+        "translation": "diviser / fendre",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["spit", "spill", "spread"],
+            "preterite": ["splitted", "spat", "spilt"],
+            "pastParticiple": ["splitted", "spit", "spilled"],
+            "translation": ["répandre", "renverser", "réunir"]
+        }
+    },
+    {
+        "infinitive": "spread",
+        "preterite": "spread",
+        "pastParticiple": "spread",
+        "translation": "répandre / étaler",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["split", "spill", "spread"],
+            "preterite": ["spreaded", "split", "spilt"],
+            "pastParticiple": ["spreaded", "split", "spilled"],
+            "translation": ["diviser", "renverser", "ramasser"]
+        }
+    },
+    {
+        "infinitive": "spring",
+        "preterite": "sprang",
+        "pastParticiple": "sprung",
+        "translation": "bondir / jaillir",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["ring", "sing", "swing"],
+            "preterite": ["springed", "rang", "sang"],
+            "pastParticiple": ["sprang", "rung", "sung"],
+            "translation": ["sonner", "chanter", "tomber"]
+        }
+    },
+    {
+        "infinitive": "stand",
+        "preterite": "stood",
+        "pastParticiple": "stood",
+        "translation": "se tenir debout",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["sit", "stand", "understand"],
+            "preterite": ["standed", "sat", "understood"],
+            "pastParticiple": ["standed", "sat", "understood"],
+            "translation": ["s'asseoir", "comprendre", "se coucher"]
+        }
+    },
+    {
+        "infinitive": "steal",
+        "preterite": "stole",
+        "pastParticiple": "stolen",
+        "translation": "voler / dérober",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["stole", "stolen", "sell"],
+            "preterite": ["stealed", "stolen", "sold"],
+            "pastParticiple": ["stole", "stealed", "sold"],
+            "translation": ["vendre", "acheter", "donner"]
+        }
+    },
+    {
+        "infinitive": "stick",
+        "preterite": "stuck",
+        "pastParticiple": "stuck",
+        "translation": "coller / enfoncer",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["sting", "strike", "stick"],
+            "preterite": ["sticked", "stung", "struck"],
+            "pastParticiple": ["sticked", "stung", "struck"],
+            "translation": ["piquer", "frapper", "décoller"]
+        }
+    },
+    {
+        "infinitive": "sting",
+        "preterite": "stung",
+        "pastParticiple": "stung",
+        "translation": "piquer",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["stick", "sing", "swing"],
+            "preterite": ["stinged", "stuck", "sang"],
+            "pastParticiple": ["stinged", "stuck", "sung"],
+            "translation": ["coller", "chanter", "mordre"]
+        }
+    },
+    {
+        "infinitive": "stink",
+        "preterite": "stank/stunk",
+        "pastParticiple": "stunk",
+        "translation": "puer",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["sink", "sting", "stink"],
+            "preterite": ["stinked", "sank", "stung"],
+            "pastParticiple": ["stank", "sunk", "stung"],
+            "translation": ["couler", "sentir", "piquer"]
+        }
+    },
+    {
+        "infinitive": "strike",
+        "preterite": "struck",
+        "pastParticiple": "struck/stricken",
+        "translation": "frapper",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["stick", "sting", "strike"],
+            "preterite": ["striked", "stuck", "stung"],
+            "pastParticiple": ["striked", "stuck", "stung"],
+            "translation": ["coller", "piquer", "caresser"]
+        }
+    },
+    {
+        "infinitive": "swear",
+        "preterite": "swore",
+        "pastParticiple": "sworn",
+        "translation": "jurer",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["wear", "tear", "swear"],
+            "preterite": ["swared", "wore", "tore"],
+            "pastParticiple": ["swore", "worn", "torn"],
+            "translation": ["porter", "déchirer", "promettre"]
+        }
+    },
+    {
+        "infinitive": "sweep",
+        "preterite": "swept",
+        "pastParticiple": "swept",
+        "translation": "balayer",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["sleep", "weep", "sweep"],
+            "preterite": ["sweeped", "slept", "wept"],
+            "pastParticiple": ["sweeped", "slept", "wept"],
+            "translation": ["dormir", "pleurer", "nettoyer"]
+        }
+    },
+    {
+        "infinitive": "swim",
+        "preterite": "swam",
+        "pastParticiple": "swum",
+        "translation": "nager",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["swing", "sink", "swim"],
+            "preterite": ["swimmed", "swung", "sank"],
+            "pastParticiple": ["swam", "swung", "sunk"],
+            "translation": ["couler", "courir", "voler"]
+        }
+    },
+    {
+        "infinitive": "swing",
+        "preterite": "swung",
+        "pastParticiple": "swung",
+        "translation": "se balancer",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["sing", "spring", "sting"],
+            "preterite": ["swinged", "sang", "sprang"],
+            "pastParticiple": ["swinged", "sung", "sprung"],
+            "translation": ["chanter", "bondir", "tourner"]
+        }
+    },
+    {
+        "infinitive": "take",
+        "preterite": "took",
+        "pastParticiple": "taken",
+        "translation": "prendre",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["make", "shake", "take"],
+            "preterite": ["taked", "made", "shook"],
+            "pastParticiple": ["took", "made", "shaken"],
+            "translation": ["donner", "faire", "mettre"]
+        }
+    },
+    {
+        "infinitive": "teach",
+        "preterite": "taught",
+        "pastParticiple": "taught",
+        "translation": "enseigner",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["catch", "learn", "teach"],
+            "preterite": ["teached", "caught", "learnt"],
+            "pastParticiple": ["teached", "caught", "learned"],
+            "translation": ["apprendre", "attraper", "lire"]
+        }
+    },
+    {
+        "infinitive": "tear",
+        "preterite": "tore",
+        "pastParticiple": "torn",
+        "translation": "déchirer",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["wear", "swear", "tear"],
+            "preterite": ["teared", "wore", "swore"],
+            "pastParticiple": ["tore", "worn", "sworn"],
+            "translation": ["porter", "jurer", "couper"]
+        }
+    },
+    {
+        "infinitive": "tell",
+        "preterite": "told",
+        "pastParticiple": "told",
+        "translation": "dire / raconter",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["sell", "say", "tell"],
+            "preterite": ["telled", "sold", "said"],
+            "pastParticiple": ["telled", "sold", "said"],
+            "translation": ["vendre", "parler", "écouter"]
+        }
+    },
+    {
+        "infinitive": "think",
+        "preterite": "thought",
+        "pastParticiple": "thought",
+        "translation": "penser",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["fight", "think", "seek"],
+            "preterite": ["thinked", "fought", "sought"],
+            "pastParticiple": ["thinked", "fought", "sought"],
+            "translation": ["chercher", "se battre", "savoir"]
+        }
+    },
+    {
+        "infinitive": "throw",
+        "preterite": "threw",
+        "pastParticiple": "thrown",
+        "translation": "jeter",
+        "level": "medium",
+        "wrongAnswers": {
+            "infinitive": ["grow", "draw", "throw"],
+            "preterite": ["throwed", "grew", "drew"],
+            "pastParticiple": ["threw", "grown", "drawn"],
+            "translation": ["dessiner", "grandir", "attraper"]
+        }
+    },
+    {
+        "infinitive": "understand",
+        "preterite": "understood",
+        "pastParticiple": "understood",
+        "translation": "comprendre",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["stand", "understand", "know"],
+            "preterite": ["understanded", "stood", "knew"],
+            "pastParticiple": ["understanded", "stood", "known"],
+            "translation": ["savoir", "apprendre", "se tenir debout"]
+        }
+    },
+    {
+        "infinitive": "wake",
+        "preterite": "woke",
+        "pastParticiple": "woken",
+        "translation": "se réveiller / réveiller",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["awake", "woke", "woken"],
+            "preterite": ["waked", "awoke", "woken"],
+            "pastParticiple": ["woke", "awoken", "waked"],
+            "translation": ["s'endormir", "rêver", "se lever"]
+        }
+    },
+    {
+        "infinitive": "wear",
+        "preterite": "wore",
+        "pastParticiple": "worn",
+        "translation": "porter",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["tear", "swear", "wear"],
+            "preterite": ["weared", "tore", "swore"],
+            "pastParticiple": ["wore", "torn", "sworn"],
+            "translation": ["déchirer", "jurer", "tenir"]
+        }
+    },
+    {
+        "infinitive": "weep",
+        "preterite": "wept",
+        "pastParticiple": "wept",
+        "translation": "pleurer",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["sleep", "sweep", "keep"],
+            "preterite": ["weeped", "slept", "swept"],
+            "pastParticiple": ["weeped", "slept", "kept"],
+            "translation": ["dormir", "balayer", "rire"]
+        }
+    },
+    {
+        "infinitive": "win",
+        "preterite": "won",
+        "pastParticiple": "won",
+        "translation": "gagner",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["wind", "win", "lose"],
+            "preterite": ["winned", "wound", "lost"],
+            "pastParticiple": ["winned", "wound", "lost"],
+            "translation": ["perdre", "payer", "obtenir"]
+        }
+    },
+    {
+        "infinitive": "wind",
+        "preterite": "wound",
+        "pastParticiple": "wound",
+        "translation": "enrouler",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["win", "bind", "wind"],
+            "preterite": ["winded", "won", "bound"],
+            "pastParticiple": ["winded", "won", "bound"],
+            "translation": ["lier", "dérouler", "gagner"]
+        }
+    },
+    {
+        "infinitive": "withdraw",
+        "preterite": "withdrew",
+        "pastParticiple": "withdrawn",
+        "translation": "retirer / se retirer",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["draw", "withdraw", "throw"],
+            "preterite": ["withdrawed", "drew", "threw"],
+            "pastParticiple": ["withdrew", "drawn", "thrown"],
+            "translation": ["dessiner", "jeter", "ajouter"]
+        }
+    },
+    {
+        "infinitive": "withstand",
+        "preterite": "withstood",
+        "pastParticiple": "withstood",
+        "translation": "résister à",
+        "level": "hard",
+        "wrongAnswers": {
+            "infinitive": ["stand", "understand", "withstand"],
+            "preterite": ["withstanded", "stood", "understood"],
+            "pastParticiple": ["withstanded", "stood", "understood"],
+            "translation": ["comprendre", "se tenir debout", "céder à"]
+        }
+    },
+    {
+        "infinitive": "write",
+        "preterite": "wrote",
+        "pastParticiple": "written",
+        "translation": "écrire",
+        "level": "easy",
+        "wrongAnswers": {
+            "infinitive": ["wrote", "written", "read"],
+            "preterite": ["writed", "written", "read"],
+            "pastParticiple": ["wrote", "writed", "read"],
+            "translation": ["lire", "parler", "dessiner"]
+        }
+    }
+]

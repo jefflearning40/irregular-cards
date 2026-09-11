@@ -15,3 +15,75 @@
 
     transform: scaleX(-1);
 }
+
+
+/* ==========================================================
+   SCORE DU QUIZ
+========================================================== */
+
+.arrival-score {
+    display: none;
+
+    position: absolute;
+
+    left: 8%;
+    top: 29%;
+
+    z-index: 30;
+
+    width: 27%;
+
+    text-align: center;
+
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   NOTE
+========================================================== */
+
+.arrival-score__value {
+    margin: 0;
+
+    color: #b20d13;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(
+        2rem,
+        3.5vw,
+        4rem
+    );
+
+    font-weight: 700;
+
+    line-height: 1;
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 768px) {
+
+    .arrival-score {
+        left: 8%;
+        top: 29%;
+
+        width: 27%;
+    }
+
+
+    .arrival-score__value {
+        font-size: clamp(
+            1.3rem,
+            4vw,
+            2.2rem
+        );
+    }
+}

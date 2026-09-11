@@ -1,4 +1,10 @@
 "use strict";
+
+
+/* ==========================================================
+   ÉLÉMENTS HTML
+========================================================== */
+
 const boat =
     document.getElementById("boat");
 
@@ -7,7 +13,6 @@ const boatTranslation =
 
 const boatOscillation =
     document.getElementById("boat-oscillation");
-
 
 const boatWake =
     document.getElementById("boat-wake");
@@ -20,7 +25,7 @@ const boatWakeImage =
    PARAMÈTRES DU BATEAU
 ========================================================== */
 
-const TOTAL_STEPS = 20;
+let TOTAL_STEPS = 20;
 
 const MOVE_DURATION = 350;
 
@@ -46,13 +51,12 @@ const BOAT_IMAGE =
 const WAKE_IMAGES =
 [
     "assets/images/decor/vaguelette-sillage.png",
-
     "assets/images/decor/vaguelette-sillage2.png",
-
     "assets/images/decor/vaguelette-sillage3.png",
-
     "assets/images/decor/vaguelettes1.png"
 ];
+
+
 /* ==========================================================
    ÉTAT DU SILLAGE
 ========================================================== */
@@ -60,6 +64,8 @@ const WAKE_IMAGES =
 let wakeIndex = 0;
 
 let wakeTimer = null;
+
+
 /* ==========================================================
    ÉTAT DU BATEAU
 ========================================================== */
@@ -83,6 +89,46 @@ let isMoving = false;
 let boatWidth = 0;
 
 let maxTravel = 0;
+
+
+/* ==========================================================
+   MODE QUIZ
+========================================================== */
+
+/*
+    true  = boat.js termine lui-même la traversée
+    false = le quiz décide quand afficher l'arrivée
+*/
+
+let boatAutoFinish = true;
+
+
+/* ==========================================================
+   NOMBRE D'ÉTAPES
+========================================================== */
+
+function setBoatTotalSteps(totalSteps)
+{
+    const parsedSteps =
+        Number(totalSteps);
+
+
+    if (
+        !Number.isInteger(parsedSteps) ||
+        parsedSteps <= 0
+    )
+    {
+        TOTAL_STEPS = 20;
+
+        return;
+    }
+
+
+    TOTAL_STEPS =
+        parsedSteps;
+}
+
+
 /* ==========================================================
    ORIENTATION BATEAU + SILLAGE
 ========================================================== */
@@ -91,6 +137,7 @@ function setBoatDirection()
 {
     boat.style.transform =
         "scaleX(1)";
+
 
     boatWake.style.transform =
         "scaleX(1)";
@@ -108,6 +155,8 @@ function setBoatDirection()
     boatOscillation.style.scale =
         "-1 1";
 }
+
+
 /* ==========================================================
    ANIMATION DU SILLAGE
 ========================================================== */
@@ -116,10 +165,15 @@ function updateWake()
 {
     wakeIndex++;
 
-    if (wakeIndex >= WAKE_IMAGES.length)
+
+    if (
+        wakeIndex >=
+        WAKE_IMAGES.length
+    )
     {
         wakeIndex = 0;
     }
+
 
     boatWakeImage.src =
         WAKE_IMAGES[wakeIndex];
@@ -130,13 +184,17 @@ function startWake()
 {
     stopWake();
 
+
     wakeIndex = 0;
+
 
     boatWakeImage.src =
         WAKE_IMAGES[0];
 
+
     boatWake.style.display =
         "block";
+
 
     wakeTimer =
         setInterval(
@@ -154,12 +212,16 @@ function stopWake()
             wakeTimer
         );
 
+
         wakeTimer = null;
     }
+
 
     boatWake.style.display =
         "none";
 }
+
+
 /* ==========================================================
    INITIALISATION BATEAU
 ========================================================== */
@@ -169,13 +231,15 @@ function initialiseBoat()
     boatWidth =
         boatTranslation.offsetWidth;
 
-    currentStep =
-        0;
+
+    currentStep = 0;
+
 
     maxTravel =
         window.innerWidth +
         boatWidth +
         OUTSIDE_MARGIN * 2;
+
 
     if (direction === "forward")
     {
@@ -190,16 +254,22 @@ function initialiseBoat()
             OUTSIDE_MARGIN;
     }
 
+
     targetX =
         currentX;
+
 
     startX =
         currentX;
 
+
     stopWake();
+
 
     updateBoat();
 }
+
+
 /* ==========================================================
    POSITION DU BATEAU
 ========================================================== */
@@ -209,6 +279,8 @@ function updateBoat()
     boatTranslation.style.transform =
         `translateX(${currentX}px)`;
 }
+
+
 /* ==========================================================
    COURBE
 ========================================================== */
@@ -221,6 +293,8 @@ function ease(progress)
         ) - 1
     ) / 2;
 }
+
+
 /* ==========================================================
    PROCHAINE POSITION
 ========================================================== */
@@ -229,14 +303,20 @@ function computeTarget()
 {
     currentStep++;
 
-    if (currentStep > TOTAL_STEPS)
+
+    if (
+        currentStep >
+        TOTAL_STEPS
+    )
     {
         currentStep =
             TOTAL_STEPS;
     }
 
+
     startX =
         currentX;
+
 
     if (direction === "forward")
     {
@@ -263,6 +343,8 @@ function computeTarget()
             currentStep;
     }
 }
+
+
 /* ==========================================================
    AVANCER
 ========================================================== */
@@ -274,26 +356,37 @@ function advanceBoat()
         return;
     }
 
-    if (currentStep >= TOTAL_STEPS)
+
+    if (
+        currentStep >=
+        TOTAL_STEPS
+    )
     {
         return;
     }
 
+
     computeTarget();
+
 
     animationStart =
         null;
 
+
     isMoving =
         true;
 
+
     startWake();
+
 
     animationId =
         requestAnimationFrame(
             animateBoat
         );
 }
+
+
 /* ==========================================================
    ANIMATION BATEAU
 ========================================================== */
@@ -306,9 +399,11 @@ function animateBoat(time)
             time;
     }
 
+
     const elapsed =
         time -
         animationStart;
+
 
     const progress =
         Math.min(
@@ -317,8 +412,10 @@ function animateBoat(time)
             1
         );
 
+
     const smooth =
         ease(progress);
+
 
     currentX =
         startX +
@@ -328,7 +425,9 @@ function animateBoat(time)
         ) *
         smooth;
 
+
     updateBoat();
+
 
     const wave =
         Math.sin(
@@ -337,8 +436,10 @@ function animateBoat(time)
         ) *
         OSCILLATION_HEIGHT;
 
+
     boatOscillation.style.transform =
         `translateY(${wave}px)`;
+
 
     if (progress < 1)
     {
@@ -350,24 +451,42 @@ function animateBoat(time)
         return;
     }
 
+
     currentX =
         targetX;
 
+
     updateBoat();
+
 
     boatOscillation.style.transform =
         "translateY(0px)";
 
+
     isMoving =
         false;
 
+
     stopWake();
 
-    if (currentStep >= TOTAL_STEPS)
+
+    /*
+        IMPORTANT :
+
+        Pendant un quiz, on NE TERMINE PLUS
+        automatiquement la traversée ici.
+    */
+
+    if (
+        currentStep >= TOTAL_STEPS &&
+        boatAutoFinish
+    )
     {
         finishCrossing();
     }
 }
+
+
 /* ==========================================================
    FIN TRAVERSÉE
 ========================================================== */
@@ -377,12 +496,15 @@ function finishCrossing()
     crossingButton.disabled =
         true;
 
+
     stopWake();
+
 
     if (direction === "forward")
     {
         crossingButton.textContent =
             "Arrivée en Angleterre !";
+
 
         setTimeout(
             () =>
@@ -394,11 +516,14 @@ function finishCrossing()
             700
         );
 
+
         return;
     }
 
+
     crossingButton.textContent =
         "Retour en France !";
+
 
     setTimeout(
         () =>
@@ -410,58 +535,99 @@ function finishCrossing()
         700
     );
 }
+
+
 /* ==========================================================
    ALLER
 ========================================================== */
 
-function startForwardCrossing()
+function startForwardCrossing(
+    totalSteps = 20,
+    autoFinish = true
+)
 {
+    setBoatTotalSteps(
+        totalSteps
+    );
+
+
+    boatAutoFinish =
+        autoFinish;
+
+
     direction =
         "forward";
+
 
     boat.src =
         BOAT_IMAGE;
 
+
     setBoatDirection();
+
 
     crossingButton.disabled =
         false;
 
+
     crossingButton.textContent =
         "Faire avancer le bateau";
 
+
     showCrossing();
+
 
     requestAnimationFrame(
         initialiseBoat
     );
 }
+
+
 /* ==========================================================
    RETOUR
 ========================================================== */
 
-function startBackCrossing()
+function startBackCrossing(
+    totalSteps = 20
+)
 {
+    setBoatTotalSteps(
+        totalSteps
+    );
+
+
+    boatAutoFinish =
+        true;
+
+
     direction =
         "back";
+
 
     boat.src =
         BOAT_IMAGE;
 
+
     setBoatDirection();
+
 
     crossingButton.disabled =
         false;
 
+
     crossingButton.textContent =
         "Faire avancer le bateau";
 
+
     showCrossing();
+
 
     requestAnimationFrame(
         initialiseBoat
     );
 }
+
+
 /* ==========================================================
    REDIMENSIONNEMENT
 ========================================================== */
@@ -476,17 +642,21 @@ function handleResize()
         return;
     }
 
+
     const ratio =
         currentStep /
         TOTAL_STEPS;
 
+
     boatWidth =
         boatTranslation.offsetWidth;
+
 
     maxTravel =
         window.innerWidth +
         boatWidth +
         OUTSIDE_MARGIN * 2;
+
 
     if (direction === "forward")
     {
@@ -511,14 +681,19 @@ function handleResize()
             );
     }
 
+
     targetX =
         currentX;
+
 
     startX =
         currentX;
 
+
     updateBoat();
 }
+
+
 /* ==========================================================
    API DU BATEAU
 ========================================================== */
@@ -530,6 +705,7 @@ const boatGame =
         advanceBoat();
     },
 
+
     reset()
     {
         if (animationId !== null)
@@ -539,14 +715,26 @@ const boatGame =
             );
         }
 
+
         animationId =
             null;
+
 
         isMoving =
             false;
 
+
         stopWake();
 
+
         initialiseBoat();
+    },
+
+
+    setTotalSteps(totalSteps)
+    {
+        setBoatTotalSteps(
+            totalSteps
+        );
     }
 };
