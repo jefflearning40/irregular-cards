@@ -36,7 +36,7 @@ classroomBackButton.addEventListener(
 
 returnButton.addEventListener(
     "click",
-    startBackCrossing
+    startQuizReturn
 );
 
 

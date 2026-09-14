@@ -10,14 +10,41 @@
     --color-secondary:  #BCCDD4;
     --color-text:       #DCE2EA;
 
+
     /* ===========================
        Palette Accent
     =========================== */
 
-    --color-success:    #05EA6F;
-    --color-warning:    #F7B800;
-    --color-error:      #DD006B;
-    --color-action:     #0064FA;
-    --color-reward:     #87FF00;
+    --color-success: #05EA6F;
+    --color-warning: #F7B800;
+    --color-error:   #DD006B;
+    --color-action:  #0064FA;
+    --color-reward:  #87FF00;
 
+
+    /* ===========================
+       Classe / Tableau
+    =========================== */
+
+    --classroom-chalk: #F1EEE3;
+
+    --classroom-button-background:
+        rgba(0, 0, 0, 0.18);
+
+    --classroom-button-hover:
+        rgba(255, 255, 255, 0.12);
+
+    --classroom-button-border:
+        rgba(255, 255, 255, 0.75);
+
+    --classroom-button-focus:
+        rgba(255, 255, 255, 0.90);
+
+
+    /* ===========================
+       Boutons
+    =========================== */
+
+    --button-radius: 8px;
+    --button-border-width: 2px;
 }

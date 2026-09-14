@@ -4,6 +4,48 @@
 
 
 /* ==========================================================
+   ZONE CLIQUABLE - RETOUR VERS LA FRANCE
+========================================================== */
+
+.arrival-return-hotspot {
+    position: absolute;
+
+    /*
+       Zone du texte :
+       "Ready to head back to France?
+       Click here to start the return trip!"
+    */
+
+    left: 58%;
+    top: 13%;
+
+    width: 32%;
+    height: 10%;
+
+    z-index: 40;
+
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================================
+   FOCUS CLAVIER
+========================================================== */
+
+.arrival-return-hotspot:focus {
+    outline: none;
+}
+
+
+/* ==========================================================
    MOUETTE - CARTE D'ARRIVÉE ANGLETERRE
 ========================================================== */
 
@@ -11,7 +53,11 @@
     left: 48.5%;
     top: 82%;
 
-    width: clamp(90px, 9vw, 145px);
+    width: clamp(
+        90px,
+        9vw,
+        145px
+    );
 
     transform: scaleX(-1);
 }
@@ -70,6 +116,15 @@
 ========================================================== */
 
 @media (max-width: 768px) {
+
+    .arrival-return-hotspot {
+        left: 58%;
+        top: 13%;
+
+        width: 32%;
+        height: 10%;
+    }
+
 
     .arrival-score {
         left: 8%;

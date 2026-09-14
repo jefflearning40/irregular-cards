@@ -29,6 +29,8 @@ let TOTAL_STEPS = 20;
 
 const MOVE_DURATION = 350;
 
+const AUTOMATIC_RETURN_DURATION = 7000;
+
 const OUTSIDE_MARGIN = 40;
 
 const OSCILLATION_HEIGHT = 6;
@@ -90,15 +92,13 @@ let boatWidth = 0;
 
 let maxTravel = 0;
 
+let currentMoveDuration =
+    MOVE_DURATION;
+
 
 /* ==========================================================
    MODE QUIZ
 ========================================================== */
-
-/*
-    true  = boat.js termine lui-même la traversée
-    false = le quiz décide quand afficher l'arrivée
-*/
 
 let boatAutoFinish = true;
 
@@ -107,14 +107,20 @@ let boatAutoFinish = true;
    NOMBRE D'ÉTAPES
 ========================================================== */
 
-function setBoatTotalSteps(totalSteps)
+function setBoatTotalSteps(
+    totalSteps
+)
 {
     const parsedSteps =
-        Number(totalSteps);
+        Number(
+            totalSteps
+        );
 
 
     if (
-        !Number.isInteger(parsedSteps) ||
+        !Number.isInteger(
+            parsedSteps
+        ) ||
         parsedSteps <= 0
     )
     {
@@ -143,7 +149,10 @@ function setBoatDirection()
         "scaleX(1)";
 
 
-    if (direction === "forward")
+    if (
+        direction ===
+        "forward"
+    )
     {
         boatOscillation.style.scale =
             "1 1";
@@ -176,7 +185,9 @@ function updateWake()
 
 
     boatWakeImage.src =
-        WAKE_IMAGES[wakeIndex];
+        WAKE_IMAGES[
+            wakeIndex
+        ];
 }
 
 
@@ -206,14 +217,17 @@ function startWake()
 
 function stopWake()
 {
-    if (wakeTimer !== null)
+    if (
+        wakeTimer !== null
+    )
     {
         clearInterval(
             wakeTimer
         );
 
 
-        wakeTimer = null;
+        wakeTimer =
+            null;
     }
 
 
@@ -241,7 +255,10 @@ function initialiseBoat()
         OUTSIDE_MARGIN * 2;
 
 
-    if (direction === "forward")
+    if (
+        direction ===
+        "forward"
+    )
     {
         currentX =
             -boatWidth -
@@ -285,11 +302,14 @@ function updateBoat()
    COURBE
 ========================================================== */
 
-function ease(progress)
+function ease(
+    progress
+)
 {
     return -(
         Math.cos(
-            Math.PI * progress
+            Math.PI *
+            progress
         ) - 1
     ) / 2;
 }
@@ -318,7 +338,10 @@ function computeTarget()
         currentX;
 
 
-    if (direction === "forward")
+    if (
+        direction ===
+        "forward"
+    )
     {
         targetX =
             (
@@ -366,6 +389,10 @@ function advanceBoat()
     }
 
 
+    currentMoveDuration =
+        MOVE_DURATION;
+
+
     computeTarget();
 
 
@@ -391,9 +418,14 @@ function advanceBoat()
    ANIMATION BATEAU
 ========================================================== */
 
-function animateBoat(time)
+function animateBoat(
+    time
+)
 {
-    if (animationStart === null)
+    if (
+        animationStart ===
+        null
+    )
     {
         animationStart =
             time;
@@ -408,13 +440,15 @@ function animateBoat(time)
     const progress =
         Math.min(
             elapsed /
-            MOVE_DURATION,
+            currentMoveDuration,
             1
         );
 
 
     const smooth =
-        ease(progress);
+        ease(
+            progress
+        );
 
 
     currentX =
@@ -441,7 +475,9 @@ function animateBoat(time)
         `translateY(${wave}px)`;
 
 
-    if (progress < 1)
+    if (
+        progress < 1
+    )
     {
         animationId =
             requestAnimationFrame(
@@ -470,15 +506,9 @@ function animateBoat(time)
     stopWake();
 
 
-    /*
-        IMPORTANT :
-
-        Pendant un quiz, on NE TERMINE PLUS
-        automatiquement la traversée ici.
-    */
-
     if (
-        currentStep >= TOTAL_STEPS &&
+        currentStep >=
+            TOTAL_STEPS &&
         boatAutoFinish
     )
     {
@@ -500,7 +530,10 @@ function finishCrossing()
     stopWake();
 
 
-    if (direction === "forward")
+    if (
+        direction ===
+        "forward"
+    )
     {
         crossingButton.textContent =
             "Arrivée en Angleterre !";
@@ -555,6 +588,10 @@ function startForwardCrossing(
         autoFinish;
 
 
+    currentMoveDuration =
+        MOVE_DURATION;
+
+
     direction =
         "forward";
 
@@ -584,7 +621,7 @@ function startForwardCrossing(
 
 
 /* ==========================================================
-   RETOUR
+   RETOUR AVEC CORRECTIONS
 ========================================================== */
 
 function startBackCrossing(
@@ -598,6 +635,10 @@ function startBackCrossing(
 
     boatAutoFinish =
         true;
+
+
+    currentMoveDuration =
+        MOVE_DURATION;
 
 
     direction =
@@ -624,6 +665,81 @@ function startBackCrossing(
 
     requestAnimationFrame(
         initialiseBoat
+    );
+}
+
+
+/* ==========================================================
+   RETOUR AUTOMATIQUE CONTINU
+========================================================== */
+
+function startAutomaticBackCrossing()
+{
+    setBoatTotalSteps(
+        1
+    );
+
+
+    boatAutoFinish =
+        true;
+
+
+    direction =
+        "back";
+
+
+    boat.src =
+        BOAT_IMAGE;
+
+
+    setBoatDirection();
+
+
+    crossingButton.disabled =
+        true;
+
+
+    crossingButton.textContent =
+        "Retour en France";
+
+
+    showCrossing();
+
+
+    requestAnimationFrame(
+        () =>
+        {
+            initialiseBoat();
+
+
+            requestAnimationFrame(
+                () =>
+                {
+                    currentMoveDuration =
+                        AUTOMATIC_RETURN_DURATION;
+
+
+                    computeTarget();
+
+
+                    animationStart =
+                        null;
+
+
+                    isMoving =
+                        true;
+
+
+                    startWake();
+
+
+                    animationId =
+                        requestAnimationFrame(
+                            animateBoat
+                        );
+                }
+            );
+        }
     );
 }
 
@@ -658,7 +774,10 @@ function handleResize()
         OUTSIDE_MARGIN * 2;
 
 
-    if (direction === "forward")
+    if (
+        direction ===
+        "forward"
+    )
     {
         currentX =
             (
@@ -708,7 +827,9 @@ const boatGame =
 
     reset()
     {
-        if (animationId !== null)
+        if (
+            animationId !== null
+        )
         {
             cancelAnimationFrame(
                 animationId
@@ -731,7 +852,9 @@ const boatGame =
     },
 
 
-    setTotalSteps(totalSteps)
+    setTotalSteps(
+        totalSteps
+    )
     {
         setBoatTotalSteps(
             totalSteps

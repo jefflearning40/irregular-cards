@@ -152,32 +152,103 @@
     </div>
 
 
-    <!-- =====================================================
-         CLASSE
-    ====================================================== -->
+ <!-- =====================================================
+     CLASSE
+====================================================== -->
 
-    <section
-        class="classroom-screen"
-        id="classroom-screen"
+<section
+    class="classroom-screen"
+    id="classroom-screen"
+>
+
+    <img
+        class="classroom-image"
+        src="assets/images/decor/carteclasse.png"
+        alt="Classe d'apprentissage des verbes irréguliers"
+        draggable="false"
     >
 
-        <img
-            class="classroom-image"
-            src="assets/images/decor/carteclasse.png"
-            alt="Classe d'apprentissage des verbes irréguliers"
-            draggable="false"
+
+    <!-- =================================================
+         TABLEAU
+    ================================================== -->
+
+    <div class="classroom-board">
+
+        <h2
+            class="classroom-board__title"
+            id="classroom-verb-title"
         >
+            TO CLING
+        </h2>
 
-        <button
-            class="classroom-back-button"
-            id="classroom-back-button"
-            type="button"
+        <p
+            class="classroom-board__translation"
+            id="classroom-verb-translation"
         >
-            Retour
-        </button>
+            s'accrocher
+        </p>
 
-    </section>
 
+        <div class="classroom-board__verb">
+
+            <span id="classroom-verb-infinitive">
+                CLING
+            </span>
+
+            <span id="classroom-verb-preterite">
+                CLUNG
+            </span>
+
+            <span id="classroom-verb-participle">
+                CLUNG
+            </span>
+
+        </div>
+
+
+        <!-- =============================================
+             NAVIGATION DES VERBES
+        ============================================== -->
+
+        <div class="classroom-learning-controls">
+
+            <button
+                type="button"
+                id="classroom-previous-verb"
+            >
+                Précédent
+            </button>
+
+            <span id="classroom-verb-counter">
+                1 / 1
+            </span>
+
+            <button
+                type="button"
+                id="classroom-next-verb"
+            >
+                Suivant
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         SORTIE DE LA CLASSE
+    ================================================== -->
+
+    <button
+        class="classroom-back-button"
+        id="classroom-back-button"
+        type="button"
+    >
+        Sortir
+    </button>
+
+</section>
 
     <!-- =====================================================
          TRAVERSÉE
@@ -350,6 +421,7 @@
 
                 </div>
 
+
                 <img
                     class="boat"
                     id="boat"
@@ -387,6 +459,18 @@
                 alt="Carte postale d'arrivée en Angleterre"
                 draggable="false"
             >
+
+
+            <!-- =================================================
+                 ZONE CLIQUABLE DU RETOUR
+            ================================================== -->
+
+            <button
+                class="arrival-return-hotspot"
+                id="return-button"
+                type="button"
+                aria-label="Commencer le retour vers la France"
+            ></button>
 
 
             <!-- =================================================
@@ -434,19 +518,6 @@
                 aria-label="Professeur"
             ></object>
 
-
-            <!-- =================================================
-                 RETOUR
-            ================================================== -->
-
-            <button
-                class="postcard-button"
-                id="return-button"
-                type="button"
-            >
-                Retour en France
-            </button>
-
         </div>
 
     </section>
@@ -462,6 +533,7 @@
     <script src="assets/JS/quiz-timer.js"></script>
     <script src="assets/JS/quiz-game.js"></script>
     <script src="assets/JS/quiz.js"></script>
+    <script src="assets/JS/classroom-learning.js"></script>
     <script src="assets/JS/script.js"></script>
 
 

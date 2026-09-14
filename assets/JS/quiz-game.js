@@ -86,6 +86,19 @@ let quizQuestionLocked = false;
 
 
 /* ==========================================================
+   ÉTAT DU RETOUR
+========================================================== */
+
+let returnErrors = [];
+
+let currentReturnErrorIndex = 0;
+
+let returnQuestionLocked = false;
+
+let automaticReturnInterval = null;
+
+
+/* ==========================================================
    INITIALISATION
 ========================================================== */
 
@@ -106,6 +119,23 @@ async function initialiseQuizGame(
     currentQuestionType = null;
 
     quizQuestionLocked = false;
+
+
+    returnErrors = [];
+
+    currentReturnErrorIndex = 0;
+
+    returnQuestionLocked = false;
+
+
+    if (automaticReturnInterval)
+    {
+        clearInterval(
+            automaticReturnInterval
+        );
+
+        automaticReturnInterval = null;
+    }
 
 
     clearQuizTimer();
@@ -417,11 +447,6 @@ function getWrongAnswers(
                 );
 
 
-            /*
-             * Empêche une variante correcte
-             * d'être utilisée comme mauvaise réponse.
-             */
-
             if (
                 validAnswers.includes(
                     normalisedAnswer
@@ -431,10 +456,6 @@ function getWrongAnswers(
                 return;
             }
 
-
-            /*
-             * Empêche les doublons.
-             */
 
             const alreadyExists =
                 candidates.some(
@@ -535,10 +556,6 @@ function showQuizQuestion()
             validAnswers
         );
 
-
-    /* ======================================================
-       VÉRIFICATION DES 3 FAUSSES RÉPONSES
-    ====================================================== */
 
     if (wrongAnswers.length < 3)
     {
@@ -885,10 +902,6 @@ function finishQuiz()
         true;
 
 
-    /* ======================================================
-       RETIRER LE QUIZ
-    ====================================================== */
-
     quizQuestion.style.display =
         "none";
 
@@ -896,10 +909,6 @@ function finishQuiz()
     quizQuestionAnswers.innerHTML =
         "";
 
-
-    /* ======================================================
-       SCORE
-    ====================================================== */
 
     const arrivalScore =
         document.getElementById(
@@ -927,16 +936,8 @@ function finishQuiz()
     }
 
 
-    /* ======================================================
-       PROFESSEUR
-    ====================================================== */
-
     updateArrivalProfessor();
 
-
-    /* ======================================================
-       CARTE D'ARRIVÉE
-    ====================================================== */
 
     showArrival();
 
@@ -945,4 +946,442 @@ function finishQuiz()
         quizScore,
         currentQuizConfig.questions
     );
+}
+
+
+/* ==========================================================
+   RETOUR VERS LA FRANCE
+========================================================== */
+
+function startQuizReturn()
+{
+    clearQuizTimer();
+
+
+    returnErrors =
+        [...quizErrors];
+
+
+    currentReturnErrorIndex =
+        0;
+
+
+    returnQuestionLocked =
+        false;
+
+
+    /*
+     * AUCUNE ERREUR :
+     * RETOUR AUTOMATIQUE
+     */
+
+    if (returnErrors.length === 0)
+    {
+        startAutomaticReturn();
+
+        return;
+    }
+
+
+    /*
+     * ERREURS :
+     * UNE ERREUR = UNE ÉTAPE
+     */
+
+    startBackCrossing(
+        returnErrors.length
+    );
+
+
+    setTimeout(
+        () =>
+        {
+            showReturnError();
+        },
+        500
+    );
+}
+
+
+/* ==========================================================
+   RETOUR AUTOMATIQUE
+========================================================== */
+
+function startAutomaticReturn()
+{
+    const automaticSteps =
+        20;
+
+
+    startBackCrossing(
+        automaticSteps
+    );
+
+
+    let completedSteps =
+        0;
+
+
+    if (automaticReturnInterval)
+    {
+        clearInterval(
+            automaticReturnInterval
+        );
+    }
+
+
+    automaticReturnInterval =
+        setInterval(
+            () =>
+            {
+                if (isMoving)
+                {
+                    return;
+                }
+
+
+                if (
+                    completedSteps >=
+                    automaticSteps
+                )
+                {
+                    clearInterval(
+                        automaticReturnInterval
+                    );
+
+
+                    automaticReturnInterval =
+                        null;
+
+
+                    return;
+                }
+
+
+                completedSteps++;
+
+
+                advanceBoat();
+            },
+            450
+        );
+}
+
+
+/* ==========================================================
+   AFFICHAGE D'UNE ERREUR
+========================================================== */
+
+function showReturnError()
+{
+    const error =
+        returnErrors[
+            currentReturnErrorIndex
+        ];
+
+
+    if (!error)
+    {
+        finishReturnRevision();
+
+        return;
+    }
+
+
+    returnQuestionLocked =
+        false;
+
+
+    quizQuestion.style.display =
+        "block";
+
+
+    quizQuestionNumber.textContent =
+        `Correction ${currentReturnErrorIndex + 1} / ` +
+        `${returnErrors.length}`;
+
+
+    quizQuestionText.textContent =
+        getReturnQuestionText(
+            error
+        );
+
+
+    quizQuestionAnswers.innerHTML =
+        "";
+
+
+    createReturnCorrection(
+        error
+    );
+}
+
+
+/* ==========================================================
+   TEXTE DE LA QUESTION À CORRIGER
+========================================================== */
+
+function getReturnQuestionText(
+    error
+)
+{
+    const verb =
+        irregularVerbs.find(
+            (item) =>
+                item.infinitive ===
+                error.verb
+        );
+
+
+    if (!verb)
+    {
+        return error.verb;
+    }
+
+
+    switch (error.type)
+    {
+        case "infinitive":
+
+            return (
+                `Quel est l'infinitif de ` +
+                `${getDisplayAnswer(
+                    verb.preterite
+                ).toUpperCase()} ?`
+            );
+
+
+        case "pastParticiple":
+
+            return (
+                `Quel est le participe passé de ` +
+                `${verb.infinitive.toUpperCase()} ?`
+            );
+
+
+        case "translation":
+
+            return (
+                `Quelle est la traduction de ` +
+                `${verb.infinitive.toUpperCase()} ?`
+            );
+
+
+        case "preterite":
+        default:
+
+            return (
+                `Quel est le prétérit de ` +
+                `${verb.infinitive.toUpperCase()} ?`
+            );
+    }
+}
+
+
+/* ==========================================================
+   CRÉATION DE LA CORRECTION
+========================================================== */
+
+function createReturnCorrection(
+    error
+)
+{
+    const verb =
+        irregularVerbs.find(
+            (item) =>
+                item.infinitive ===
+                error.verb
+        );
+
+
+    if (!verb)
+    {
+        finishReturnRevision();
+
+        return;
+    }
+
+
+    const previousQuestionType =
+        currentQuestionType;
+
+
+    currentQuestionType =
+        error.type;
+
+
+    const correctAnswer =
+        getCorrectAnswer(
+            verb
+        );
+
+
+    const correctDisplayAnswer =
+        getDisplayAnswer(
+            correctAnswer
+        );
+
+
+    const validAnswers =
+        getAnswerVariants(
+            correctAnswer
+        );
+
+
+    const wrongAnswers =
+        getWrongAnswers(
+            verb,
+            validAnswers
+        );
+
+
+    currentQuestionType =
+        previousQuestionType;
+
+
+    const answers = [
+        correctDisplayAnswer,
+        ...wrongAnswers
+    ];
+
+
+    shuffleArray(
+        answers
+    ).forEach(
+        (answer) =>
+        {
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.type =
+                "button";
+
+
+            button.className =
+                "quiz-answer-button";
+
+
+            button.textContent =
+                answer;
+
+
+            button.addEventListener(
+                "click",
+                () =>
+                {
+                    checkReturnAnswer(
+                        answer,
+                        correctAnswer
+                    );
+                }
+            );
+
+
+            quizQuestionAnswers.appendChild(
+                button
+            );
+        }
+    );
+}
+
+
+/* ==========================================================
+   VALIDATION D'UNE CORRECTION
+========================================================== */
+
+function checkReturnAnswer(
+    answer,
+    correctAnswer
+)
+{
+    if (returnQuestionLocked)
+    {
+        return;
+    }
+
+
+    const validAnswers =
+        getAnswerVariants(
+            correctAnswer
+        );
+
+
+    const userAnswer =
+        normaliseAnswer(
+            answer
+        );
+
+
+    /*
+     * ERREUR :
+     * LE BATEAU NE BOUGE PAS
+     */
+
+    if (
+        !validAnswers.includes(
+            userAnswer
+        )
+    )
+    {
+        return;
+    }
+
+
+    /*
+     * BONNE RÉPONSE
+     */
+
+    returnQuestionLocked =
+        true;
+
+
+    disableQuizAnswers();
+
+
+    advanceBoat();
+
+
+    currentReturnErrorIndex++;
+
+
+    setTimeout(
+        () =>
+        {
+            if (
+                currentReturnErrorIndex >=
+                returnErrors.length
+            )
+            {
+                finishReturnRevision();
+
+                return;
+            }
+
+
+            showReturnError();
+        },
+        700
+    );
+}
+
+
+/* ==========================================================
+   FIN DES CORRECTIONS
+========================================================== */
+
+function finishReturnRevision()
+{
+    quizQuestion.style.display =
+        "none";
+
+
+    quizQuestionAnswers.innerHTML =
+        "";
+
+
+    returnQuestionLocked =
+        true;
 }
