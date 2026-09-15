@@ -354,3 +354,84 @@
 
     pointer-events: none;
 }
+/* ==========================================================
+   BOUTON EXERCICE
+========================================================== */
+
+.classroom-exercise-button {
+    position: absolute;
+
+    left: 64%;
+    top: 19%;
+
+    z-index: 20;
+
+    transform:
+        translateX(-50%);
+
+    padding:
+        8px
+        18px;
+
+    border:
+        var(--button-border-width)
+        solid
+        var(--classroom-button-border);
+
+    border-radius:
+        var(--button-radius);
+
+    color:
+        var(--classroom-chalk);
+
+    background:
+        var(--classroom-button-background);
+
+    font-family:
+        "Cabin Sketch",
+        sans-serif;
+
+    font-size: clamp(
+        1rem,
+        1.4vw,
+        1.4rem
+    );
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    pointer-events: auto;
+}
+
+
+.classroom-exercise-button:hover {
+    background:
+        var(--classroom-button-hover);
+}
+
+
+.classroom-exercise-button:focus-visible {
+    outline:
+        3px solid
+        var(--classroom-button-focus);
+
+    outline-offset: 3px;
+}
+/* ==========================================================
+   PROFESSEUR - CLASSE
+========================================================== */
+
+.classroom-professor {
+    position: absolute;
+
+    left: 9%;
+    bottom: 5%;
+
+    width: 20%;
+    height: auto;
+
+    z-index: 15;
+
+    pointer-events: none;
+}
