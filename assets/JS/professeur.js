@@ -2,7 +2,7 @@
 
 
 /* ==========================================================
-   PROFESSEUR
+   PROFESSEURS
 ========================================================== */
 
 
@@ -20,6 +20,92 @@ const professeurArrivee =
         "professeur-arrivee"
     );
 
+const professeurClasse =
+    document.getElementById(
+        "professeur-classe"
+    );
+
+
+/* ==========================================================
+   CHEMINS SVG
+========================================================== */
+
+const PROFESSEUR_NEUTRE =
+    "assets/images/decor/personnages/professeur_pasgif_animation_neutre.svg";
+
+const PROFESSEUR_ERREUR =
+    "assets/images/decor/personnages/professeur_pasgif_animation.svg";
+
+const PROFESSEUR_BRAVO =
+    "assets/images/decor/personnages/professeur_pasgif_animation_bravo.svg";
+
+
+/* ==========================================================
+   OUTIL : RÉCUPÉRATION DU SVG
+========================================================== */
+
+function getProfessorSvg(
+    professeur
+)
+{
+    if (!professeur)
+    {
+        return null;
+    }
+
+
+    return professeur.contentDocument;
+}
+
+
+/* ==========================================================
+   OUTIL : AFFICHAGE D'UN ÉLÉMENT SVG
+========================================================== */
+
+function showProfessorElement(
+    element
+)
+{
+    if (!element)
+    {
+        return;
+    }
+
+
+    element.style.removeProperty(
+        "display"
+    );
+
+    element.removeAttribute(
+        "display"
+    );
+
+    element.style.visibility =
+        "visible";
+
+    element.style.opacity =
+        "1";
+}
+
+
+/* ==========================================================
+   OUTIL : MASQUAGE D'UN ÉLÉMENT SVG
+========================================================== */
+
+function hideProfessorElement(
+    element
+)
+{
+    if (!element)
+    {
+        return;
+    }
+
+
+    element.style.display =
+        "none";
+}
+
 
 /* ==========================================================
    PROFESSEUR DÉPART
@@ -27,14 +113,10 @@ const professeurArrivee =
 
 function initialiseDepartureProfessor()
 {
-    if (!professeurDepart)
-    {
-        return;
-    }
-
-
     const svg =
-        professeurDepart.contentDocument;
+        getProfessorSvg(
+            professeurDepart
+        );
 
 
     if (!svg)
@@ -59,36 +141,32 @@ function initialiseDepartureProfessor()
         );
 
 
-    if (brasNeutre)
-    {
-        brasNeutre.style.display =
-            "inline";
-    }
+    showProfessorElement(
+        brasNeutre
+    );
 
+    hideProfessorElement(
+        brasErreur
+    );
 
-    if (brasErreur)
-    {
-        brasErreur.style.display =
-            "none";
-    }
-
-
-    if (brasBravo)
-    {
-        brasBravo.style.display =
-            "none";
-    }
+    hideProfessorElement(
+        brasBravo
+    );
 }
 
 
 /* ==========================================================
-   PROFESSEUR ARRIVÉE - PAS CONTENT
+   ÉTAT NEUTRE
 ========================================================== */
 
-function jouerErreurArrivee()
+function jouerNeutreProfesseur(
+    professeur
+)
 {
     const svg =
-        professeurArrivee.contentDocument;
+        getProfessorSvg(
+            professeur
+        );
 
 
     if (!svg)
@@ -97,9 +175,19 @@ function jouerErreurArrivee()
     }
 
 
+    const brasNeutre =
+        svg.getElementById(
+            "bras-g-neutre"
+        );
+
     const brasErreur =
         svg.getElementById(
             "bras-g"
+        );
+
+    const brasBravo =
+        svg.getElementById(
+            "animation-bravo"
         );
 
     const sourcilG =
@@ -113,71 +201,177 @@ function jouerErreurArrivee()
         );
 
 
-    if (
-        !brasErreur ||
-        !sourcilG ||
-        !sourcilD
-    )
-    {
-        console.error(
-            "Éléments du professeur erreur introuvables."
-        );
+    /* ======================================================
+       BRAS
+    ====================================================== */
 
-        return;
-    }
+    showProfessorElement(
+        brasNeutre
+    );
+
+    hideProfessorElement(
+        brasErreur
+    );
+
+    hideProfessorElement(
+        brasBravo
+    );
 
 
     /* ======================================================
        SOURCILS
     ====================================================== */
 
-    sourcilG.style.transformBox =
-        "fill-box";
+    if (sourcilG)
+    {
+        sourcilG.style.transformBox =
+            "fill-box";
 
-    sourcilD.style.transformBox =
-        "fill-box";
+        sourcilG.style.transformOrigin =
+            "center";
+
+        sourcilG.style.transition =
+            "transform 0.3s ease";
+
+        sourcilG.style.transform =
+            "rotate(0deg)";
+    }
 
 
-    sourcilG.style.transformOrigin =
-        "center";
+    if (sourcilD)
+    {
+        sourcilD.style.transformBox =
+            "fill-box";
 
-    sourcilD.style.transformOrigin =
-        "center";
+        sourcilD.style.transformOrigin =
+            "center";
+
+        sourcilD.style.transition =
+            "transform 0.3s ease";
+
+        sourcilD.style.transform =
+            "rotate(0deg)";
+    }
+}
 
 
-    sourcilG.style.transition =
-        "transform 0.3s ease";
+/* ==========================================================
+   ÉTAT ERREUR
+========================================================== */
 
-    sourcilD.style.transition =
-        "transform 0.3s ease";
+function jouerErreurProfesseur(
+    professeur
+)
+{
+    const svg =
+        getProfessorSvg(
+            professeur
+        );
+
+
+    if (!svg)
+    {
+        return;
+    }
+
+
+    const brasNeutre =
+        svg.getElementById(
+            "bras-g-neutre"
+        );
+
+    const brasErreur =
+        svg.getElementById(
+            "bras-g"
+        );
+
+    const brasBravo =
+        svg.getElementById(
+            "animation-bravo"
+        );
+
+    const sourcilG =
+        svg.getElementById(
+            "sourcil-g"
+        );
+
+    const sourcilD =
+        svg.getElementById(
+            "sourcil-d"
+        );
 
 
     /* ======================================================
        BRAS
     ====================================================== */
 
-    brasErreur.style.transformBox =
-        "fill-box";
+    hideProfessorElement(
+        brasNeutre
+    );
 
-    brasErreur.style.transformOrigin =
-        "0% 50%";
+    hideProfessorElement(
+        brasBravo
+    );
 
-    brasErreur.style.transition =
-        "transform 0.5s ease";
+    showProfessorElement(
+        brasErreur
+    );
 
 
     /* ======================================================
-       POSITION INITIALE
+       SOURCILS
     ====================================================== */
 
-    sourcilG.style.transform =
-        "rotate(0deg)";
+    if (sourcilG)
+    {
+        sourcilG.style.transformBox =
+            "fill-box";
 
-    sourcilD.style.transform =
-        "rotate(0deg)";
+        sourcilG.style.transformOrigin =
+            "center";
 
-    brasErreur.style.transform =
-        "rotate(0deg)";
+        sourcilG.style.transition =
+            "transform 0.3s ease";
+
+        sourcilG.style.transform =
+            "rotate(0deg)";
+    }
+
+
+    if (sourcilD)
+    {
+        sourcilD.style.transformBox =
+            "fill-box";
+
+        sourcilD.style.transformOrigin =
+            "center";
+
+        sourcilD.style.transition =
+            "transform 0.3s ease";
+
+        sourcilD.style.transform =
+            "rotate(0deg)";
+    }
+
+
+    /* ======================================================
+       BRAS ERREUR
+    ====================================================== */
+
+    if (brasErreur)
+    {
+        brasErreur.style.transformBox =
+            "fill-box";
+
+        brasErreur.style.transformOrigin =
+            "0% 50%";
+
+        brasErreur.style.transition =
+            "transform 0.5s ease";
+
+        brasErreur.style.transform =
+            "rotate(0deg)";
+    }
 
 
     /* ======================================================
@@ -187,19 +381,32 @@ function jouerErreurArrivee()
     setTimeout(
         () =>
         {
-            sourcilG.style.transform =
-                "rotate(-45deg)";
+            if (sourcilG)
+            {
+                sourcilG.style.transform =
+                    "rotate(-45deg)";
+            }
 
-            sourcilD.style.transform =
-                "rotate(45deg)";
+
+            if (sourcilD)
+            {
+                sourcilD.style.transform =
+                    "rotate(45deg)";
+            }
         },
         100
     );
 
 
     /* ======================================================
-       MOUVEMENT DU BRAS
+       ANIMATION DU BRAS
     ====================================================== */
+
+    if (!brasErreur)
+    {
+        return;
+    }
+
 
     setTimeout(
         () =>
@@ -212,16 +419,15 @@ function jouerErreurArrivee()
                     () =>
                     {
                         brasErreur.style.transform =
-                            brasErreur.style.transform ===
-                            "rotate(-10deg)"
-                                ? "rotate(5deg)"
-                                : "rotate(-10deg)";
+                            mouvements % 2 === 0
+                                ? "rotate(-10deg)"
+                                : "rotate(5deg)";
 
 
                         mouvements++;
 
 
-                        if (mouvements === 4)
+                        if (mouvements >= 4)
                         {
                             clearInterval(
                                 animationBras
@@ -247,13 +453,17 @@ function jouerErreurArrivee()
 
 
 /* ==========================================================
-   PROFESSEUR ARRIVÉE - NEUTRE
+   ÉTAT BRAVO
 ========================================================== */
 
-function jouerNeutreArrivee()
+function jouerBravoProfesseur(
+    professeur
+)
 {
     const svg =
-        professeurArrivee.contentDocument;
+        getProfessorSvg(
+            professeur
+        );
 
 
     if (!svg)
@@ -262,47 +472,15 @@ function jouerNeutreArrivee()
     }
 
 
-    const sourcilG =
+    const brasNeutre =
         svg.getElementById(
-            "sourcil-g"
+            "bras-g-neutre"
         );
 
-    const sourcilD =
+    const brasErreur =
         svg.getElementById(
-            "sourcil-d"
+            "bras-g"
         );
-
-
-    if (sourcilG)
-    {
-        sourcilG.style.transform =
-            "rotate(0deg)";
-    }
-
-
-    if (sourcilD)
-    {
-        sourcilD.style.transform =
-            "rotate(0deg)";
-    }
-}
-
-
-/* ==========================================================
-   PROFESSEUR ARRIVÉE - BRAVO
-========================================================== */
-
-function jouerBravoArrivee()
-{
-    const svg =
-        professeurArrivee.contentDocument;
-
-
-    if (!svg)
-    {
-        return;
-    }
-
 
     const brasBravo =
         svg.getElementById(
@@ -320,6 +498,27 @@ function jouerBravoArrivee()
         );
 
 
+    /* ======================================================
+       BRAS
+    ====================================================== */
+
+    hideProfessorElement(
+        brasNeutre
+    );
+
+    hideProfessorElement(
+        brasErreur
+    );
+
+    showProfessorElement(
+        brasBravo
+    );
+
+
+    /* ======================================================
+       SOURCILS
+    ====================================================== */
+
     if (sourcilG)
     {
         sourcilG.style.transformBox =
@@ -327,6 +526,9 @@ function jouerBravoArrivee()
 
         sourcilG.style.transformOrigin =
             "center";
+
+        sourcilG.style.transition =
+            "transform 0.3s ease";
 
         sourcilG.style.transform =
             "rotate(0deg)";
@@ -341,10 +543,17 @@ function jouerBravoArrivee()
         sourcilD.style.transformOrigin =
             "center";
 
+        sourcilD.style.transition =
+            "transform 0.3s ease";
+
         sourcilD.style.transform =
             "rotate(0deg)";
     }
 
+
+    /* ======================================================
+       BRAS BRAVO
+    ====================================================== */
 
     if (!brasBravo)
     {
@@ -407,6 +616,118 @@ function jouerBravoArrivee()
 
 
 /* ==========================================================
+   CHANGEMENT DE FICHIER SVG
+========================================================== */
+
+function changerEtatProfesseur(
+    professeur,
+    fichier,
+    animation
+)
+{
+    if (!professeur)
+    {
+        return;
+    }
+
+
+    professeur.onload =
+        () =>
+        {
+            professeur.onload =
+                null;
+
+
+            animation(
+                professeur
+            );
+        };
+
+
+    professeur.data =
+        fichier;
+}
+
+
+/* ==========================================================
+   PROFESSEUR CLASSE - NEUTRE
+========================================================== */
+
+function professeurClasseNeutre()
+{
+    changerEtatProfesseur(
+        professeurClasse,
+        PROFESSEUR_NEUTRE,
+        jouerNeutreProfesseur
+    );
+}
+
+
+/* ==========================================================
+   PROFESSEUR CLASSE - ERREUR
+========================================================== */
+
+function professeurClasseErreur()
+{
+    changerEtatProfesseur(
+        professeurClasse,
+        PROFESSEUR_ERREUR,
+        jouerErreurProfesseur
+    );
+}
+
+
+/* ==========================================================
+   PROFESSEUR CLASSE - BRAVO
+========================================================== */
+
+function professeurClasseBravo()
+{
+    changerEtatProfesseur(
+        professeurClasse,
+        PROFESSEUR_BRAVO,
+        jouerBravoProfesseur
+    );
+}
+
+
+/* ==========================================================
+   PROFESSEUR ARRIVÉE - ERREUR
+========================================================== */
+
+function jouerErreurArrivee()
+{
+    jouerErreurProfesseur(
+        professeurArrivee
+    );
+}
+
+
+/* ==========================================================
+   PROFESSEUR ARRIVÉE - NEUTRE
+========================================================== */
+
+function jouerNeutreArrivee()
+{
+    jouerNeutreProfesseur(
+        professeurArrivee
+    );
+}
+
+
+/* ==========================================================
+   PROFESSEUR ARRIVÉE - BRAVO
+========================================================== */
+
+function jouerBravoArrivee()
+{
+    jouerBravoProfesseur(
+        professeurArrivee
+    );
+}
+
+
+/* ==========================================================
    PROFESSEUR ARRIVÉE SELON LE SCORE
 ========================================================== */
 
@@ -415,7 +736,10 @@ function initialiseArrivalProfessorFromScore(
     totalQuestions
 )
 {
-    if (!professeurArrivee)
+    if (
+        !professeurArrivee ||
+        totalQuestions <= 0
+    )
     {
         return;
     }
@@ -427,21 +751,16 @@ function initialiseArrivalProfessorFromScore(
 
 
     /* ======================================================
-       MOINS DE 50 % : PAS CONTENT
+       MOINS DE 50 % : ERREUR
     ====================================================== */
 
     if (ratio < 0.5)
     {
-        professeurArrivee.onload =
-            () =>
-            {
-                jouerErreurArrivee();
-            };
-
-
-        professeurArrivee.data =
-            "assets/images/decor/personnages/professeur_pasgif_animation.svg";
-
+        changerEtatProfesseur(
+            professeurArrivee,
+            PROFESSEUR_ERREUR,
+            jouerErreurProfesseur
+        );
 
         return;
     }
@@ -453,16 +772,11 @@ function initialiseArrivalProfessorFromScore(
 
     if (ratio <= 0.75)
     {
-        professeurArrivee.onload =
-            () =>
-            {
-                jouerNeutreArrivee();
-            };
-
-
-        professeurArrivee.data =
-            "assets/images/decor/personnages/professeur_pasgif_animation_neutre.svg";
-
+        changerEtatProfesseur(
+            professeurArrivee,
+            PROFESSEUR_NEUTRE,
+            jouerNeutreProfesseur
+        );
 
         return;
     }
@@ -472,23 +786,60 @@ function initialiseArrivalProfessorFromScore(
        PLUS DE 75 % : BRAVO
     ====================================================== */
 
-    professeurArrivee.onload =
-        () =>
-        {
-            jouerBravoArrivee();
-        };
-
-
-    professeurArrivee.data =
-        "assets/images/decor/personnages/professeur_pasgif_animation_bravo.svg";
+    changerEtatProfesseur(
+        professeurArrivee,
+        PROFESSEUR_BRAVO,
+        jouerBravoProfesseur
+    );
 }
 
 
 /* ==========================================================
-   COMPATIBILITÉ
+   COMPATIBILITÉ ARRIVÉE
 ========================================================== */
 
 function initialiseArrivalProfessor()
 {
     jouerBravoArrivee();
+}
+
+
+/* ==========================================================
+   INITIALISATION PROFESSEUR CLASSE
+========================================================== */
+
+function initialiseClassroomProfessor()
+{
+    if (!professeurClasse)
+    {
+        return;
+    }
+
+
+    jouerNeutreProfesseur(
+        professeurClasse
+    );
+}
+
+
+/* ==========================================================
+   CHARGEMENT INITIAL DU PROFESSEUR CLASSE
+
+   IMPORTANT :
+   ONCE = TRUE
+
+   Cet événement sert uniquement au PREMIER chargement du SVG.
+   Il ne doit pas réinitialiser le professeur lorsque le SVG
+   est remplacé par ERREUR ou BRAVO.
+========================================================== */
+
+if (professeurClasse)
+{
+    professeurClasse.addEventListener(
+        "load",
+        initialiseClassroomProfessor,
+        {
+            once: true
+        }
+    );
 }

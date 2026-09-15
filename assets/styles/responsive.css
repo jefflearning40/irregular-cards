@@ -10,7 +10,9 @@
 
 @media (max-width: 480px) {
 
-    /* CARTE POSTALE */
+    /* ======================================================
+       CARTE POSTALE
+    ====================================================== */
 
     .postcard-screen {
         width: 100vw;
@@ -23,6 +25,7 @@
         overflow: hidden;
     }
 
+
     .postcard-container {
         position: relative;
 
@@ -33,6 +36,7 @@
 
         flex-shrink: 0;
     }
+
 
     .postcard {
         position: absolute;
@@ -45,17 +49,21 @@
     }
 
 
-    /* PROFESSEUR */
+    /* ======================================================
+       PROFESSEUR CARTE POSTALE
+    ====================================================== */
 
     .postcard-professor {
         width: 24%;
         max-height: 70%;
     }
 
+
     .postcard-professor--neutral {
         right: 12%;
         bottom: 3%;
     }
+
 
     .postcard-professor--bravo {
         right: 12%;
@@ -63,7 +71,9 @@
     }
 
 
-    /* MOUETTE DÉPART */
+    /* ======================================================
+       MOUETTE DÉPART
+    ====================================================== */
 
     .postcard-seagull--departure {
         left: 58%;
@@ -77,7 +87,9 @@
     }
 
 
-    /* MOUETTE ARRIVÉE */
+    /* ======================================================
+       MOUETTE ARRIVÉE
+    ====================================================== */
 
     .postcard-seagull--arrival {
         left: 54%;
@@ -90,7 +102,9 @@
     }
 
 
-    /* HOTSPOTS */
+    /* ======================================================
+       HOTSPOTS
+    ====================================================== */
 
     .learning-hotspot {
         top: 5%;
@@ -99,6 +113,7 @@
         width: 36%;
         height: 31%;
     }
+
 
     .quiz-hotspot {
         top: 5%;
@@ -109,7 +124,9 @@
     }
 
 
-    /* BOUTON ARRIVÉE */
+    /* ======================================================
+       BOUTON ARRIVÉE
+    ====================================================== */
 
     .postcard-button {
         bottom: 4%;
@@ -123,16 +140,30 @@
     }
 
 
-    /* CLASSE */
+    /* ======================================================
+       CLASSE
+    ====================================================== */
 
     .classroom-screen {
         width: 100vw;
         height: 100vh;
+
+        overflow: hidden;
     }
 
+
     .classroom-image {
+        width: 100%;
+        height: 100%;
+
         object-fit: contain;
+        object-position: center;
     }
+
+
+    /* ======================================================
+       TABLEAU
+    ====================================================== */
 
     .classroom-board {
         left: 22%;
@@ -140,37 +171,221 @@
 
         width: 53%;
         height: 40%;
+
+        justify-content: center;
     }
+
+
+    /* ======================================================
+       TITRE
+    ====================================================== */
+
+    .classroom-board__title {
+        width: 100%;
+
+        margin:
+            0
+            0
+            0.5vh;
+
+        font-size: clamp(
+            1rem,
+            7vw,
+            2rem
+        );
+
+        line-height: 1;
+
+        white-space: nowrap;
+    }
+
+
+    /* ======================================================
+       TRADUCTION
+    ====================================================== */
 
     .classroom-board__translation {
-        margin-bottom:
-            2vh;
+        width: 100%;
+
+        margin:
+            0
+            0
+            1.5vh;
+
+        font-size: clamp(
+            0.55rem,
+            3.7vw,
+            1rem
+        );
+
+        line-height: 1;
     }
+
+
+    /* ======================================================
+       FORMES DU VERBE
+    ====================================================== */
 
     .classroom-board__verb {
-        gap:
-            1vw;
+        width: 92%;
+
+        column-gap: 3%;
+
+        font-size: clamp(
+            0.55rem,
+            4vw,
+            1rem
+        );
     }
 
+
+    .classroom-board__verb span {
+        min-width: 0;
+
+        white-space: nowrap;
+    }
+
+
+    /* ======================================================
+       FORMES EN COLONNE
+    ====================================================== */
+
+    .classroom-board__verb.classroom-board__verb--column {
+        width: 95%;
+
+        gap: 1px;
+
+        font-size: clamp(
+            0.5rem,
+            3vw,
+            0.8rem
+        );
+    }
+
+
+    /* ======================================================
+       CHAMPS EXERCICE
+    ====================================================== */
+
+    .classroom-training-input {
+        width: 100%;
+        min-width: 0;
+
+        padding:
+            2px
+            2px;
+
+        box-sizing: border-box;
+
+        font-size: clamp(
+            0.45rem,
+            2.7vw,
+            0.75rem
+        );
+    }
+
+
+    /* ======================================================
+       NAVIGATION
+    ====================================================== */
+
+    .classroom-learning-controls {
+        left: 50%;
+        top: 88%;
+
+        width: 92%;
+
+        transform:
+            translateX(-50%);
+
+        gap: 2%;
+    }
+
+
+    .classroom-learning-controls button {
+        padding:
+            4px
+            6px;
+
+        font-size: clamp(
+            0.45rem,
+            2.8vw,
+            0.7rem
+        );
+    }
+
+
+    #classroom-verb-counter {
+        font-size: clamp(
+            0.45rem,
+            2.8vw,
+            0.7rem
+        );
+    }
+
+
+    /* ======================================================
+       SORTIR
+    ====================================================== */
+
     .classroom-back-button {
-        left: 28%;
+        left: 24%;
         top: 55%;
 
         padding:
-            8px
-            12px;
+            4px
+            6px;
 
-        font-size:
-            0.75rem;
+        font-size: clamp(
+            0.45rem,
+            2.8vw,
+            0.7rem
+        );
     }
 
 
-    /* TRAVERSÉE */
+    /* ======================================================
+       EXERCICE / VALIDER
+    ====================================================== */
+
+    .classroom-exercise-button {
+        left: 64%;
+        top: 19%;
+
+        padding:
+            4px
+            6px;
+
+        font-size: clamp(
+            0.45rem,
+            2.8vw,
+            0.7rem
+        );
+    }
+
+
+    /* ======================================================
+       PROFESSEUR CLASSE
+    ====================================================== */
+
+    .classroom-professor {
+        left: 9%;
+        bottom: 5%;
+
+        width: 18%;
+        height: auto;
+    }
+
+
+    /* ======================================================
+       TRAVERSÉE
+    ====================================================== */
 
     .sea-scene {
         width: 100vw;
         height: 100vh;
     }
+
 
     .sea-scene__title {
         top: 15px;
@@ -186,6 +401,7 @@
         );
     }
 
+
     .sea-scene__button {
         top: 75px;
 
@@ -196,6 +412,7 @@
         font-size:
             0.85rem;
     }
+
 
     .boat-translation {
         bottom: 8%;
@@ -216,7 +433,9 @@
 
 @media (min-width: 481px) and (max-width: 768px) {
 
-    /* CARTE POSTALE */
+    /* ======================================================
+       CARTE POSTALE
+    ====================================================== */
 
     .postcard-screen {
         width: 100vw;
@@ -229,6 +448,7 @@
         overflow: hidden;
     }
 
+
     .postcard-container {
         position: relative;
 
@@ -239,6 +459,7 @@
 
         flex-shrink: 0;
     }
+
 
     .postcard {
         position: absolute;
@@ -251,17 +472,21 @@
     }
 
 
-    /* PROFESSEUR */
+    /* ======================================================
+       PROFESSEUR
+    ====================================================== */
 
     .postcard-professor {
         width: 24%;
         max-height: 70%;
     }
 
+
     .postcard-professor--neutral {
         right: 12%;
         bottom: 3%;
     }
+
 
     .postcard-professor--bravo {
         right: 12%;
@@ -269,7 +494,9 @@
     }
 
 
-    /* MOUETTE DÉPART */
+    /* ======================================================
+       MOUETTES
+    ====================================================== */
 
     .postcard-seagull--departure {
         left: 58%;
@@ -283,8 +510,6 @@
     }
 
 
-    /* MOUETTE ARRIVÉE */
-
     .postcard-seagull--arrival {
         left: 54%;
         top: 70%;
@@ -296,7 +521,9 @@
     }
 
 
-    /* HOTSPOTS */
+    /* ======================================================
+       HOTSPOTS
+    ====================================================== */
 
     .learning-hotspot {
         top: 5%;
@@ -305,6 +532,7 @@
         width: 36%;
         height: 31%;
     }
+
 
     .quiz-hotspot {
         top: 5%;
@@ -315,7 +543,9 @@
     }
 
 
-    /* BOUTON ARRIVÉE */
+    /* ======================================================
+       BOUTON ARRIVÉE
+    ====================================================== */
 
     .postcard-button {
         bottom: 4%;
@@ -332,16 +562,23 @@
     }
 
 
-    /* CLASSE */
+    /* ======================================================
+       CLASSE
+    ====================================================== */
 
     .classroom-screen {
         width: 100vw;
         height: 100vh;
+
+        overflow: hidden;
     }
+
 
     .classroom-image {
         object-fit: contain;
+        object-position: center;
     }
+
 
     .classroom-board {
         left: 22%;
@@ -351,35 +588,145 @@
         height: 40%;
     }
 
-    .classroom-board__translation {
-        margin-bottom:
-            2vh;
+
+    .classroom-board__title {
+        width: 100%;
+
+        margin:
+            0
+            0
+            0.8vh;
+
+        font-size: clamp(
+            1.5rem,
+            6vw,
+            2.8rem
+        );
+
+        white-space: nowrap;
     }
+
+
+    .classroom-board__translation {
+        width: 100%;
+
+        margin:
+            0
+            0
+            2vh;
+
+        font-size: clamp(
+            0.8rem,
+            3vw,
+            1.3rem
+        );
+    }
+
 
     .classroom-board__verb {
-        gap:
-            1vw;
+        width: 88%;
+
+        column-gap: 3%;
+
+        font-size: clamp(
+            0.8rem,
+            3.5vw,
+            1.5rem
+        );
     }
+
+
+    .classroom-board__verb.classroom-board__verb--column {
+        width: 92%;
+
+        font-size: clamp(
+            0.7rem,
+            2.6vw,
+            1.1rem
+        );
+    }
+
+
+    .classroom-training-input {
+        width: 100%;
+        min-width: 0;
+
+        box-sizing: border-box;
+
+        font-size: clamp(
+            0.65rem,
+            2.2vw,
+            1rem
+        );
+    }
+
+
+    .classroom-learning-controls {
+        left: 50%;
+        top: 88%;
+
+        width: 90%;
+
+        transform:
+            translateX(-50%);
+
+        gap: 3%;
+    }
+
+
+    .classroom-learning-controls button,
+    .classroom-back-button,
+    .classroom-exercise-button {
+        padding:
+            5px
+            8px;
+
+        font-size: clamp(
+            0.6rem,
+            2vw,
+            0.9rem
+        );
+    }
+
+
+    #classroom-verb-counter {
+        font-size: clamp(
+            0.6rem,
+            2vw,
+            0.9rem
+        );
+    }
+
 
     .classroom-back-button {
-        left: 28%;
+        left: 27%;
         top: 55%;
-
-        padding:
-            8px
-            12px;
-
-        font-size:
-            0.75rem;
     }
 
 
-    /* TRAVERSÉE */
+    .classroom-exercise-button {
+        left: 64%;
+        top: 19%;
+    }
+
+
+    .classroom-professor {
+        left: 9%;
+        bottom: 5%;
+
+        width: 19%;
+    }
+
+
+    /* ======================================================
+       TRAVERSÉE
+    ====================================================== */
 
     .sea-scene {
         width: 100vw;
         height: 100vh;
     }
+
 
     .sea-scene__title {
         top: 15px;
@@ -395,6 +742,7 @@
         );
     }
 
+
     .sea-scene__button {
         top: 75px;
 
@@ -405,6 +753,7 @@
         font-size:
             0.85rem;
     }
+
 
     .boat-translation {
         bottom: 8%;
@@ -427,7 +776,9 @@
        (max-height: 480px) and
        (orientation: landscape) {
 
-    /* CARTE POSTALE */
+    /* ======================================================
+       CARTE POSTALE
+    ====================================================== */
 
     .postcard-container {
         position: relative;
@@ -444,25 +795,23 @@
     }
 
 
-    /* PROFESSEUR */
-
     .postcard-professor {
         width: 24%;
         max-height: 70%;
     }
+
 
     .postcard-professor--neutral {
         right: 12%;
         bottom: 3%;
     }
 
+
     .postcard-professor--bravo {
         right: 12%;
         bottom: 3%;
     }
 
-
-    /* MOUETTE DÉPART */
 
     .postcard-seagull--departure {
         left: 58%;
@@ -476,8 +825,6 @@
     }
 
 
-    /* MOUETTE ARRIVÉE */
-
     .postcard-seagull--arrival {
         left: 54%;
         top: 70%;
@@ -489,8 +836,6 @@
     }
 
 
-    /* HOTSPOTS */
-
     .learning-hotspot {
         top: 5%;
         right: 5%;
@@ -499,12 +844,75 @@
         height: 31%;
     }
 
+
     .quiz-hotspot {
         top: 5%;
         left: 5%;
 
         width: 36%;
         height: 31%;
+    }
+
+
+    /* ======================================================
+       CLASSE
+    ====================================================== */
+
+    .classroom-board__title {
+        font-size: clamp(
+            1.2rem,
+            4vw,
+            2rem
+        );
+    }
+
+
+    .classroom-board__translation {
+        margin-bottom:
+            1vh;
+
+        font-size: clamp(
+            0.7rem,
+            2vw,
+            1rem
+        );
+    }
+
+
+    .classroom-board__verb {
+        font-size: clamp(
+            0.8rem,
+            2.4vw,
+            1.3rem
+        );
+    }
+
+
+    .classroom-training-input {
+        min-width: 0;
+
+        font-size: clamp(
+            0.6rem,
+            1.8vw,
+            0.9rem
+        );
+    }
+
+
+    .classroom-learning-controls button,
+    .classroom-back-button,
+    .classroom-exercise-button {
+        padding:
+            4px
+            7px;
+
+        font-size:
+            0.7rem;
+    }
+
+
+    .classroom-professor {
+        width: 18%;
     }
 }
 
@@ -516,25 +924,27 @@
 
 @media (min-width: 769px) and (max-width: 1024px) {
 
-    /* PROFESSEUR */
+    /* ======================================================
+       CARTE POSTALE
+    ====================================================== */
 
     .postcard-professor {
         width: 24%;
         max-height: 70%;
     }
 
+
     .postcard-professor--neutral {
         right: 12%;
         bottom: 3%;
     }
+
 
     .postcard-professor--bravo {
         right: 12%;
         bottom: 3%;
     }
 
-
-    /* MOUETTE DÉPART */
 
     .postcard-seagull--departure {
         left: 58%;
@@ -548,8 +958,6 @@
     }
 
 
-    /* MOUETTE ARRIVÉE */
-
     .postcard-seagull--arrival {
         left: 54%;
         top: 70%;
@@ -561,8 +969,6 @@
     }
 
 
-    /* HOTSPOTS */
-
     .learning-hotspot {
         top: 5%;
         right: 5%;
@@ -570,6 +976,7 @@
         width: 36%;
         height: 31%;
     }
+
 
     .quiz-hotspot {
         top: 5%;
@@ -580,7 +987,66 @@
     }
 
 
-    /* TRAVERSÉE */
+    /* ======================================================
+       CLASSE
+    ====================================================== */
+
+    .classroom-board__title {
+        font-size: clamp(
+            2rem,
+            5vw,
+            3.4rem
+        );
+    }
+
+
+    .classroom-board__translation {
+        margin-bottom:
+            2.5vh;
+
+        font-size: clamp(
+            1rem,
+            2.5vw,
+            1.6rem
+        );
+    }
+
+
+    .classroom-board__verb {
+        width: 78%;
+
+        font-size: clamp(
+            1.2rem,
+            2.8vw,
+            2rem
+        );
+    }
+
+
+    .classroom-training-input {
+        min-width: 0;
+
+        font-size: clamp(
+            0.8rem,
+            1.8vw,
+            1.1rem
+        );
+    }
+
+
+    .classroom-learning-controls {
+        width: 52%;
+    }
+
+
+    .classroom-professor {
+        width: 19%;
+    }
+
+
+    /* ======================================================
+       TRAVERSÉE
+    ====================================================== */
 
     .boat-translation {
         width: clamp(
@@ -599,7 +1065,9 @@
 
 @media (min-width: 1025px) and (max-width: 1799px) {
 
-    /* CARTE POSTALE */
+    /* ======================================================
+       CARTE POSTALE
+    ====================================================== */
 
     .postcard-container {
         position: relative;
@@ -616,25 +1084,23 @@
     }
 
 
-    /* PROFESSEUR */
-
     .postcard-professor {
         width: 24%;
         max-height: 70%;
     }
+
 
     .postcard-professor--neutral {
         right: 12%;
         bottom: 3%;
     }
 
+
     .postcard-professor--bravo {
         right: 12%;
         bottom: 3%;
     }
 
-
-    /* MOUETTE DÉPART */
 
     .postcard-seagull--departure {
         left: 59%;
@@ -648,8 +1114,6 @@
     }
 
 
-    /* MOUETTE ARRIVÉE */
-
     .postcard-seagull--arrival {
         left: 54%;
         top: 70%;
@@ -661,8 +1125,6 @@
     }
 
 
-    /* HOTSPOTS */
-
     .learning-hotspot {
         top: 5%;
         right: 5%;
@@ -670,6 +1132,7 @@
         width: 36%;
         height: 31%;
     }
+
 
     .quiz-hotspot {
         top: 5%;
@@ -680,7 +1143,9 @@
     }
 
 
-    /* TRAVERSÉE */
+    /* ======================================================
+       TRAVERSÉE
+    ====================================================== */
 
     .boat-translation {
         width: clamp(
@@ -699,25 +1164,27 @@
 
 @media (min-width: 1800px) {
 
-    /* PROFESSEUR */
+    /* ======================================================
+       CARTE POSTALE
+    ====================================================== */
 
     .postcard-professor {
         width: 24%;
         max-height: 70%;
     }
 
+
     .postcard-professor--neutral {
         right: 12%;
         bottom: 3%;
     }
+
 
     .postcard-professor--bravo {
         right: 12%;
         bottom: 3%;
     }
 
-
-    /* MOUETTE DÉPART */
 
     .postcard-seagull--departure {
         left: 59%;
@@ -731,8 +1198,6 @@
     }
 
 
-    /* MOUETTE ARRIVÉE */
-
     .postcard-seagull--arrival {
         left: 54%;
         top: 70%;
@@ -744,8 +1209,6 @@
     }
 
 
-    /* HOTSPOTS */
-
     .learning-hotspot {
         top: 5%;
         right: 5%;
@@ -753,6 +1216,7 @@
         width: 36%;
         height: 31%;
     }
+
 
     .quiz-hotspot {
         top: 5%;
@@ -763,14 +1227,15 @@
     }
 
 
-    /* TRAVERSÉE */
+    /* ======================================================
+       TRAVERSÉE
+    ====================================================== */
 
     .boat-translation {
         width:
             min(30vw, 560px);
     }
 }
-
 
 /* ==========================================================
    ACCESSIBILITÉ
@@ -782,9 +1247,177 @@
         animation: none;
     }
 
+
     .sea-scene__button,
     .postcard-button,
-    .classroom-back-button {
+    .classroom-back-button,
+    .classroom-exercise-button {
         transition: none;
+    }
+}
+/* ==========================================================
+   ORIENTATION MOBILE
+   MODE PAYSAGE OBLIGATOIRE
+========================================================== */
+
+.orientation-warning {
+    display: none;
+}
+
+
+/* ==========================================================
+   PETITS ÉCRANS EN MODE PORTRAIT
+========================================================== */
+
+@media (max-width: 768px) and (orientation: portrait) {
+
+    /* ======================================================
+       MASQUAGE DE L'APPLICATION
+    ====================================================== */
+
+    body > *:not(.orientation-warning) {
+        display: none !important;
+    }
+
+
+    /* ======================================================
+       MESSAGE D'ORIENTATION
+    ====================================================== */
+
+    .orientation-warning {
+        position: fixed;
+        inset: 0;
+
+        z-index: 99999;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        width: 100vw;
+        height: 100dvh;
+
+        padding: 30px;
+
+        box-sizing: border-box;
+
+        background:
+            var(--color-background);
+
+        text-align: center;
+    }
+
+
+    .orientation-warning__content {
+        display: flex;
+
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        gap: 25px;
+    }
+
+
+    /* ======================================================
+       SYMBOLE ROTATION
+    ====================================================== */
+
+    .orientation-warning__phone {
+        font-size: clamp(
+            4rem,
+            18vw,
+            7rem
+        );
+
+        line-height: 1;
+
+        color:
+            var(--color-text);
+    }
+
+
+    /* ======================================================
+       TEXTE
+    ====================================================== */
+
+    .orientation-warning p {
+        margin: 0;
+
+        max-width: 350px;
+
+        color:
+            var(--color-text);
+
+        font-size: clamp(
+            1.1rem,
+            5vw,
+            1.5rem
+        );
+
+        font-weight: 700;
+
+        line-height: 1.4;
+    }
+}
+/* ==========================================================
+   MOBILE PAYSAGE
+   CORRECTION CLASSE
+========================================================== */
+
+@media (max-width: 768px) and (orientation: landscape) {
+
+    /* ======================================================
+       BOUTON SORTIR
+    ====================================================== */
+
+    .classroom-back-button {
+        left: 26%;
+        top: 53%;
+
+        transform:
+            translateX(-50%);
+    }
+
+
+   /* ======================================================
+   NAVIGATION
+   RAPPROCHE PRÉCÉDENT / COMPTEUR / SUIVANT
+====================================================== */
+
+.classroom-learning-controls {
+    left: 40%;
+    top: 83%;
+
+    width: 38%;
+
+    transform:
+        translateX(-50%);
+
+    gap: 30px;
+}
+
+
+/* ======================================================
+   COMPTEUR
+====================================================== */
+
+#classroom-verb-counter {
+    white-space: nowrap;
+    min-width: max-content;
+}
+
+
+    /* ======================================================
+       PROFESSEUR
+    ====================================================== */
+
+    .classroom-professor {
+        left: 3%;
+        bottom: 5%;
+
+        width: 23%;
+        height: auto;
     }
 }

@@ -435,3 +435,76 @@
 
     pointer-events: none;
 }
+/* ==========================================================
+   MODE ENTRAÎNEMENT
+========================================================== */
+
+.classroom-training-input {
+    width: 90%;
+    min-width: 0;
+
+    padding:
+        6px
+        8px;
+
+    box-sizing: border-box;
+
+    border: 0;
+    border-bottom:
+        2px solid
+        var(--classroom-chalk);
+
+    outline: none;
+
+    color:
+        var(--classroom-chalk);
+
+    background:
+        transparent;
+
+    font-family:
+        "Cabin Sketch",
+        sans-serif;
+
+    font-size: clamp(
+        1.1rem,
+        2vw,
+        2.2rem
+    );
+
+    font-weight: 700;
+
+    text-align: center;
+
+    pointer-events: auto;
+}
+
+
+.classroom-training-input::placeholder {
+    color:
+        var(--classroom-chalk);
+
+    opacity: 0.55;
+}
+
+
+.classroom-training-input:focus {
+    border-bottom-color:
+        var(--color-warning);
+}
+
+
+/* ==========================================================
+   CHAMPS CORRECTS / INCORRECTS
+========================================================== */
+
+.classroom-training-input.is-correct {
+    border-bottom-color:
+        var(--color-success);
+}
+
+
+.classroom-training-input.is-error {
+    border-bottom-color:
+        var(--color-error);
+}

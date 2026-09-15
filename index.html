@@ -31,6 +31,33 @@
 
 
     <!-- =====================================================
+         ORIENTATION MOBILE
+    ====================================================== -->
+
+    <div
+        class="orientation-warning"
+        id="orientation-warning"
+    >
+
+        <div class="orientation-warning__content">
+
+            <div
+                class="orientation-warning__phone"
+                aria-hidden="true"
+            >
+                ↻
+            </div>
+
+            <p>
+                Tournez votre appareil en mode paysage
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
          DÉPART
     ====================================================== -->
 
@@ -152,126 +179,131 @@
     </div>
 
 
-<!-- =====================================================
-     CLASSE
-====================================================== -->
+    <!-- =====================================================
+         CLASSE
+    ====================================================== -->
 
-<section
-    class="classroom-screen"
-    id="classroom-screen"
->
-
-    <img
-        class="classroom-image"
-        src="assets/images/decor/carteclasse.png"
-        alt="Classe d'apprentissage des verbes irréguliers"
-        draggable="false"
+    <section
+        class="classroom-screen"
+        id="classroom-screen"
     >
-    <!-- =================================================
-        PROFESSEUR
-    ================================================== -->
 
-    <object
-        class="classroom-professor"
-        id="professeur-classe"
-        data="assets/images/decor/personnages/professeur_pasgif_animation_neutre.svg"
-        type="image/svg+xml"
-        aria-label="Professeur"
-    ></object>
-
-    <!-- =================================================
-         TABLEAU
-    ================================================== -->
-
-    <div class="classroom-board">
-
-        <h2
-            class="classroom-board__title"
-            id="classroom-verb-title"
+        <img
+            class="classroom-image"
+            src="assets/images/decor/carteclasse.png"
+            alt="Classe d'apprentissage des verbes irréguliers"
+            draggable="false"
         >
-            TO CLING
-        </h2>
-
-        <p
-            class="classroom-board__translation"
-            id="classroom-verb-translation"
-        >
-            s'accrocher
-        </p>
 
 
-        <div class="classroom-board__verb">
+        <!-- =================================================
+             PROFESSEUR
+        ================================================== -->
 
-            <span id="classroom-verb-infinitive">
-                CLING
-            </span>
+        <object
+            class="classroom-professor"
+            id="professeur-classe"
+            data="assets/images/decor/personnages/professeur_pasgif_animation_neutre.svg"
+            type="image/svg+xml"
+            aria-label="Professeur"
+        ></object>
 
-            <span id="classroom-verb-preterite">
-                CLUNG
-            </span>
 
-            <span id="classroom-verb-participle">
-                CLUNG
-            </span>
+        <!-- =================================================
+             TABLEAU
+        ================================================== -->
+
+        <div class="classroom-board">
+
+            <h2
+                class="classroom-board__title"
+                id="classroom-verb-title"
+            >
+                TO CLING
+            </h2>
+
+            <p
+                class="classroom-board__translation"
+                id="classroom-verb-translation"
+            >
+                s'accrocher
+            </p>
+
+
+            <div class="classroom-board__verb">
+
+                <span id="classroom-verb-infinitive">
+                    CLING
+                </span>
+
+                <span id="classroom-verb-preterite">
+                    CLUNG
+                </span>
+
+                <span id="classroom-verb-participle">
+                    CLUNG
+                </span>
+
+            </div>
+
+
+            <!-- =============================================
+                 NAVIGATION DES VERBES
+            ============================================== -->
+
+            <div class="classroom-learning-controls">
+
+                <button
+                    type="button"
+                    id="classroom-previous-verb"
+                >
+                    Précédent
+                </button>
+
+                <span id="classroom-verb-counter">
+                    1 / 1
+                </span>
+
+                <button
+                    type="button"
+                    id="classroom-next-verb"
+                >
+                    Suivant
+                </button>
+
+            </div>
 
         </div>
 
 
-        <!-- =============================================
-             NAVIGATION DES VERBES
-        ============================================== -->
+        <!-- =================================================
+             BOUTON SORTIR
+        ================================================== -->
 
-        <div class="classroom-learning-controls">
-
-            <button
-                type="button"
-                id="classroom-previous-verb"
-            >
-                Précédent
-            </button>
-
-            <span id="classroom-verb-counter">
-                1 / 1
-            </span>
-
-            <button
-                type="button"
-                id="classroom-next-verb"
-            >
-                Suivant
-            </button>
-
-        </div>
-
-    </div>
+        <button
+            class="classroom-back-button"
+            id="classroom-back-button"
+            type="button"
+        >
+            Sortir
+        </button>
 
 
-    <!-- =================================================
-         BOUTON SORTIR
-    ================================================== -->
+        <!-- =================================================
+             BOUTON EXERCICE
+        ================================================== -->
 
-    <button
-        class="classroom-back-button"
-        id="classroom-back-button"
-        type="button"
-    >
-        Sortir
-    </button>
+        <button
+            class="classroom-exercise-button"
+            id="classroom-exercise-button"
+            type="button"
+        >
+            Exercice
+        </button>
+
+    </section>
 
 
-    <!-- =================================================
-         BOUTON EXERCICE
-    ================================================== -->
-
-    <button
-        class="classroom-exercise-button"
-        id="classroom-exercise-button"
-        type="button"
-    >
-        Exercice
-    </button>
-
-</section>
     <!-- =====================================================
          TRAVERSÉE
     ====================================================== -->
@@ -384,6 +416,7 @@
             >
 
         </div>
+
 
         <div class="seagull-flight seagull-flight--9">
 
@@ -556,6 +589,7 @@
     <script src="assets/JS/quiz-game.js"></script>
     <script src="assets/JS/quiz.js"></script>
     <script src="assets/JS/classroom-learning.js"></script>
+    <script src="assets/JS/classroom-training.js"></script>
     <script src="assets/JS/script.js"></script>
 
 
