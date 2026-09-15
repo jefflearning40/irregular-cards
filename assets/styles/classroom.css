@@ -295,6 +295,8 @@
     transform:
         translateX(-50%);
 }
+
+
 /* ==========================================================
    FORMES LONGUES DU VERBE - AFFICHAGE EN COLONNE
 ========================================================== */
@@ -332,4 +334,23 @@
     text-align: center;
 
     white-space: nowrap;
+}
+
+
+/* ==========================================================
+   PROFESSEUR DANS LA CLASSE
+========================================================== */
+
+.classroom-professor {
+    position: absolute;
+
+    left: 9%;
+    bottom: 5%;
+
+    width: 20%;
+    height: auto;
+
+    z-index: 15;
+
+    pointer-events: none;
 }
