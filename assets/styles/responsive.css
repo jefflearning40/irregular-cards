@@ -7,6 +7,11 @@
 
    DIMENSION MINIMALE :
    768px × 493px
+
+   RÈGLES :
+   - Portrait                → tourner l'écran
+   - Paysage < 768 × 493     → écran trop petit
+   - Paysage >= 768 × 493    → application
 ========================================================== */
 
 
@@ -23,6 +28,10 @@
 /* ==========================================================
    PORTRAIT
    MODE PAYSAGE OBLIGATOIRE
+
+   IMPORTANT :
+   uniquement lorsque la hauteur est réellement
+   supérieure à la largeur.
 ========================================================== */
 
 @media (orientation: portrait) {
@@ -103,11 +112,93 @@
 
 /* ==========================================================
    PAYSAGE TROP PETIT
-   MINIMUM : 768px × 493px
+
+   LARGEUR MINIMALE : 768px
 ========================================================== */
 
-@media (orientation: landscape) and (max-width: 767px),
-       (orientation: landscape) and (max-height: 492px) {
+@media (orientation: landscape) and
+       (max-width: 767px) {
+
+    body > *:not(.screen-too-small) {
+        display: none !important;
+    }
+
+
+    .screen-too-small {
+        position: fixed;
+        inset: 0;
+
+        z-index: 100000;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 100vw;
+        height: 100dvh;
+
+        padding: 30px;
+
+        box-sizing: border-box;
+
+        background:
+            var(--color-background);
+
+        text-align: center;
+    }
+
+
+    .screen-too-small__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        gap: 12px;
+    }
+
+
+    .screen-too-small h2 {
+        margin: 0;
+
+        color:
+            var(--color-text);
+
+        font-size: clamp(
+            1.4rem,
+            5vw,
+            2.2rem
+        );
+    }
+
+
+    .screen-too-small p {
+        max-width: 450px;
+
+        margin: 0;
+
+        color:
+            var(--color-text);
+
+        font-size: clamp(
+            0.95rem,
+            3vw,
+            1.25rem
+        );
+
+        line-height: 1.4;
+    }
+}
+
+
+/* ==========================================================
+   PAYSAGE TROP PETIT
+
+   HAUTEUR MINIMALE : 493px
+========================================================== */
+
+@media (orientation: landscape) and
+       (max-height: 492px) {
 
     body > *:not(.screen-too-small) {
         display: none !important;
@@ -188,7 +279,8 @@
 
 @media (min-width: 768px) and
        (max-width: 1024px) and
-       (min-height: 493px) {
+       (min-height: 493px) and
+       (orientation: landscape) {
 
     .postcard-screen {
         width: 100vw;
@@ -369,10 +461,12 @@
 
 /* ==========================================================
    1025px À 1799px
+   PAYSAGE UNIQUEMENT
 ========================================================== */
 
 @media (min-width: 1025px) and
-       (max-width: 1799px) {
+       (max-width: 1799px) and
+       (orientation: landscape) {
 
     .postcard-container {
         position: relative;
@@ -461,9 +555,11 @@
 /* ==========================================================
    GRANDS ÉCRANS
    1800px ET PLUS
+   PAYSAGE UNIQUEMENT
 ========================================================== */
 
-@media (min-width: 1800px) {
+@media (min-width: 1800px) and
+       (orientation: landscape) {
 
     .postcard-professor {
         width: 24%;
