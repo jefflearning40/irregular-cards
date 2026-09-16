@@ -51,6 +51,8 @@ let classroomTrainingVerb = null;
 
 let classroomTrainingActive = false;
 
+let classroomTrainingTimer = null;
+
 
 /* ==========================================================
    CHARGEMENT DES VERBES
@@ -122,11 +124,35 @@ function getRandomClassroomTrainingVerb()
 
 
 /* ==========================================================
+   ANNULATION DU TIMER
+========================================================== */
+
+function clearClassroomTrainingTimer()
+{
+    if (classroomTrainingTimer === null)
+    {
+        return;
+    }
+
+
+    clearTimeout(
+        classroomTrainingTimer
+    );
+
+
+    classroomTrainingTimer = null;
+}
+
+
+/* ==========================================================
    DÉMARRAGE D'UN EXERCICE
 ========================================================== */
 
 function startClassroomTraining()
 {
+    clearClassroomTrainingTimer();
+
+
     classroomTrainingVerb =
         getRandomClassroomTrainingVerb();
 
@@ -223,12 +249,12 @@ function startClassroomTraining()
     if (classroomTrainingCounter)
     {
         classroomTrainingCounter.textContent =
-            "Exercice";
+            "Apprentissage";
     }
 
 
     /* ======================================================
-       BOUTON
+       BOUTON VALIDER
     ====================================================== */
 
     if (classroomExerciseButton)
@@ -254,6 +280,81 @@ function startClassroomTraining()
     if (infinitiveInput)
     {
         infinitiveInput.focus();
+    }
+}
+
+
+/* ==========================================================
+   RETOUR À L'APPRENTISSAGE
+========================================================== */
+
+function returnToClassroomLearning()
+{
+    clearClassroomTrainingTimer();
+
+
+    classroomTrainingActive =
+        false;
+
+    classroomTrainingVerb =
+        null;
+
+
+    /* ======================================================
+       RÉACTIVATION NAVIGATION
+    ====================================================== */
+
+    if (classroomTrainingPreviousButton)
+    {
+        classroomTrainingPreviousButton.disabled =
+            false;
+    }
+
+
+    if (classroomTrainingNextButton)
+    {
+        classroomTrainingNextButton.disabled =
+            false;
+    }
+
+
+    /* ======================================================
+       RESTAURATION DU BOUTON EXERCICE
+    ====================================================== */
+
+    if (classroomExerciseButton)
+    {
+        classroomExerciseButton.disabled =
+            false;
+
+        classroomExerciseButton.textContent =
+            "Exercice";
+    }
+
+
+    /* ======================================================
+       RESTAURATION DU LEARNING
+    ====================================================== */
+
+    if (
+        typeof displayClassroomVerb ===
+        "function"
+    )
+    {
+        displayClassroomVerb();
+    }
+
+
+    /* ======================================================
+       PROFESSEUR : NEUTRE
+    ====================================================== */
+
+    if (
+        typeof professeurClasseNeutre ===
+        "function"
+    )
+    {
+        professeurClasseNeutre();
     }
 }
 
@@ -431,10 +532,6 @@ function validateClassroomTraining()
             "Bravo !";
 
 
-        /* ==================================================
-           PROFESSEUR : BRAVO
-        ================================================== */
-
         if (
             typeof professeurClasseBravo ===
             "function"
@@ -451,17 +548,17 @@ function validateClassroomTraining()
         }
 
 
-        /* ==================================================
-           EXERCICE SUIVANT
-        ================================================== */
+        classroomTrainingTimer =
+            setTimeout(
+                () =>
+                {
+                    classroomTrainingTimer =
+                        null;
 
-        setTimeout(
-            () =>
-            {
-                startClassroomTraining();
-            },
-            1800
-        );
+                    startClassroomTraining();
+                },
+                1800
+            );
 
 
         return;
@@ -476,10 +573,6 @@ function validateClassroomTraining()
         "Corrige les réponses en rouge.";
 
 
-    /* ======================================================
-       PROFESSEUR : ERREUR
-    ====================================================== */
-
     if (
         typeof professeurClasseErreur ===
         "function"
@@ -491,7 +584,7 @@ function validateClassroomTraining()
 
 
 /* ==========================================================
-   CLIC SUR LE BOUTON EXERCICE / VALIDER
+   CLIC EXERCICE / VALIDER
 ========================================================== */
 
 function handleClassroomExerciseButton()
@@ -505,6 +598,23 @@ function handleClassroomExerciseButton()
 
 
     validateClassroomTraining();
+}
+
+
+/* ==========================================================
+   CLIC APPRENTISSAGE
+   LE COMPTEUR DEVIENT LE BOUTON DE RETOUR
+========================================================== */
+
+function handleClassroomTrainingCounter()
+{
+    if (!classroomTrainingActive)
+    {
+        return;
+    }
+
+
+    returnToClassroomLearning();
 }
 
 
@@ -553,6 +663,19 @@ if (classroomExerciseButton)
     classroomExerciseButton.addEventListener(
         "click",
         handleClassroomExerciseButton
+    );
+}
+
+
+/* ==========================================================
+   RETOUR APPRENTISSAGE
+========================================================== */
+
+if (classroomTrainingCounter)
+{
+    classroomTrainingCounter.addEventListener(
+        "click",
+        handleClassroomTrainingCounter
     );
 }
 
