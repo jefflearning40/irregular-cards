@@ -1,5 +1,7 @@
 "use strict";
 
+require("dotenv").config();
+
 
 /* ==========================================================
    IMPORTS
@@ -11,6 +13,9 @@ const database = require("./database");
 
 const professeurRoutes =
     require("./routes/professeur.routes");
+
+const authRoutes =
+    require("./routes/auth.routes");
 
 
 /* ==========================================================
@@ -49,6 +54,12 @@ app.get(
 app.use(
     "/api/professeurs",
     professeurRoutes
+);
+
+
+app.use(
+    "/api/auth",
+    authRoutes
 );
 
 

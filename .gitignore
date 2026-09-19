@@ -1,3 +1,4 @@
 ﻿assets/videos/mer1.mp4
 # Node.js / API
 api/node_modules/
+api/.env

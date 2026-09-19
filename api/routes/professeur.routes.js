@@ -4,6 +4,10 @@ const express = require("express");
 
 const bcrypt = require("bcrypt");
 
+const verifyToken =
+    require("../middleware/auth.middleware");
+
+
 const database = require("../database");
 
 const router = express.Router();
@@ -15,6 +19,7 @@ const router = express.Router();
 
 router.get(
     "/",
+    verifyToken,
     (request, response) =>
     {
         database.query(
