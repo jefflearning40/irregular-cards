@@ -14,6 +14,9 @@ const database = require("./database");
 const professeurRoutes =
     require("./routes/professeur.routes");
 
+const eleveRoutes =
+    require("./routes/eleve.routes");
+
 const authRoutes =
     require("./routes/auth.routes");
 
@@ -54,6 +57,12 @@ app.get(
 app.use(
     "/api/professeurs",
     professeurRoutes
+);
+
+
+app.use(
+    "/api/eleves",
+    eleveRoutes
 );
 
 
