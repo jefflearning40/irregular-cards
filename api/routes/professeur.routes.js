@@ -58,6 +58,7 @@ router.get(
 
 router.get(
     "/:id",
+    verifyToken,
     (request, response) =>
     {
         const id =
@@ -200,6 +201,7 @@ router.post(
 
 router.put(
     "/:id",
+    verifyToken,
     (request, response) =>
     {
         const id =
@@ -282,6 +284,7 @@ router.put(
 
 router.delete(
     "/:id",
+    verifyToken,
     (request, response) =>
     {
         const id =
