@@ -8,8 +8,7 @@
 const express = require("express");
 
 const {
-    verifyToken,
-    requireProfessor
+    verifyToken
 } = require("../middleware/auth.middleware");
 
 const database = require("../database");
@@ -31,49 +30,106 @@ router.get(
     verifyToken,
     (request, response) =>
     {
-        const professeurId =
+        const userId =
             request.user.id;
 
-        database.query(
-            `
-                SELECT
-                    erreur_quiz.id,
-                    erreur_quiz.session_quiz_id,
-                    erreur_quiz.infinitif,
-                    erreur_quiz.reponse_attendue,
-                    erreur_quiz.reponse_eleve
+        const role =
+            request.user.role;
 
-                FROM erreur_quiz
 
-                INNER JOIN session_quiz
-                    ON session_quiz.id =
-                        erreur_quiz.session_quiz_id
+        if (role === "eleve")
+        {
+            database.query(
+                `
+                    SELECT
+                        erreur_quiz.id,
+                        erreur_quiz.session_quiz_id,
+                        erreur_quiz.infinitif,
+                        erreur_quiz.reponse_attendue,
+                        erreur_quiz.reponse_eleve
 
-                INNER JOIN eleve
-                    ON eleve.id =
-                        session_quiz.eleve_id
+                    FROM erreur_quiz
 
-                WHERE eleve.professeur_id = ?
+                    INNER JOIN session_quiz
+                        ON session_quiz.id =
+                            erreur_quiz.session_quiz_id
 
-                ORDER BY erreur_quiz.id DESC
-            `,
-            [professeurId],
-            (error, results) =>
-            {
-                if (error)
+                    WHERE session_quiz.eleve_id = ?
+
+                    ORDER BY erreur_quiz.id DESC
+                `,
+                [userId],
+                (error, results) =>
                 {
-                    console.error(error);
+                    if (error)
+                    {
+                        console.error(error);
 
-                    response.status(500).json({
-                        error: "Erreur serveur"
-                    });
+                        response.status(500).json({
+                            error: "Erreur serveur"
+                        });
 
-                    return;
+                        return;
+                    }
+
+                    response.json(results);
                 }
+            );
 
-                response.json(results);
-            }
-        );
+            return;
+        }
+
+
+        if (role === "professeur")
+        {
+            database.query(
+                `
+                    SELECT
+                        erreur_quiz.id,
+                        erreur_quiz.session_quiz_id,
+                        erreur_quiz.infinitif,
+                        erreur_quiz.reponse_attendue,
+                        erreur_quiz.reponse_eleve
+
+                    FROM erreur_quiz
+
+                    INNER JOIN session_quiz
+                        ON session_quiz.id =
+                            erreur_quiz.session_quiz_id
+
+                    INNER JOIN eleve
+                        ON eleve.id =
+                            session_quiz.eleve_id
+
+                    WHERE eleve.professeur_id = ?
+
+                    ORDER BY erreur_quiz.id DESC
+                `,
+                [userId],
+                (error, results) =>
+                {
+                    if (error)
+                    {
+                        console.error(error);
+
+                        response.status(500).json({
+                            error: "Erreur serveur"
+                        });
+
+                        return;
+                    }
+
+                    response.json(results);
+                }
+            );
+
+            return;
+        }
+
+
+        response.status(403).json({
+            error: "Accès interdit"
+        });
     }
 );
 
@@ -90,62 +146,96 @@ router.get(
         const id =
             request.params.id;
 
-        const professeurId =
+        const userId =
             request.user.id;
 
-        database.query(
-            `
-                SELECT
-                    erreur_quiz.id,
-                    erreur_quiz.session_quiz_id,
-                    erreur_quiz.infinitif,
-                    erreur_quiz.reponse_attendue,
-                    erreur_quiz.reponse_eleve
+        const role =
+            request.user.role;
 
-                FROM erreur_quiz
 
-                INNER JOIN session_quiz
-                    ON session_quiz.id =
-                        erreur_quiz.session_quiz_id
+        if (role === "eleve")
+        {
+            database.query(
+                `
+                    SELECT
+                        erreur_quiz.id,
+                        erreur_quiz.session_quiz_id,
+                        erreur_quiz.infinitif,
+                        erreur_quiz.reponse_attendue,
+                        erreur_quiz.reponse_eleve
 
-                INNER JOIN eleve
-                    ON eleve.id =
-                        session_quiz.eleve_id
+                    FROM erreur_quiz
 
-                WHERE erreur_quiz.id = ?
-                AND eleve.professeur_id = ?
-            `,
-            [
-                id,
-                professeurId
-            ],
-            (error, results) =>
-            {
-                if (error)
+                    INNER JOIN session_quiz
+                        ON session_quiz.id =
+                            erreur_quiz.session_quiz_id
+
+                    WHERE erreur_quiz.id = ?
+                    AND session_quiz.eleve_id = ?
+                `,
+                [
+                    id,
+                    userId
+                ],
+                (error, results) =>
                 {
-                    console.error(error);
-
-                    response.status(500).json({
-                        error: "Erreur serveur"
-                    });
-
-                    return;
+                    handleGet(
+                        error,
+                        results,
+                        response
+                    );
                 }
+            );
 
-                if (results.length === 0)
+            return;
+        }
+
+
+        if (role === "professeur")
+        {
+            database.query(
+                `
+                    SELECT
+                        erreur_quiz.id,
+                        erreur_quiz.session_quiz_id,
+                        erreur_quiz.infinitif,
+                        erreur_quiz.reponse_attendue,
+                        erreur_quiz.reponse_eleve
+
+                    FROM erreur_quiz
+
+                    INNER JOIN session_quiz
+                        ON session_quiz.id =
+                            erreur_quiz.session_quiz_id
+
+                    INNER JOIN eleve
+                        ON eleve.id =
+                            session_quiz.eleve_id
+
+                    WHERE erreur_quiz.id = ?
+                    AND eleve.professeur_id = ?
+                `,
+                [
+                    id,
+                    userId
+                ],
+                (error, results) =>
                 {
-                    response.status(404).json({
-                        error: "Erreur de quiz introuvable"
-                    });
-
-                    return;
+                    handleGet(
+                        error,
+                        results,
+                        response
+                    );
                 }
+            );
 
-                response.json(
-                    results[0]
-                );
-            }
-        );
+            return;
+        }
+
+
+        response.status(403).json({
+            error: "Accès interdit"
+        });
     }
 );
 
@@ -159,8 +249,11 @@ router.post(
     verifyToken,
     (request, response) =>
     {
-        const professeurId =
+        const userId =
             request.user.id;
+
+        const role =
+            request.user.role;
 
         const {
             session_quiz_id,
@@ -168,6 +261,7 @@ router.post(
             reponse_attendue,
             reponse_eleve
         } = request.body;
+
 
         if (
             !session_quiz_id ||
@@ -182,88 +276,80 @@ router.post(
             return;
         }
 
-        database.query(
-            `
-                SELECT session_quiz.id
 
-                FROM session_quiz
+        if (role === "eleve")
+        {
+            database.query(
+                `
+                    SELECT id
 
-                INNER JOIN eleve
-                    ON eleve.id =
-                        session_quiz.eleve_id
+                    FROM session_quiz
 
-                WHERE session_quiz.id = ?
-                AND eleve.professeur_id = ?
-            `,
-            [
-                session_quiz_id,
-                professeurId
-            ],
-            (error, results) =>
-            {
-                if (error)
+                    WHERE id = ?
+                    AND eleve_id = ?
+                `,
+                [
+                    session_quiz_id,
+                    userId
+                ],
+                (error, results) =>
                 {
-                    console.error(error);
-
-                    response.status(500).json({
-                        error: "Erreur serveur"
-                    });
-
-                    return;
-                }
-
-                if (results.length === 0)
-                {
-                    response.status(404).json({
-                        error: "Session de quiz introuvable"
-                    });
-
-                    return;
-                }
-
-                database.query(
-                    `
-                        INSERT INTO erreur_quiz
-                        (
-                            session_quiz_id,
-                            infinitif,
-                            reponse_attendue,
-                            reponse_eleve
-                        )
-                        VALUES (?, ?, ?, ?)
-                    `,
-                    [
+                    verifySessionAndCreate(
+                        error,
+                        results,
                         session_quiz_id,
                         infinitif,
                         reponse_attendue,
-                        reponse_eleve ?? null
-                    ],
-                    (error, result) =>
-                    {
-                        if (error)
-                        {
-                            console.error(error);
+                        reponse_eleve,
+                        response
+                    );
+                }
+            );
 
-                            response.status(500).json({
-                                error: "Erreur serveur"
-                            });
+            return;
+        }
 
-                            return;
-                        }
 
-                        response.status(201).json({
-                            id: result.insertId,
-                            session_quiz_id:
-                                Number(session_quiz_id),
-                            infinitif,
-                            reponse_attendue,
-                            reponse_eleve:
-                                reponse_eleve ?? null
-                        });
-                    }
-                );
-            }
-        );
+        if (role === "professeur")
+        {
+            database.query(
+                `
+                    SELECT session_quiz.id
+
+                    FROM session_quiz
+
+                    INNER JOIN eleve
+                        ON eleve.id =
+                            session_quiz.eleve_id
+
+                    WHERE session_quiz.id = ?
+                    AND eleve.professeur_id = ?
+                `,
+                [
+                    session_quiz_id,
+                    userId
+                ],
+                (error, results) =>
+                {
+                    verifySessionAndCreate(
+                        error,
+                        results,
+                        session_quiz_id,
+                        infinitif,
+                        reponse_attendue,
+                        reponse_eleve,
+                        response
+                    );
+                }
+            );
+
+            return;
+        }
+
+
+        response.status(403).json({
+            error: "Accès interdit"
+        });
     }
 );
 
@@ -280,14 +366,18 @@ router.put(
         const id =
             request.params.id;
 
-        const professeurId =
+        const userId =
             request.user.id;
+
+        const role =
+            request.user.role;
 
         const {
             infinitif,
             reponse_attendue,
             reponse_eleve
         } = request.body;
+
 
         if (
             !infinitif ||
@@ -301,64 +391,100 @@ router.put(
             return;
         }
 
-        database.query(
-            `
-                UPDATE erreur_quiz
 
-                INNER JOIN session_quiz
-                    ON session_quiz.id =
-                        erreur_quiz.session_quiz_id
+        if (role === "eleve")
+        {
+            database.query(
+                `
+                    UPDATE erreur_quiz
 
-                INNER JOIN eleve
-                    ON eleve.id =
-                        session_quiz.eleve_id
+                    INNER JOIN session_quiz
+                        ON session_quiz.id =
+                            erreur_quiz.session_quiz_id
 
-                SET
-                    erreur_quiz.infinitif = ?,
-                    erreur_quiz.reponse_attendue = ?,
-                    erreur_quiz.reponse_eleve = ?
+                    SET
+                        erreur_quiz.infinitif = ?,
+                        erreur_quiz.reponse_attendue = ?,
+                        erreur_quiz.reponse_eleve = ?
 
-                WHERE erreur_quiz.id = ?
-                AND eleve.professeur_id = ?
-            `,
-            [
-                infinitif,
-                reponse_attendue,
-                reponse_eleve ?? null,
-                id,
-                professeurId
-            ],
-            (error, result) =>
-            {
-                if (error)
-                {
-                    console.error(error);
-
-                    response.status(500).json({
-                        error: "Erreur serveur"
-                    });
-
-                    return;
-                }
-
-                if (result.affectedRows === 0)
-                {
-                    response.status(404).json({
-                        error: "Erreur de quiz introuvable"
-                    });
-
-                    return;
-                }
-
-                response.json({
-                    id: Number(id),
+                    WHERE erreur_quiz.id = ?
+                    AND session_quiz.eleve_id = ?
+                `,
+                [
                     infinitif,
                     reponse_attendue,
-                    reponse_eleve:
-                        reponse_eleve ?? null
-                });
-            }
-        );
+                    reponse_eleve ?? null,
+                    id,
+                    userId
+                ],
+                (error, result) =>
+                {
+                    handleUpdate(
+                        error,
+                        result,
+                        id,
+                        infinitif,
+                        reponse_attendue,
+                        reponse_eleve,
+                        response
+                    );
+                }
+            );
+
+            return;
+        }
+
+
+        if (role === "professeur")
+        {
+            database.query(
+                `
+                    UPDATE erreur_quiz
+
+                    INNER JOIN session_quiz
+                        ON session_quiz.id =
+                            erreur_quiz.session_quiz_id
+
+                    INNER JOIN eleve
+                        ON eleve.id =
+                            session_quiz.eleve_id
+
+                    SET
+                        erreur_quiz.infinitif = ?,
+                        erreur_quiz.reponse_attendue = ?,
+                        erreur_quiz.reponse_eleve = ?
+
+                    WHERE erreur_quiz.id = ?
+                    AND eleve.professeur_id = ?
+                `,
+                [
+                    infinitif,
+                    reponse_attendue,
+                    reponse_eleve ?? null,
+                    id,
+                    userId
+                ],
+                (error, result) =>
+                {
+                    handleUpdate(
+                        error,
+                        result,
+                        id,
+                        infinitif,
+                        reponse_attendue,
+                        reponse_eleve,
+                        response
+                    );
+                }
+            );
+
+            return;
+        }
+
+
+        response.status(403).json({
+            error: "Accès interdit"
+        });
     }
 );
 
@@ -375,58 +501,293 @@ router.delete(
         const id =
             request.params.id;
 
-        const professeurId =
+        const userId =
             request.user.id;
 
-        database.query(
-            `
-                DELETE erreur_quiz
-                FROM erreur_quiz
+        const role =
+            request.user.role;
 
-                INNER JOIN session_quiz
-                    ON session_quiz.id =
-                        erreur_quiz.session_quiz_id
 
-                INNER JOIN eleve
-                    ON eleve.id =
-                        session_quiz.eleve_id
+        if (role === "eleve")
+        {
+            database.query(
+                `
+                    DELETE erreur_quiz
 
-                WHERE erreur_quiz.id = ?
-                AND eleve.professeur_id = ?
-            `,
-            [
-                id,
-                professeurId
-            ],
-            (error, result) =>
-            {
-                if (error)
+                    FROM erreur_quiz
+
+                    INNER JOIN session_quiz
+                        ON session_quiz.id =
+                            erreur_quiz.session_quiz_id
+
+                    WHERE erreur_quiz.id = ?
+                    AND session_quiz.eleve_id = ?
+                `,
+                [
+                    id,
+                    userId
+                ],
+                (error, result) =>
                 {
-                    console.error(error);
-
-                    response.status(500).json({
-                        error: "Erreur serveur"
-                    });
-
-                    return;
+                    handleDelete(
+                        error,
+                        result,
+                        response
+                    );
                 }
+            );
 
-                if (result.affectedRows === 0)
+            return;
+        }
+
+
+        if (role === "professeur")
+        {
+            database.query(
+                `
+                    DELETE erreur_quiz
+
+                    FROM erreur_quiz
+
+                    INNER JOIN session_quiz
+                        ON session_quiz.id =
+                            erreur_quiz.session_quiz_id
+
+                    INNER JOIN eleve
+                        ON eleve.id =
+                            session_quiz.eleve_id
+
+                    WHERE erreur_quiz.id = ?
+                    AND eleve.professeur_id = ?
+                `,
+                [
+                    id,
+                    userId
+                ],
+                (error, result) =>
                 {
-                    response.status(404).json({
-                        error: "Erreur de quiz introuvable"
-                    });
-
-                    return;
+                    handleDelete(
+                        error,
+                        result,
+                        response
+                    );
                 }
+            );
 
-                response.json({
-                    message: "Erreur de quiz supprimée"
-                });
-            }
-        );
+            return;
+        }
+
+
+        response.status(403).json({
+            error: "Accès interdit"
+        });
     }
 );
+
+
+/* ==========================================================
+   VÉRIFIER LA SESSION ET CRÉER L'ERREUR
+========================================================== */
+
+function verifySessionAndCreate(
+    error,
+    results,
+    sessionQuizId,
+    infinitif,
+    reponseAttendue,
+    reponseEleve,
+    response
+)
+{
+    if (error)
+    {
+        console.error(error);
+
+        response.status(500).json({
+            error: "Erreur serveur"
+        });
+
+        return;
+    }
+
+
+    if (results.length === 0)
+    {
+        response.status(404).json({
+            error: "Session de quiz introuvable"
+        });
+
+        return;
+    }
+
+
+    database.query(
+        `
+            INSERT INTO erreur_quiz
+            (
+                session_quiz_id,
+                infinitif,
+                reponse_attendue,
+                reponse_eleve
+            )
+            VALUES (?, ?, ?, ?)
+        `,
+        [
+            sessionQuizId,
+            infinitif,
+            reponseAttendue,
+            reponseEleve ?? null
+        ],
+        (error, result) =>
+        {
+            if (error)
+            {
+                console.error(error);
+
+                response.status(500).json({
+                    error: "Erreur serveur"
+                });
+
+                return;
+            }
+
+
+            response.status(201).json({
+                id: result.insertId,
+                session_quiz_id:
+                    Number(sessionQuizId),
+                infinitif,
+                reponse_attendue:
+                    reponseAttendue,
+                reponse_eleve:
+                    reponseEleve ?? null
+            });
+        }
+    );
+}
+
+
+/* ==========================================================
+   RÉPONSE AFFICHAGE
+========================================================== */
+
+function handleGet(
+    error,
+    results,
+    response
+)
+{
+    if (error)
+    {
+        console.error(error);
+
+        response.status(500).json({
+            error: "Erreur serveur"
+        });
+
+        return;
+    }
+
+
+    if (results.length === 0)
+    {
+        response.status(404).json({
+            error: "Erreur de quiz introuvable"
+        });
+
+        return;
+    }
+
+
+    response.json(
+        results[0]
+    );
+}
+
+
+/* ==========================================================
+   RÉPONSE MODIFICATION
+========================================================== */
+
+function handleUpdate(
+    error,
+    result,
+    id,
+    infinitif,
+    reponseAttendue,
+    reponseEleve,
+    response
+)
+{
+    if (error)
+    {
+        console.error(error);
+
+        response.status(500).json({
+            error: "Erreur serveur"
+        });
+
+        return;
+    }
+
+
+    if (result.affectedRows === 0)
+    {
+        response.status(404).json({
+            error: "Erreur de quiz introuvable"
+        });
+
+        return;
+    }
+
+
+    response.json({
+        id: Number(id),
+        infinitif,
+        reponse_attendue:
+            reponseAttendue,
+        reponse_eleve:
+            reponseEleve ?? null
+    });
+}
+
+
+/* ==========================================================
+   RÉPONSE SUPPRESSION
+========================================================== */
+
+function handleDelete(
+    error,
+    result,
+    response
+)
+{
+    if (error)
+    {
+        console.error(error);
+
+        response.status(500).json({
+            error: "Erreur serveur"
+        });
+
+        return;
+    }
+
+
+    if (result.affectedRows === 0)
+    {
+        response.status(404).json({
+            error: "Erreur de quiz introuvable"
+        });
+
+        return;
+    }
+
+
+    response.json({
+        message: "Erreur de quiz supprimée"
+    });
+}
 
 
 /* ==========================================================

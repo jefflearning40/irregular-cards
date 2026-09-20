@@ -1,5 +1,10 @@
 "use strict";
 
+
+/* ==========================================================
+   IMPORTS
+========================================================== */
+
 const express = require("express");
 
 const bcrypt = require("bcrypt");
@@ -9,8 +14,12 @@ const {
     requireProfessor
 } = require("../middleware/auth.middleware");
 
-
 const database = require("../database");
+
+
+/* ==========================================================
+   ROUTER
+========================================================== */
 
 const router = express.Router();
 
@@ -22,50 +31,11 @@ const router = express.Router();
 router.get(
     "/",
     verifyToken,
+    requireProfessor,
     (request, response) =>
     {
-        database.query(
-            `
-                SELECT
-                    id,
-                    nom,
-                    prenom,
-                    email,
-                    date_creation
-                FROM professeur
-            `,
-            (error, results) =>
-            {
-                if (error)
-                {
-                    console.error(error);
-
-                    response.status(500).json({
-                        error: "Erreur serveur"
-                    });
-
-                    return;
-                }
-
-
-                response.json(results);
-            }
-        );
-    }
-);
-
-/* ==========================================================
-   AFFICHER UN PROFESSEUR
-========================================================== */
-
-router.get(
-    "/:id",
-    verifyToken,
-    (request, response) =>
-    {
-        const id =
-            request.params.id;
-
+        const professeurId =
+            request.user.id;
 
         database.query(
             `
@@ -78,7 +48,7 @@ router.get(
                 FROM professeur
                 WHERE id = ?
             `,
-            [id],
+            [professeurId],
             (error, results) =>
             {
                 if (error)
@@ -92,6 +62,65 @@ router.get(
                     return;
                 }
 
+                response.json(results);
+            }
+        );
+    }
+);
+
+
+/* ==========================================================
+   AFFICHER UN PROFESSEUR
+========================================================== */
+
+router.get(
+    "/:id",
+    verifyToken,
+    requireProfessor,
+    (request, response) =>
+    {
+        const id =
+            request.params.id;
+
+        const professeurId =
+            request.user.id;
+
+        if (
+            Number(id) !==
+            Number(professeurId)
+        )
+        {
+            response.status(403).json({
+                error: "Accès interdit"
+            });
+
+            return;
+        }
+
+        database.query(
+            `
+                SELECT
+                    id,
+                    nom,
+                    prenom,
+                    email,
+                    date_creation
+                FROM professeur
+                WHERE id = ?
+            `,
+            [professeurId],
+            (error, results) =>
+            {
+                if (error)
+                {
+                    console.error(error);
+
+                    response.status(500).json({
+                        error: "Erreur serveur"
+                    });
+
+                    return;
+                }
 
                 if (results.length === 0)
                 {
@@ -102,7 +131,6 @@ router.get(
                     return;
                 }
 
-
                 response.json(
                     results[0]
                 );
@@ -110,6 +138,7 @@ router.get(
         );
     }
 );
+
 
 /* ==========================================================
    CRÉATION D'UN PROFESSEUR
@@ -128,7 +157,6 @@ router.post(
                 mot_de_passe
             } = request.body;
 
-
             if (
                 !nom ||
                 !prenom ||
@@ -143,18 +171,21 @@ router.post(
                 return;
             }
 
-
             const motDePasseHash =
                 await bcrypt.hash(
                     mot_de_passe,
                     12
                 );
 
-
             database.query(
                 `
                     INSERT INTO professeur
-                    (nom, prenom, email, mot_de_passe)
+                    (
+                        nom,
+                        prenom,
+                        email,
+                        mot_de_passe
+                    )
                     VALUES (?, ?, ?, ?)
                 `,
                 [
@@ -169,13 +200,24 @@ router.post(
                     {
                         console.error(error);
 
+                        if (
+                            error.code ===
+                            "ER_DUP_ENTRY"
+                        )
+                        {
+                            response.status(409).json({
+                                error: "Cette adresse email est déjà utilisée"
+                            });
+
+                            return;
+                        }
+
                         response.status(500).json({
                             error: "Erreur serveur"
                         });
 
                         return;
                     }
-
 
                     response.status(201).json({
                         id: result.insertId,
@@ -197,6 +239,7 @@ router.post(
     }
 );
 
+
 /* ==========================================================
    MODIFICATION D'UN PROFESSEUR
 ========================================================== */
@@ -204,10 +247,14 @@ router.post(
 router.put(
     "/:id",
     verifyToken,
+    requireProfessor,
     (request, response) =>
     {
         const id =
             request.params.id;
+
+        const professeurId =
+            request.user.id;
 
         const {
             nom,
@@ -215,6 +262,17 @@ router.put(
             email
         } = request.body;
 
+        if (
+            Number(id) !==
+            Number(professeurId)
+        )
+        {
+            response.status(403).json({
+                error: "Accès interdit"
+            });
+
+            return;
+        }
 
         if (
             !nom ||
@@ -229,7 +287,6 @@ router.put(
             return;
         }
 
-
         database.query(
             `
                 UPDATE professeur
@@ -243,7 +300,7 @@ router.put(
                 nom,
                 prenom,
                 email,
-                id
+                professeurId
             ],
             (error, result) =>
             {
@@ -251,13 +308,24 @@ router.put(
                 {
                     console.error(error);
 
+                    if (
+                        error.code ===
+                        "ER_DUP_ENTRY"
+                    )
+                    {
+                        response.status(409).json({
+                            error: "Cette adresse email est déjà utilisée"
+                        });
+
+                        return;
+                    }
+
                     response.status(500).json({
                         error: "Erreur serveur"
                     });
 
                     return;
                 }
-
 
                 if (result.affectedRows === 0)
                 {
@@ -268,9 +336,8 @@ router.put(
                     return;
                 }
 
-
                 response.json({
-                    id: Number(id),
+                    id: Number(professeurId),
                     nom,
                     prenom,
                     email
@@ -280,6 +347,7 @@ router.put(
     }
 );
 
+
 /* ==========================================================
    SUPPRESSION D'UN PROFESSEUR
 ========================================================== */
@@ -287,18 +355,33 @@ router.put(
 router.delete(
     "/:id",
     verifyToken,
+    requireProfessor,
     (request, response) =>
     {
         const id =
             request.params.id;
 
+        const professeurId =
+            request.user.id;
+
+        if (
+            Number(id) !==
+            Number(professeurId)
+        )
+        {
+            response.status(403).json({
+                error: "Accès interdit"
+            });
+
+            return;
+        }
 
         database.query(
             `
                 DELETE FROM professeur
                 WHERE id = ?
             `,
-            [id],
+            [professeurId],
             (error, result) =>
             {
                 if (error)
@@ -312,7 +395,6 @@ router.delete(
                     return;
                 }
 
-
                 if (result.affectedRows === 0)
                 {
                     response.status(404).json({
@@ -322,7 +404,6 @@ router.delete(
                     return;
                 }
 
-
                 response.json({
                     message: "Professeur supprimé"
                 });
@@ -330,5 +411,10 @@ router.delete(
         );
     }
 );
+
+
+/* ==========================================================
+   EXPORT
+========================================================== */
 
 module.exports = router;

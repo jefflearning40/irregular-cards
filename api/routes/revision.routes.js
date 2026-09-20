@@ -8,8 +8,7 @@
 const express = require("express");
 
 const {
-    verifyToken,
-    requireProfessor
+    verifyToken
 } = require("../middleware/auth.middleware");
 
 const database = require("../database");
@@ -31,48 +30,104 @@ router.get(
     verifyToken,
     (request, response) =>
     {
-        const professeurId =
+        const userId =
             request.user.id;
 
-        database.query(
-            `
-                SELECT
-                    revision.id,
-                    revision.progression_id,
-                    revision.date_revision,
-                    revision.effectuee
+        const role =
+            request.user.role;
 
-                FROM revision
 
-                INNER JOIN progression
-                    ON progression.id =
-                        revision.progression_id
+        if (role === "eleve")
+        {
+            database.query(
+                `
+                    SELECT
+                        revision.id,
+                        revision.progression_id,
+                        revision.date_revision,
+                        revision.effectuee
 
-                INNER JOIN eleve
-                    ON eleve.id =
-                        progression.eleve_id
+                    FROM revision
 
-                WHERE eleve.professeur_id = ?
+                    INNER JOIN progression
+                        ON progression.id =
+                            revision.progression_id
 
-                ORDER BY revision.date_revision ASC
-            `,
-            [professeurId],
-            (error, results) =>
-            {
-                if (error)
+                    WHERE progression.eleve_id = ?
+
+                    ORDER BY revision.date_revision ASC
+                `,
+                [userId],
+                (error, results) =>
                 {
-                    console.error(error);
+                    if (error)
+                    {
+                        console.error(error);
 
-                    response.status(500).json({
-                        error: "Erreur serveur"
-                    });
+                        response.status(500).json({
+                            error: "Erreur serveur"
+                        });
 
-                    return;
+                        return;
+                    }
+
+                    response.json(results);
                 }
+            );
 
-                response.json(results);
-            }
-        );
+            return;
+        }
+
+
+        if (role === "professeur")
+        {
+            database.query(
+                `
+                    SELECT
+                        revision.id,
+                        revision.progression_id,
+                        revision.date_revision,
+                        revision.effectuee
+
+                    FROM revision
+
+                    INNER JOIN progression
+                        ON progression.id =
+                            revision.progression_id
+
+                    INNER JOIN eleve
+                        ON eleve.id =
+                            progression.eleve_id
+
+                    WHERE eleve.professeur_id = ?
+
+                    ORDER BY revision.date_revision ASC
+                `,
+                [userId],
+                (error, results) =>
+                {
+                    if (error)
+                    {
+                        console.error(error);
+
+                        response.status(500).json({
+                            error: "Erreur serveur"
+                        });
+
+                        return;
+                    }
+
+                    response.json(results);
+                }
+            );
+
+            return;
+        }
+
+
+        response.status(403).json({
+            error: "Accès interdit"
+        });
     }
 );
 
@@ -89,61 +144,94 @@ router.get(
         const id =
             request.params.id;
 
-        const professeurId =
+        const userId =
             request.user.id;
 
-        database.query(
-            `
-                SELECT
-                    revision.id,
-                    revision.progression_id,
-                    revision.date_revision,
-                    revision.effectuee
+        const role =
+            request.user.role;
 
-                FROM revision
 
-                INNER JOIN progression
-                    ON progression.id =
-                        revision.progression_id
+        if (role === "eleve")
+        {
+            database.query(
+                `
+                    SELECT
+                        revision.id,
+                        revision.progression_id,
+                        revision.date_revision,
+                        revision.effectuee
 
-                INNER JOIN eleve
-                    ON eleve.id =
-                        progression.eleve_id
+                    FROM revision
 
-                WHERE revision.id = ?
-                AND eleve.professeur_id = ?
-            `,
-            [
-                id,
-                professeurId
-            ],
-            (error, results) =>
-            {
-                if (error)
+                    INNER JOIN progression
+                        ON progression.id =
+                            revision.progression_id
+
+                    WHERE revision.id = ?
+                    AND progression.eleve_id = ?
+                `,
+                [
+                    id,
+                    userId
+                ],
+                (error, results) =>
                 {
-                    console.error(error);
-
-                    response.status(500).json({
-                        error: "Erreur serveur"
-                    });
-
-                    return;
+                    handleGet(
+                        error,
+                        results,
+                        response
+                    );
                 }
+            );
 
-                if (results.length === 0)
+            return;
+        }
+
+
+        if (role === "professeur")
+        {
+            database.query(
+                `
+                    SELECT
+                        revision.id,
+                        revision.progression_id,
+                        revision.date_revision,
+                        revision.effectuee
+
+                    FROM revision
+
+                    INNER JOIN progression
+                        ON progression.id =
+                            revision.progression_id
+
+                    INNER JOIN eleve
+                        ON eleve.id =
+                            progression.eleve_id
+
+                    WHERE revision.id = ?
+                    AND eleve.professeur_id = ?
+                `,
+                [
+                    id,
+                    userId
+                ],
+                (error, results) =>
                 {
-                    response.status(404).json({
-                        error: "Révision introuvable"
-                    });
-
-                    return;
+                    handleGet(
+                        error,
+                        results,
+                        response
+                    );
                 }
+            );
 
-                response.json(
-                    results[0]
-                );
-            }
-        );
+            return;
+        }
+
+
+        response.status(403).json({
+            error: "Accès interdit"
+        });
     }
 );
 
@@ -157,14 +245,18 @@ router.post(
     verifyToken,
     (request, response) =>
     {
-        const professeurId =
+        const userId =
             request.user.id;
+
+        const role =
+            request.user.role;
 
         const {
             progression_id,
             date_revision,
             effectuee
         } = request.body;
+
 
         if (
             !progression_id ||
@@ -178,85 +270,78 @@ router.post(
             return;
         }
 
-        database.query(
-            `
-                SELECT progression.id
 
-                FROM progression
+        if (role === "eleve")
+        {
+            database.query(
+                `
+                    SELECT id
 
-                INNER JOIN eleve
-                    ON eleve.id =
-                        progression.eleve_id
+                    FROM progression
 
-                WHERE progression.id = ?
-                AND eleve.professeur_id = ?
-            `,
-            [
-                progression_id,
-                professeurId
-            ],
-            (error, results) =>
-            {
-                if (error)
+                    WHERE id = ?
+                    AND eleve_id = ?
+                `,
+                [
+                    progression_id,
+                    userId
+                ],
+                (error, results) =>
                 {
-                    console.error(error);
-
-                    response.status(500).json({
-                        error: "Erreur serveur"
-                    });
-
-                    return;
-                }
-
-                if (results.length === 0)
-                {
-                    response.status(404).json({
-                        error: "Progression introuvable"
-                    });
-
-                    return;
-                }
-
-                database.query(
-                    `
-                        INSERT INTO revision
-                        (
-                            progression_id,
-                            date_revision,
-                            effectuee
-                        )
-                        VALUES (?, ?, ?)
-                    `,
-                    [
+                    verifyProgressionAndCreate(
+                        error,
+                        results,
                         progression_id,
                         date_revision,
-                        effectuee ?? false
-                    ],
-                    (error, result) =>
-                    {
-                        if (error)
-                        {
-                            console.error(error);
+                        effectuee,
+                        response
+                    );
+                }
+            );
 
-                            response.status(500).json({
-                                error: "Erreur serveur"
-                            });
+            return;
+        }
 
-                            return;
-                        }
 
-                        response.status(201).json({
-                            id: result.insertId,
-                            progression_id:
-                                Number(progression_id),
-                            date_revision,
-                            effectuee:
-                                effectuee ?? false
-                        });
-                    }
-                );
-            }
-        );
+        if (role === "professeur")
+        {
+            database.query(
+                `
+                    SELECT progression.id
+
+                    FROM progression
+
+                    INNER JOIN eleve
+                        ON eleve.id =
+                            progression.eleve_id
+
+                    WHERE progression.id = ?
+                    AND eleve.professeur_id = ?
+                `,
+                [
+                    progression_id,
+                    userId
+                ],
+                (error, results) =>
+                {
+                    verifyProgressionAndCreate(
+                        error,
+                        results,
+                        progression_id,
+                        date_revision,
+                        effectuee,
+                        response
+                    );
+                }
+            );
+
+            return;
+        }
+
+
+        response.status(403).json({
+            error: "Accès interdit"
+        });
     }
 );
 
@@ -273,13 +358,17 @@ router.put(
         const id =
             request.params.id;
 
-        const professeurId =
+        const userId =
             request.user.id;
+
+        const role =
+            request.user.role;
 
         const {
             date_revision,
             effectuee
         } = request.body;
+
 
         if (
             !date_revision ||
@@ -293,60 +382,94 @@ router.put(
             return;
         }
 
-        database.query(
-            `
-                UPDATE revision
 
-                INNER JOIN progression
-                    ON progression.id =
-                        revision.progression_id
+        if (role === "eleve")
+        {
+            database.query(
+                `
+                    UPDATE revision
 
-                INNER JOIN eleve
-                    ON eleve.id =
-                        progression.eleve_id
+                    INNER JOIN progression
+                        ON progression.id =
+                            revision.progression_id
 
-                SET
-                    revision.date_revision = ?,
-                    revision.effectuee = ?
+                    SET
+                        revision.date_revision = ?,
+                        revision.effectuee = ?
 
-                WHERE revision.id = ?
-                AND eleve.professeur_id = ?
-            `,
-            [
-                date_revision,
-                effectuee,
-                id,
-                professeurId
-            ],
-            (error, result) =>
-            {
-                if (error)
-                {
-                    console.error(error);
-
-                    response.status(500).json({
-                        error: "Erreur serveur"
-                    });
-
-                    return;
-                }
-
-                if (result.affectedRows === 0)
-                {
-                    response.status(404).json({
-                        error: "Révision introuvable"
-                    });
-
-                    return;
-                }
-
-                response.json({
-                    id: Number(id),
+                    WHERE revision.id = ?
+                    AND progression.eleve_id = ?
+                `,
+                [
                     date_revision,
-                    effectuee
-                });
-            }
-        );
+                    effectuee,
+                    id,
+                    userId
+                ],
+                (error, result) =>
+                {
+                    handleUpdate(
+                        error,
+                        result,
+                        id,
+                        date_revision,
+                        effectuee,
+                        response
+                    );
+                }
+            );
+
+            return;
+        }
+
+
+        if (role === "professeur")
+        {
+            database.query(
+                `
+                    UPDATE revision
+
+                    INNER JOIN progression
+                        ON progression.id =
+                            revision.progression_id
+
+                    INNER JOIN eleve
+                        ON eleve.id =
+                            progression.eleve_id
+
+                    SET
+                        revision.date_revision = ?,
+                        revision.effectuee = ?
+
+                    WHERE revision.id = ?
+                    AND eleve.professeur_id = ?
+                `,
+                [
+                    date_revision,
+                    effectuee,
+                    id,
+                    userId
+                ],
+                (error, result) =>
+                {
+                    handleUpdate(
+                        error,
+                        result,
+                        id,
+                        date_revision,
+                        effectuee,
+                        response
+                    );
+                }
+            );
+
+            return;
+        }
+
+
+        response.status(403).json({
+            error: "Accès interdit"
+        });
     }
 );
 
@@ -363,58 +486,286 @@ router.delete(
         const id =
             request.params.id;
 
-        const professeurId =
+        const userId =
             request.user.id;
 
-        database.query(
-            `
-                DELETE revision
-                FROM revision
+        const role =
+            request.user.role;
 
-                INNER JOIN progression
-                    ON progression.id =
-                        revision.progression_id
 
-                INNER JOIN eleve
-                    ON eleve.id =
-                        progression.eleve_id
+        if (role === "eleve")
+        {
+            database.query(
+                `
+                    DELETE revision
 
-                WHERE revision.id = ?
-                AND eleve.professeur_id = ?
-            `,
-            [
-                id,
-                professeurId
-            ],
-            (error, result) =>
-            {
-                if (error)
+                    FROM revision
+
+                    INNER JOIN progression
+                        ON progression.id =
+                            revision.progression_id
+
+                    WHERE revision.id = ?
+                    AND progression.eleve_id = ?
+                `,
+                [
+                    id,
+                    userId
+                ],
+                (error, result) =>
                 {
-                    console.error(error);
-
-                    response.status(500).json({
-                        error: "Erreur serveur"
-                    });
-
-                    return;
+                    handleDelete(
+                        error,
+                        result,
+                        response
+                    );
                 }
+            );
 
-                if (result.affectedRows === 0)
+            return;
+        }
+
+
+        if (role === "professeur")
+        {
+            database.query(
+                `
+                    DELETE revision
+
+                    FROM revision
+
+                    INNER JOIN progression
+                        ON progression.id =
+                            revision.progression_id
+
+                    INNER JOIN eleve
+                        ON eleve.id =
+                            progression.eleve_id
+
+                    WHERE revision.id = ?
+                    AND eleve.professeur_id = ?
+                `,
+                [
+                    id,
+                    userId
+                ],
+                (error, result) =>
                 {
-                    response.status(404).json({
-                        error: "Révision introuvable"
-                    });
-
-                    return;
+                    handleDelete(
+                        error,
+                        result,
+                        response
+                    );
                 }
+            );
 
-                response.json({
-                    message: "Révision supprimée"
-                });
-            }
-        );
+            return;
+        }
+
+
+        response.status(403).json({
+            error: "Accès interdit"
+        });
     }
 );
+
+
+/* ==========================================================
+   VÉRIFIER LA PROGRESSION ET CRÉER LA RÉVISION
+========================================================== */
+
+function verifyProgressionAndCreate(
+    error,
+    results,
+    progressionId,
+    dateRevision,
+    effectuee,
+    response
+)
+{
+    if (error)
+    {
+        console.error(error);
+
+        response.status(500).json({
+            error: "Erreur serveur"
+        });
+
+        return;
+    }
+
+
+    if (results.length === 0)
+    {
+        response.status(404).json({
+            error: "Progression introuvable"
+        });
+
+        return;
+    }
+
+
+    database.query(
+        `
+            INSERT INTO revision
+            (
+                progression_id,
+                date_revision,
+                effectuee
+            )
+            VALUES (?, ?, ?)
+        `,
+        [
+            progressionId,
+            dateRevision,
+            effectuee ?? false
+        ],
+        (error, result) =>
+        {
+            if (error)
+            {
+                console.error(error);
+
+                response.status(500).json({
+                    error: "Erreur serveur"
+                });
+
+                return;
+            }
+
+
+            response.status(201).json({
+                id: result.insertId,
+                progression_id:
+                    Number(progressionId),
+                date_revision:
+                    dateRevision,
+                effectuee:
+                    effectuee ?? false
+            });
+        }
+    );
+}
+
+
+/* ==========================================================
+   RÉPONSE AFFICHAGE
+========================================================== */
+
+function handleGet(
+    error,
+    results,
+    response
+)
+{
+    if (error)
+    {
+        console.error(error);
+
+        response.status(500).json({
+            error: "Erreur serveur"
+        });
+
+        return;
+    }
+
+
+    if (results.length === 0)
+    {
+        response.status(404).json({
+            error: "Révision introuvable"
+        });
+
+        return;
+    }
+
+
+    response.json(
+        results[0]
+    );
+}
+
+
+/* ==========================================================
+   RÉPONSE MODIFICATION
+========================================================== */
+
+function handleUpdate(
+    error,
+    result,
+    id,
+    dateRevision,
+    effectuee,
+    response
+)
+{
+    if (error)
+    {
+        console.error(error);
+
+        response.status(500).json({
+            error: "Erreur serveur"
+        });
+
+        return;
+    }
+
+
+    if (result.affectedRows === 0)
+    {
+        response.status(404).json({
+            error: "Révision introuvable"
+        });
+
+        return;
+    }
+
+
+    response.json({
+        id: Number(id),
+        date_revision:
+            dateRevision,
+        effectuee
+    });
+}
+
+
+/* ==========================================================
+   RÉPONSE SUPPRESSION
+========================================================== */
+
+function handleDelete(
+    error,
+    result,
+    response
+)
+{
+    if (error)
+    {
+        console.error(error);
+
+        response.status(500).json({
+            error: "Erreur serveur"
+        });
+
+        return;
+    }
+
+
+    if (result.affectedRows === 0)
+    {
+        response.status(404).json({
+            error: "Révision introuvable"
+        });
+
+        return;
+    }
+
+
+    response.json({
+        message: "Révision supprimée"
+    });
+}
 
 
 /* ==========================================================
