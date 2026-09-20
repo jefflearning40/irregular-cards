@@ -1,5 +1,10 @@
 "use strict";
 
+
+/* ==========================================================
+   IMPORTS
+========================================================== */
+
 const jwt = require("jsonwebtoken");
 
 
@@ -16,7 +21,6 @@ function verifyToken(
     const authorizationHeader =
         request.headers.authorization;
 
-
     if (!authorizationHeader)
     {
         response.status(401).json({
@@ -26,10 +30,8 @@ function verifyToken(
         return;
     }
 
-
     const token =
         authorizationHeader.split(" ")[1];
-
 
     if (!token)
     {
@@ -40,7 +42,6 @@ function verifyToken(
         return;
     }
 
-
     try
     {
         const decoded =
@@ -49,10 +50,8 @@ function verifyToken(
                 process.env.JWT_SECRET
             );
 
-
         request.user =
             decoded;
-
 
         next();
     }
@@ -65,4 +64,64 @@ function verifyToken(
 }
 
 
-module.exports = verifyToken;
+/* ==========================================================
+   AUTORISATION PROFESSEUR
+========================================================== */
+
+function requireProfessor(
+    request,
+    response,
+    next
+)
+{
+    if (
+        !request.user ||
+        request.user.role !== "professeur"
+    )
+    {
+        response.status(403).json({
+            error: "Accès réservé aux professeurs"
+        });
+
+        return;
+    }
+
+    next();
+}
+
+
+/* ==========================================================
+   AUTORISATION ÉLÈVE
+========================================================== */
+
+function requireStudent(
+    request,
+    response,
+    next
+)
+{
+    if (
+        !request.user ||
+        request.user.role !== "eleve"
+    )
+    {
+        response.status(403).json({
+            error: "Accès réservé aux élèves"
+        });
+
+        return;
+    }
+
+    next();
+}
+
+
+/* ==========================================================
+   EXPORTS
+========================================================== */
+
+module.exports = {
+    verifyToken,
+    requireProfessor,
+    requireStudent
+};

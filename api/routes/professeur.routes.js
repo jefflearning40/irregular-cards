@@ -4,8 +4,10 @@ const express = require("express");
 
 const bcrypt = require("bcrypt");
 
-const verifyToken =
-    require("../middleware/auth.middleware");
+const {
+    verifyToken,
+    requireProfessor
+} = require("../middleware/auth.middleware");
 
 
 const database = require("../database");

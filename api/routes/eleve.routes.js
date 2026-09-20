@@ -9,8 +9,10 @@ const express = require("express");
 
 const bcrypt = require("bcrypt");
 
-const verifyToken =
-    require("../middleware/auth.middleware");
+const {
+    verifyToken,
+    requireProfessor
+} = require("../middleware/auth.middleware");
 
 const database = require("../database");
 
@@ -29,6 +31,7 @@ const router = express.Router();
 router.get(
     "/",
     verifyToken,
+    requireProfessor,
     (request, response) =>
     {
         const professeurId =
@@ -76,6 +79,7 @@ router.get(
 router.get(
     "/:id",
     verifyToken,
+    requireProfessor,
     (request, response) =>
     {
         const id =
@@ -142,6 +146,7 @@ router.get(
 router.post(
     "/",
     verifyToken,
+    requireProfessor,
     async (request, response) =>
     {
         try
@@ -251,6 +256,7 @@ router.post(
 router.put(
     "/:id",
     verifyToken,
+    requireProfessor,
     (request, response) =>
     {
         const id =
@@ -351,6 +357,7 @@ router.put(
 router.delete(
     "/:id",
     verifyToken,
+    requireProfessor,
     (request, response) =>
     {
         const id =
