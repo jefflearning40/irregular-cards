@@ -17,6 +17,19 @@ const professeurRoutes =
 const eleveRoutes =
     require("./routes/eleve.routes");
 
+const sessionQuizRoutes =
+    require("./routes/session_quiz.routes");
+
+const erreurQuizRoutes =
+    require("./routes/erreur_quiz.routes");
+
+
+const progressionRoutes =
+    require("./routes/progression.routes");
+
+const revisionRoutes =
+    require("./routes/revision.routes");
+
 const authRoutes =
     require("./routes/auth.routes");
 
@@ -65,6 +78,25 @@ app.use(
     eleveRoutes
 );
 
+app.use(
+    "/api/sessions-quiz",
+    sessionQuizRoutes
+);
+
+app.use(
+    "/api/erreurs-quiz",
+    erreurQuizRoutes
+);
+
+app.use(
+    "/api/progressions",
+    progressionRoutes
+);
+
+app.use(
+    "/api/revisions",
+    revisionRoutes
+);
 
 app.use(
     "/api/auth",
