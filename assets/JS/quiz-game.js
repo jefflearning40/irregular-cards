@@ -21,7 +21,6 @@ const QUIZ_CONFIG = {
         questions: 50,
         time: 10
     }
-
 };
 
 
@@ -84,6 +83,10 @@ let currentVerb = null;
 
 let quizQuestionLocked = false;
 
+let quizStartTime = null;
+
+let currentQuizDifficulty = null;
+
 
 /* ==========================================================
    ÉTAT DU RETOUR
@@ -109,6 +112,11 @@ async function initialiseQuizGame(
     currentQuizConfig =
         QUIZ_CONFIG[difficulty];
 
+    currentQuizDifficulty =
+        difficulty;
+
+    quizStartTime =
+        Date.now();
 
     quizScore = 0;
 
@@ -119,7 +127,6 @@ async function initialiseQuizGame(
     currentQuestionType = null;
 
     quizQuestionLocked = false;
-
 
     returnErrors = [];
 
@@ -336,6 +343,7 @@ function getCorrectAnswer(
 
 
         case "preterite":
+
         default:
 
             return verb.preterite;
@@ -380,6 +388,7 @@ function getQuestionText(
 
 
         case "preterite":
+
         default:
 
             return (
@@ -792,6 +801,7 @@ function finishCurrentQuestion()
 
             showQuizQuestion();
         },
+
         700
     );
 }
@@ -893,7 +903,7 @@ function updateArrivalProfessor()
    FIN DU QUIZ
 ========================================================== */
 
-function finishQuiz()
+async function finishQuiz()
 {
     clearQuizTimer();
 
@@ -909,6 +919,57 @@ function finishQuiz()
     quizQuestionAnswers.innerHTML =
         "";
 
+
+    /* ======================================================
+       DURÉE DU QUIZ
+    ====================================================== */
+
+    const quizEndTime =
+        Date.now();
+
+
+    const durationInSeconds =
+        quizStartTime
+            ? Math.round(
+                (quizEndTime - quizStartTime) /
+                1000
+            )
+            : null;
+
+
+    /* ======================================================
+       ENREGISTREMENT API
+    ====================================================== */
+
+    try
+    {
+        const session =
+            await createQuizSession(
+                currentQuizDifficulty,
+                "mixte",
+                quizScore,
+                currentQuizConfig.questions,
+                durationInSeconds
+            );
+
+
+        await createQuizErrors(
+            session.id,
+            quizErrors
+        );
+    }
+    catch (error)
+    {
+        console.error(
+            "Erreur lors de l'enregistrement du quiz :",
+            error
+        );
+    }
+
+
+    /* ======================================================
+       AFFICHAGE DU SCORE
+    ====================================================== */
 
     const arrivalScore =
         document.getElementById(
@@ -998,6 +1059,7 @@ function startQuizReturn()
         {
             showReturnError();
         },
+
         500
     );
 }
@@ -1063,6 +1125,7 @@ function startAutomaticReturn()
 
                 advanceBoat();
             },
+
             450
         );
 }
@@ -1168,6 +1231,7 @@ function getReturnQuestionText(
 
 
         case "preterite":
+
         default:
 
             return (
@@ -1363,6 +1427,7 @@ function checkReturnAnswer(
 
             showReturnError();
         },
+
         700
     );
 }

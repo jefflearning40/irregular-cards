@@ -23,7 +23,6 @@ const sessionQuizRoutes =
 const erreurQuizRoutes =
     require("./routes/erreur_quiz.routes");
 
-
 const progressionRoutes =
     require("./routes/progression.routes");
 
@@ -46,6 +45,34 @@ const PORT = 3000;
 /* ==========================================================
    MIDDLEWARES
 ========================================================== */
+
+app.use(
+    (request, response, next) =>
+    {
+        response.setHeader(
+            "Access-Control-Allow-Origin",
+            "http://127.0.0.1:5500"
+        );
+
+        response.setHeader(
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+        );
+
+        response.setHeader(
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS"
+        );
+
+        if (request.method === "OPTIONS")
+        {
+            return response.sendStatus(204);
+        }
+
+        next();
+    }
+);
+
 
 app.use(
     express.json()
@@ -78,25 +105,30 @@ app.use(
     eleveRoutes
 );
 
+
 app.use(
     "/api/sessions-quiz",
     sessionQuizRoutes
 );
+
 
 app.use(
     "/api/erreurs-quiz",
     erreurQuizRoutes
 );
 
+
 app.use(
     "/api/progressions",
     progressionRoutes
 );
 
+
 app.use(
     "/api/revisions",
     revisionRoutes
 );
+
 
 app.use(
     "/api/auth",
