@@ -25,29 +25,49 @@ async function loginStudent(
     password
 )
 {
-    const response =
-        await fetch(
-            `${API_URL}/auth/eleve/login`,
-            {
-                method: "POST",
+    let response;
 
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
 
-                body: JSON.stringify({
-                    email: email,
-                    mot_de_passe: password
-                })
-            }
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/auth/eleve/login`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        email: email,
+                        mot_de_passe: password
+                    })
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
         );
+    }
+
+
+    if (response.status === 401)
+    {
+        throw new Error(
+            "INVALID_CREDENTIALS"
+        );
+    }
 
 
     if (!response.ok)
     {
         throw new Error(
-            "Connexion élève impossible."
+            "LOGIN_ERROR"
         );
     }
 
