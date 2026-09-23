@@ -35,6 +35,11 @@ const loginError =
         "login-error"
     );
 
+const logoutButton =
+    document.getElementById(
+        "logout-button"
+    );
+
 
 /* ==========================================================
    OUVERTURE DE LA MODALE
@@ -97,6 +102,10 @@ loginForm.addEventListener(
             );
 
 
+            logoutButton.hidden =
+                false;
+
+
             closeLoginModal();
         }
         catch (error)
@@ -128,6 +137,32 @@ loginForm.addEventListener(
             loginButton.disabled =
                 false;
         }
+    }
+);
+
+/* ==========================================================
+   DÉCONNEXION
+========================================================== */
+
+logoutButton.addEventListener(
+    "click",
+    () =>
+    {
+        logoutStudent();
+
+
+        logoutButton.hidden =
+            true;
+
+
+        loginForm.reset();
+
+
+        loginError.textContent =
+            "";
+
+
+        openLoginModal();
     }
 );
 

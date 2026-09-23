@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 
 <head>
@@ -11,11 +12,12 @@
     >
 
     <title>Traversée de la Manche</title>
+
     <link
-    rel="icon"
-    type="image/svg+xml"
-    href="assets/images/icones/delfaviconerror.svg"
->
+        rel="icon"
+        type="image/svg+xml"
+        href="assets/images/icones/delfaviconerror.svg"
+    >
 
     <link rel="stylesheet" href="assets/styles/variables.css">
     <link rel="stylesheet" href="assets/styles/style.css">
@@ -62,7 +64,9 @@
         </div>
 
     </div>
-      <!-- =====================================================
+
+
+    <!-- =====================================================
          ÉCRAN TROP PETIT
     ====================================================== -->
 
@@ -86,75 +90,76 @@
 
     </div>
 
+
     <!-- =====================================================
-     CONNEXION
-====================================================== -->
+         CONNEXION
+    ====================================================== -->
 
-<div
-    class="login-modal"
-    id="login-modal"
-    aria-hidden="false"
->
+    <div
+        class="login-modal"
+        id="login-modal"
+        aria-hidden="false"
+    >
 
-    <div class="login-modal__content">
+        <div class="login-modal__content">
 
-        <h2>
-            Connexion
-        </h2>
+            <h2>
+                Connexion
+            </h2>
 
-        <form id="login-form">
+            <form id="login-form">
 
-            <div class="login-field">
+                <div class="login-field">
 
-                <label for="login-email">
-                    E-mail
-                </label>
+                    <label for="login-email">
+                        E-mail
+                    </label>
 
-                <input
-                    type="email"
-                    id="login-email"
-                    name="email"
-                    autocomplete="email"
-                    required
+                    <input
+                        type="email"
+                        id="login-email"
+                        name="email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+                <div class="login-field">
+
+                    <label for="login-password">
+                        Mot de passe
+                    </label>
+
+                    <input
+                        type="password"
+                        id="login-password"
+                        name="password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+                <p
+                    class="login-error"
+                    id="login-error"
+                    aria-live="polite"
+                ></p>
+
+                <button
+                    class="login-button"
+                    id="login-button"
+                    type="submit"
                 >
+                    Se connecter
+                </button>
 
-            </div>
+            </form>
 
-            <div class="login-field">
-
-                <label for="login-password">
-                    Mot de passe
-                </label>
-
-                <input
-                    type="password"
-                    id="login-password"
-                    name="password"
-                    autocomplete="current-password"
-                    required
-                >
-
-            </div>
-
-            <p
-                class="login-error"
-                id="login-error"
-                aria-live="polite"
-            ></p>
-
-            <button
-                class="login-button"
-                id="login-button"
-                type="submit"
-            >
-                Se connecter
-            </button>
-
-        </form>
+        </div>
 
     </div>
-
-</div>
 
 
     <!-- =====================================================
@@ -168,6 +173,21 @@
 
         <div class="postcard-container">
 
+
+            <!-- =================================================
+                 DÉCONNEXION
+            ================================================== -->
+
+            <button
+                class="logout-button"
+                id="logout-button"
+                type="button"
+                hidden
+            >
+                Déconnexion
+            </button>
+
+
             <img
                 class="postcard"
                 src="assets/images/decor/cartepostaledepart.png"
@@ -175,12 +195,14 @@
                 draggable="false"
             >
 
+
             <button
                 class="learning-hotspot"
                 id="learning-button"
                 type="button"
                 aria-label="Ouvrir l'apprentissage"
             ></button>
+
 
             <img
                 class="postcard-seagull postcard-seagull--departure"
@@ -190,6 +212,7 @@
                 draggable="false"
             >
 
+
             <object
                 class="postcard-professor postcard-professor--neutral"
                 id="professeur-depart"
@@ -197,6 +220,7 @@
                 type="image/svg+xml"
                 aria-label="Professeur prêt pour le départ"
             ></object>
+
 
             <button
                 class="quiz-hotspot"
@@ -400,18 +424,20 @@
         >
             Exercice
         </button>
-        <!-- =================================================
-     BOUTON RETOUR APPRENTISSAGE
-================================================== -->
 
-<button
-    class="classroom-learning-button"
-    id="classroom-learning-button"
-    type="button"
-    hidden
->
-    Apprentissage
-</button>
+
+        <!-- =================================================
+             BOUTON RETOUR APPRENTISSAGE
+        ================================================== -->
+
+        <button
+            class="classroom-learning-button"
+            id="classroom-learning-button"
+            type="button"
+            hidden
+        >
+            Apprentissage
+        </button>
 
     </section>
 
@@ -705,7 +731,6 @@
     <script src="assets/JS/classroom-learning.js"></script>
     <script src="assets/JS/classroom-training.js"></script>
     <script src="assets/JS/script.js"></script>
-
 
 </body>
 

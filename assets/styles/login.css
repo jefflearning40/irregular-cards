@@ -15,7 +15,7 @@
 
     padding: 20px;
 
-    background: rgba(18, 32, 42, 0.55);
+    background: var(--overlay-dark);
 }
 
 .login-modal--open {
@@ -34,23 +34,27 @@
 
     padding: 32px 42px 36px;
 
-    border: 2px solid #9b6c35;
+    border:
+        var(--button-border-width)
+        solid
+        var(--postcard-brown);
+
     border-radius: 12px;
 
     background:
         radial-gradient(
             circle at 50% 45%,
-            rgba(255, 248, 218, 0.95) 0%,
-            rgba(248, 226, 174, 0.95) 55%,
-            rgba(222, 181, 111, 0.98) 100%
+            var(--postcard-paper-light) 0%,
+            var(--postcard-paper-mid) 55%,
+            var(--postcard-paper-dark) 100%
         );
 
-    color: #123f64;
+    color: var(--postcard-blue);
 
     box-shadow:
-        0 12px 28px rgba(0, 0, 0, 0.40),
-        inset 0 0 18px rgba(111, 69, 27, 0.22),
-        inset 0 0 4px rgba(90, 54, 20, 0.45);
+        0 12px 28px var(--shadow-dark),
+        inset 0 0 18px var(--shadow-brown),
+        inset 0 0 4px var(--shadow-brown-dark);
 
     text-align: center;
 }
@@ -66,8 +70,12 @@
     position: absolute;
     inset: 5px;
 
-    border: 1px solid rgba(139, 91, 39, 0.32);
-    border-radius: 8px;
+    border:
+        1px
+        solid
+        var(--postcard-inner-border);
+
+    border-radius: var(--button-radius);
 
     pointer-events: none;
 }
@@ -82,9 +90,13 @@
 
     margin: 0 0 26px;
 
-    color: #073f69;
+    color: var(--postcard-blue);
 
-    font-family: Georgia, "Times New Roman", serif;
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
     font-size: 2.15rem;
     font-style: italic;
     font-weight: 700;
@@ -104,7 +116,7 @@
 
     border-radius: 50%;
 
-    background: #9e1f2f;
+    background: var(--postcard-red);
 
     transform: rotate(-1deg);
 }
@@ -135,9 +147,13 @@
 .login-field label {
     margin-bottom: 8px;
 
-    color: #073f69;
+    color: var(--postcard-blue);
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     font-size: 0.95rem;
     font-weight: 700;
 }
@@ -147,24 +163,32 @@
 
     padding: 12px 14px;
 
-    border: 2px solid #07558a;
-    border-radius: 8px;
+    border:
+        var(--button-border-width)
+        solid
+        var(--postcard-blue);
+
+    border-radius: var(--button-radius);
 
     background:
         linear-gradient(
             180deg,
-            #fff8da 0%,
-            #fae9bd 100%
+            var(--postcard-paper-light) 0%,
+            var(--postcard-paper) 100%
         );
 
-    color: #073f69;
+    color: var(--postcard-blue);
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     font-size: 1rem;
 
     box-shadow:
-        inset 0 2px 4px rgba(74, 48, 20, 0.15),
-        0 1px 0 rgba(255, 255, 255, 0.60);
+        inset 0 2px 4px var(--shadow-brown-input),
+        0 1px 0 var(--highlight-white-light);
 
     box-sizing: border-box;
 }
@@ -172,11 +196,11 @@
 .login-field input:focus {
     outline: none;
 
-    border-color: #073f69;
+    border-color: var(--postcard-blue);
 
     box-shadow:
-        0 0 0 2px rgba(7, 63, 105, 0.15),
-        inset 0 2px 4px rgba(74, 48, 20, 0.15);
+        0 0 0 2px var(--focus-blue),
+        inset 0 2px 4px var(--shadow-brown-input);
 }
 
 
@@ -189,9 +213,13 @@
 
     margin: 4px 0 16px;
 
-    color: #9e1f2f;
+    color: var(--postcard-red);
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     font-size: 0.9rem;
     font-weight: 700;
 }
@@ -211,28 +239,36 @@
     margin: 0 auto;
     padding: 14px 28px;
 
-    border: 4px solid #b98542;
+    border:
+        4px
+        solid
+        var(--postcard-brown-light);
+
     border-radius: 28px;
 
     background:
         linear-gradient(
             180deg,
-            #0875b5 0%,
-            #064b7c 55%,
-            #033b65 100%
+            var(--postcard-blue-light) 0%,
+            var(--postcard-blue-mid) 55%,
+            var(--postcard-blue-dark) 100%
         );
 
-    color: #ffffff;
+    color: var(--color-white);
 
-    font-family: Georgia, "Times New Roman", serif;
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
     font-size: 1.1rem;
     font-style: italic;
     font-weight: 700;
 
     box-shadow:
-        0 0 0 2px #6e481f,
-        0 5px 9px rgba(0, 0, 0, 0.32),
-        inset 0 2px 2px rgba(255, 255, 255, 0.25);
+        0 0 0 2px var(--postcard-brown-dark),
+        0 5px 9px var(--shadow-medium),
+        inset 0 2px 2px var(--highlight-white);
 
     cursor: pointer;
 
@@ -267,6 +303,68 @@
 
 
 /* ==========================================================
+   BOUTON DÉCONNEXION
+========================================================== */
+
+.logout-button {
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    z-index: 9000;
+
+    padding: 9px 18px;
+
+    border:
+        var(--button-border-width)
+        solid
+        var(--postcard-brown-light);
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--postcard-blue-light) 0%,
+            var(--postcard-blue-mid) 55%,
+            var(--postcard-blue-dark) 100%
+        );
+
+    color: var(--color-white);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 0.9rem;
+    font-style: italic;
+    font-weight: 700;
+
+    box-shadow:
+        0 3px 7px var(--shadow-soft),
+        inset 0 1px 1px var(--highlight-white);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        filter 0.2s ease;
+}
+
+.logout-button:hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.1);
+}
+
+.logout-button[hidden] {
+    display: none;
+}
+
+
+/* ==========================================================
    RESPONSIVE
 ========================================================== */
 
@@ -288,5 +386,14 @@
 
     .login-button {
         width: 100%;
+    }
+
+    .logout-button {
+        top: 10px;
+        right: 10px;
+
+        padding: 7px 14px;
+
+        font-size: 0.8rem;
     }
 }

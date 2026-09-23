@@ -10,6 +10,8 @@
     --color-secondary:  #BCCDD4;
     --color-text:       #DCE2EA;
 
+    --color-white: #FFFFFF;
+
 
     /* ===========================
        Palette Accent
@@ -20,6 +22,65 @@
     --color-error:   #DD006B;
     --color-action:  #0064FA;
     --color-reward:  #87FF00;
+
+
+    /* ===========================
+       Carte postale / Parchemin
+    =========================== */
+
+    --postcard-blue:       #073F69;
+    --postcard-blue-light: #0875B5;
+    --postcard-blue-mid:   #064B7C;
+    --postcard-blue-dark:  #033B65;
+
+    --postcard-red: #9E1F2F;
+
+    --postcard-brown:       #9B6C35;
+    --postcard-brown-light: #B98542;
+    --postcard-brown-dark:  #6E481F;
+
+    --postcard-paper-light: #FFF8DA;
+    --postcard-paper:       #FAE9BD;
+    --postcard-paper-mid:   #F8E2AE;
+    --postcard-paper-dark:  #DEB56F;
+
+
+    /* ===========================
+       Transparences / Ombres
+    =========================== */
+
+    --overlay-dark:
+        rgba(18, 32, 42, 0.55);
+
+    --shadow-dark:
+        rgba(0, 0, 0, 0.40);
+
+    --shadow-medium:
+        rgba(0, 0, 0, 0.32);
+
+    --shadow-soft:
+        rgba(0, 0, 0, 0.30);
+
+    --shadow-brown:
+        rgba(111, 69, 27, 0.22);
+
+    --shadow-brown-dark:
+        rgba(90, 54, 20, 0.45);
+
+    --shadow-brown-input:
+        rgba(74, 48, 20, 0.15);
+
+    --highlight-white:
+        rgba(255, 255, 255, 0.25);
+
+    --highlight-white-light:
+        rgba(255, 255, 255, 0.60);
+
+    --focus-blue:
+        rgba(7, 63, 105, 0.15);
+
+    --postcard-inner-border:
+        rgba(139, 91, 39, 0.32);
 
 
     /* ===========================
