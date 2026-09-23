@@ -303,6 +303,29 @@
 
 
 /* ==========================================================
+   CALQUE DE DÉCONNEXION
+========================================================== */
+
+.logout-layer {
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    z-index: 9000;
+
+    width: min(100vw, 150vh);
+
+    aspect-ratio: 3 / 2;
+
+    transform:
+        translate(-50%, -50%);
+
+    pointer-events: none;
+}
+
+
+/* ==========================================================
    BOUTON DÉCONNEXION
 ========================================================== */
 
@@ -311,8 +334,6 @@
 
     top: 18px;
     right: 18px;
-
-    z-index: 9000;
 
     padding: 9px 18px;
 
@@ -347,6 +368,8 @@
         inset 0 1px 1px var(--highlight-white);
 
     cursor: pointer;
+
+    pointer-events: auto;
 
     transition:
         transform 0.2s ease,
