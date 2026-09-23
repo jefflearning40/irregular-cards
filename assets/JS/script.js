@@ -53,24 +53,12 @@ window.addEventListener(
 
 
 /* ==========================================================
-   PROFESSEURS
+   PROFESSEUR DE DÉPART
 ========================================================== */
 
 professeurDepart.addEventListener(
     "load",
     initialiseDepartureProfessor
-);
-
-
-professeurArrivee.addEventListener(
-    "load",
-    () =>
-    {
-        setProfessorState(
-            professeurArrivee,
-            "neutral"
-        );
-    }
 );
 
 

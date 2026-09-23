@@ -1450,3 +1450,70 @@ function finishReturnRevision()
     returnQuestionLocked =
         true;
 }
+/* ==========================================================
+   RÉINITIALISATION DU QUIZ
+========================================================== */
+
+function resetQuizGame()
+{
+    clearQuizTimer();
+
+
+    if (automaticReturnInterval)
+    {
+        clearInterval(
+            automaticReturnInterval
+        );
+
+        automaticReturnInterval =
+            null;
+    }
+
+
+    quizScore =
+        0;
+
+    currentQuestionIndex =
+        0;
+
+    quizErrors =
+        [];
+
+    currentQuizConfig =
+        null;
+
+    currentQuestionType =
+        null;
+
+    quizVerbs =
+        [];
+
+    currentVerb =
+        null;
+
+    quizQuestionLocked =
+        false;
+
+    quizStartTime =
+        null;
+
+    currentQuizDifficulty =
+        null;
+
+
+    returnErrors =
+        [];
+
+    currentReturnErrorIndex =
+        0;
+
+    returnQuestionLocked =
+        false;
+
+
+    quizQuestion.style.display =
+        "none";
+
+    quizQuestionAnswers.innerHTML =
+        "";
+}

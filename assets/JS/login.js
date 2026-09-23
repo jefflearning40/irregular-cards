@@ -150,17 +150,17 @@ logoutButton.addEventListener(
     {
         logoutStudent();
 
+        resetQuizGame();
+
+        showDeparture();
 
         logoutButton.hidden =
             true;
 
-
         loginForm.reset();
-
 
         loginError.textContent =
             "";
-
 
         openLoginModal();
     }
