@@ -1,12 +1,10 @@
 "use strict";
 
-
 /* ==========================================================
    CONFIGURATION
 ========================================================== */
 
 const QUIZ_CONFIG = {
-
     easy: {
         questions: 20,
         time: 20
@@ -1071,63 +1069,18 @@ function startQuizReturn()
 
 function startAutomaticReturn()
 {
-    const automaticSteps =
-        20;
-
-
-    startBackCrossing(
-        automaticSteps
-    );
-
-
-    let completedSteps =
-        0;
-
-
     if (automaticReturnInterval)
     {
         clearInterval(
             automaticReturnInterval
         );
+
+        automaticReturnInterval =
+            null;
     }
 
 
-    automaticReturnInterval =
-        setInterval(
-            () =>
-            {
-                if (isMoving)
-                {
-                    return;
-                }
-
-
-                if (
-                    completedSteps >=
-                    automaticSteps
-                )
-                {
-                    clearInterval(
-                        automaticReturnInterval
-                    );
-
-
-                    automaticReturnInterval =
-                        null;
-
-
-                    return;
-                }
-
-
-                completedSteps++;
-
-
-                advanceBoat();
-            },
-
-            450
-        );
+    startAutomaticBackCrossing();
 }
 
 
@@ -1450,6 +1403,8 @@ function finishReturnRevision()
     returnQuestionLocked =
         true;
 }
+
+
 /* ==========================================================
    RÉINITIALISATION DU QUIZ
 ========================================================== */

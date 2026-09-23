@@ -29,7 +29,7 @@ let TOTAL_STEPS = 20;
 
 const MOVE_DURATION = 350;
 
-const AUTOMATIC_RETURN_DURATION = 7000;
+const AUTOMATIC_RETURN_DURATION = 35000;
 
 const OUTSIDE_MARGIN = 40;
 
@@ -55,7 +55,7 @@ const WAKE_IMAGES =
     "assets/images/decor/vaguelette-sillage.png",
     "assets/images/decor/vaguelette-sillage2.png",
     "assets/images/decor/vaguelette-sillage3.png",
-    "assets/images/decor/vaguelettes1.png"
+    
 ];
 
 
