@@ -32,6 +32,9 @@ const revisionRoutes =
 const authRoutes =
     require("./routes/auth.routes");
 
+const statistiqueRoutes =
+    require("./routes/statistique.routes");
+
 
 /* ==========================================================
    APPLICATION
@@ -133,6 +136,12 @@ app.use(
 app.use(
     "/api/auth",
     authRoutes
+);
+
+
+app.use(
+    "/api/statistiques",
+    statistiqueRoutes
 );
 
 

@@ -15,6 +15,7 @@ const API_URL =
 
 let apiToken = null;
 
+
 /* ==========================================================
    DÉCONNEXION
 ========================================================== */
@@ -236,4 +237,56 @@ async function createQuizErrors(
             error
         );
     }
+}
+
+
+/* ==========================================================
+   RÉCUPÉRATION DES ERREURS DE L'ÉLÈVE
+========================================================== */
+
+async function getQuizErrors()
+{
+    if (!apiToken)
+    {
+        throw new Error(
+            "Aucun élève connecté."
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/erreurs-quiz`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    }
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "Impossible de récupérer les erreurs du quiz."
+        );
+    }
+
+
+    return await response.json();
 }

@@ -101,12 +101,52 @@ async function loadClassroomTrainingVerbs()
 
 
 /* ==========================================================
+   VERBES DISPONIBLES POUR L'EXERCICE
+========================================================== */
+
+function getClassroomTrainingVerbs()
+{
+    /*
+     * MODE VERBES À REVOIR
+     *
+     * classroomVerbs est géré par classroom-learning.js.
+     * Lorsqu'on est en mode révision, il contient uniquement
+     * les verbes provenant des erreurs de l'élève.
+     */
+
+    if (
+        typeof classroomReviewMode !==
+            "undefined" &&
+        classroomReviewMode &&
+        typeof classroomVerbs !==
+            "undefined" &&
+        Array.isArray(classroomVerbs) &&
+        classroomVerbs.length > 0
+    )
+    {
+        return classroomVerbs;
+    }
+
+
+    /*
+     * MODE APPRENTISSAGE NORMAL
+     */
+
+    return classroomTrainingVerbs;
+}
+
+
+/* ==========================================================
    CHOIX ALÉATOIRE D'UN VERBE
 ========================================================== */
 
 function getRandomClassroomTrainingVerb()
 {
-    if (classroomTrainingVerbs.length === 0)
+    const availableVerbs =
+        getClassroomTrainingVerbs();
+
+
+    if (availableVerbs.length === 0)
     {
         return null;
     }
@@ -115,11 +155,11 @@ function getRandomClassroomTrainingVerb()
     const index =
         Math.floor(
             Math.random() *
-            classroomTrainingVerbs.length
+            availableVerbs.length
         );
 
 
-    return classroomTrainingVerbs[index];
+    return availableVerbs[index];
 }
 
 
@@ -248,8 +288,20 @@ function startClassroomTraining()
 
     if (classroomTrainingCounter)
     {
-        classroomTrainingCounter.textContent =
-            "Apprentissage";
+        if (
+            typeof classroomReviewMode !==
+                "undefined" &&
+            classroomReviewMode
+        )
+        {
+            classroomTrainingCounter.textContent =
+                "Révision";
+        }
+        else
+        {
+            classroomTrainingCounter.textContent =
+                "Apprentissage";
+        }
     }
 
 

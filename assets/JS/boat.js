@@ -29,7 +29,7 @@ let TOTAL_STEPS = 20;
 
 const MOVE_DURATION = 350;
 
-const AUTOMATIC_RETURN_DURATION = 35000;
+const AUTOMATIC_RETURN_DURATION = 12000;
 
 const OUTSIDE_MARGIN = 40;
 
@@ -54,7 +54,8 @@ const WAKE_IMAGES =
 [
     "assets/images/decor/vaguelette-sillage.png",
     "assets/images/decor/vaguelette-sillage2.png",
-    "assets/images/decor/vaguelette-sillage3.png",
+    "assets/images/decor/vaguelette-sillage3.png"
+    // "assets/images/decor/vaguelettes1.png"  
     
 ];
 
@@ -413,6 +414,52 @@ function advanceBoat()
         );
 }
 
+
+/* ==========================================================
+   AVANCER PENDANT LE RETOUR AVEC CORRECTIONS
+========================================================== */
+
+function advanceReturnBoat()
+{
+    if (isMoving)
+    {
+        return;
+    }
+
+
+    if (
+        currentStep >=
+        TOTAL_STEPS
+    )
+    {
+        return;
+    }
+
+
+    currentMoveDuration =
+        AUTOMATIC_RETURN_DURATION /
+        TOTAL_STEPS;
+
+
+    computeTarget();
+
+
+    animationStart =
+        null;
+
+
+    isMoving =
+        true;
+
+
+    startWake();
+
+
+    animationId =
+        requestAnimationFrame(
+            animateBoat
+        );
+}
 
 /* ==========================================================
    ANIMATION BATEAU

@@ -30,15 +30,14 @@ video {
     display: block;
 }
 
+
 /* ==========================================================
    ÉTAT INITIAL DES ÉCRANS
 ========================================================== */
 
 #crossing-screen,
 #arrival-screen,
-#classroom-screen {
+#classroom-screen,
+#statistics-screen {
     display: none;
 }
-
-
-

@@ -1358,7 +1358,7 @@ function checkReturnAnswer(
     disableQuizAnswers();
 
 
-    advanceBoat();
+    advanceReturnBoat();
 
 
     currentReturnErrorIndex++;

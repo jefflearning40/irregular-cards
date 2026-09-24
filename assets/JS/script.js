@@ -17,6 +17,12 @@ const returnButton =
 const crossingButton =
     document.getElementById("start-crossing");
 
+const statisticsButton =
+    document.getElementById("statistics-button");
+
+const statisticsBackButton =
+    document.getElementById("statistics-back-button");
+
 
 /* ==========================================================
    ÉVÉNEMENTS
@@ -45,6 +51,31 @@ crossingButton.addEventListener(
     advanceBoat
 );
 
+
+/* ==========================================================
+   STATISTIQUES
+========================================================== */
+
+statisticsButton.addEventListener(
+    "click",
+    async () =>
+    {
+        showStatistics();
+
+        await loadStudentStatistics();
+    }
+);
+
+
+statisticsBackButton.addEventListener(
+    "click",
+    showDeparture
+);
+
+
+/* ==========================================================
+   REDIMENSIONNEMENT
+========================================================== */
 
 window.addEventListener(
     "resize",

@@ -22,6 +22,9 @@ const crossingScreen =
 const arrivalScreen =
     document.getElementById("arrival-screen");
 
+const statisticsScreen =
+    document.getElementById("statistics-screen");
+
 
 /* ==========================================================
    MASQUER TOUS LES ÉCRANS
@@ -39,6 +42,9 @@ function hideAllScreens()
         "none";
 
     arrivalScreen.style.display =
+        "none";
+
+    statisticsScreen.style.display =
         "none";
 }
 
@@ -91,5 +97,18 @@ function showArrival()
     hideAllScreens();
 
     arrivalScreen.style.display =
+        "flex";
+}
+
+
+/* ==========================================================
+   ÉCRAN STATISTIQUES
+========================================================== */
+
+function showStatistics()
+{
+    hideAllScreens();
+
+    statisticsScreen.style.display =
         "flex";
 }

@@ -202,7 +202,9 @@
 ========================================================== */
 
 .classroom-learning-controls button,
-.classroom-back-button {
+.classroom-back-button,
+.classroom-exercise-button,
+.classroom-review-button {
     padding:
         8px
         18px;
@@ -244,7 +246,9 @@
 ========================================================== */
 
 .classroom-learning-controls button:hover,
-.classroom-back-button:hover {
+.classroom-back-button:hover,
+.classroom-exercise-button:hover,
+.classroom-review-button:hover {
     background:
         var(--classroom-button-hover);
 }
@@ -255,7 +259,9 @@
 ========================================================== */
 
 .classroom-learning-controls button:focus-visible,
-.classroom-back-button:focus-visible {
+.classroom-back-button:focus-visible,
+.classroom-exercise-button:focus-visible,
+.classroom-review-button:focus-visible {
     outline:
         3px solid
         var(--classroom-button-focus);
@@ -289,6 +295,40 @@
 
     left: 31%;
     top: 55%;
+
+    z-index: 20;
+
+    transform:
+        translateX(-50%);
+}
+
+
+/* ==========================================================
+   BOUTON EXERCICE
+========================================================== */
+
+.classroom-exercise-button {
+    position: absolute;
+
+    left: 64%;
+    top: 19%;
+
+    z-index: 20;
+
+    transform:
+        translateX(-50%);
+}
+
+
+/* ==========================================================
+   BOUTON VERBES À REVOIR
+========================================================== */
+
+.classroom-review-button {
+    position: absolute;
+
+    left: 34%;
+    top: 19%;
 
     z-index: 20;
 
@@ -354,87 +394,8 @@
 
     pointer-events: none;
 }
-/* ==========================================================
-   BOUTON EXERCICE
-========================================================== */
-
-.classroom-exercise-button {
-    position: absolute;
-
-    left: 64%;
-    top: 19%;
-
-    z-index: 20;
-
-    transform:
-        translateX(-50%);
-
-    padding:
-        8px
-        18px;
-
-    border:
-        var(--button-border-width)
-        solid
-        var(--classroom-button-border);
-
-    border-radius:
-        var(--button-radius);
-
-    color:
-        var(--classroom-chalk);
-
-    background:
-        var(--classroom-button-background);
-
-    font-family:
-        "Cabin Sketch",
-        sans-serif;
-
-    font-size: clamp(
-        1rem,
-        1.4vw,
-        1.4rem
-    );
-
-    font-weight: 700;
-
-    cursor: pointer;
-
-    pointer-events: auto;
-}
 
 
-.classroom-exercise-button:hover {
-    background:
-        var(--classroom-button-hover);
-}
-
-
-.classroom-exercise-button:focus-visible {
-    outline:
-        3px solid
-        var(--classroom-button-focus);
-
-    outline-offset: 3px;
-}
-/* ==========================================================
-   PROFESSEUR - CLASSE
-========================================================== */
-
-.classroom-professor {
-    position: absolute;
-
-    left: 9%;
-    bottom: 5%;
-
-    width: 20%;
-    height: auto;
-
-    z-index: 15;
-
-    pointer-events: none;
-}
 /* ==========================================================
    MODE ENTRAÎNEMENT
 ========================================================== */
@@ -450,6 +411,7 @@
     box-sizing: border-box;
 
     border: 0;
+
     border-bottom:
         2px solid
         var(--classroom-chalk);

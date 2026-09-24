@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="assets/styles/postcard.css">
     <link rel="stylesheet" href="assets/styles/quiz.css">
     <link rel="stylesheet" href="assets/styles/login.css">
+    <link rel="stylesheet" href="assets/styles/statistics.css">
     <link rel="stylesheet" href="assets/styles/responsive.css">
     <link rel="stylesheet" href="assets/styles/responsive-classroom.css">
 
@@ -180,7 +181,7 @@
     </div>
 
 
-    <!-- =====================================================
+      <!-- =====================================================
          DÉPART
     ====================================================== -->
 
@@ -231,6 +232,188 @@
                 type="button"
                 aria-label="Lancer le quiz"
             ></button>
+
+
+            <!-- =====================================================
+                 ACCÈS STATISTIQUES
+            ====================================================== -->
+
+            <button
+                class="statistics-access"
+                id="statistics-button"
+                type="button"
+                aria-label="Ouvrir mes statistiques"
+            >
+
+                <img
+                    src="assets/images/icones/stats1.svg"
+                    alt=""
+                    aria-hidden="true"
+                    draggable="false"
+                >
+
+                <span>
+                    Stats
+                </span>
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         STATISTIQUES ÉLÈVE
+    ====================================================== -->
+
+    <section
+        class="statistics-screen"
+        id="statistics-screen"
+    >
+
+        <div class="statistics-container">
+
+            <!-- =====================================================
+                 RETOUR
+            ====================================================== -->
+
+            <button
+                class="statistics-back-button"
+                id="statistics-back-button"
+                type="button"
+            >
+                Retour
+            </button>
+
+
+            <!-- =====================================================
+                 TITRE
+            ====================================================== -->
+
+            <h1 class="statistics-title">
+                Mes statistiques
+            </h1>
+
+
+            <!-- =====================================================
+                 RÉSUMÉ
+            ====================================================== -->
+
+            <div class="statistics-summary">
+
+                <div class="statistics-card">
+
+                    <span
+                        class="statistics-card-value"
+                        id="statistics-quiz-count"
+                    >
+                        -
+                    </span>
+
+                    <span class="statistics-card-label">
+                        Quiz réalisés
+                    </span>
+
+                </div>
+
+
+                <div class="statistics-card">
+
+                    <span
+                        class="statistics-card-value"
+                        id="statistics-average"
+                    >
+                        -
+                    </span>
+
+                    <span class="statistics-card-label">
+                        Moyenne
+                    </span>
+
+                </div>
+
+
+                <div class="statistics-card">
+
+                    <span
+                        class="statistics-card-value"
+                        id="statistics-best-score"
+                    >
+                        -
+                    </span>
+
+                    <span class="statistics-card-label">
+                        Meilleur score
+                    </span>
+
+                </div>
+
+
+                <div class="statistics-card">
+
+                    <span
+                        class="statistics-card-value"
+                        id="statistics-time"
+                    >
+                        -
+                    </span>
+
+                    <span class="statistics-card-label">
+                        Temps passé
+                    </span>
+
+                </div>
+
+
+                <div class="statistics-card">
+
+                    <span
+                        class="statistics-card-value"
+                        id="statistics-errors"
+                    >
+                        -
+                    </span>
+
+                    <span class="statistics-card-label">
+                        Erreurs quiz
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 VERBES À REVOIR
+            ====================================================== -->
+
+            <div class="statistics-review">
+
+                <h2>
+                    Verbes à revoir
+                </h2>
+
+                <div id="statistics-review-verbs">
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 ÉVOLUTION
+            ====================================================== -->
+
+            <div class="statistics-evolution">
+
+                <h2>
+                    Évolution
+                </h2>
+
+                <div id="statistics-evolution-content">
+                </div>
+
+            </div>
 
         </div>
 
@@ -306,143 +489,156 @@
     </div>
 
 
-    <!-- =====================================================
-         CLASSE
-    ====================================================== -->
+  <!-- =====================================================
+     CLASSE
+====================================================== -->
 
-    <section
-        class="classroom-screen"
-        id="classroom-screen"
+<section
+    class="classroom-screen"
+    id="classroom-screen"
+>
+
+    <img
+        class="classroom-image"
+        src="assets/images/decor/carteclasse.png"
+        alt="Classe d'apprentissage des verbes irréguliers"
+        draggable="false"
     >
 
-        <img
-            class="classroom-image"
-            src="assets/images/decor/carteclasse.png"
-            alt="Classe d'apprentissage des verbes irréguliers"
-            draggable="false"
+
+    <!-- =================================================
+         PROFESSEUR
+    ================================================== -->
+
+    <object
+        class="classroom-professor"
+        id="professeur-classe"
+        data="assets/images/decor/personnages/professeur_pasgif_animation_neutre.svg"
+        type="image/svg+xml"
+        aria-label="Professeur"
+    ></object>
+
+
+    <!-- =================================================
+         TABLEAU
+    ================================================== -->
+
+    <div class="classroom-board">
+
+        <h2
+            class="classroom-board__title"
+            id="classroom-verb-title"
         >
+            TO CLING
+        </h2>
+
+        <p
+            class="classroom-board__translation"
+            id="classroom-verb-translation"
+        >
+            s'accrocher
+        </p>
 
 
-        <!-- =================================================
-             PROFESSEUR
-        ================================================== -->
+        <div class="classroom-board__verb">
 
-        <object
-            class="classroom-professor"
-            id="professeur-classe"
-            data="assets/images/decor/personnages/professeur_pasgif_animation_neutre.svg"
-            type="image/svg+xml"
-            aria-label="Professeur"
-        ></object>
+            <span id="classroom-verb-infinitive">
+                CLING
+            </span>
 
+            <span id="classroom-verb-preterite">
+                CLUNG
+            </span>
 
-        <!-- =================================================
-             TABLEAU
-        ================================================== -->
-
-        <div class="classroom-board">
-
-            <h2
-                class="classroom-board__title"
-                id="classroom-verb-title"
-            >
-                TO CLING
-            </h2>
-
-            <p
-                class="classroom-board__translation"
-                id="classroom-verb-translation"
-            >
-                s'accrocher
-            </p>
-
-
-            <div class="classroom-board__verb">
-
-                <span id="classroom-verb-infinitive">
-                    CLING
-                </span>
-
-                <span id="classroom-verb-preterite">
-                    CLUNG
-                </span>
-
-                <span id="classroom-verb-participle">
-                    CLUNG
-                </span>
-
-            </div>
-
-
-            <!-- =============================================
-                 NAVIGATION DES VERBES
-            ============================================== -->
-
-            <div class="classroom-learning-controls">
-
-                <button
-                    type="button"
-                    id="classroom-previous-verb"
-                >
-                    Précédent
-                </button>
-
-                <span id="classroom-verb-counter">
-                    1 / 1
-                </span>
-
-                <button
-                    type="button"
-                    id="classroom-next-verb"
-                >
-                    Suivant
-                </button>
-
-            </div>
+            <span id="classroom-verb-participle">
+                CLUNG
+            </span>
 
         </div>
 
 
-        <!-- =================================================
-             BOUTON SORTIR
-        ================================================== -->
+        <!-- =============================================
+             NAVIGATION DES VERBES
+        ============================================== -->
 
-        <button
-            class="classroom-back-button"
-            id="classroom-back-button"
-            type="button"
-        >
-            Sortir
-        </button>
+        <div class="classroom-learning-controls">
+
+            <button
+                type="button"
+                id="classroom-previous-verb"
+            >
+                Précédent
+            </button>
+
+            <span id="classroom-verb-counter">
+                1 / 1
+            </span>
+
+            <button
+                type="button"
+                id="classroom-next-verb"
+            >
+                Suivant
+            </button>
+
+        </div>
+
+    </div>
 
 
-        <!-- =================================================
-             BOUTON EXERCICE
-        ================================================== -->
+    <!-- =================================================
+         BOUTON SORTIR
+    ================================================== -->
 
-        <button
-            class="classroom-exercise-button"
-            id="classroom-exercise-button"
-            type="button"
-        >
-            Exercice
-        </button>
+    <button
+        class="classroom-back-button"
+        id="classroom-back-button"
+        type="button"
+    >
+        Sortir
+    </button>
 
 
-        <!-- =================================================
-             BOUTON RETOUR APPRENTISSAGE
-        ================================================== -->
+    <!-- =================================================
+         BOUTON EXERCICE
+    ================================================== -->
 
-        <button
-            class="classroom-learning-button"
-            id="classroom-learning-button"
-            type="button"
-            hidden
-        >
-            Apprentissage
-        </button>
+    <button
+        class="classroom-exercise-button"
+        id="classroom-exercise-button"
+        type="button"
+    >
+        Exercice
+    </button>
 
-    </section>
+
+    <!-- =================================================
+         BOUTON VERBES À REVOIR
+    ================================================== -->
+
+    <button
+        class="classroom-review-button"
+        id="classroom-review-button"
+        type="button"
+    >
+        Verbes à revoir
+    </button>
+
+
+    <!-- =================================================
+         BOUTON RETOUR APPRENTISSAGE
+    ================================================== -->
+
+    <button
+        class="classroom-learning-button"
+        id="classroom-learning-button"
+        type="button"
+        hidden
+    >
+        Apprentissage
+    </button>
+
+</section>
 
 
     <!-- =====================================================
@@ -733,6 +929,7 @@
     <script src="assets/JS/quiz.js"></script>
     <script src="assets/JS/classroom-learning.js"></script>
     <script src="assets/JS/classroom-training.js"></script>
+    <script src="assets/JS/statistics.js"></script>
     <script src="assets/JS/script.js"></script>
 
 </body>

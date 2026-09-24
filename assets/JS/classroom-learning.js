@@ -50,14 +50,23 @@ const classroomVerbForms =
         ".classroom-board__verb"
     );
 
+const classroomReviewButton =
+    document.getElementById(
+        "classroom-review-button"
+    );
+
 
 /* ==========================================================
    ÉTAT
 ========================================================== */
 
+let classroomAllVerbs = [];
+
 let classroomVerbs = [];
 
 let classroomVerbIndex = 0;
+
+let classroomReviewMode = false;
 
 
 /* ==========================================================
@@ -82,19 +91,23 @@ async function loadClassroomVerbs()
         }
 
 
-        classroomVerbs =
+        classroomAllVerbs =
             await response.json();
 
 
         if (
-            !Array.isArray(classroomVerbs) ||
-            classroomVerbs.length === 0
+            !Array.isArray(classroomAllVerbs) ||
+            classroomAllVerbs.length === 0
         )
         {
             throw new Error(
                 "Aucun verbe disponible."
             );
         }
+
+
+        classroomVerbs =
+            [...classroomAllVerbs];
 
 
         classroomVerbIndex = 0;
@@ -108,6 +121,145 @@ async function loadClassroomVerbs()
             "Erreur apprentissage :",
             error
         );
+    }
+}
+
+
+/* ==========================================================
+   NORMALISATION D'UN INFINITIF
+========================================================== */
+
+function normalizeClassroomInfinitive(
+    infinitive
+)
+{
+    return String(
+        infinitive ?? ""
+    )
+        .trim()
+        .toLowerCase()
+        .replace(
+            /^to\s+/,
+            ""
+        );
+}
+
+
+/* ==========================================================
+   VERBES À REVOIR
+========================================================== */
+
+async function showClassroomReviewVerbs()
+{
+    if (classroomReviewMode)
+    {
+        classroomReviewMode =
+            false;
+
+        classroomVerbs =
+            [...classroomAllVerbs];
+
+        classroomVerbIndex =
+            0;
+
+        classroomReviewButton.textContent =
+            "Verbes à revoir";
+
+        displayClassroomVerb();
+
+        return;
+    }
+
+
+    try
+    {
+        classroomReviewButton.disabled =
+            true;
+
+
+        const errors =
+            await getQuizErrors();
+
+
+        const reviewInfinitives =
+            new Set(
+                errors.map(
+                    (error) =>
+                        normalizeClassroomInfinitive(
+                            error.infinitif
+                        )
+                )
+            );
+
+
+        const reviewVerbs =
+            classroomAllVerbs.filter(
+                (verb) =>
+                    reviewInfinitives.has(
+                        normalizeClassroomInfinitive(
+                            verb.infinitive
+                        )
+                    )
+            );
+
+
+        if (reviewVerbs.length === 0)
+        {
+            classroomVerbTitle.textContent =
+                "AUCUN VERBE À REVOIR";
+
+            classroomVerbTranslation.textContent =
+                "Aucune erreur enregistrée";
+
+            classroomVerbInfinitive.textContent =
+                "";
+
+            classroomVerbPreterite.textContent =
+                "";
+
+            classroomVerbParticiple.textContent =
+                "";
+
+            classroomVerbCounter.textContent =
+                "0 / 0";
+
+            return;
+        }
+
+
+        classroomReviewMode =
+            true;
+
+        classroomVerbs =
+            reviewVerbs;
+
+        classroomVerbIndex =
+            0;
+
+        classroomReviewButton.textContent =
+            "Tous les verbes";
+
+
+        displayClassroomVerb();
+    }
+    catch (error)
+    {
+        console.error(
+            "Erreur verbes à revoir :",
+            error
+        );
+
+
+        classroomVerbTitle.textContent =
+            "ERREUR";
+
+        classroomVerbTranslation.textContent =
+            "Impossible de charger les verbes à revoir";
+    }
+    finally
+    {
+        classroomReviewButton.disabled =
+            false;
     }
 }
 
@@ -165,6 +317,12 @@ function displayClassroomVerb()
             "Un élément du tableau d'apprentissage est absent du HTML."
         );
 
+        return;
+    }
+
+
+    if (classroomVerbs.length === 0)
+    {
         return;
     }
 
@@ -282,6 +440,15 @@ if (classroomNextVerbButton)
     classroomNextVerbButton.addEventListener(
         "click",
         showNextClassroomVerb
+    );
+}
+
+
+if (classroomReviewButton)
+{
+    classroomReviewButton.addEventListener(
+        "click",
+        showClassroomReviewVerbs
     );
 }
 
