@@ -1,32 +1,4 @@
 /* ==========================================================
-   POLICE CABIN SKETCH
-========================================================== */
-
-@font-face {
-    font-family: "Cabin Sketch";
-
-    src: url("../polices/cabin-sketch/cabin-sketch-latin-400-normal.woff2")
-        format("woff2");
-
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-}
-
-
-@font-face {
-    font-family: "Cabin Sketch";
-
-    src: url("../polices/cabin-sketch/cabin-sketch-latin-700-normal.woff2")
-        format("woff2");
-
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-}
-
-
-/* ==========================================================
    ÉCRAN CLASSE / APPRENTISSAGE
 ========================================================== */
 

@@ -10,10 +10,12 @@ const API_URL =
 
 
 /* ==========================================================
-   TOKEN
+   AUTHENTIFICATION
 ========================================================== */
 
 let apiToken = null;
+
+let currentStudent = null;
 
 
 /* ==========================================================
@@ -23,6 +25,9 @@ let apiToken = null;
 function logoutStudent()
 {
     apiToken =
+        null;
+
+    currentStudent =
         null;
 }
 
@@ -91,7 +96,11 @@ async function loginStudent(
         data.token;
 
 
-    return data.eleve;
+    currentStudent =
+        data.eleve;
+
+
+    return currentStudent;
 }
 
 

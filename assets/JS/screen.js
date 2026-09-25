@@ -110,5 +110,5 @@ function showStatistics()
     hideAllScreens();
 
     statisticsScreen.style.display =
-        "flex";
+        "block";
 }

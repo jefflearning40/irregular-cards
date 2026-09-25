@@ -40,6 +40,53 @@ const statisticsEvolutionContent =
         "statistics-evolution-content"
     );
 
+const statisticsErrorFilter =
+    document.getElementById(
+        "statistics-error-filter"
+    );
+
+const statisticsReviewCounter =
+    document.getElementById(
+        "statistics-review-counter"
+    );
+
+const statisticsPreviousButton =
+    document.getElementById(
+        "statistics-previous-button"
+    );
+
+const statisticsNextButton =
+    document.getElementById(
+        "statistics-next-button"
+    );
+
+const statisticsPageIndicator =
+    document.getElementById(
+        "statistics-page-indicator"
+    );
+
+const statisticsStudentName =
+    document.getElementById(
+        "statistics-student-name"
+    );
+
+
+/* ==========================================================
+   PAGINATION DES VERBES
+========================================================== */
+
+const STATISTICS_VERBS_PER_PAGE =
+    10;
+
+let statisticsAllReviewVerbs =
+    [];
+
+let statisticsFilteredReviewVerbs =
+    [];
+
+let statisticsCurrentPage =
+    1;
+
 
 /* ==========================================================
    RÉCUPÉRATION DES STATISTIQUES
@@ -167,97 +214,362 @@ function formatStatisticsDate(
 
 
 /* ==========================================================
+   FILTRAGE DES VERBES
+========================================================== */
+
+function filterStatisticsReviewVerbs()
+{
+    const filter =
+        statisticsErrorFilter.value;
+
+
+    statisticsFilteredReviewVerbs =
+        statisticsAllReviewVerbs.filter(
+            (verb) =>
+            {
+                const errorCount =
+                    Number(
+                        verb.nombre_erreurs
+                    ) || 0;
+
+
+                if (filter === "all")
+                {
+                    return true;
+                }
+
+
+                if (filter === "4")
+                {
+                    return errorCount >= 4;
+                }
+
+
+                return (
+                    errorCount ===
+                    Number(filter)
+                );
+            }
+        );
+
+
+    statisticsCurrentPage =
+        1;
+
+
+    displayStatisticsReviewVerbs();
+}
+
+
+/* ==========================================================
+   CRÉATION D'UNE LIGNE VERBE
+========================================================== */
+
+function createStatisticsReviewVerb(
+    verb
+)
+{
+    const item =
+        document.createElement(
+            "div"
+        );
+
+
+    item.className =
+        "statistics-review-item";
+
+
+    const infinitive =
+        document.createElement(
+            "span"
+        );
+
+
+    infinitive.className =
+        "statistics-review-verb";
+
+    infinitive.textContent =
+        verb.infinitif;
+
+
+    const errorCount =
+        document.createElement(
+            "span"
+        );
+
+
+    errorCount.className =
+        "statistics-review-count";
+
+
+    const numberOfErrors =
+        Number(
+            verb.nombre_erreurs
+        ) || 0;
+
+
+    errorCount.textContent =
+        `${numberOfErrors} erreur${
+            numberOfErrors > 1
+                ? "s"
+                : ""
+        }`;
+
+
+    item.appendChild(
+        infinitive
+    );
+
+    item.appendChild(
+        errorCount
+    );
+
+
+    return item;
+}
+
+
+/* ==========================================================
+   MISE À JOUR DE LA PAGINATION
+========================================================== */
+
+function updateStatisticsPagination()
+{
+    const totalVerbs =
+        statisticsFilteredReviewVerbs.length;
+
+
+    const totalPages =
+        Math.max(
+            1,
+            Math.ceil(
+                totalVerbs /
+                STATISTICS_VERBS_PER_PAGE
+            )
+        );
+
+
+    if (
+        statisticsCurrentPage >
+        totalPages
+    )
+    {
+        statisticsCurrentPage =
+            totalPages;
+    }
+
+
+    const start =
+        totalVerbs === 0
+            ? 0
+            : (
+                (
+                    statisticsCurrentPage - 1
+                ) *
+                STATISTICS_VERBS_PER_PAGE
+            ) + 1;
+
+
+    const end =
+        Math.min(
+            statisticsCurrentPage *
+            STATISTICS_VERBS_PER_PAGE,
+            totalVerbs
+        );
+
+
+    statisticsReviewCounter.textContent =
+        `${start}–${end} / ${totalVerbs} verbe${
+            totalVerbs > 1
+                ? "s"
+                : ""
+        }`;
+
+
+    statisticsPageIndicator.textContent =
+        `Page ${statisticsCurrentPage} / ${totalPages}`;
+
+
+    statisticsPreviousButton.disabled =
+        statisticsCurrentPage <= 1;
+
+
+    statisticsNextButton.disabled =
+        statisticsCurrentPage >= totalPages;
+}
+
+
+/* ==========================================================
    AFFICHAGE DES VERBES À REVOIR
 ========================================================== */
 
-function displayStatisticsReviewVerbs(
-    verbs
-)
+function displayStatisticsReviewVerbs()
 {
     statisticsReviewVerbs.innerHTML =
         "";
 
 
-    if (
-        !Array.isArray(verbs) ||
-        verbs.length === 0
-    )
+    const totalVerbs =
+        statisticsFilteredReviewVerbs.length;
+
+
+    if (totalVerbs === 0)
     {
         const message =
             document.createElement(
                 "p"
             );
 
+
         message.textContent =
             "Aucun verbe à revoir.";
+
 
         statisticsReviewVerbs.appendChild(
             message
         );
 
+
+        updateStatisticsPagination();
+
         return;
     }
 
 
-    verbs.forEach(
+    const startIndex =
+        (
+            statisticsCurrentPage - 1
+        ) *
+        STATISTICS_VERBS_PER_PAGE;
+
+
+    const endIndex =
+        startIndex +
+        STATISTICS_VERBS_PER_PAGE;
+
+
+    const pageVerbs =
+        statisticsFilteredReviewVerbs.slice(
+            startIndex,
+            endIndex
+        );
+
+
+    pageVerbs.forEach(
         (verb) =>
         {
-            const item =
-                document.createElement(
-                    "div"
-                );
-
-
-            item.className =
-                "statistics-review-item";
-
-
-            const infinitive =
-                document.createElement(
-                    "span"
-                );
-
-
-            infinitive.className =
-                "statistics-review-verb";
-
-            infinitive.textContent =
-                verb.infinitif;
-
-
-            const errorCount =
-                document.createElement(
-                    "span"
-                );
-
-
-            errorCount.className =
-                "statistics-review-count";
-
-            errorCount.textContent =
-                `${verb.nombre_erreurs} erreur${
-                    Number(
-                        verb.nombre_erreurs
-                    ) > 1
-                        ? "s"
-                        : ""
-                }`;
-
-
-            item.appendChild(
-                infinitive
-            );
-
-            item.appendChild(
-                errorCount
-            );
-
-
             statisticsReviewVerbs.appendChild(
-                item
+                createStatisticsReviewVerb(
+                    verb
+                )
             );
         }
     );
+
+
+    updateStatisticsPagination();
+}
+
+
+/* ==========================================================
+   INITIALISATION DES VERBES À REVOIR
+========================================================== */
+
+function initialiseStatisticsReviewVerbs(
+    verbs
+)
+{
+    if (!Array.isArray(verbs))
+    {
+        statisticsAllReviewVerbs =
+            [];
+    }
+    else
+    {
+        statisticsAllReviewVerbs =
+            [...verbs];
+    }
+
+
+    statisticsAllReviewVerbs.sort(
+        (verbA, verbB) =>
+        {
+            return (
+                Number(
+                    verbB.nombre_erreurs
+                ) -
+                Number(
+                    verbA.nombre_erreurs
+                )
+            );
+        }
+    );
+
+
+    statisticsFilteredReviewVerbs =
+        [...statisticsAllReviewVerbs];
+
+
+    statisticsCurrentPage =
+        1;
+
+
+    statisticsErrorFilter.value =
+        "all";
+
+
+    displayStatisticsReviewVerbs();
+}
+
+
+/* ==========================================================
+   PAGE PRÉCÉDENTE
+========================================================== */
+
+function showPreviousStatisticsPage()
+{
+    if (statisticsCurrentPage <= 1)
+    {
+        return;
+    }
+
+
+    statisticsCurrentPage--;
+
+
+    displayStatisticsReviewVerbs();
+}
+
+
+/* ==========================================================
+   PAGE SUIVANTE
+========================================================== */
+
+function showNextStatisticsPage()
+{
+    const totalPages =
+        Math.max(
+            1,
+            Math.ceil(
+                statisticsFilteredReviewVerbs.length /
+                STATISTICS_VERBS_PER_PAGE
+            )
+        );
+
+
+    if (
+        statisticsCurrentPage >=
+        totalPages
+    )
+    {
+        return;
+    }
+
+
+    statisticsCurrentPage++;
+
+
+    displayStatisticsReviewVerbs();
 }
 
 
@@ -283,8 +595,10 @@ function displayStatisticsEvolution(
                 "p"
             );
 
+
         message.textContent =
             "Aucun quiz enregistré.";
+
 
         statisticsEvolutionContent.appendChild(
             message
@@ -419,6 +733,18 @@ function displayStudentStatistics(
     statistics
 )
 {
+    if (currentStudent)
+    {
+        statisticsStudentName.textContent =
+            `${currentStudent.prenom} ${currentStudent.nom}`;
+    }
+    else
+    {
+        statisticsStudentName.textContent =
+            "-";
+    }
+
+
     statisticsQuizCount.textContent =
         statistics.nombre_quiz;
 
@@ -437,7 +763,7 @@ function displayStudentStatistics(
         statistics.nombre_erreurs;
 
 
-    displayStatisticsReviewVerbs(
+    initialiseStatisticsReviewVerbs(
         statistics.verbes_a_revoir
     );
 
@@ -454,6 +780,12 @@ function displayStudentStatistics(
 
 async function loadStudentStatistics()
 {
+    statisticsStudentName.textContent =
+        currentStudent
+            ? `${currentStudent.prenom} ${currentStudent.nom}`
+            : "-";
+
+
     statisticsQuizCount.textContent =
         "...";
 
@@ -516,3 +848,29 @@ async function loadStudentStatistics()
         );
     }
 }
+
+
+/* ==========================================================
+   ÉVÉNEMENTS DU FILTRE
+========================================================== */
+
+statisticsErrorFilter.addEventListener(
+    "change",
+    filterStatisticsReviewVerbs
+);
+
+
+/* ==========================================================
+   ÉVÉNEMENTS DE PAGINATION
+========================================================== */
+
+statisticsPreviousButton.addEventListener(
+    "click",
+    showPreviousStatisticsPage
+);
+
+
+statisticsNextButton.addEventListener(
+    "click",
+    showNextStatisticsPage
+);

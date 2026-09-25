@@ -3,43 +3,111 @@
 ========================================================== */
 
 .statistics-screen {
-    position: relative;
+    position: fixed;
+
+    inset: 0;
 
     width: 100vw;
     height: 100vh;
 
     padding:
-        clamp(20px, 3vw, 45px);
+        clamp(12px, 2vw, 30px);
 
+    overflow-x: hidden;
     overflow-y: auto;
 
-    color: var(--color-text);
-    background: var(--color-background);
+    color:
+        var(--postcard-blue-dark);
+
+    background:
+        var(--color-background);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
 }
 
 
 /* ==========================================================
-   CONTENEUR PRINCIPAL
+   BULLETIN
 ========================================================== */
 
 .statistics-container {
     position: relative;
 
-    width: min(1200px, 100%);
-    min-height: 100%;
+    width: min(1100px, 96%);
+    height: auto;
 
     margin: 0 auto;
 
     padding:
-        clamp(20px, 3vw, 40px);
+        clamp(25px, 4vw, 55px);
 
-    border: 2px solid var(--color-primary);
-    border-radius: 15px;
+    border:
+        3px solid
+        var(--postcard-blue);
 
-    background: var(--color-surface);
+    border-radius: 4px;
+
+    color:
+        var(--postcard-blue-dark);
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent 31px,
+            rgba(7, 63, 105, 0.10) 32px
+        ),
+        var(--postcard-paper);
 
     box-shadow:
-        0 8px 25px var(--shadow-dark);
+        0 8px 24px
+        var(--shadow-dark);
+}
+
+
+/* ==========================================================
+   DOUBLE BORDURE DU BULLETIN
+========================================================== */
+
+.statistics-container::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 8px;
+
+    border:
+        1px solid
+        var(--postcard-brown);
+
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   EN-TÊTE
+========================================================== */
+
+.statistics-header {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    margin-bottom:
+        clamp(20px, 3vw, 35px);
+
+    padding-bottom: 16px;
+
+    border-bottom:
+        2px solid
+        var(--postcard-blue);
 }
 
 
@@ -47,16 +115,38 @@
    TITRE
 ========================================================== */
 
-.statistics-title {
-    margin-bottom:
-        clamp(25px, 4vw, 45px);
+.statistics-heading {
+    text-align: center;
+}
 
-    color: var(--color-text);
+
+.statistics-heading-school {
+    margin-bottom: 5px;
+
+    color:
+        var(--postcard-brown-dark);
 
     font-size:
-        clamp(1.8rem, 4vw, 3rem);
+        clamp(.9rem, 1.4vw, 1.2rem);
+}
 
-    text-align: center;
+
+.statistics-title {
+    margin: 0;
+
+    color:
+        var(--postcard-blue);
+
+    font-size:
+        clamp(2rem, 5vw, 4rem);
+
+    font-weight: 400;
+
+    line-height: 1.15;
+
+    letter-spacing: .04em;
+
+    text-transform: uppercase;
 }
 
 
@@ -67,64 +157,105 @@
 .statistics-back-button {
     position: absolute;
 
-    top: clamp(15px, 2vw, 25px);
-    left: clamp(15px, 2vw, 25px);
+    top: 0;
+    left: 0;
 
     padding:
-        clamp(7px, 1vw, 10px)
-        clamp(12px, 1.5vw, 18px);
+        7px
+        15px;
 
     border:
-        var(--button-border-width)
-        solid
-        var(--color-secondary);
+        2px solid
+        var(--postcard-blue);
 
     border-radius:
         var(--button-radius);
 
-    color: var(--color-text);
-    background: var(--color-background);
+    color:
+        var(--postcard-blue);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
 
     font-size:
-        clamp(.8rem, 1.2vw, 1rem);
+        clamp(.85rem, 1.2vw, 1rem);
 
-    font-weight: 700;
+    font-weight: 400;
 
     cursor: pointer;
-
-    transition:
-        color 200ms ease,
-        background-color 200ms ease,
-        border-color 200ms ease,
-        transform 200ms ease;
 }
 
 
 .statistics-back-button:hover {
-    color: var(--color-background);
+    color:
+        var(--postcard-paper-light);
 
-    background: var(--color-success);
-    border-color: var(--color-success);
-
-    transform:
-        scale(1.05);
+    background:
+        var(--postcard-blue);
 }
 
 
 .statistics-back-button:focus-visible {
     outline:
-        4px solid
+        3px solid
         var(--color-warning);
 
-    outline-offset: 4px;
+    outline-offset: 3px;
 }
 
 
 /* ==========================================================
-   RÉSUMÉ
+   IDENTITÉ
+========================================================== */
+
+.statistics-identity {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom:
+        clamp(20px, 3vw, 35px);
+
+    padding:
+        10px
+        4px;
+
+    border-bottom:
+        1px solid
+        var(--postcard-blue-mid);
+
+    font-size:
+        clamp(1rem, 1.6vw, 1.35rem);
+}
+
+
+.statistics-identity strong {
+    color:
+        var(--postcard-blue);
+
+    font-weight: 400;
+}
+
+
+/* ==========================================================
+   RÉSUMÉ DES RÉSULTATS
 ========================================================== */
 
 .statistics-summary {
+    position: relative;
+
+    z-index: 2;
+
     display: grid;
 
     grid-template-columns:
@@ -133,23 +264,30 @@
             minmax(0, 1fr)
         );
 
-    gap:
-        clamp(10px, 1.5vw, 20px);
-
     margin-bottom:
-        clamp(25px, 4vw, 45px);
+        clamp(30px, 4vw, 45px);
+
+    border-top:
+        2px solid
+        var(--postcard-blue);
+
+    border-left:
+        2px solid
+        var(--postcard-blue);
 }
 
 
 /* ==========================================================
-   CARTES DU RÉSUMÉ
+   CASES DU BULLETIN
 ========================================================== */
 
 .statistics-card {
-    min-height: 125px;
+    min-height:
+        clamp(95px, 11vw, 125px);
 
     padding:
-        clamp(12px, 2vw, 20px);
+        12px
+        8px;
 
     display: flex;
     flex-direction: column;
@@ -157,74 +295,50 @@
     align-items: center;
     justify-content: center;
 
-    gap: 10px;
+    gap: 12px;
 
-    border:
+    border-right:
         2px solid
-        var(--color-primary);
+        var(--postcard-blue);
 
-    border-radius: 12px;
+    border-bottom:
+        2px solid
+        var(--postcard-blue);
 
-    background: var(--color-background);
+    background:
+        rgba(255, 248, 218, 0.42);
 
     text-align: center;
-
-    box-shadow:
-        0 4px 12px
-        var(--shadow-medium);
-}
-
-
-.statistics-card-value {
-    color: var(--color-success);
-
-    font-size:
-        clamp(1.5rem, 2.5vw, 2.3rem);
-
-    font-weight: 700;
-}
-
-
-.statistics-card-label {
-    color: var(--color-text);
-
-    font-size:
-        clamp(.75rem, 1.2vw, 1rem);
-
-    font-weight: 700;
 }
 
 
 /* ==========================================================
-   SECTIONS
+   LIBELLÉS
 ========================================================== */
 
-.statistics-review,
-.statistics-evolution {
-    margin-top:
-        clamp(20px, 3vw, 35px);
+.statistics-card-label {
+    color:
+        var(--postcard-brown-dark);
 
-    padding:
-        clamp(15px, 2vw, 25px);
+    font-size:
+        clamp(.85rem, 1.3vw, 1.1rem);
 
-    border-radius: 12px;
-
-    background: var(--color-background);
-
-    box-shadow:
-        0 4px 12px
-        var(--shadow-medium);
+    font-weight: 400;
 }
 
 
-.statistics-review h2,
-.statistics-evolution h2 {
-    margin-bottom: 20px;
+/* ==========================================================
+   VALEURS
+========================================================== */
 
-    color: var(--color-secondary);
+.statistics-card-value {
+    color:
+        var(--postcard-blue);
 
     font-size:
-        clamp(1.3rem, 2vw, 1.8rem);
+        clamp(1.5rem, 2.8vw, 2.4rem);
+
+    font-weight: 400;
 }
 
 
@@ -232,197 +346,711 @@
    VERBES À REVOIR
 ========================================================== */
 
-#statistics-review-verbs {
-    display: grid;
+.statistics-review {
+    position: relative;
 
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(150px, 1fr)
-        );
+    z-index: 2;
 
-    gap: 10px;
+    margin-top: 0;
+
+    padding: 0;
+
+    background: transparent;
+
+    box-shadow: none;
 }
 
 
-.statistics-review-item {
-    padding:
-        10px 12px;
+.statistics-review h2 {
+    margin:
+        0
+        0
+        18px;
 
+    color:
+        var(--postcard-blue);
+
+    font-size:
+        clamp(1.5rem, 3vw, 2.4rem);
+
+    font-weight: 400;
+
+    text-align: center;
+}
+
+
+/* ==========================================================
+   OUTILS VERBES À REVOIR
+========================================================== */
+
+.statistics-review-tools {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
 
-    gap: 10px;
+    gap: 20px;
 
-    border:
-        1px solid
-        var(--color-primary);
+    margin-bottom: 12px;
 
-    border-radius: 8px;
-
-    background: var(--color-surface);
-}
-
-
-.statistics-review-verb {
-    color: var(--color-text);
-
-    font-weight: 700;
-}
-
-
-.statistics-review-count {
-    color: var(--color-warning);
-
-    font-size: .85rem;
-
-    white-space: nowrap;
-}
-
-
-/* ==========================================================
-   ÉVOLUTION
-========================================================== */
-
-#statistics-evolution-content {
-    width: 100%;
-
-    overflow-x: auto;
-    overflow-y: hidden;
-}
-
-
-/* ==========================================================
-   GRAPHIQUE
-========================================================== */
-
-.statistics-chart {
-    height: 330px;
-    min-width: max-content;
-
-    display: flex;
-
-    align-items: flex-end;
-
-    gap:
-        clamp(12px, 2vw, 25px);
-
-    padding:
-        20px
-        10px
-        5px;
-}
-
-
-/* ==========================================================
-   COLONNES DU GRAPHIQUE
-========================================================== */
-
-.statistics-chart-column {
-    width:
-        clamp(48px, 5vw, 70px);
-
-    height: 100%;
-
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-
-    flex-shrink: 0;
-}
-
-
-/* ==========================================================
-   SCORE
-========================================================== */
-
-.statistics-chart-score {
-    height: 28px;
-
-    display: flex;
-    align-items: center;
-
-    color: var(--color-success);
+    color:
+        var(--postcard-blue-dark);
 
     font-size:
-        clamp(.75rem, 1vw, .95rem);
-
-    font-weight: 700;
-
-    white-space: nowrap;
+        clamp(.9rem, 1.3vw, 1.05rem);
 }
 
 
 /* ==========================================================
-   ZONE VERTICALE
+   FILTRE NOMBRE D'ERREURS
 ========================================================== */
 
-.statistics-chart-track {
-    position: relative;
-
-    width:
-        clamp(25px, 3vw, 40px);
-
-    height: 235px;
-
+.statistics-review-filter {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.statistics-review-filter select {
+    padding:
+        7px
+        12px;
+
+    border:
+        2px solid
+        var(--postcard-blue);
 
     border-radius:
         var(--button-radius);
 
-    background: var(--color-surface);
+    color:
+        var(--postcard-blue-dark);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(.85rem, 1.2vw, 1rem);
+
+    cursor: pointer;
+}
+
+
+.statistics-review-filter select:focus-visible {
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset: 2px;
+}
+
+
+/* ==========================================================
+   COMPTEUR DE VERBES
+========================================================== */
+
+.statistics-review-counter {
+    color:
+        var(--postcard-brown-dark);
+
+    white-space: nowrap;
+}
+
+
+/* ==========================================================
+   EN-TÊTE TABLEAU
+========================================================== */
+
+.statistics-review-header {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        180px;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    border-bottom: 0;
+
+    background:
+        var(--postcard-paper-dark);
+
+    color:
+        var(--postcard-blue-dark);
+
+    font-size:
+        clamp(.9rem, 1.4vw, 1.15rem);
+
+    font-weight: 400;
+}
+
+
+.statistics-review-header span {
+    padding:
+        9px
+        15px;
+}
+
+
+.statistics-review-header span:last-child {
+    border-left:
+        1px solid
+        var(--postcard-blue);
+
+    text-align: center;
+}
+
+
+/* ==========================================================
+   CONTENU TABLEAU
+========================================================== */
+
+#statistics-review-verbs {
+    display: block;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+}
+
+
+/* ==========================================================
+   LIGNE VERBE
+========================================================== */
+
+.statistics-review-item {
+    min-height: 38px;
+
+    padding: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        180px;
+
+    align-items: stretch;
+
+    gap: 0;
+
+    border: 0;
+
+    border-bottom:
+        1px solid
+        rgba(7, 63, 105, 0.40);
+
+    border-radius: 0;
+
+    background:
+        rgba(255, 248, 218, 0.25);
+}
+
+
+.statistics-review-item:last-child {
+    border-bottom: 0;
+}
+
+
+.statistics-review-verb,
+.statistics-review-count {
+    display: flex;
+    align-items: center;
+
+    padding:
+        7px
+        15px;
+}
+
+
+.statistics-review-verb {
+    color:
+        var(--postcard-blue-dark);
+
+    font-size:
+        clamp(1rem, 1.5vw, 1.25rem);
+
+    font-weight: 400;
+}
+
+
+.statistics-review-count {
+    justify-content: center;
+
+    border-left:
+        1px solid
+        var(--postcard-blue);
+
+    color:
+        var(--postcard-red);
+
+    font-size:
+        clamp(.9rem, 1.3vw, 1.1rem);
+
+    font-weight: 400;
+
+    white-space: nowrap;
+}
+
+
+/* ==========================================================
+   PAGINATION
+========================================================== */
+
+.statistics-review-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 18px;
+
+    margin-top: 15px;
+
+    color:
+        var(--postcard-blue-dark);
+}
+
+
+.statistics-review-page-button {
+    width: 42px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    border-radius:
+        var(--button-radius);
+
+    color:
+        var(--postcard-blue);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size: 1.2rem;
+
+    cursor: pointer;
+}
+
+
+.statistics-review-page-button:hover:not(:disabled) {
+    color:
+        var(--postcard-paper-light);
+
+    background:
+        var(--postcard-blue);
+}
+
+
+.statistics-review-page-button:disabled {
+    opacity: .35;
+
+    cursor: default;
+}
+
+
+.statistics-review-page-button:focus-visible {
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset: 2px;
+}
+
+
+#statistics-page-indicator {
+    min-width: 110px;
+
+    text-align: center;
+}
+
+
+/* ==========================================================
+   PIED DU BULLETIN
+========================================================== */
+
+.statistics-footer {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-top:
+        clamp(25px, 4vw, 40px);
+}
+
+
+/* ==========================================================
+   NOTE DU BULLETIN
+========================================================== */
+
+.statistics-footer-note {
+    color:
+        var(--postcard-brown-dark);
+
+    font-size:
+        clamp(.85rem, 1.2vw, 1rem);
+}
+
+
+/* ==========================================================
+   BOUTON ÉVOLUTION
+========================================================== */
+
+.statistics-evolution-button {
+    padding:
+        10px
+        20px;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    border-radius:
+        var(--button-radius);
+
+    color:
+        var(--postcard-blue);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(1rem, 1.5vw, 1.25rem);
+
+    font-weight: 400;
+
+    cursor: pointer;
+}
+
+
+.statistics-evolution-button:hover {
+    color:
+        var(--postcard-paper-light);
+
+    background:
+        var(--postcard-blue);
+}
+
+
+.statistics-evolution-button:focus-visible {
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset: 3px;
+}
+
+
+/* ==========================================================
+   MODALE ÉVOLUTION
+========================================================== */
+
+.statistics-evolution-modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        clamp(15px, 3vw, 40px);
+
+    background:
+        var(--overlay-dark);
+}
+
+
+.statistics-evolution-modal.is-open {
+    display: flex;
+}
+
+
+/* ==========================================================
+   FEUILLE DE LA MODALE
+========================================================== */
+
+.statistics-evolution-dialog {
+    position: relative;
+
+    width:
+        min(950px, 96vw);
+
+    max-height: 92vh;
+
+    padding:
+        clamp(25px, 4vw, 45px);
+
+    overflow: auto;
+
+    border:
+        3px solid
+        var(--postcard-blue);
+
+    color:
+        var(--postcard-blue-dark);
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent 27px,
+            rgba(7, 63, 105, 0.13) 28px
+        ),
+        var(--postcard-paper-light);
+
+    box-shadow:
+        0 15px 45px
+        var(--shadow-dark);
+}
+
+
+/* ==========================================================
+   MARGE ROUGE TYPE CAHIER
+========================================================== */
+
+.statistics-evolution-dialog::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    left:
+        clamp(45px, 7vw, 75px);
+
+    width: 2px;
+
+    background:
+        rgba(158, 31, 47, 0.55);
+
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   EN-TÊTE MODALE
+========================================================== */
+
+.statistics-evolution-header {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-left:
+        clamp(35px, 6vw, 65px);
+
+    margin-bottom: 25px;
+}
+
+
+.statistics-evolution-subtitle {
+    margin-bottom: 4px;
+
+    color:
+        var(--postcard-brown-dark);
+
+    font-size:
+        clamp(.85rem, 1.2vw, 1rem);
+}
+
+
+.statistics-evolution-header h2 {
+    margin: 0;
+
+    color:
+        var(--postcard-blue);
+
+    font-size:
+        clamp(2rem, 4vw, 3.2rem);
+
+    font-weight: 400;
+
+    text-transform: uppercase;
+}
+
+
+/* ==========================================================
+   CROIX FERMETURE
+========================================================== */
+
+.statistics-evolution-close {
+    width: 38px;
+    height: 38px;
+
+    border:
+        2px solid
+        var(--postcard-red);
+
+    border-radius: 50%;
+
+    color:
+        var(--postcard-red);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size: 1.6rem;
+    font-weight: 400;
+
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================================
+   ZONE DU FUTUR GRAPHIQUE
+========================================================== */
+
+.statistics-evolution-chart {
+    position: relative;
+
+    z-index: 2;
+
+    min-height: 350px;
+
+    margin-left:
+        clamp(35px, 6vw, 65px);
+
+    padding: 20px;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    background:
+        rgba(255, 248, 218, 0.50);
+}
+
+
+#statistics-evolution-content {
+    width: 100%;
+    min-height: 300px;
 
     overflow: hidden;
 }
 
 
 /* ==========================================================
-   BARRE DU SCORE
+   ANCIEN GRAPHIQUE EN BARRES
+   MASQUÉ EN ATTENDANT LA COURBE
 ========================================================== */
 
-.statistics-chart-bar {
-    width: 100%;
-
-    min-height: 2px;
-
-    border-radius:
-        var(--button-radius)
-        var(--button-radius)
-        0
-        0;
-
-    background: var(--color-success);
-
-    transition:
-        height 400ms ease;
+.statistics-chart {
+    display: none;
 }
 
 
 /* ==========================================================
-   DATE
+   PIED DE MODALE
 ========================================================== */
 
-.statistics-chart-date {
-    margin-top: 8px;
+.statistics-evolution-footer {
+    position: relative;
 
-    color: var(--color-text);
+    z-index: 2;
 
-    font-size:
-        clamp(.65rem, .8vw, .8rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    font-weight: 700;
+    gap: 20px;
 
-    white-space: nowrap;
+    margin-top: 25px;
 
-    transform:
-        rotate(-35deg);
+    padding-left:
+        clamp(35px, 6vw, 65px);
 
-    transform-origin:
-        top center;
+    color:
+        var(--postcard-brown-dark);
+}
+
+
+/* ==========================================================
+   BOUTON FERMER
+========================================================== */
+
+.statistics-evolution-close-button {
+    padding:
+        8px
+        20px;
+
+    border:
+        2px solid
+        var(--postcard-red);
+
+    border-radius:
+        var(--button-radius);
+
+    color:
+        var(--postcard-red);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size: 1rem;
+    font-weight: 400;
+
+    cursor: pointer;
+}
+
+
+.statistics-evolution-close-button:hover {
+    color:
+        var(--postcard-paper-light);
+
+    background:
+        var(--postcard-red);
 }
 
 
@@ -439,6 +1067,19 @@
                 minmax(0, 1fr)
             );
     }
+
+
+    .statistics-card:last-child {
+        grid-column:
+            1 / -1;
+    }
+
+
+    .statistics-identity {
+        flex-direction: column;
+
+        gap: 8px;
+    }
 }
 
 
@@ -449,46 +1090,145 @@
 @media (max-width: 600px) {
 
     .statistics-screen {
-        padding: 10px;
+        padding: 8px;
     }
 
 
     .statistics-container {
+        width: 100%;
+
         padding:
-            70px
-            15px
-            20px;
+            75px
+            18px
+            25px;
+    }
+
+
+    .statistics-header {
+        position: static;
+    }
+
+
+    .statistics-back-button {
+        top: 25px;
+        left: 25px;
     }
 
 
     .statistics-title {
-        margin-bottom: 25px;
+        font-size:
+            clamp(1.8rem, 10vw, 2.7rem);
     }
 
 
     .statistics-summary {
         grid-template-columns: 1fr;
+
+        border-right:
+            2px solid
+            var(--postcard-blue);
     }
 
 
     .statistics-card {
-        min-height: 95px;
+        min-height: 80px;
+
+        border-right: 0;
     }
 
 
-    #statistics-review-verbs {
-        grid-template-columns: 1fr;
+    .statistics-card:last-child {
+        grid-column: auto;
     }
 
 
-    .statistics-chart {
-        height: 300px;
+    .statistics-review-tools {
+        flex-direction: column;
+        align-items: stretch;
 
+        gap: 10px;
+    }
+
+
+    .statistics-review-filter {
+        justify-content: space-between;
+    }
+
+
+    .statistics-review-counter {
+        text-align: center;
+    }
+
+
+    .statistics-review-header,
+    .statistics-review-item {
+        grid-template-columns:
+            1fr
+            120px;
+    }
+
+
+    .statistics-review-pagination {
         gap: 12px;
     }
 
 
-    .statistics-chart-track {
-        height: 205px;
+    .statistics-footer {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .statistics-footer-note {
+        text-align: center;
+    }
+
+
+    .statistics-evolution-button {
+        width: 100%;
+    }
+
+
+    .statistics-evolution-dialog {
+        width: 100%;
+
+        padding:
+            25px
+            15px;
+    }
+
+
+    .statistics-evolution-dialog::before {
+        display: none;
+    }
+
+
+    .statistics-evolution-header,
+    .statistics-evolution-footer {
+        padding-left: 0;
+    }
+
+
+    .statistics-evolution-chart {
+        margin-left: 0;
+
+        min-height: 280px;
+
+        padding: 10px;
+    }
+
+
+    #statistics-evolution-content {
+        min-height: 250px;
+    }
+
+
+    .statistics-evolution-footer {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        text-align: center;
     }
 }

@@ -11,7 +11,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Traversée de la Manche</title>
+    <title>Bon Quizz !</title>
 
     <link
         rel="icon"
@@ -263,7 +263,7 @@
     </section>
 
 
-    <!-- =====================================================
+       <!-- =====================================================
          STATISTIQUES ÉLÈVE
     ====================================================== -->
 
@@ -275,25 +275,56 @@
         <div class="statistics-container">
 
             <!-- =====================================================
-                 RETOUR
+                 EN-TÊTE DU BULLETIN
             ====================================================== -->
 
-            <button
-                class="statistics-back-button"
-                id="statistics-back-button"
-                type="button"
-            >
-                Retour
-            </button>
+            <header class="statistics-header">
+
+                <button
+                    class="statistics-back-button"
+                    id="statistics-back-button"
+                    type="button"
+                >
+                    Retour
+                </button>
+
+
+                <div class="statistics-heading">
+
+                    <p class="statistics-heading-school">
+                        Carnet d'apprentissage
+                    </p>
+
+                    <h1 class="statistics-title">
+                        Bulletin de résultats
+                    </h1>
+
+                </div>
+
+            </header>
 
 
             <!-- =====================================================
-                 TITRE
+                 IDENTITÉ
             ====================================================== -->
 
-            <h1 class="statistics-title">
-                Mes statistiques
-            </h1>
+            <div class="statistics-identity">
+
+                <p>
+                    Élève :
+                    <strong id="statistics-student-name">
+                        -
+                    </strong>
+                </p>
+
+                <p>
+                    Matière :
+                    <strong>
+                        Anglais — Verbes irréguliers
+                    </strong>
+                </p>
+
+            </div>
 
 
             <!-- =====================================================
@@ -304,6 +335,10 @@
 
                 <div class="statistics-card">
 
+                    <span class="statistics-card-label">
+                        Quiz réalisés
+                    </span>
+
                     <span
                         class="statistics-card-value"
                         id="statistics-quiz-count"
@@ -311,14 +346,14 @@
                         -
                     </span>
 
-                    <span class="statistics-card-label">
-                        Quiz réalisés
-                    </span>
-
                 </div>
 
 
                 <div class="statistics-card">
+
+                    <span class="statistics-card-label">
+                        Moyenne
+                    </span>
 
                     <span
                         class="statistics-card-value"
@@ -327,14 +362,14 @@
                         -
                     </span>
 
-                    <span class="statistics-card-label">
-                        Moyenne
-                    </span>
-
                 </div>
 
 
                 <div class="statistics-card">
+
+                    <span class="statistics-card-label">
+                        Meilleur score
+                    </span>
 
                     <span
                         class="statistics-card-value"
@@ -343,14 +378,14 @@
                         -
                     </span>
 
-                    <span class="statistics-card-label">
-                        Meilleur score
-                    </span>
-
                 </div>
 
 
                 <div class="statistics-card">
+
+                    <span class="statistics-card-label">
+                        Temps passé
+                    </span>
 
                     <span
                         class="statistics-card-value"
@@ -359,14 +394,14 @@
                         -
                     </span>
 
-                    <span class="statistics-card-label">
-                        Temps passé
-                    </span>
-
                 </div>
 
 
                 <div class="statistics-card">
+
+                    <span class="statistics-card-label">
+                        Erreurs quiz
+                    </span>
 
                     <span
                         class="statistics-card-value"
@@ -375,42 +410,236 @@
                         -
                     </span>
 
-                    <span class="statistics-card-label">
-                        Erreurs quiz
-                    </span>
-
                 </div>
 
             </div>
 
 
-            <!-- =====================================================
+     <!-- =====================================================
                  VERBES À REVOIR
-            ====================================================== -->
+     ====================================================== -->
 
-            <div class="statistics-review">
+         
 
-                <h2>
-                    Verbes à revoir
-                </h2>
+    <div class="statistics-review">
 
-                <div id="statistics-review-verbs">
-                </div>
+    <h2>
+        Verbes à revoir
+    </h2>
 
-            </div>
+
+    <!-- =====================================================
+         FILTRE ET COMPTEUR
+    ====================================================== -->
+
+    <div class="statistics-review-tools">
+
+        <label
+            class="statistics-review-filter"
+            for="statistics-error-filter"
+        >
+            Nombre d'erreurs :
+
+            <select id="statistics-error-filter">
+
+                <option value="all">
+                    Toutes
+                </option>
+
+                <option value="1">
+                    1 erreur
+                </option>
+
+                <option value="2">
+                    2 erreurs
+                </option>
+
+                <option value="3">
+                    3 erreurs
+                </option>
+
+                <option value="4">
+                    4 erreurs et +
+                </option>
+
+            </select>
+
+        </label>
+
+
+        <span
+            class="statistics-review-counter"
+            id="statistics-review-counter"
+        >
+            0–0 / 0 verbes
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         EN-TÊTE DU TABLEAU
+    ====================================================== -->
+
+    <div class="statistics-review-header">
+
+        <span>
+            Verbe
+        </span>
+
+        <span>
+            Nombre d'erreurs
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         LISTE DES VERBES
+    ====================================================== -->
+
+    <div id="statistics-review-verbs">
+    </div>
+
+
+    <!-- =====================================================
+         PAGINATION
+    ====================================================== -->
+
+    <div class="statistics-review-pagination">
+
+        <button
+            class="statistics-review-page-button"
+            id="statistics-previous-button"
+            type="button"
+        >
+            &lt;
+        </button>
+
+
+        <span id="statistics-page-indicator">
+            Page 1 / 1
+        </span>
+
+
+        <button
+            class="statistics-review-page-button"
+            id="statistics-next-button"
+            type="button"
+        >
+            &gt;
+        </button>
+
+    </div>
+
+</div>
 
 
             <!-- =====================================================
-                 ÉVOLUTION
+                 PIED DU BULLETIN
             ====================================================== -->
 
-            <div class="statistics-evolution">
+            <footer class="statistics-footer">
 
-                <h2>
-                    Évolution
-                </h2>
+                <p class="statistics-footer-note">
+                    Résultats enregistrés à partir des quiz.
+                </p>
 
-                <div id="statistics-evolution-content">
+
+                <button
+                    class="statistics-evolution-button"
+                    id="statistics-evolution-button"
+                    type="button"
+                >
+                    Voir mon évolution
+                </button>
+
+            </footer>
+
+        </div>
+
+
+        <!-- =====================================================
+             MODALE ÉVOLUTION
+        ====================================================== -->
+
+        <div
+            class="statistics-evolution-modal"
+            id="statistics-evolution-modal"
+            aria-hidden="true"
+        >
+
+            <div
+                class="statistics-evolution-dialog"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="statistics-evolution-title"
+            >
+
+                <!-- =================================================
+                     EN-TÊTE MODALE
+                ================================================== -->
+
+                <div class="statistics-evolution-header">
+
+                    <div>
+
+                        <p class="statistics-evolution-subtitle">
+                            Carnet de notes
+                        </p>
+
+                        <h2 id="statistics-evolution-title">
+                            Mon évolution
+                        </h2>
+
+                    </div>
+
+
+                    <button
+                        class="statistics-evolution-close"
+                        id="statistics-evolution-close"
+                        type="button"
+                        aria-label="Fermer l'évolution"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <!-- =================================================
+                     GRAPHIQUE
+                ================================================== -->
+
+                <div class="statistics-evolution-chart">
+
+                    <div
+                        id="statistics-evolution-content"
+                    >
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     BAS DE LA MODALE
+                ================================================== -->
+
+                <div class="statistics-evolution-footer">
+
+                    <p>
+                        Progression des résultats obtenus aux quiz
+                    </p>
+
+
+                    <button
+                        class="statistics-evolution-close-button"
+                        id="statistics-evolution-close-button"
+                        type="button"
+                    >
+                        Fermer
+                    </button>
+
                 </div>
 
             </div>
