@@ -96,10 +96,11 @@ loginForm.addEventListener(
 
         try
         {
-            await loginStudent(
-                loginEmail.value.trim(),
-                loginPassword.value
-            );
+            const loginData =
+                await loginUser(
+                    loginEmail.value.trim(),
+                    loginPassword.value
+                );
 
 
             logoutButton.hidden =
@@ -107,9 +108,49 @@ loginForm.addEventListener(
 
 
             closeLoginModal();
+
+
+            /* ==============================================
+               CONNEXION ÉLÈVE
+            ============================================== */
+
+            if (
+                loginData.role ===
+                "eleve"
+            )
+            {
+                showDeparture();
+
+                return;
+            }
+
+
+            /* ==============================================
+               CONNEXION PROFESSEUR
+            ============================================== */
+
+            if (
+                loginData.role ===
+                "professeur"
+            )
+            {
+                showTeacher();
+
+                return;
+            }
+
+
+            throw new Error(
+                "UNKNOWN_ROLE"
+            );
         }
         catch (error)
         {
+            console.error(
+                error
+            );
+
+
             if (
                 error.message ===
                 "INVALID_CREDENTIALS"
@@ -140,6 +181,7 @@ loginForm.addEventListener(
     }
 );
 
+
 /* ==========================================================
    DÉCONNEXION
 ========================================================== */
@@ -148,19 +190,31 @@ logoutButton.addEventListener(
     "click",
     () =>
     {
-        logoutStudent();
+        logoutUser();
 
-        resetQuizGame();
+
+        if (
+            typeof resetQuizGame ===
+            "function"
+        )
+        {
+            resetQuizGame();
+        }
+
 
         showDeparture();
+
 
         logoutButton.hidden =
             true;
 
+
         loginForm.reset();
+
 
         loginError.textContent =
             "";
+
 
         openLoginModal();
     }

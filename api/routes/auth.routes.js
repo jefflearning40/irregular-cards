@@ -22,7 +22,97 @@ const router = express.Router();
 
 
 /* ==========================================================
-   CONNEXION PROFESSEUR
+   CRÉATION DU TOKEN
+========================================================== */
+
+function createToken(
+    id,
+    role
+)
+{
+    return jwt.sign(
+        {
+            id: id,
+            role: role
+        },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: "2h"
+        }
+    );
+}
+
+
+/* ==========================================================
+   RÉPONSE DE CONNEXION
+========================================================== */
+
+function sendLoginResponse(
+    response,
+    user,
+    role
+)
+{
+    const token =
+        createToken(
+            user.id,
+            role
+        );
+
+
+    const utilisateur = {
+        id:
+            user.id,
+
+        nom:
+            user.nom,
+
+        prenom:
+            user.prenom,
+
+        email:
+            user.email
+    };
+
+
+    if (role === "eleve")
+    {
+        utilisateur.professeur_id =
+            user.professeur_id;
+    }
+
+
+    response.json({
+        token:
+            token,
+
+        role:
+            role,
+
+        utilisateur:
+            utilisateur
+    });
+}
+
+
+/* ==========================================================
+   VÉRIFICATION DU MOT DE PASSE
+========================================================== */
+
+async function checkPassword(
+    password,
+    hash
+)
+{
+    return await bcrypt.compare(
+        password,
+        hash
+    );
+}
+
+
+/* ==========================================================
+   CONNEXION UNIQUE
 ========================================================== */
 
 router.post(
@@ -34,104 +124,6 @@ router.post(
             mot_de_passe
         } = request.body;
 
-        if (
-            !email ||
-            !mot_de_passe
-        )
-        {
-            response.status(400).json({
-                error: "Email et mot de passe obligatoires"
-            });
-
-            return;
-        }
-
-        database.query(
-            `
-                SELECT *
-                FROM professeur
-                WHERE email = ?
-            `,
-            [email],
-            async (error, results) =>
-            {
-                if (error)
-                {
-                    console.error(error);
-
-                    response.status(500).json({
-                        error: "Erreur serveur"
-                    });
-
-                    return;
-                }
-
-                if (results.length === 0)
-                {
-                    response.status(401).json({
-                        error: "Identifiants incorrects"
-                    });
-
-                    return;
-                }
-
-                const professeur =
-                    results[0];
-
-                const motDePasseValide =
-                    await bcrypt.compare(
-                        mot_de_passe,
-                        professeur.mot_de_passe
-                    );
-
-                if (!motDePasseValide)
-                {
-                    response.status(401).json({
-                        error: "Identifiants incorrects"
-                    });
-
-                    return;
-                }
-
-                const token =
-                    jwt.sign(
-                        {
-                            id: professeur.id,
-                            role: "professeur"
-                        },
-                        process.env.JWT_SECRET,
-                        {
-                            expiresIn: "2h"
-                        }
-                    );
-
-                response.json({
-                    token,
-                    professeur: {
-                        id: professeur.id,
-                        nom: professeur.nom,
-                        prenom: professeur.prenom,
-                        email: professeur.email
-                    }
-                });
-            }
-        );
-    }
-);
-
-
-/* ==========================================================
-   CONNEXION ÉLÈVE
-========================================================== */
-
-router.post(
-    "/eleve/login",
-    (request, response) =>
-    {
-        const {
-            email,
-            mot_de_passe
-        } = request.body;
 
         if (
             !email ||
@@ -139,11 +131,17 @@ router.post(
         )
         {
             response.status(400).json({
-                error: "Email et mot de passe obligatoires"
+                error:
+                    "Email et mot de passe obligatoires"
             });
 
             return;
         }
+
+
+        /* ==================================================
+           RECHERCHE DANS LES ÉLÈVES
+        ================================================== */
 
         database.query(
             `
@@ -152,69 +150,166 @@ router.post(
                 WHERE email = ?
             `,
             [email],
-            async (error, results) =>
+            async (studentError, students) =>
             {
-                if (error)
+                if (studentError)
                 {
-                    console.error(error);
+                    console.error(
+                        studentError
+                    );
 
                     response.status(500).json({
-                        error: "Erreur serveur"
+                        error:
+                            "Erreur serveur"
                     });
 
                     return;
                 }
 
-                if (results.length === 0)
+
+                if (students.length > 0)
                 {
-                    response.status(401).json({
-                        error: "Identifiants incorrects"
-                    });
+                    const student =
+                        students[0];
 
-                    return;
-                }
 
-                const eleve =
-                    results[0];
+                    let passwordIsValid;
 
-                const motDePasseValide =
-                    await bcrypt.compare(
-                        mot_de_passe,
-                        eleve.mot_de_passe
-                    );
 
-                if (!motDePasseValide)
-                {
-                    response.status(401).json({
-                        error: "Identifiants incorrects"
-                    });
-
-                    return;
-                }
-
-                const token =
-                    jwt.sign(
-                        {
-                            id: eleve.id,
-                            role: "eleve"
-                        },
-                        process.env.JWT_SECRET,
-                        {
-                            expiresIn: "2h"
-                        }
-                    );
-
-                response.json({
-                    token,
-                    eleve: {
-                        id: eleve.id,
-                        professeur_id:
-                            eleve.professeur_id,
-                        nom: eleve.nom,
-                        prenom: eleve.prenom,
-                        email: eleve.email
+                    try
+                    {
+                        passwordIsValid =
+                            await checkPassword(
+                                mot_de_passe,
+                                student.mot_de_passe
+                            );
                     }
-                });
+                    catch (error)
+                    {
+                        console.error(
+                            error
+                        );
+
+                        response.status(500).json({
+                            error:
+                                "Erreur serveur"
+                        });
+
+                        return;
+                    }
+
+
+                    if (!passwordIsValid)
+                    {
+                        response.status(401).json({
+                            error:
+                                "Identifiants incorrects"
+                        });
+
+                        return;
+                    }
+
+
+                    sendLoginResponse(
+                        response,
+                        student,
+                        "eleve"
+                    );
+
+                    return;
+                }
+
+
+                /* ==========================================
+                   RECHERCHE DANS LES PROFESSEURS
+                ========================================== */
+
+                database.query(
+                    `
+                        SELECT *
+                        FROM professeur
+                        WHERE email = ?
+                    `,
+                    [email],
+                    async (
+                        teacherError,
+                        teachers
+                    ) =>
+                    {
+                        if (teacherError)
+                        {
+                            console.error(
+                                teacherError
+                            );
+
+                            response.status(500).json({
+                                error:
+                                    "Erreur serveur"
+                            });
+
+                            return;
+                        }
+
+
+                        if (teachers.length === 0)
+                        {
+                            response.status(401).json({
+                                error:
+                                    "Identifiants incorrects"
+                            });
+
+                            return;
+                        }
+
+
+                        const teacher =
+                            teachers[0];
+
+
+                        let passwordIsValid;
+
+
+                        try
+                        {
+                            passwordIsValid =
+                                await checkPassword(
+                                    mot_de_passe,
+                                    teacher.mot_de_passe
+                                );
+                        }
+                        catch (error)
+                        {
+                            console.error(
+                                error
+                            );
+
+                            response.status(500).json({
+                                error:
+                                    "Erreur serveur"
+                            });
+
+                            return;
+                        }
+
+
+                        if (!passwordIsValid)
+                        {
+                            response.status(401).json({
+                                error:
+                                    "Identifiants incorrects"
+                            });
+
+                            return;
+                        }
+
+
+                        sendLoginResponse(
+                            response,
+                            teacher,
+                            "professeur"
+                        );
+                    }
+                );
             }
         );
     }

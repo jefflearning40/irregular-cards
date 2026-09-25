@@ -13,18 +13,37 @@ const API_URL =
    AUTHENTIFICATION
 ========================================================== */
 
-let apiToken = null;
+let apiToken =
+    null;
 
-let currentStudent = null;
+let currentUser =
+    null;
+
+let currentRole =
+    null;
+
+
+/* ==========================================================
+   COMPATIBILITÉ ÉLÈVE
+========================================================== */
+
+let currentStudent =
+    null;
 
 
 /* ==========================================================
    DÉCONNEXION
 ========================================================== */
 
-function logoutStudent()
+function logoutUser()
 {
     apiToken =
+        null;
+
+    currentUser =
+        null;
+
+    currentRole =
         null;
 
     currentStudent =
@@ -33,10 +52,20 @@ function logoutStudent()
 
 
 /* ==========================================================
-   CONNEXION ÉLÈVE
+   COMPATIBILITÉ ANCIENNE DÉCONNEXION
 ========================================================== */
 
-async function loginStudent(
+function logoutStudent()
+{
+    logoutUser();
+}
+
+
+/* ==========================================================
+   CONNEXION
+========================================================== */
+
+async function loginUser(
     email,
     password
 )
@@ -48,19 +77,24 @@ async function loginStudent(
     {
         response =
             await fetch(
-                `${API_URL}/auth/eleve/login`,
+                `${API_URL}/auth/login`,
                 {
-                    method: "POST",
+                    method:
+                        "POST",
 
                     headers: {
                         "Content-Type":
                             "application/json"
                     },
 
-                    body: JSON.stringify({
-                        email: email,
-                        mot_de_passe: password
-                    })
+                    body:
+                        JSON.stringify({
+                            email:
+                                email,
+
+                            mot_de_passe:
+                                password
+                        })
                 }
             );
     }
@@ -72,7 +106,9 @@ async function loginStudent(
     }
 
 
-    if (response.status === 401)
+    if (
+        response.status === 401
+    )
     {
         throw new Error(
             "INVALID_CREDENTIALS"
@@ -95,12 +131,35 @@ async function loginStudent(
     apiToken =
         data.token;
 
+    currentRole =
+        data.role;
 
-    currentStudent =
-        data.eleve;
+    currentUser =
+        data.utilisateur;
 
 
-    return currentStudent;
+    if (
+        currentRole ===
+        "eleve"
+    )
+    {
+        currentStudent =
+            currentUser;
+    }
+    else
+    {
+        currentStudent =
+            null;
+    }
+
+
+    return {
+        role:
+            currentRole,
+
+        utilisateur:
+            currentUser
+    };
 }
 
 
@@ -116,10 +175,13 @@ async function createQuizSession(
     duration
 )
 {
-    if (!apiToken)
+    if (
+        !apiToken ||
+        currentRole !== "eleve"
+    )
     {
         throw new Error(
-            "Aucun élève connecté."
+            "Accès réservé aux élèves."
         );
     }
 
@@ -128,7 +190,8 @@ async function createQuizSession(
         await fetch(
             `${API_URL}/sessions-quiz`,
             {
-                method: "POST",
+                method:
+                    "POST",
 
                 headers: {
                     "Content-Type":
@@ -138,22 +201,23 @@ async function createQuizSession(
                         `Bearer ${apiToken}`
                 },
 
-                body: JSON.stringify({
-                    difficulte:
-                        difficulty,
+                body:
+                    JSON.stringify({
+                        difficulte:
+                            difficulty,
 
-                    type_quiz:
-                        quizType,
+                        type_quiz:
+                            quizType,
 
-                    score:
-                        score,
+                        score:
+                            score,
 
-                    nombre_questions:
-                        questionCount,
+                        nombre_questions:
+                            questionCount,
 
-                    duree:
-                        duration
-                })
+                        duree:
+                            duration
+                    })
             }
         );
 
@@ -179,10 +243,13 @@ async function createQuizError(
     error
 )
 {
-    if (!apiToken)
+    if (
+        !apiToken ||
+        currentRole !== "eleve"
+    )
     {
         throw new Error(
-            "Aucun élève connecté."
+            "Accès réservé aux élèves."
         );
     }
 
@@ -191,7 +258,8 @@ async function createQuizError(
         await fetch(
             `${API_URL}/erreurs-quiz`,
             {
-                method: "POST",
+                method:
+                    "POST",
 
                 headers: {
                     "Content-Type":
@@ -201,19 +269,20 @@ async function createQuizError(
                         `Bearer ${apiToken}`
                 },
 
-                body: JSON.stringify({
-                    session_quiz_id:
-                        sessionId,
+                body:
+                    JSON.stringify({
+                        session_quiz_id:
+                            sessionId,
 
-                    infinitif:
-                        error.verb,
+                        infinitif:
+                            error.verb,
 
-                    reponse_attendue:
-                        error.correctAnswer,
+                        reponse_attendue:
+                            error.correctAnswer,
 
-                    reponse_eleve:
-                        error.answer
-                })
+                        reponse_eleve:
+                            error.answer
+                    })
             }
         );
 
@@ -239,7 +308,9 @@ async function createQuizErrors(
     errors
 )
 {
-    for (const error of errors)
+    for (
+        const error of errors
+    )
     {
         await createQuizError(
             sessionId,
@@ -255,10 +326,13 @@ async function createQuizErrors(
 
 async function getQuizErrors()
 {
-    if (!apiToken)
+    if (
+        !apiToken ||
+        currentRole !== "eleve"
+    )
     {
         throw new Error(
-            "Aucun élève connecté."
+            "Accès réservé aux élèves."
         );
     }
 
@@ -272,7 +346,8 @@ async function getQuizErrors()
             await fetch(
                 `${API_URL}/erreurs-quiz`,
                 {
-                    method: "GET",
+                    method:
+                        "GET",
 
                     headers: {
                         "Authorization":
@@ -293,6 +368,200 @@ async function getQuizErrors()
     {
         throw new Error(
             "Impossible de récupérer les erreurs du quiz."
+        );
+    }
+
+
+    return await response.json();
+}
+/* ==========================================================
+   RÉCUPÉRATION DES ÉLÈVES DU PROFESSEUR
+========================================================== */
+
+async function getTeacherStudents()
+{
+    if (
+        !apiToken ||
+        currentRole !== "professeur"
+    )
+    {
+        throw new Error(
+            "Accès réservé aux professeurs."
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/eleves`,
+                {
+                    method:
+                        "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    }
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "Impossible de récupérer les élèves."
+        );
+    }
+
+
+    return await response.json();
+}
+/* ==========================================================
+   RÉCUPÉRATION DES STATISTIQUES DU PROFESSEUR
+========================================================== */
+
+async function getTeacherStatistics()
+{
+    if (
+        !apiToken ||
+        currentRole !== "professeur"
+    )
+    {
+        throw new Error(
+            "Accès réservé aux professeurs."
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/statistiques/professeur`,
+                {
+                    method:
+                        "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    }
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "Impossible de récupérer les statistiques du professeur."
+        );
+    }
+
+
+    return await response.json();
+}
+/* ==========================================================
+   RÉCUPÉRATION DES STATISTIQUES D'UN ÉLÈVE
+   PAR SON PROFESSEUR
+========================================================== */
+
+async function getTeacherStudentStatistics(
+    studentId
+)
+{
+    if (
+        !apiToken ||
+        currentRole !== "professeur"
+    )
+    {
+        throw new Error(
+            "Accès réservé aux professeurs."
+        );
+    }
+
+
+    if (
+        !Number.isInteger(
+            Number(studentId)
+        ) ||
+        Number(studentId) <= 0
+    )
+    {
+        throw new Error(
+            "Identifiant élève invalide."
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/statistiques/professeur/eleve/${studentId}`,
+                {
+                    method:
+                        "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    }
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (response.status === 404)
+    {
+        throw new Error(
+            "STUDENT_NOT_FOUND"
+        );
+    }
+
+
+    if (response.status === 403)
+    {
+        throw new Error(
+            "FORBIDDEN"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "Impossible de récupérer les statistiques de l'élève."
         );
     }
 

@@ -917,6 +917,12 @@
     width: 38px;
     height: 38px;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
     border:
         2px solid
         var(--postcard-red);
@@ -943,8 +949,26 @@
 }
 
 
+.statistics-evolution-close:hover {
+    color:
+        var(--postcard-paper-light);
+
+    background:
+        var(--postcard-red);
+}
+
+
+.statistics-evolution-close:focus-visible {
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset: 3px;
+}
+
+
 /* ==========================================================
-   ZONE DU FUTUR GRAPHIQUE
+   ZONE DU GRAPHIQUE
 ========================================================== */
 
 .statistics-evolution-chart {
@@ -952,37 +976,222 @@
 
     z-index: 2;
 
-    min-height: 350px;
+    min-height: 400px;
 
     margin-left:
         clamp(35px, 6vw, 65px);
 
-    padding: 20px;
+    padding:
+        18px;
 
     border:
         2px solid
         var(--postcard-blue);
 
     background:
-        rgba(255, 248, 218, 0.50);
-}
-
-
-#statistics-evolution-content {
-    width: 100%;
-    min-height: 300px;
+        rgba(255, 248, 218, 0.55);
 
     overflow: hidden;
 }
 
 
 /* ==========================================================
-   ANCIEN GRAPHIQUE EN BARRES
-   MASQUÉ EN ATTENDANT LA COURBE
+   CONTENEUR DU GRAPHIQUE EN COURBE
 ========================================================== */
 
-.statistics-chart {
-    display: none;
+.statistics-line-chart {
+    position: relative;
+
+    width: 100%;
+    height: 360px;
+
+    overflow: hidden;
+}
+
+
+/* ==========================================================
+   SVG DU GRAPHIQUE
+========================================================== */
+
+.statistics-line-chart-svg {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: visible;
+}
+
+
+/* ==========================================================
+   GRILLE DU GRAPHIQUE
+========================================================== */
+
+.statistics-chart-grid-line {
+    stroke:
+        rgba(7, 63, 105, 0.22);
+
+    stroke-width: 1;
+
+    vector-effect:
+        non-scaling-stroke;
+}
+
+
+/* ==========================================================
+   AXES DU GRAPHIQUE
+========================================================== */
+
+.statistics-chart-axis {
+    stroke:
+        var(--postcard-blue);
+
+    stroke-width: 2;
+
+    vector-effect:
+        non-scaling-stroke;
+}
+
+
+/* ==========================================================
+   TEXTE DES AXES
+========================================================== */
+
+.statistics-chart-label {
+    fill:
+        var(--postcard-blue-dark);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size: 16px;
+}
+
+
+/* ==========================================================
+   VALEURS EN POURCENTAGE
+========================================================== */
+
+.statistics-chart-percentage {
+    fill:
+        var(--postcard-brown-dark);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size: 15px;
+}
+
+
+/* ==========================================================
+   COURBE
+========================================================== */
+
+.statistics-chart-line {
+    fill: none;
+
+    stroke:
+        var(--postcard-blue);
+
+    stroke-width: 3;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    vector-effect:
+        non-scaling-stroke;
+}
+
+
+/* ==========================================================
+   POINTS DE LA COURBE
+========================================================== */
+
+.statistics-chart-point {
+    fill:
+        var(--postcard-paper-light);
+
+    stroke:
+        var(--postcard-red);
+
+    stroke-width: 3;
+
+    vector-effect:
+        non-scaling-stroke;
+}
+
+
+/* ==========================================================
+   POINTS AU SURVOL
+========================================================== */
+
+.statistics-chart-point:hover {
+    fill:
+        var(--postcard-red);
+}
+
+
+/* ==========================================================
+   NOTES AU-DESSUS DES POINTS
+========================================================== */
+
+.statistics-chart-score-label {
+    fill:
+        var(--postcard-red);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size: 16px;
+
+    text-anchor: middle;
+}
+
+
+/* ==========================================================
+   DATES SOUS LE GRAPHIQUE
+========================================================== */
+
+.statistics-chart-date-label {
+    fill:
+        var(--postcard-blue-dark);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size: 14px;
+
+    text-anchor: middle;
+}
+
+
+/* ==========================================================
+   MESSAGE GRAPHIQUE VIDE
+========================================================== */
+
+.statistics-chart-empty {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color:
+        var(--postcard-brown-dark);
+
+    font-size:
+        clamp(1rem, 2vw, 1.3rem);
+
+    text-align: center;
 }
 
 
@@ -1054,6 +1263,15 @@
 }
 
 
+.statistics-evolution-close-button:focus-visible {
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset: 3px;
+}
+
+
 /* ==========================================================
    TABLETTE
 ========================================================== */
@@ -1079,6 +1297,16 @@
         flex-direction: column;
 
         gap: 8px;
+    }
+
+
+    .statistics-evolution-chart {
+        min-height: 350px;
+    }
+
+
+    .statistics-line-chart {
+        height: 310px;
     }
 }
 
@@ -1190,6 +1418,11 @@
     }
 
 
+    .statistics-evolution-modal {
+        padding: 8px;
+    }
+
+
     .statistics-evolution-dialog {
         width: 100%;
 
@@ -1210,17 +1443,46 @@
     }
 
 
+    .statistics-evolution-header h2 {
+        font-size:
+            clamp(1.7rem, 9vw, 2.5rem);
+    }
+
+
     .statistics-evolution-chart {
         margin-left: 0;
 
         min-height: 280px;
 
-        padding: 10px;
+        padding: 8px;
+
+        overflow-x: auto;
     }
 
 
-    #statistics-evolution-content {
-        min-height: 250px;
+    .statistics-line-chart {
+        min-width: 650px;
+        height: 260px;
+    }
+
+
+    .statistics-chart-label {
+        font-size: 14px;
+    }
+
+
+    .statistics-chart-percentage {
+        font-size: 13px;
+    }
+
+
+    .statistics-chart-score-label {
+        font-size: 14px;
+    }
+
+
+    .statistics-chart-date-label {
+        font-size: 12px;
     }
 
 
@@ -1230,5 +1492,10 @@
         align-items: stretch;
 
         text-align: center;
+    }
+
+
+    .statistics-evolution-close-button {
+        width: 100%;
     }
 }

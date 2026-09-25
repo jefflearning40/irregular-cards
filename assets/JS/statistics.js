@@ -70,6 +70,26 @@ const statisticsStudentName =
         "statistics-student-name"
     );
 
+const statisticsEvolutionButton =
+    document.getElementById(
+        "statistics-evolution-button"
+    );
+
+const statisticsEvolutionModal =
+    document.getElementById(
+        "statistics-evolution-modal"
+    );
+
+const statisticsEvolutionClose =
+    document.getElementById(
+        "statistics-evolution-close"
+    );
+
+const statisticsEvolutionCloseButton =
+    document.getElementById(
+        "statistics-evolution-close-button"
+    );
+
 
 /* ==========================================================
    PAGINATION DES VERBES
@@ -86,6 +106,14 @@ let statisticsFilteredReviewVerbs =
 
 let statisticsCurrentPage =
     1;
+
+
+/* ==========================================================
+   ÉVOLUTION
+========================================================== */
+
+let statisticsEvolutionSessions =
+    [];
 
 
 /* ==========================================================
@@ -209,6 +237,32 @@ function formatStatisticsDate(
         date
     ).toLocaleDateString(
         "fr-FR"
+    );
+}
+
+
+/* ==========================================================
+   FORMATAGE COURT DE LA DATE
+========================================================== */
+
+function formatStatisticsChartDate(
+    date
+)
+{
+    if (!date)
+    {
+        return "";
+    }
+
+
+    return new Date(
+        date
+    ).toLocaleDateString(
+        "fr-FR",
+        {
+            day: "2-digit",
+            month: "2-digit"
+        }
     );
 }
 
@@ -574,6 +628,39 @@ function showNextStatisticsPage()
 
 
 /* ==========================================================
+   CRÉATION D'UN ÉLÉMENT SVG
+========================================================== */
+
+function createStatisticsSvgElement(
+    tagName,
+    attributes = {}
+)
+{
+    const element =
+        document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            tagName
+        );
+
+
+    Object.entries(
+        attributes
+    ).forEach(
+        ([name, value]) =>
+        {
+            element.setAttribute(
+                name,
+                value
+            );
+        }
+    );
+
+
+    return element;
+}
+
+
+/* ==========================================================
    AFFICHAGE DE L'ÉVOLUTION
 ========================================================== */
 
@@ -596,6 +683,9 @@ function displayStatisticsEvolution(
             );
 
 
+        message.className =
+            "statistics-chart-empty";
+
         message.textContent =
             "Aucun quiz enregistré.";
 
@@ -608,18 +698,219 @@ function displayStatisticsEvolution(
     }
 
 
-    const chart =
-        document.createElement(
-            "div"
+    const orderedSessions =
+        [...sessions].sort(
+            (sessionA, sessionB) =>
+            {
+                return (
+                    new Date(
+                        sessionA.date_session
+                    ) -
+                    new Date(
+                        sessionB.date_session
+                    )
+                );
+            }
         );
 
 
-    chart.className =
-        "statistics-chart";
+    const svg =
+        createStatisticsSvgElement(
+            "svg",
+            {
+                class:
+                    "statistics-line-chart-svg",
+
+                viewBox:
+                    "0 0 900 400",
+
+                preserveAspectRatio:
+                    "none",
+
+                role:
+                    "img",
+
+                "aria-label":
+                    "Courbe d'évolution des résultats aux quiz"
+            }
+        );
 
 
-    sessions.forEach(
-        (session) =>
+    const chartLeft =
+        75;
+
+    const chartRight =
+        860;
+
+    const chartTop =
+        35;
+
+    const chartBottom =
+        330;
+
+    const chartWidth =
+        chartRight -
+        chartLeft;
+
+    const chartHeight =
+        chartBottom -
+        chartTop;
+
+
+    /* ======================================================
+       GRILLE HORIZONTALE
+    ====================================================== */
+
+    const levels =
+        [
+            0,
+            20,
+            40,
+            60,
+            80,
+            100
+        ];
+
+
+    levels.forEach(
+        (level) =>
+        {
+            const y =
+                chartBottom -
+                (
+                    level / 100
+                ) *
+                chartHeight;
+
+
+            const gridLine =
+                createStatisticsSvgElement(
+                    "line",
+                    {
+                        x1:
+                            chartLeft,
+
+                        y1:
+                            y,
+
+                        x2:
+                            chartRight,
+
+                        y2:
+                            y,
+
+                        class:
+                            "statistics-chart-grid-line"
+                    }
+                );
+
+
+            const label =
+                createStatisticsSvgElement(
+                    "text",
+                    {
+                        x:
+                            chartLeft - 15,
+
+                        y:
+                            y + 5,
+
+                        class:
+                            "statistics-chart-percentage",
+
+                        "text-anchor":
+                            "end"
+                    }
+                );
+
+
+            label.textContent =
+                `${level} %`;
+
+
+            svg.appendChild(
+                gridLine
+            );
+
+            svg.appendChild(
+                label
+            );
+        }
+    );
+
+
+    /* ======================================================
+       AXE VERTICAL
+    ====================================================== */
+
+    const verticalAxis =
+        createStatisticsSvgElement(
+            "line",
+            {
+                x1:
+                    chartLeft,
+
+                y1:
+                    chartTop,
+
+                x2:
+                    chartLeft,
+
+                y2:
+                    chartBottom,
+
+                class:
+                    "statistics-chart-axis"
+            }
+        );
+
+
+    svg.appendChild(
+        verticalAxis
+    );
+
+
+    /* ======================================================
+       AXE HORIZONTAL
+    ====================================================== */
+
+    const horizontalAxis =
+        createStatisticsSvgElement(
+            "line",
+            {
+                x1:
+                    chartLeft,
+
+                y1:
+                    chartBottom,
+
+                x2:
+                    chartRight,
+
+                y2:
+                    chartBottom,
+
+                class:
+                    "statistics-chart-axis"
+            }
+        );
+
+
+    svg.appendChild(
+        horizontalAxis
+    );
+
+
+    /* ======================================================
+       CALCUL DE LA COURBE
+    ====================================================== */
+
+    const points =
+        [];
+
+
+    orderedSessions.forEach(
+        (session, index) =>
         {
             const percentage =
                 Math.max(
@@ -633,94 +924,218 @@ function displayStatisticsEvolution(
                 );
 
 
-            const column =
-                document.createElement(
-                    "div"
+            let x;
+
+
+            if (orderedSessions.length === 1)
+            {
+                x =
+                    chartLeft +
+                    chartWidth / 2;
+            }
+            else
+            {
+                x =
+                    chartLeft +
+                    (
+                        index /
+                        (
+                            orderedSessions.length -
+                            1
+                        )
+                    ) *
+                    chartWidth;
+            }
+
+
+            const y =
+                chartBottom -
+                (
+                    percentage / 100
+                ) *
+                chartHeight;
+
+
+            points.push({
+                x:
+                    x,
+
+                y:
+                    y,
+
+                date:
+                    session.date_session
+            });
+        }
+    );
+
+
+    /* ======================================================
+       COURBE
+    ====================================================== */
+
+    if (points.length > 1)
+    {
+        const polyline =
+            createStatisticsSvgElement(
+                "polyline",
+                {
+                    points:
+                        points
+                            .map(
+                                (point) =>
+                                    `${point.x},${point.y}`
+                            )
+                            .join(" "),
+
+                    class:
+                        "statistics-chart-line"
+                }
+            );
+
+
+        svg.appendChild(
+            polyline
+        );
+    }
+
+
+    /* ======================================================
+       DATES DE L'AXE HORIZONTAL
+    ====================================================== */
+
+    const maximumDateLabels =
+        5;
+
+
+    const labelCount =
+        Math.min(
+            maximumDateLabels,
+            points.length
+        );
+
+
+    const displayedIndexes =
+        new Set();
+
+
+    if (labelCount === 1)
+    {
+        displayedIndexes.add(
+            0
+        );
+    }
+    else
+    {
+        for (
+            let labelIndex = 0;
+            labelIndex < labelCount;
+            labelIndex++
+        )
+        {
+            const pointIndex =
+                Math.round(
+                    labelIndex *
+                    (
+                        points.length - 1
+                    ) /
+                    (
+                        labelCount - 1
+                    )
                 );
 
 
-            column.className =
-                "statistics-chart-column";
+            displayedIndexes.add(
+                pointIndex
+            );
+        }
+    }
 
 
-            const score =
-                document.createElement(
-                    "span"
-                );
-
-
-            score.className =
-                "statistics-chart-score";
-
-            score.textContent =
-                `${percentage} %`;
-
-
-            const track =
-                document.createElement(
-                    "div"
-                );
-
-
-            track.className =
-                "statistics-chart-track";
-
-
-            const bar =
-                document.createElement(
-                    "div"
-                );
-
-
-            bar.className =
-                "statistics-chart-bar";
-
-            bar.style.height =
-                `${percentage}%`;
+    displayedIndexes.forEach(
+        (pointIndex) =>
+        {
+            const point =
+                points[
+                    pointIndex
+                ];
 
 
             const date =
-                document.createElement(
-                    "span"
+                createStatisticsSvgElement(
+                    "text",
+                    {
+                        x:
+                            point.x,
+
+                        y:
+                            chartBottom + 35,
+
+                        class:
+                            "statistics-chart-date-label",
+
+                        "text-anchor":
+                            "middle"
+                    }
                 );
 
-
-            date.className =
-                "statistics-chart-date";
 
             date.textContent =
-                formatStatisticsDate(
-                    session.date_session
+                formatStatisticsChartDate(
+                    point.date
                 );
 
 
-            track.appendChild(
-                bar
-            );
-
-
-            column.appendChild(
-                score
-            );
-
-            column.appendChild(
-                track
-            );
-
-            column.appendChild(
+            svg.appendChild(
                 date
-            );
-
-
-            chart.appendChild(
-                column
             );
         }
     );
 
 
     statisticsEvolutionContent.appendChild(
-        chart
+        svg
+    );
+}
+
+
+/* ==========================================================
+   OUVERTURE DE LA MODALE ÉVOLUTION
+========================================================== */
+
+function openStatisticsEvolution()
+{
+    displayStatisticsEvolution(
+        statisticsEvolutionSessions
+    );
+
+
+    statisticsEvolutionModal.classList.add(
+        "is-open"
+    );
+
+
+    statisticsEvolutionModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+}
+
+
+/* ==========================================================
+   FERMETURE DE LA MODALE ÉVOLUTION
+========================================================== */
+
+function closeStatisticsEvolution()
+{
+    statisticsEvolutionModal.classList.remove(
+        "is-open"
+    );
+
+
+    statisticsEvolutionModal.setAttribute(
+        "aria-hidden",
+        "true"
     );
 }
 
@@ -733,15 +1148,29 @@ function displayStudentStatistics(
     statistics
 )
 {
-    if (currentStudent)
+    if (statistics.eleve)
+    {
+        statisticsStudentName.textContent =
+            `${statistics.eleve.prenom} ${statistics.eleve.nom}`;
+
+        statisticsEvolutionButton.textContent =
+            "Voir son évolution";
+    }
+    else if (currentStudent)
     {
         statisticsStudentName.textContent =
             `${currentStudent.prenom} ${currentStudent.nom}`;
+
+        statisticsEvolutionButton.textContent =
+            "Voir mon évolution";
     }
     else
     {
         statisticsStudentName.textContent =
             "-";
+
+        statisticsEvolutionButton.textContent =
+            "Voir mon évolution";
     }
 
 
@@ -768,9 +1197,20 @@ function displayStudentStatistics(
     );
 
 
-    displayStatisticsEvolution(
-        statistics.evolution
-    );
+    if (
+        Array.isArray(
+            statistics.evolution
+        )
+    )
+    {
+        statisticsEvolutionSessions =
+            [...statistics.evolution];
+    }
+    else
+    {
+        statisticsEvolutionSessions =
+            [];
+    }
 }
 
 
@@ -807,6 +1247,10 @@ async function loadStudentStatistics()
 
     statisticsEvolutionContent.innerHTML =
         "";
+
+
+    statisticsEvolutionSessions =
+        [];
 
 
     try
@@ -851,7 +1295,7 @@ async function loadStudentStatistics()
 
 
 /* ==========================================================
-   ÉVÉNEMENTS DU FILTRE
+   ÉVÉNEMENT DU FILTRE
 ========================================================== */
 
 statisticsErrorFilter.addEventListener(
@@ -873,4 +1317,70 @@ statisticsPreviousButton.addEventListener(
 statisticsNextButton.addEventListener(
     "click",
     showNextStatisticsPage
+);
+
+
+/* ==========================================================
+   OUVERTURE DE L'ÉVOLUTION
+========================================================== */
+
+statisticsEvolutionButton.addEventListener(
+    "click",
+    openStatisticsEvolution
+);
+
+
+/* ==========================================================
+   FERMETURE DE L'ÉVOLUTION
+========================================================== */
+
+statisticsEvolutionClose.addEventListener(
+    "click",
+    closeStatisticsEvolution
+);
+
+
+statisticsEvolutionCloseButton.addEventListener(
+    "click",
+    closeStatisticsEvolution
+);
+
+
+/* ==========================================================
+   CLIC EN DEHORS DE LA MODALE
+========================================================== */
+
+statisticsEvolutionModal.addEventListener(
+    "click",
+    (event) =>
+    {
+        if (
+            event.target ===
+            statisticsEvolutionModal
+        )
+        {
+            closeStatisticsEvolution();
+        }
+    }
+);
+
+
+/* ==========================================================
+   TOUCHE ÉCHAP
+========================================================== */
+
+document.addEventListener(
+    "keydown",
+    (event) =>
+    {
+        if (
+            event.key === "Escape" &&
+            statisticsEvolutionModal.classList.contains(
+                "is-open"
+            )
+        )
+        {
+            closeStatisticsEvolution();
+        }
+    }
 );

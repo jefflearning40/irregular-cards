@@ -1,0 +1,741 @@
+/* ==========================================================
+   ÉCRAN PROFESSEUR
+========================================================== */
+
+.teacher-screen {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    padding:
+        clamp(12px, 2vw, 30px);
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    color:
+        var(--postcard-blue-dark);
+
+    background:
+        var(--color-background);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+}
+
+
+/* ==========================================================
+   CARNET DE CLASSE
+========================================================== */
+
+.teacher-container {
+    position: relative;
+
+    width:
+        min(1100px, 96%);
+
+    min-height:
+        calc(100vh - 60px);
+
+    margin:
+        0 auto;
+
+    padding:
+        clamp(25px, 4vw, 55px);
+
+    border:
+        3px solid
+        var(--postcard-blue);
+
+    border-radius:
+        4px;
+
+    color:
+        var(--postcard-blue-dark);
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent 31px,
+            rgba(7, 63, 105, 0.10) 32px
+        ),
+        var(--postcard-paper);
+
+    box-shadow:
+        0 8px 24px
+        var(--shadow-dark);
+}
+
+
+/* ==========================================================
+   DOUBLE BORDURE
+========================================================== */
+
+.teacher-container::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 8px;
+
+    border:
+        1px solid
+        var(--postcard-brown);
+
+    pointer-events:
+        none;
+}
+
+
+/* ==========================================================
+   EN-TÊTE
+========================================================== */
+
+.teacher-header {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items:
+        flex-start;
+
+    justify-content:
+        center;
+
+    margin-bottom:
+        clamp(20px, 3vw, 35px);
+
+    padding-bottom:
+        16px;
+
+    border-bottom:
+        2px solid
+        var(--postcard-blue);
+}
+
+
+/* ==========================================================
+   TITRE
+========================================================== */
+
+.teacher-heading {
+    text-align:
+        center;
+}
+
+
+.teacher-heading-school {
+    margin-bottom:
+        5px;
+
+    color:
+        var(--postcard-brown-dark);
+
+    font-size:
+        clamp(.9rem, 1.4vw, 1.2rem);
+}
+
+
+.teacher-title {
+    margin:
+        0;
+
+    color:
+        var(--postcard-blue);
+
+    font-size:
+        clamp(2rem, 5vw, 4rem);
+
+    font-weight:
+        400;
+
+    line-height:
+        1.15;
+
+    letter-spacing:
+        .04em;
+
+    text-transform:
+        uppercase;
+}
+
+
+/* ==========================================================
+   IDENTITÉ PROFESSEUR
+========================================================== */
+
+.teacher-identity {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    gap:
+        20px;
+
+    margin-bottom:
+        clamp(20px, 3vw, 35px);
+
+    padding:
+        10px 4px;
+
+    border-bottom:
+        1px solid
+        var(--postcard-blue-mid);
+
+    font-size:
+        clamp(1rem, 1.6vw, 1.35rem);
+}
+
+
+.teacher-identity strong {
+    color:
+        var(--postcard-blue);
+
+    font-weight:
+        400;
+}
+
+
+/* ==========================================================
+   RÉSUMÉ DE LA CLASSE
+========================================================== */
+
+.teacher-summary {
+    position: relative;
+
+    z-index: 2;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(0, 1fr)
+        );
+
+    margin-bottom:
+        clamp(25px, 4vw, 40px);
+
+    border-top:
+        2px solid
+        var(--postcard-blue);
+
+    border-left:
+        2px solid
+        var(--postcard-blue);
+}
+
+
+/* ==========================================================
+   CARTES STATISTIQUES
+========================================================== */
+
+.teacher-card {
+    min-height:
+        clamp(95px, 11vw, 125px);
+
+    padding:
+        12px 8px;
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        12px;
+
+    border-right:
+        2px solid
+        var(--postcard-blue);
+
+    border-bottom:
+        2px solid
+        var(--postcard-blue);
+
+    background:
+        rgba(255, 248, 218, 0.42);
+
+    text-align:
+        center;
+}
+
+
+/* ==========================================================
+   LIBELLÉS DES CARTES
+========================================================== */
+
+.teacher-card-label {
+    color:
+        var(--postcard-brown-dark);
+
+    font-size:
+        clamp(.85rem, 1.3vw, 1.1rem);
+
+    font-weight:
+        400;
+}
+
+
+/* ==========================================================
+   VALEURS DES CARTES
+========================================================== */
+
+.teacher-card-value {
+    color:
+        var(--postcard-blue);
+
+    font-size:
+        clamp(1.5rem, 2.8vw, 2.4rem);
+
+    font-weight:
+        400;
+}
+
+
+/* ==========================================================
+   ACTIONS
+========================================================== */
+
+.teacher-actions {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    justify-content:
+        flex-end;
+
+    margin-bottom:
+        clamp(25px, 3vw, 35px);
+}
+
+
+/* ==========================================================
+   BOUTON CRÉER UN ÉLÈVE
+========================================================== */
+
+.teacher-action-button {
+    padding:
+        10px 20px;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    border-radius:
+        var(--button-radius);
+
+    color:
+        var(--postcard-blue);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(1rem, 1.5vw, 1.25rem);
+
+    font-weight:
+        400;
+
+    cursor:
+        pointer;
+}
+
+
+.teacher-action-button:hover {
+    color:
+        var(--postcard-paper-light);
+
+    background:
+        var(--postcard-blue);
+}
+
+
+.teacher-action-button:focus-visible {
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset:
+        3px;
+}
+
+
+/* ==========================================================
+   LISTE DES ÉLÈVES
+========================================================== */
+
+.teacher-students {
+    position: relative;
+
+    z-index: 2;
+
+    margin-top:
+        0;
+
+    padding:
+        0;
+}
+
+
+.teacher-students h2 {
+    margin:
+        0 0 18px;
+
+    color:
+        var(--postcard-blue);
+
+    font-size:
+        clamp(1.5rem, 3vw, 2.4rem);
+
+    font-weight:
+        400;
+
+    text-align:
+        center;
+}
+
+
+/* ==========================================================
+   EN-TÊTE DU TABLEAU
+========================================================== */
+
+.teacher-students-header {
+    display: grid;
+
+    grid-template-columns:
+        minmax(200px, 2fr)
+        minmax(80px, .7fr)
+        minmax(110px, .9fr)
+        minmax(120px, 1fr);
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    border-bottom:
+        0;
+
+    background:
+        var(--postcard-paper-dark);
+
+    color:
+        var(--postcard-blue-dark);
+
+    font-size:
+        clamp(.9rem, 1.4vw, 1.15rem);
+
+    font-weight:
+        400;
+}
+
+
+.teacher-students-header span {
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        9px 15px;
+
+    border-left:
+        1px solid
+        var(--postcard-blue);
+}
+
+
+.teacher-students-header span:first-child {
+    justify-content:
+        flex-start;
+
+    border-left:
+        0;
+}
+
+
+/* ==========================================================
+   CONTENU DU TABLEAU
+========================================================== */
+
+#teacher-students-list {
+    display:
+        block;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+}
+
+
+/* ==========================================================
+   LIGNE ÉLÈVE
+========================================================== */
+
+.teacher-student-item {
+    min-height:
+        48px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        minmax(200px, 2fr)
+        minmax(80px, .7fr)
+        minmax(110px, .9fr)
+        minmax(120px, 1fr);
+
+    align-items:
+        stretch;
+
+    border-bottom:
+        1px solid
+        rgba(7, 63, 105, 0.40);
+
+    background:
+        rgba(255, 248, 218, 0.25);
+}
+
+
+.teacher-student-item:last-child {
+    border-bottom:
+        0;
+}
+
+
+/* ==========================================================
+   CELLULES DU TABLEAU
+========================================================== */
+
+.teacher-student-name,
+.teacher-student-quiz-count,
+.teacher-student-average {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    padding:
+        8px 15px;
+
+    border-left:
+        1px solid
+        var(--postcard-blue);
+}
+
+
+.teacher-student-name {
+    border-left:
+        0;
+
+    color:
+        var(--postcard-blue-dark);
+
+    font-size:
+        clamp(1rem, 1.5vw, 1.25rem);
+}
+
+
+.teacher-student-quiz-count,
+.teacher-student-average {
+    justify-content:
+        center;
+
+    text-align:
+        center;
+}
+
+
+.teacher-student-average {
+    color:
+        var(--postcard-red);
+}
+
+
+/* ==========================================================
+   BOUTON CONSULTER
+========================================================== */
+
+.teacher-student-button {
+    align-self:
+        center;
+
+    justify-self:
+        center;
+
+    padding:
+        6px 14px;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    border-radius:
+        var(--button-radius);
+
+    color:
+        var(--postcard-blue);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(.85rem, 1.2vw, 1rem);
+
+    cursor:
+        pointer;
+}
+
+
+.teacher-student-button:hover {
+    color:
+        var(--postcard-paper-light);
+
+    background:
+        var(--postcard-blue);
+}
+
+
+.teacher-student-button:focus-visible {
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset:
+        2px;
+}
+
+
+/* ==========================================================
+   TABLETTE
+========================================================== */
+
+@media (max-width: 900px) {
+
+    .teacher-summary {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+
+    .teacher-identity {
+        flex-direction:
+            column;
+
+        gap:
+            8px;
+    }
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 600px) {
+
+    .teacher-screen {
+        padding:
+            8px;
+    }
+
+
+    .teacher-container {
+        width:
+            100%;
+
+        min-height:
+            calc(100vh - 16px);
+
+        padding:
+            25px 18px;
+    }
+
+
+    .teacher-title {
+        font-size:
+            clamp(1.8rem, 10vw, 2.7rem);
+    }
+
+
+    .teacher-summary {
+        grid-template-columns:
+            1fr;
+
+        border-right:
+            2px solid
+            var(--postcard-blue);
+    }
+
+
+    .teacher-card {
+        min-height:
+            80px;
+
+        border-right:
+            0;
+    }
+
+
+    .teacher-actions {
+        justify-content:
+            stretch;
+    }
+
+
+    .teacher-action-button {
+        width:
+            100%;
+    }
+
+
+    .teacher-students {
+        overflow-x:
+            auto;
+    }
+
+
+    .teacher-students-header,
+    .teacher-student-item {
+        min-width:
+            650px;
+    }
+}

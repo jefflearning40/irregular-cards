@@ -25,7 +25,7 @@ const router = express.Router();
 
 
 /* ==========================================================
-   LISTE DES ÉLÈVES
+   LISTE DES ÉLÈVES DU PROFESSEUR
 ========================================================== */
 
 router.get(
@@ -41,31 +41,113 @@ router.get(
         database.query(
             `
                 SELECT
-                    id,
-                    professeur_id,
-                    nom,
-                    prenom,
-                    email,
-                    date_creation
+                    eleve.id,
+                    eleve.professeur_id,
+                    eleve.nom,
+                    eleve.prenom,
+                    eleve.email,
+                    eleve.date_creation,
+
+                    COUNT(
+                        session_quiz.id
+                    ) AS nombre_quiz,
+
+                    ROUND(
+                        COALESCE(
+                            AVG(
+                                CASE
+                                    WHEN session_quiz.nombre_questions > 0
+                                    THEN
+                                        (
+                                            session_quiz.score /
+                                            session_quiz.nombre_questions
+                                        ) * 100
+                                    ELSE NULL
+                                END
+                            ),
+                            0
+                        ),
+                        1
+                    ) AS moyenne
+
                 FROM eleve
-                WHERE professeur_id = ?
+
+                LEFT JOIN session_quiz
+                    ON session_quiz.eleve_id =
+                        eleve.id
+
+                WHERE eleve.professeur_id = ?
+
+                GROUP BY
+                    eleve.id,
+                    eleve.professeur_id,
+                    eleve.nom,
+                    eleve.prenom,
+                    eleve.email,
+                    eleve.date_creation
+
+                ORDER BY
+                    eleve.nom ASC,
+                    eleve.prenom ASC
             `,
             [professeurId],
             (error, results) =>
             {
                 if (error)
                 {
-                    console.error(error);
+                    console.error(
+                        error
+                    );
 
                     response.status(500).json({
-                        error: "Erreur serveur"
+                        error:
+                            "Erreur serveur"
                     });
 
                     return;
                 }
 
 
-                response.json(results);
+                const students =
+                    results.map(
+                        (student) =>
+                        {
+                            return {
+                                id:
+                                    student.id,
+
+                                professeur_id:
+                                    student.professeur_id,
+
+                                nom:
+                                    student.nom,
+
+                                prenom:
+                                    student.prenom,
+
+                                email:
+                                    student.email,
+
+                                date_creation:
+                                    student.date_creation,
+
+                                nombre_quiz:
+                                    Number(
+                                        student.nombre_quiz
+                                    ),
+
+                                moyenne:
+                                    Number(
+                                        student.moyenne
+                                    )
+                            };
+                        }
+                    );
+
+
+                response.json(
+                    students
+                );
             }
         );
     }
@@ -98,7 +180,9 @@ router.get(
                     prenom,
                     email,
                     date_creation
+
                 FROM eleve
+
                 WHERE id = ?
                 AND professeur_id = ?
             `,
@@ -110,20 +194,26 @@ router.get(
             {
                 if (error)
                 {
-                    console.error(error);
+                    console.error(
+                        error
+                    );
 
                     response.status(500).json({
-                        error: "Erreur serveur"
+                        error:
+                            "Erreur serveur"
                     });
 
                     return;
                 }
 
 
-                if (results.length === 0)
+                if (
+                    results.length === 0
+                )
                 {
                     response.status(404).json({
-                        error: "Élève introuvable"
+                        error:
+                            "Élève introuvable"
                     });
 
                     return;
@@ -154,6 +244,7 @@ router.post(
             const professeurId =
                 request.user.id;
 
+
             const {
                 nom,
                 prenom,
@@ -170,7 +261,8 @@ router.post(
             )
             {
                 response.status(400).json({
-                    error: "Tous les champs sont obligatoires"
+                    error:
+                        "Tous les champs sont obligatoires"
                 });
 
                 return;
@@ -207,12 +299,19 @@ router.post(
                 {
                     if (error)
                     {
-                        console.error(error);
+                        console.error(
+                            error
+                        );
 
-                        if (error.code === "ER_DUP_ENTRY")
+
+                        if (
+                            error.code ===
+                            "ER_DUP_ENTRY"
+                        )
                         {
                             response.status(409).json({
-                                error: "Cette adresse email est déjà utilisée"
+                                error:
+                                    "Cette adresse email est déjà utilisée"
                             });
 
                             return;
@@ -220,7 +319,8 @@ router.post(
 
 
                         response.status(500).json({
-                            error: "Erreur serveur"
+                            error:
+                                "Erreur serveur"
                         });
 
                         return;
@@ -228,21 +328,33 @@ router.post(
 
 
                     response.status(201).json({
-                        id: result.insertId,
-                        professeur_id: professeurId,
-                        nom,
-                        prenom,
-                        email
+                        id:
+                            result.insertId,
+
+                        professeur_id:
+                            professeurId,
+
+                        nom:
+                            nom,
+
+                        prenom:
+                            prenom,
+
+                        email:
+                            email
                     });
                 }
             );
         }
         catch (error)
         {
-            console.error(error);
+            console.error(
+                error
+            );
 
             response.status(500).json({
-                error: "Erreur serveur"
+                error:
+                    "Erreur serveur"
             });
         }
     }
@@ -265,6 +377,7 @@ router.put(
         const professeurId =
             request.user.id;
 
+
         const {
             nom,
             prenom,
@@ -279,7 +392,8 @@ router.put(
         )
         {
             response.status(400).json({
-                error: "Tous les champs sont obligatoires"
+                error:
+                    "Tous les champs sont obligatoires"
             });
 
             return;
@@ -289,10 +403,12 @@ router.put(
         database.query(
             `
                 UPDATE eleve
+
                 SET
                     nom = ?,
                     prenom = ?,
                     email = ?
+
                 WHERE id = ?
                 AND professeur_id = ?
             `,
@@ -307,12 +423,19 @@ router.put(
             {
                 if (error)
                 {
-                    console.error(error);
+                    console.error(
+                        error
+                    );
 
-                    if (error.code === "ER_DUP_ENTRY")
+
+                    if (
+                        error.code ===
+                        "ER_DUP_ENTRY"
+                    )
                     {
                         response.status(409).json({
-                            error: "Cette adresse email est déjà utilisée"
+                            error:
+                                "Cette adresse email est déjà utilisée"
                         });
 
                         return;
@@ -320,17 +443,21 @@ router.put(
 
 
                     response.status(500).json({
-                        error: "Erreur serveur"
+                        error:
+                            "Erreur serveur"
                     });
 
                     return;
                 }
 
 
-                if (result.affectedRows === 0)
+                if (
+                    result.affectedRows === 0
+                )
                 {
                     response.status(404).json({
-                        error: "Élève introuvable"
+                        error:
+                            "Élève introuvable"
                     });
 
                     return;
@@ -338,11 +465,20 @@ router.put(
 
 
                 response.json({
-                    id: Number(id),
-                    professeur_id: professeurId,
-                    nom,
-                    prenom,
-                    email
+                    id:
+                        Number(id),
+
+                    professeur_id:
+                        professeurId,
+
+                    nom:
+                        nom,
+
+                    prenom:
+                        prenom,
+
+                    email:
+                        email
                 });
             }
         );
@@ -370,6 +506,7 @@ router.delete(
         database.query(
             `
                 DELETE FROM eleve
+
                 WHERE id = ?
                 AND professeur_id = ?
             `,
@@ -381,20 +518,26 @@ router.delete(
             {
                 if (error)
                 {
-                    console.error(error);
+                    console.error(
+                        error
+                    );
 
                     response.status(500).json({
-                        error: "Erreur serveur"
+                        error:
+                            "Erreur serveur"
                     });
 
                     return;
                 }
 
 
-                if (result.affectedRows === 0)
+                if (
+                    result.affectedRows === 0
+                )
                 {
                     response.status(404).json({
-                        error: "Élève introuvable"
+                        error:
+                            "Élève introuvable"
                     });
 
                     return;
@@ -402,7 +545,8 @@ router.delete(
 
 
                 response.json({
-                    message: "Élève supprimé"
+                    message:
+                        "Élève supprimé"
                 });
             }
         );

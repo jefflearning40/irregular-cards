@@ -19,21 +19,22 @@
         href="assets/images/icones/professeur_pasgif_animation_bravo.svg"
     >
 
-    <link rel="stylesheet" href="assets/styles/variables.css">
-    <link rel="stylesheet" href="assets/styles/style.css">
-    <link rel="stylesheet" href="assets/styles/professeur.css">
-    <link rel="stylesheet" href="assets/styles/boat.css">
-    <link rel="stylesheet" href="assets/styles/departure.css">
-    <link rel="stylesheet" href="assets/styles/arrival.css">
-    <link rel="stylesheet" href="assets/styles/crossing.css">
-    <link rel="stylesheet" href="assets/styles/seagulls.css">
-    <link rel="stylesheet" href="assets/styles/classroom.css">
-    <link rel="stylesheet" href="assets/styles/postcard.css">
-    <link rel="stylesheet" href="assets/styles/quiz.css">
-    <link rel="stylesheet" href="assets/styles/login.css">
-    <link rel="stylesheet" href="assets/styles/statistics.css">
-    <link rel="stylesheet" href="assets/styles/responsive.css">
-    <link rel="stylesheet" href="assets/styles/responsive-classroom.css">
+  <link rel="stylesheet" href="assets/styles/variables.css">
+<link rel="stylesheet" href="assets/styles/style.css">
+<link rel="stylesheet" href="assets/styles/professeur.css">
+<link rel="stylesheet" href="assets/styles/boat.css">
+<link rel="stylesheet" href="assets/styles/departure.css">
+<link rel="stylesheet" href="assets/styles/arrival.css">
+<link rel="stylesheet" href="assets/styles/crossing.css">
+<link rel="stylesheet" href="assets/styles/seagulls.css">
+<link rel="stylesheet" href="assets/styles/classroom.css">
+<link rel="stylesheet" href="assets/styles/postcard.css">
+<link rel="stylesheet" href="assets/styles/quiz.css">
+<link rel="stylesheet" href="assets/styles/login.css">
+<link rel="stylesheet" href="assets/styles/statistics.css">
+<link rel="stylesheet" href="assets/styles/teacher.css">
+<link rel="stylesheet" href="assets/styles/responsive.css">
+<link rel="stylesheet" href="assets/styles/responsive-classroom.css">
 
 </head>
 
@@ -559,94 +560,291 @@
         </div>
 
 
-        <!-- =====================================================
-             MODALE ÉVOLUTION
-        ====================================================== -->
+       <!-- =====================================================
+     MODALE ÉVOLUTION
+====================================================== -->
 
-        <div
-            class="statistics-evolution-modal"
-            id="statistics-evolution-modal"
-            aria-hidden="true"
-        >
+<div
+    class="statistics-evolution-modal"
+    id="statistics-evolution-modal"
+    aria-hidden="true"
+>
+
+    <div
+        class="statistics-evolution-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="statistics-evolution-title"
+    >
+
+        <!-- =================================================
+             EN-TÊTE MODALE
+        ================================================== -->
+
+        <div class="statistics-evolution-header">
+
+            <div>
+
+                <p class="statistics-evolution-subtitle">
+                    Carnet de notes
+                </p>
+
+                <h2 id="statistics-evolution-title">
+                    Mon évolution
+                </h2>
+
+            </div>
+
+
+            <button
+                class="statistics-evolution-close"
+                id="statistics-evolution-close"
+                type="button"
+                aria-label="Fermer l'évolution"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             GRAPHIQUE D'ÉVOLUTION
+        ================================================== -->
+
+        <div class="statistics-evolution-chart">
 
             <div
-                class="statistics-evolution-dialog"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="statistics-evolution-title"
+                class="statistics-line-chart"
+                id="statistics-evolution-content"
             >
 
-                <!-- =================================================
-                     EN-TÊTE MODALE
-                ================================================== -->
-
-                <div class="statistics-evolution-header">
-
-                    <div>
-
-                        <p class="statistics-evolution-subtitle">
-                            Carnet de notes
-                        </p>
-
-                        <h2 id="statistics-evolution-title">
-                            Mon évolution
-                        </h2>
-
-                    </div>
-
-
-                    <button
-                        class="statistics-evolution-close"
-                        id="statistics-evolution-close"
-                        type="button"
-                        aria-label="Fermer l'évolution"
-                    >
-                        ×
-                    </button>
-
-                </div>
-
-
-                <!-- =================================================
-                     GRAPHIQUE
-                ================================================== -->
-
-                <div class="statistics-evolution-chart">
-
-                    <div
-                        id="statistics-evolution-content"
-                    >
-                    </div>
-
-                </div>
-
-
-                <!-- =================================================
-                     BAS DE LA MODALE
-                ================================================== -->
-
-                <div class="statistics-evolution-footer">
-
-                    <p>
-                        Progression des résultats obtenus aux quiz
-                    </p>
-
-
-                    <button
-                        class="statistics-evolution-close-button"
-                        id="statistics-evolution-close-button"
-                        type="button"
-                    >
-                        Fermer
-                    </button>
-
-                </div>
+                <svg
+                    class="statistics-line-chart-svg"
+                    id="statistics-line-chart-svg"
+                    viewBox="0 0 900 400"
+                    preserveAspectRatio="none"
+                    role="img"
+                    aria-label="Courbe d'évolution des résultats aux quiz"
+                >
+                </svg>
 
             </div>
 
         </div>
 
-    </section>
+
+        <!-- =================================================
+             BAS DE LA MODALE
+        ================================================== -->
+
+        <div class="statistics-evolution-footer">
+
+            <p>
+                Progression des résultats obtenus aux quiz
+            </p>
+
+
+            <button
+                class="statistics-evolution-close-button"
+                id="statistics-evolution-close-button"
+                type="button"
+            >
+                Fermer
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     ESPACE PROFESSEUR
+====================================================== -->
+
+<section
+    class="teacher-screen"
+    id="teacher-screen"
+>
+
+    <div class="teacher-container">
+
+        <!-- =================================================
+             EN-TÊTE
+        ================================================== -->
+
+        <header class="teacher-header">
+
+            <div class="teacher-heading">
+
+                <p class="teacher-heading-school">
+                    Carnet de classe
+                </p>
+
+                <h1 class="teacher-title">
+                    Tableau de bord
+                </h1>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             IDENTITÉ PROFESSEUR
+        ================================================== -->
+
+        <div class="teacher-identity">
+
+            <p>
+                Professeur :
+                <strong id="teacher-name">
+                    -
+                </strong>
+            </p>
+
+            <p>
+                Matière :
+                <strong>
+                    Anglais — Verbes irréguliers
+                </strong>
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             RÉSUMÉ DE LA CLASSE
+        ================================================== -->
+
+        <div class="teacher-summary">
+
+            <div class="teacher-card">
+
+                <span class="teacher-card-label">
+                    Élèves
+                </span>
+
+                <span
+                    class="teacher-card-value"
+                    id="teacher-student-count"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="teacher-card">
+
+                <span class="teacher-card-label">
+                    Quiz réalisés
+                </span>
+
+                <span
+                    class="teacher-card-value"
+                    id="teacher-quiz-count"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="teacher-card">
+
+                <span class="teacher-card-label">
+                    Moyenne de la classe
+                </span>
+
+                <span
+                    class="teacher-card-value"
+                    id="teacher-class-average"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="teacher-card">
+
+                <span class="teacher-card-label">
+                    Erreurs quiz
+                </span>
+
+                <span
+                    class="teacher-card-value"
+                    id="teacher-error-count"
+                >
+                    -
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ACTIONS
+        ================================================== -->
+
+        <div class="teacher-actions">
+
+            <button
+                class="teacher-action-button"
+                id="teacher-create-student-button"
+                type="button"
+            >
+                Créer un élève
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             LISTE DES ÉLÈVES
+        ================================================== -->
+
+        <div class="teacher-students">
+
+            <h2>
+                Mes élèves
+            </h2>
+
+
+            <div class="teacher-students-header">
+
+                <span>
+                    Élève
+                </span>
+
+                <span>
+                    Quiz
+                </span>
+
+                <span>
+                    Moyenne
+                </span>
+
+                <span>
+                    Consulter
+                </span>
+
+            </div>
+
+
+            <div id="teacher-students-list">
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 
     <!-- =====================================================
@@ -1148,19 +1346,19 @@
          JAVASCRIPT
     ====================================================== -->
 
-    <script src="assets/JS/screen.js"></script>
-    <script src="assets/JS/professeur.js"></script>
-    <script src="assets/JS/boat.js"></script>
-    <script src="assets/JS/quiz-timer.js"></script>
-    <script src="assets/JS/api.js"></script>
-    <script src="assets/JS/login.js"></script>
-    <script src="assets/JS/quiz-game.js"></script>
-    <script src="assets/JS/quiz.js"></script>
-    <script src="assets/JS/classroom-learning.js"></script>
-    <script src="assets/JS/classroom-training.js"></script>
-    <script src="assets/JS/statistics.js"></script>
-    <script src="assets/JS/script.js"></script>
-
+   <script src="assets/JS/screen.js"></script>
+<script src="assets/JS/professeur.js"></script>
+<script src="assets/JS/boat.js"></script>
+<script src="assets/JS/quiz-timer.js"></script>
+<script src="assets/JS/api.js"></script>
+<script src="assets/JS/teacher.js"></script>
+<script src="assets/JS/login.js"></script>
+<script src="assets/JS/quiz-game.js"></script>
+<script src="assets/JS/quiz.js"></script>
+<script src="assets/JS/classroom-learning.js"></script>
+<script src="assets/JS/classroom-training.js"></script>
+<script src="assets/JS/statistics.js"></script>
+<script src="assets/JS/script.js"></script>
 </body>
 
 </html>

@@ -25,6 +25,9 @@ const arrivalScreen =
 const statisticsScreen =
     document.getElementById("statistics-screen");
 
+const teacherScreen =
+    document.getElementById("teacher-screen");
+
 
 /* ==========================================================
    MASQUER TOUS LES ÉCRANS
@@ -45,6 +48,9 @@ function hideAllScreens()
         "none";
 
     statisticsScreen.style.display =
+        "none";
+
+    teacherScreen.style.display =
         "none";
 }
 
@@ -102,7 +108,7 @@ function showArrival()
 
 
 /* ==========================================================
-   ÉCRAN STATISTIQUES
+   ÉCRAN STATISTIQUES ÉLÈVE
 ========================================================== */
 
 function showStatistics()
@@ -111,4 +117,26 @@ function showStatistics()
 
     statisticsScreen.style.display =
         "block";
+}
+
+
+/* ==========================================================
+   ÉCRAN PROFESSEUR
+========================================================== */
+
+function showTeacher()
+{
+    hideAllScreens();
+
+    teacherScreen.style.display =
+        "block";
+
+
+    if (
+        typeof loadTeacherDashboard ===
+        "function"
+    )
+    {
+        loadTeacherDashboard();
+    }
 }
