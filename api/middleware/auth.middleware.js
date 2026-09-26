@@ -21,26 +21,32 @@ function verifyToken(
     const authorizationHeader =
         request.headers.authorization;
 
+
     if (!authorizationHeader)
     {
         response.status(401).json({
-            error: "Token manquant"
+            error:
+                "Token manquant"
         });
 
         return;
     }
+
 
     const token =
         authorizationHeader.split(" ")[1];
 
+
     if (!token)
     {
         response.status(401).json({
-            error: "Token manquant"
+            error:
+                "Token manquant"
         });
 
         return;
     }
+
 
     try
     {
@@ -50,15 +56,18 @@ function verifyToken(
                 process.env.JWT_SECRET
             );
 
+
         request.user =
             decoded;
+
 
         next();
     }
     catch (error)
     {
         response.status(401).json({
-            error: "Token invalide ou expiré"
+            error:
+                "Token invalide ou expiré"
         });
     }
 }
@@ -80,11 +89,13 @@ function requireProfessor(
     )
     {
         response.status(403).json({
-            error: "Accès réservé aux professeurs"
+            error:
+                "Accès réservé aux professeurs"
         });
 
         return;
     }
+
 
     next();
 }
@@ -106,11 +117,41 @@ function requireStudent(
     )
     {
         response.status(403).json({
-            error: "Accès réservé aux élèves"
+            error:
+                "Accès réservé aux élèves"
         });
 
         return;
     }
+
+
+    next();
+}
+
+
+/* ==========================================================
+   AUTORISATION ADMINISTRATEUR
+========================================================== */
+
+function requireAdmin(
+    request,
+    response,
+    next
+)
+{
+    if (
+        !request.user ||
+        request.user.role !== "administrateur"
+    )
+    {
+        response.status(403).json({
+            error:
+                "Accès réservé aux administrateurs"
+        });
+
+        return;
+    }
+
 
     next();
 }
@@ -123,5 +164,6 @@ function requireStudent(
 module.exports = {
     verifyToken,
     requireProfessor,
-    requireStudent
+    requireStudent,
+    requireAdmin
 };

@@ -35,6 +35,9 @@ const authRoutes =
 const statistiqueRoutes =
     require("./routes/statistique.routes");
 
+    const administrateurRoutes =
+    require("./routes/administrateur.routes");
+
 
 /* ==========================================================
    APPLICATION
@@ -142,6 +145,11 @@ app.use(
 app.use(
     "/api/statistiques",
     statistiqueRoutes
+);
+
+app.use(
+    "/api/administrateur",
+    administrateurRoutes
 );
 
 

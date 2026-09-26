@@ -150,7 +150,10 @@ router.post(
                 WHERE email = ?
             `,
             [email],
-            async (studentError, students) =>
+            async (
+                studentError,
+                students
+            ) =>
             {
                 if (studentError)
                 {
@@ -251,62 +254,148 @@ router.post(
                         }
 
 
-                        if (teachers.length === 0)
+                        if (teachers.length > 0)
                         {
-                            response.status(401).json({
-                                error:
-                                    "Identifiants incorrects"
-                            });
-
-                            return;
-                        }
+                            const teacher =
+                                teachers[0];
 
 
-                        const teacher =
-                            teachers[0];
+                            let passwordIsValid;
 
 
-                        let passwordIsValid;
-
-
-                        try
-                        {
-                            passwordIsValid =
-                                await checkPassword(
-                                    mot_de_passe,
-                                    teacher.mot_de_passe
+                            try
+                            {
+                                passwordIsValid =
+                                    await checkPassword(
+                                        mot_de_passe,
+                                        teacher.mot_de_passe
+                                    );
+                            }
+                            catch (error)
+                            {
+                                console.error(
+                                    error
                                 );
-                        }
-                        catch (error)
-                        {
-                            console.error(
-                                error
+
+                                response.status(500).json({
+                                    error:
+                                        "Erreur serveur"
+                                });
+
+                                return;
+                            }
+
+
+                            if (!passwordIsValid)
+                            {
+                                response.status(401).json({
+                                    error:
+                                        "Identifiants incorrects"
+                                });
+
+                                return;
+                            }
+
+
+                            sendLoginResponse(
+                                response,
+                                teacher,
+                                "professeur"
                             );
 
-                            response.status(500).json({
-                                error:
-                                    "Erreur serveur"
-                            });
-
                             return;
                         }
 
 
-                        if (!passwordIsValid)
-                        {
-                            response.status(401).json({
-                                error:
-                                    "Identifiants incorrects"
-                            });
+                        /* ==================================
+                           RECHERCHE DANS LES ADMINISTRATEURS
+                        ================================== */
 
-                            return;
-                        }
+                        database.query(
+                            `
+                                SELECT *
+                                FROM administrateur
+                                WHERE email = ?
+                            `,
+                            [email],
+                            async (
+                                adminError,
+                                admins
+                            ) =>
+                            {
+                                if (adminError)
+                                {
+                                    console.error(
+                                        adminError
+                                    );
+
+                                    response.status(500).json({
+                                        error:
+                                            "Erreur serveur"
+                                    });
+
+                                    return;
+                                }
 
 
-                        sendLoginResponse(
-                            response,
-                            teacher,
-                            "professeur"
+                                if (admins.length === 0)
+                                {
+                                    response.status(401).json({
+                                        error:
+                                            "Identifiants incorrects"
+                                    });
+
+                                    return;
+                                }
+
+
+                                const admin =
+                                    admins[0];
+
+
+                                let passwordIsValid;
+
+
+                                try
+                                {
+                                    passwordIsValid =
+                                        await checkPassword(
+                                            mot_de_passe,
+                                            admin.mot_de_passe
+                                        );
+                                }
+                                catch (error)
+                                {
+                                    console.error(
+                                        error
+                                    );
+
+                                    response.status(500).json({
+                                        error:
+                                            "Erreur serveur"
+                                    });
+
+                                    return;
+                                }
+
+
+                                if (!passwordIsValid)
+                                {
+                                    response.status(401).json({
+                                        error:
+                                            "Identifiants incorrects"
+                                    });
+
+                                    return;
+                                }
+
+
+                                sendLoginResponse(
+                                    response,
+                                    admin,
+                                    "administrateur"
+                                );
+                            }
                         );
                     }
                 );
