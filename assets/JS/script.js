@@ -69,7 +69,21 @@ statisticsButton.addEventListener(
 
 statisticsBackButton.addEventListener(
     "click",
-    showDeparture
+    () =>
+    {
+        if (
+            currentRole ===
+            "professeur"
+        )
+        {
+            showTeacher();
+
+            return;
+        }
+
+
+        showDeparture();
+    }
 );
 
 

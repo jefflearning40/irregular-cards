@@ -25,6 +25,118 @@ const router = express.Router();
 
 
 /* ==========================================================
+   VALIDATION DES DONNÉES
+========================================================== */
+
+function normalizeText(value)
+{
+    if (
+        typeof value !==
+        "string"
+    )
+    {
+        return "";
+    }
+
+
+    return value
+        .trim()
+        .replace(
+            /\s+/g,
+            " "
+        );
+}
+
+
+function normalizeEmail(value)
+{
+    if (
+        typeof value !==
+        "string"
+    )
+    {
+        return "";
+    }
+
+
+    return value
+        .trim()
+        .toLowerCase();
+}
+
+
+function isValidName(value)
+{
+    if (
+        value.length < 2 ||
+        value.length > 50
+    )
+    {
+        return false;
+    }
+
+
+    return /^[\p{L}\p{M}' -]+$/u.test(
+        value
+    );
+}
+
+
+function isValidEmail(value)
+{
+    if (
+        value.length > 254
+    )
+    {
+        return false;
+    }
+
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        value
+    );
+}
+
+
+function isValidPassword(value)
+{
+    if (
+        typeof value !==
+        "string"
+    )
+    {
+        return false;
+    }
+
+
+    if (
+        value.length < 8 ||
+        value.length > 72
+    )
+    {
+        return false;
+    }
+
+
+    const hasLetter =
+        /\p{L}/u.test(
+            value
+        );
+
+    const hasNumber =
+        /\d/.test(
+            value
+        );
+
+
+    return (
+        hasLetter &&
+        hasNumber
+    );
+}
+
+
+/* ==========================================================
    LISTE DES ÉLÈVES DU PROFESSEUR
 ========================================================== */
 
@@ -245,19 +357,34 @@ router.post(
                 request.user.id;
 
 
-            const {
-                nom,
-                prenom,
-                email,
-                mot_de_passe
-            } = request.body;
+            const nom =
+                normalizeText(
+                    request.body.nom
+                );
 
+            const prenom =
+                normalizeText(
+                    request.body.prenom
+                );
+
+            const email =
+                normalizeEmail(
+                    request.body.email
+                );
+
+            const motDePasse =
+                request.body.mot_de_passe;
+
+
+            /* ==============================================
+               CHAMPS OBLIGATOIRES
+            ============================================== */
 
             if (
                 !nom ||
                 !prenom ||
                 !email ||
-                !mot_de_passe
+                !motDePasse
             )
             {
                 response.status(400).json({
@@ -269,12 +396,96 @@ router.post(
             }
 
 
+            /* ==============================================
+               NOM
+            ============================================== */
+
+            if (
+                !isValidName(
+                    nom
+                )
+            )
+            {
+                response.status(400).json({
+                    error:
+                        "Nom invalide"
+                });
+
+                return;
+            }
+
+
+            /* ==============================================
+               PRÉNOM
+            ============================================== */
+
+            if (
+                !isValidName(
+                    prenom
+                )
+            )
+            {
+                response.status(400).json({
+                    error:
+                        "Prénom invalide"
+                });
+
+                return;
+            }
+
+
+            /* ==============================================
+               E-MAIL
+            ============================================== */
+
+            if (
+                !isValidEmail(
+                    email
+                )
+            )
+            {
+                response.status(400).json({
+                    error:
+                        "Adresse e-mail invalide"
+                });
+
+                return;
+            }
+
+
+            /* ==============================================
+               MOT DE PASSE
+            ============================================== */
+
+            if (
+                !isValidPassword(
+                    motDePasse
+                )
+            )
+            {
+                response.status(400).json({
+                    error:
+                        "Le mot de passe doit contenir entre 8 et 72 caractères, avec au moins une lettre et un chiffre"
+                });
+
+                return;
+            }
+
+
+            /* ==============================================
+               HACHAGE DU MOT DE PASSE
+            ============================================== */
+
             const motDePasseHash =
                 await bcrypt.hash(
-                    mot_de_passe,
+                    motDePasse,
                     12
                 );
 
+
+            /* ==============================================
+               ENREGISTREMENT
+            ============================================== */
 
             database.query(
                 `
@@ -378,11 +589,20 @@ router.put(
             request.user.id;
 
 
-        const {
-            nom,
-            prenom,
-            email
-        } = request.body;
+        const nom =
+            normalizeText(
+                request.body.nom
+            );
+
+        const prenom =
+            normalizeText(
+                request.body.prenom
+            );
+
+        const email =
+            normalizeEmail(
+                request.body.email
+            );
 
 
         if (
@@ -394,6 +614,51 @@ router.put(
             response.status(400).json({
                 error:
                     "Tous les champs sont obligatoires"
+            });
+
+            return;
+        }
+
+
+        if (
+            !isValidName(
+                nom
+            )
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Nom invalide"
+            });
+
+            return;
+        }
+
+
+        if (
+            !isValidName(
+                prenom
+            )
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Prénom invalide"
+            });
+
+            return;
+        }
+
+
+        if (
+            !isValidEmail(
+                email
+            )
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Adresse e-mail invalide"
             });
 
             return;

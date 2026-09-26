@@ -1,0 +1,537 @@
+/* ==========================================================
+   MODALE CRÉATION D'UN ÉLÈVE
+========================================================== */
+
+.teacher-student-modal
+{
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(28, 28, 31, 0.72);
+}
+
+
+.teacher-student-modal--open
+{
+    display: flex;
+}
+
+
+/* ==========================================================
+   CONTENU DE LA MODALE
+========================================================== */
+
+.teacher-student-modal-content
+{
+    position: relative;
+
+    width:
+        min(520px, 95%);
+
+    padding:
+        38px 42px 32px;
+
+    border:
+        3px solid
+        var(--postcard-blue);
+
+    border-radius:
+        4px;
+
+    color:
+        var(--postcard-blue-dark);
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent 31px,
+            rgba(7, 63, 105, 0.10) 32px
+        ),
+        var(--postcard-paper);
+
+    box-shadow:
+        0 8px 24px
+        var(--shadow-dark);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+}
+
+
+/* ==========================================================
+   DOUBLE BORDURE
+========================================================== */
+
+.teacher-student-modal-content::before
+{
+    content: "";
+
+    position: absolute;
+
+    inset: 8px;
+
+    border:
+        1px solid
+        var(--postcard-brown);
+
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   EN-TÊTE
+========================================================== */
+
+.teacher-student-modal-header
+{
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 28px;
+
+    padding-bottom: 14px;
+
+    border-bottom:
+        2px solid
+        var(--postcard-blue);
+}
+
+
+/* ==========================================================
+   TITRE
+========================================================== */
+
+.teacher-student-modal-header h2
+{
+    margin: 0;
+
+    color:
+        var(--postcard-blue);
+
+    font-size:
+        clamp(1.5rem, 3vw, 2.2rem);
+
+    font-weight: 400;
+
+    letter-spacing:
+        .03em;
+}
+
+
+/* ==========================================================
+   BOUTON FERMER
+========================================================== */
+
+.teacher-student-modal-close
+{
+    padding:
+        2px 8px;
+
+    border: 0;
+
+    color:
+        var(--postcard-blue);
+
+    background:
+        transparent;
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size:
+        2rem;
+
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+.teacher-student-modal-close:hover
+{
+    color:
+        var(--postcard-red);
+}
+
+
+.teacher-student-modal-close:focus-visible
+{
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset:
+        2px;
+}
+
+
+/* ==========================================================
+   FORMULAIRE
+========================================================== */
+
+#teacher-student-form
+{
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* ==========================================================
+   CHAMPS
+========================================================== */
+
+.teacher-student-field
+{
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-bottom: 20px;
+}
+
+
+.teacher-student-field label
+{
+    color:
+        var(--postcard-blue-dark);
+
+    font-size:
+        clamp(1rem, 1.5vw, 1.2rem);
+
+    font-weight: 400;
+}
+
+
+.teacher-student-field input
+{
+    width: 100%;
+
+    padding:
+        11px 13px;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    border-radius:
+        var(--button-radius);
+
+    color:
+        var(--postcard-blue-dark);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size:
+        1rem;
+
+    box-sizing:
+        border-box;
+}
+
+
+.teacher-student-field input:focus
+{
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset:
+        2px;
+}
+
+
+/* ==========================================================
+   CHAMP MOT DE PASSE
+========================================================== */
+
+.teacher-student-password-wrapper
+{
+    position: relative;
+
+    width: 100%;
+}
+
+
+.teacher-student-password-wrapper input
+{
+    padding-right: 52px;
+}
+
+
+/* ==========================================================
+   BOUTON AFFICHER / MASQUER LE MOT DE PASSE
+========================================================== */
+
+.teacher-student-password-toggle
+{
+    position: absolute;
+
+    top: 50%;
+
+    right: 10px;
+
+    transform:
+        translateY(-50%);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 34px;
+
+    height: 34px;
+
+    padding: 0;
+
+    border: 0;
+
+    color:
+        var(--postcard-blue);
+
+    background:
+        transparent;
+
+    cursor: pointer;
+}
+
+
+.teacher-student-password-toggle:hover
+{
+    color:
+        var(--postcard-blue-dark);
+}
+
+
+.teacher-student-password-toggle:focus-visible
+{
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset:
+        2px;
+
+    border-radius:
+        var(--button-radius);
+}
+
+
+/* ==========================================================
+   ICÔNE ŒIL
+========================================================== */
+
+.teacher-student-password-eye
+{
+    display: block;
+
+    width: 24px;
+
+    height: 24px;
+
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   MESSAGE
+========================================================== */
+
+.teacher-student-message
+{
+    min-height: 24px;
+
+    margin:
+        4px 0 16px;
+
+    color:
+        var(--postcard-red);
+
+    font-size:
+        .95rem;
+
+    text-align:
+        center;
+}
+
+
+/* ==========================================================
+   ACTIONS
+========================================================== */
+
+.teacher-student-form-actions
+{
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+}
+
+
+/* ==========================================================
+   BOUTONS
+========================================================== */
+
+.teacher-student-cancel-button,
+.teacher-student-submit-button
+{
+    padding:
+        9px 18px;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    border-radius:
+        var(--button-radius);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size:
+        1rem;
+
+    font-weight: 400;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================================
+   BOUTON ANNULER
+========================================================== */
+
+.teacher-student-cancel-button
+{
+    color:
+        var(--postcard-blue);
+
+    background:
+        var(--postcard-paper-light);
+}
+
+
+.teacher-student-cancel-button:hover
+{
+    color:
+        var(--postcard-paper-light);
+
+    background:
+        var(--postcard-blue);
+}
+
+
+/* ==========================================================
+   BOUTON CRÉER
+========================================================== */
+
+.teacher-student-submit-button
+{
+    color:
+        var(--postcard-paper-light);
+
+    background:
+        var(--postcard-blue);
+}
+
+
+.teacher-student-submit-button:hover
+{
+    color:
+        var(--postcard-blue);
+
+    background:
+        var(--postcard-paper-light);
+}
+
+
+/* ==========================================================
+   FOCUS BOUTONS
+========================================================== */
+
+.teacher-student-cancel-button:focus-visible,
+.teacher-student-submit-button:focus-visible
+{
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset:
+        3px;
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 600px)
+{
+    .teacher-student-modal
+    {
+        padding: 10px;
+    }
+
+
+    .teacher-student-modal-content
+    {
+        width: 100%;
+
+        padding:
+            32px 25px 25px;
+    }
+
+
+    .teacher-student-form-actions
+    {
+        flex-direction: column;
+    }
+
+
+    .teacher-student-cancel-button,
+    .teacher-student-submit-button
+    {
+        width: 100%;
+    }
+}

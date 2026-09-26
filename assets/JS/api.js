@@ -568,3 +568,151 @@ async function getTeacherStudentStatistics(
 
     return await response.json();
 }
+/* ==========================================================
+   CRÉATION D'UN ÉLÈVE PAR LE PROFESSEUR
+========================================================== */
+
+async function createTeacherStudent(
+    nom,
+    prenom,
+    email,
+    motDePasse
+)
+{
+    if (
+        !apiToken ||
+        currentRole !== "professeur"
+    )
+    {
+        throw new Error(
+            "Accès réservé aux professeurs."
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/eleves`,
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    },
+
+                    body:
+                        JSON.stringify({
+                            nom:
+                                nom,
+
+                            prenom:
+                                prenom,
+
+                            email:
+                                email,
+
+                            mot_de_passe:
+                                motDePasse
+                        })
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    const data =
+        await response.json();
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            data.error ||
+            "Impossible de créer l'élève."
+        );
+    }
+
+
+    return data;
+}
+/* ==========================================================
+   SUPPRESSION D'UN ÉLÈVE PAR LE PROFESSEUR
+========================================================== */
+
+async function deleteTeacherStudent(
+    studentId
+)
+{
+    if (
+        !apiToken ||
+        currentRole !== "professeur"
+    )
+    {
+        throw new Error(
+            "Accès réservé aux professeurs."
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/eleves/${studentId}`,
+                {
+                    method:
+                        "DELETE",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    }
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (
+        response.status === 404
+    )
+    {
+        throw new Error(
+            "STUDENT_NOT_FOUND"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "Impossible de supprimer l'élève."
+        );
+    }
+
+
+    return await response.json();
+}
