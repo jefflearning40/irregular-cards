@@ -1413,29 +1413,122 @@
                 </section>
 
 
-                <!-- =====================================
-                     PROFESSEURS
-                ====================================== -->
+              <!-- =====================================
+     PROFESSEURS
+====================================== -->
 
-                <section
-                    id="admin-teachers-view"
-                    class="admin-view"
-                    data-admin-section="professeurs"
-                    hidden
-                >
-                    <h2 class="admin-view__title">
-                        &gt; GESTION DES PROFESSEURS
-                    </h2>
+<section
+    id="admin-teachers-view"
+    class="admin-view"
+    data-admin-section="professeurs"
+    hidden
+>
+    <!-- =================================
+         EN-TÊTE
+    ================================== -->
 
-                    <p>
-                        MODULE EN CONSTRUCTION_
-                    </p>
-                </section>
+    <div class="admin-block-header">
+
+        <h2 class="admin-view__title">
+            &gt; GESTION DU PROFESSEUR
+        </h2>
+
+        <button
+            id="admin-teacher-back-button"
+            class="admin-button"
+            type="button"
+        >
+            [ &lt; RETOUR ]
+        </button>
+
+    </div>
 
 
-                <!-- =====================================
-                     ELEVES
-                ====================================== -->
+    <!-- =================================
+         INFORMATIONS PROFESSEUR
+    ================================== -->
+
+    <div class="admin-system-info">
+
+        <p>
+            ID ..............
+            <span id="admin-selected-teacher-id">
+                -
+            </span>
+        </p>
+
+        <p>
+            NOM .............
+            <span id="admin-selected-teacher-name">
+                -
+            </span>
+        </p>
+
+        <p>
+            EMAIL ...........
+            <span id="admin-selected-teacher-email">
+                -
+            </span>
+        </p>
+
+        <p>
+            ELEVES ..........
+            <span id="admin-selected-teacher-student-count">
+                -
+            </span>
+        </p>
+
+    </div>
+
+
+    <!-- =================================
+         LISTE DES ÉLÈVES
+    ================================== -->
+
+    <div class="admin-dashboard-block">
+
+        <div class="admin-block-header">
+
+            <h3>
+                &gt; ELEVES RATTACHES
+            </h3>
+
+        </div>
+
+
+        <div class="admin-table-wrapper">
+
+            <table class="admin-table">
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>NOM</th>
+                        <th>PRENOM</th>
+                        <th>EMAIL</th>
+                        <th>ACTION</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="admin-teacher-student-table-body">
+
+                    <tr>
+                        <td colspan="5">
+                            &gt; SELECTIONNEZ UN PROFESSEUR...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
 
                 <section
                     id="admin-students-view"

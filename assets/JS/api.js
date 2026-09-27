@@ -716,3 +716,154 @@ async function deleteTeacherStudent(
 
     return await response.json();
 }
+/* ==========================================================
+   RÉCUPÉRATION DES PROFESSEURS PAR L'ADMINISTRATEUR
+========================================================== */
+
+async function getAdminTeachers()
+{
+    if (
+        !apiToken ||
+        currentRole !== "administrateur"
+    )
+    {
+        throw new Error(
+            "Accès réservé aux administrateurs."
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/administrateur/professeurs`,
+                {
+                    method:
+                        "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    }
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (response.status === 401)
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    if (response.status === 403)
+    {
+        throw new Error(
+            "FORBIDDEN"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "Impossible de récupérer les professeurs."
+        );
+    }
+
+
+    return await response.json();
+}
+/* ==========================================================
+   RÉCUPÉRATION DES ÉLÈVES D'UN PROFESSEUR
+   PAR L'ADMINISTRATEUR
+========================================================== */
+
+async function getAdminTeacherStudents(
+    teacherId
+)
+{
+    if (
+        !apiToken ||
+        currentRole !== "administrateur"
+    )
+    {
+        throw new Error(
+            "Accès réservé aux administrateurs."
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/administrateur/professeurs/${teacherId}/eleves`,
+                {
+                    method:
+                        "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    }
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (response.status === 401)
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    if (response.status === 403)
+    {
+        throw new Error(
+            "FORBIDDEN"
+        );
+    }
+
+
+    if (response.status === 404)
+    {
+        throw new Error(
+            "TEACHER_NOT_FOUND"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "Impossible de récupérer les élèves du professeur."
+        );
+    }
+
+
+    return await response.json();
+}

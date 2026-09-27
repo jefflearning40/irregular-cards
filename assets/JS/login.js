@@ -40,6 +40,16 @@ const logoutButton =
         "logout-button"
     );
 
+const adminScreen =
+    document.getElementById(
+        "admin-screen"
+    );
+
+const adminLogoutButton =
+    document.getElementById(
+        "admin-logout-button"
+    );
+
 
 /* ==========================================================
    OUVERTURE DE LA MODALE
@@ -76,6 +86,31 @@ function closeLoginModal()
 
 
 /* ==========================================================
+   AFFICHAGE ADMINISTRATEUR
+========================================================== */
+
+function showAdmin()
+{
+    adminScreen.hidden =
+        false;
+
+    logoutButton.hidden =
+        true;
+}
+
+
+/* ==========================================================
+   MASQUAGE ADMINISTRATEUR
+========================================================== */
+
+function hideAdmin()
+{
+    adminScreen.hidden =
+        true;
+}
+
+
+/* ==========================================================
    CONNEXION
 ========================================================== */
 
@@ -103,10 +138,6 @@ loginForm.addEventListener(
                 );
 
 
-            logoutButton.hidden =
-                false;
-
-
             closeLoginModal();
 
 
@@ -119,6 +150,11 @@ loginForm.addEventListener(
                 "eleve"
             )
             {
+                hideAdmin();
+
+                logoutButton.hidden =
+                    false;
+
                 showDeparture();
 
                 return;
@@ -134,11 +170,37 @@ loginForm.addEventListener(
                 "professeur"
             )
             {
+                hideAdmin();
+
+                logoutButton.hidden =
+                    false;
+
                 showTeacher();
 
                 return;
             }
 
+
+            /* ==============================================
+               CONNEXION ADMINISTRATEUR
+            ============================================== */
+
+            if (
+                loginData.role ===
+                "administrateur"
+            )
+            {
+                showAdmin();
+
+                await loadAdminDashboard();
+
+                return;
+            }
+
+
+            /* ==============================================
+               RÔLE INCONNU
+            ============================================== */
 
             throw new Error(
                 "UNKNOWN_ROLE"
@@ -183,7 +245,7 @@ loginForm.addEventListener(
 
 
 /* ==========================================================
-   DÉCONNEXION
+   DÉCONNEXION ÉLÈVE / PROFESSEUR
 ========================================================== */
 
 logoutButton.addEventListener(
@@ -200,6 +262,9 @@ logoutButton.addEventListener(
         {
             resetQuizGame();
         }
+
+
+        hideAdmin();
 
 
         showDeparture();
@@ -222,7 +287,35 @@ logoutButton.addEventListener(
 
 
 /* ==========================================================
+   DÉCONNEXION ADMINISTRATEUR
+========================================================== */
+
+adminLogoutButton.addEventListener(
+    "click",
+    () =>
+    {
+        logoutUser();
+
+
+        hideAdmin();
+
+
+        loginForm.reset();
+
+
+        loginError.textContent =
+            "";
+
+
+        openLoginModal();
+    }
+);
+
+
+/* ==========================================================
    INITIALISATION
 ========================================================== */
+
+hideAdmin();
 
 openLoginModal();
