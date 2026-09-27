@@ -35,8 +35,10 @@
 <link rel="stylesheet" href="assets/styles/teacher.css">
 <link rel="stylesheet" href="assets/styles/teacher-student-modal.css">
 <link rel="stylesheet" href="assets/styles/teacher-delete-student-modal.css">
+<link rel="stylesheet" href="assets/styles/admin.css">
 <link rel="stylesheet" href="assets/styles/responsive.css">
 <link rel="stylesheet" href="assets/styles/responsive-classroom.css">
+
 
 </head>
 
@@ -1219,6 +1221,293 @@
 
 </div>
 
+<!-- =====================================================
+     ESPACE ADMINISTRATEUR
+====================================================== -->
+
+<section
+    id="admin-screen"
+    class="admin-screen"
+    hidden
+>
+    <div class="admin-terminal">
+
+        <!-- =============================================
+             EN-TÊTE ADMINISTRATEUR
+        ============================================== -->
+
+        <header class="admin-header">
+
+            <div class="admin-header__title">
+                IRREGULAR CARDS :: ADMINISTRATION
+            </div>
+
+            <button
+                id="admin-logout-button"
+                class="admin-button admin-button--logout"
+                type="button"
+            >
+                [ DECONNEXION ]
+            </button>
+
+        </header>
+
+
+        <!-- =============================================
+             CONTENU ADMINISTRATEUR
+        ============================================== -->
+
+        <div class="admin-layout">
+
+            <!-- =========================================
+                 MENU ADMINISTRATEUR
+            ========================================== -->
+
+            <nav
+                class="admin-menu"
+                aria-label="Menu administration"
+            >
+                <div class="admin-menu__title">
+                    &gt; SYSTEM
+                </div>
+
+                <button
+                    class="admin-menu__button admin-menu__button--active"
+                    type="button"
+                    data-admin-view="dashboard"
+                >
+                    [1] TABLEAU DE BORD
+                </button>
+
+                <button
+                    class="admin-menu__button"
+                    type="button"
+                    data-admin-view="professeurs"
+                >
+                    [2] PROFESSEURS
+                </button>
+
+                <button
+                    class="admin-menu__button"
+                    type="button"
+                    data-admin-view="eleves"
+                >
+                    [3] ELEVES
+                </button>
+
+                <button
+                    class="admin-menu__button"
+                    type="button"
+                    data-admin-view="transferts"
+                >
+                    [4] TRANSFERTS
+                </button>
+
+                <button
+                    class="admin-menu__button"
+                    type="button"
+                    data-admin-view="contacts"
+                >
+                    [5] CONTACTS
+                </button>
+
+            </nav>
+
+
+            <!-- =========================================
+                 ZONE PRINCIPALE
+            ========================================== -->
+
+            <main class="admin-content">
+
+                <!-- =====================================
+                     TABLEAU DE BORD
+                ====================================== -->
+
+                <section
+                    id="admin-dashboard-view"
+                    class="admin-view"
+                    data-admin-section="dashboard"
+                >
+                    <h2 class="admin-view__title">
+                        &gt; TABLEAU DE BORD
+                    </h2>
+
+                    <div class="admin-system-info">
+
+                        <p>
+                            SYSTEM STATUS .......... ONLINE
+                        </p>
+
+                        <p>
+                            PROFESSEURS ............
+                            <span id="admin-teacher-count">
+                                0
+                            </span>
+                        </p>
+
+                        <p>
+                            ELEVES .................
+                            <span id="admin-student-count">
+                                0
+                            </span>
+                        </p>
+
+                    </div>
+
+
+                    <!-- =================================
+                         PROFESSEURS
+                    ================================== -->
+
+                    <div class="admin-dashboard-block">
+
+                        <div class="admin-block-header">
+
+                            <h3>
+                                &gt; PROFESSEURS
+                            </h3>
+
+                            <button
+                                id="admin-create-teacher-button"
+                                class="admin-button"
+                                type="button"
+                            >
+                                [ + CREER PROFESSEUR ]
+                            </button>
+
+                        </div>
+
+
+                        <div class="admin-table-wrapper">
+
+                            <table class="admin-table">
+
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>NOM</th>
+                                        <th>PRENOM</th>
+                                        <th>EMAIL</th>
+                                        <th>ELEVES</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="admin-teacher-table-body">
+
+                                    <tr>
+                                        <td colspan="6">
+                                            &gt; EN ATTENTE DES DONNEES...
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =====================================
+                     PROFESSEURS
+                ====================================== -->
+
+                <section
+                    id="admin-teachers-view"
+                    class="admin-view"
+                    data-admin-section="professeurs"
+                    hidden
+                >
+                    <h2 class="admin-view__title">
+                        &gt; GESTION DES PROFESSEURS
+                    </h2>
+
+                    <p>
+                        MODULE EN CONSTRUCTION_
+                    </p>
+                </section>
+
+
+                <!-- =====================================
+                     ELEVES
+                ====================================== -->
+
+                <section
+                    id="admin-students-view"
+                    class="admin-view"
+                    data-admin-section="eleves"
+                    hidden
+                >
+                    <h2 class="admin-view__title">
+                        &gt; GESTION DES ELEVES
+                    </h2>
+
+                    <p>
+                        MODULE EN CONSTRUCTION_
+                    </p>
+                </section>
+
+
+                <!-- =====================================
+                     TRANSFERTS
+                ====================================== -->
+
+                <section
+                    id="admin-transfers-view"
+                    class="admin-view"
+                    data-admin-section="transferts"
+                    hidden
+                >
+                    <h2 class="admin-view__title">
+                        &gt; TRANSFERTS
+                    </h2>
+
+                    <p>
+                        MODULE EN CONSTRUCTION_
+                    </p>
+                </section>
+
+
+                <!-- =====================================
+                     CONTACTS
+                ====================================== -->
+
+                <section
+                    id="admin-contacts-view"
+                    class="admin-view"
+                    data-admin-section="contacts"
+                    hidden
+                >
+                    <h2 class="admin-view__title">
+                        &gt; CONTACTS
+                    </h2>
+
+                    <p>
+                        MODULE EN CONSTRUCTION_
+                    </p>
+                </section>
+
+
+                <!-- =====================================
+                     LIGNE TERMINAL
+                ====================================== -->
+
+                <div class="admin-prompt">
+                    &gt; <span class="admin-cursor">_</span>
+                </div>
+
+            </main>
+
+        </div>
+
+    </div>
+</section>
+
     <!-- =====================================================
          MODALE PRÉPARATION DU QUIZ
     ====================================================== -->
@@ -1724,6 +2013,7 @@
 <script src="assets/JS/quiz-timer.js"></script>
 <script src="assets/JS/api.js"></script>
 <script src="assets/JS/teacher.js"></script>
+<script src="assets/JS/admin.js"></script>
 <script src="assets/JS/login.js"></script>
 <script src="assets/JS/quiz-game.js"></script>
 <script src="assets/JS/quiz.js"></script>

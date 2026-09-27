@@ -156,6 +156,44 @@
 
 
     /* ===========================
+       Administration / Terminal CRT
+    =========================== */
+
+    --admin-black:
+        #020502;
+
+    --admin-black-light:
+        #061006;
+
+    --admin-green:
+        #33FF66;
+
+    --admin-green-soft:
+        #22C94D;
+
+    --admin-green-dark:
+        #0B6B27;
+
+    --admin-green-transparent:
+        rgba(51, 255, 102, 0.12);
+
+    --admin-green-hover:
+        rgba(51, 255, 102, 0.06);
+
+    --admin-green-glow:
+        rgba(51, 255, 102, 0.35);
+
+    --admin-crt-light:
+        rgba(255, 255, 255, 0.015);
+
+    --admin-crt-dark:
+        rgba(0, 0, 0, 0.08);
+
+    --admin-terminal-shadow:
+        rgba(51, 255, 102, 0.06);
+
+
+    /* ===========================
        Boutons
     =========================== */
 
