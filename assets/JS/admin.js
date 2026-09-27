@@ -35,6 +35,11 @@ const adminTeacherBackButton =
         "admin-teacher-back-button"
     );
 
+    const adminTransferAllButton =
+    document.getElementById(
+        "admin-transfer-all-button"
+    );
+
 const adminSelectedTeacherId =
     document.getElementById(
         "admin-selected-teacher-id"
@@ -62,11 +67,65 @@ const adminTeacherStudentTableBody =
 
 
 /* ==========================================================
-   PROFESSEURS CHARGÉS
+   ÉLÉMENTS HTML — MODALE TRANSFERT
+========================================================== */
+
+const adminTransferModal =
+    document.getElementById(
+        "admin-transfer-modal"
+    );
+
+const adminTransferCloseButton =
+    document.getElementById(
+        "admin-transfer-close-button"
+    );
+
+const adminTransferCancelButton =
+    document.getElementById(
+        "admin-transfer-cancel-button"
+    );
+
+const adminTransferConfirmButton =
+    document.getElementById(
+        "admin-transfer-confirm-button"
+    );
+
+const adminTransferStudentName =
+    document.getElementById(
+        "admin-transfer-student-name"
+    );
+
+const adminTransferCurrentTeacher =
+    document.getElementById(
+        "admin-transfer-current-teacher"
+    );
+
+const adminTransferTeacherSelect =
+    document.getElementById(
+        "admin-transfer-teacher-select"
+    );
+
+const adminTransferMessage =
+    document.getElementById(
+        "admin-transfer-message"
+    );
+
+
+/* ==========================================================
+   DONNÉES ADMINISTRATEUR
 ========================================================== */
 
 let adminTeachers =
     [];
+
+let adminCurrentTeacher =
+    null;
+
+let adminCurrentStudents =
+    [];
+
+let adminSelectedStudent =
+    null;
 
 
 /* ==========================================================
@@ -342,6 +401,244 @@ function displayAdminTeachers(
 
 
 /* ==========================================================
+   OUVERTURE DE LA MODALE DE TRANSFERT
+========================================================== */
+
+function openAdminTransferModal(
+    student
+)
+{
+    if (
+        !adminCurrentTeacher
+    )
+    {
+        return;
+    }
+
+
+    adminSelectedStudent =
+        student;
+
+
+    adminTransferStudentName.textContent =
+        `${student.prenom} ${student.nom}`;
+
+
+    adminTransferCurrentTeacher.textContent =
+        `${adminCurrentTeacher.prenom} ${adminCurrentTeacher.nom}`;
+
+
+    adminTransferMessage.textContent =
+        "";
+
+
+    adminTransferTeacherSelect.innerHTML =
+        "";
+
+
+    const defaultOption =
+        document.createElement(
+            "option"
+        );
+
+    defaultOption.value =
+        "";
+
+    defaultOption.textContent =
+        "-- SELECTIONNER --";
+
+
+    adminTransferTeacherSelect.appendChild(
+        defaultOption
+    );
+
+
+    for (
+        const teacher of adminTeachers
+    )
+    {
+        if (
+            Number(teacher.id) ===
+            Number(adminCurrentTeacher.id)
+        )
+        {
+            continue;
+        }
+
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value =
+            teacher.id;
+
+        option.textContent =
+            `${teacher.prenom} ${teacher.nom}`;
+
+
+        adminTransferTeacherSelect.appendChild(
+            option
+        );
+    }
+
+
+    adminTransferTeacherSelect.value =
+        "";
+
+
+    adminTransferConfirmButton.disabled =
+        true;
+
+
+    adminTransferModal.classList.add(
+        "admin-transfer-modal--open"
+    );
+
+
+    adminTransferModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+}
+/* ==========================================================
+   OUVERTURE DE LA MODALE DE TRANSFERT GROUPÉ
+========================================================== */
+
+function openAdminTransferAllModal()
+{
+    if (
+        !adminCurrentTeacher ||
+        adminCurrentStudents.length === 0
+    )
+    {
+        return;
+    }
+
+
+    adminSelectedStudent =
+        null;
+
+
+    adminTransferStudentName.textContent =
+        `TOUS LES ELEVES (${adminCurrentStudents.length})`;
+
+
+    adminTransferCurrentTeacher.textContent =
+        `${adminCurrentTeacher.prenom} ${adminCurrentTeacher.nom}`;
+
+
+    adminTransferMessage.textContent =
+        "";
+
+
+    adminTransferTeacherSelect.innerHTML =
+        "";
+
+
+    const defaultOption =
+        document.createElement(
+            "option"
+        );
+
+    defaultOption.value =
+        "";
+
+    defaultOption.textContent =
+        "-- SELECTIONNER --";
+
+
+    adminTransferTeacherSelect.appendChild(
+        defaultOption
+    );
+
+
+    for (
+        const teacher of adminTeachers
+    )
+    {
+        if (
+            Number(teacher.id) ===
+            Number(adminCurrentTeacher.id)
+        )
+        {
+            continue;
+        }
+
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value =
+            teacher.id;
+
+        option.textContent =
+            `${teacher.prenom} ${teacher.nom}`;
+
+
+        adminTransferTeacherSelect.appendChild(
+            option
+        );
+    }
+
+
+    adminTransferTeacherSelect.value =
+        "";
+
+
+    adminTransferConfirmButton.disabled =
+        true;
+
+
+    adminTransferModal.classList.add(
+        "admin-transfer-modal--open"
+    );
+
+
+    adminTransferModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+}
+
+/* ==========================================================
+   FERMETURE DE LA MODALE DE TRANSFERT
+========================================================== */
+
+function closeAdminTransferModal()
+{
+    adminTransferModal.classList.remove(
+        "admin-transfer-modal--open"
+    );
+
+
+    adminTransferModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    adminTransferTeacherSelect.value =
+        "";
+
+
+    adminTransferMessage.textContent =
+        "";
+
+
+    adminTransferConfirmButton.disabled =
+        true;
+
+
+    adminSelectedStudent =
+        null;
+}
+
+
+/* ==========================================================
    CRÉATION D'UNE LIGNE ÉLÈVE
 ========================================================== */
 
@@ -415,6 +712,17 @@ function createAdminTeacherStudentRow(
         student.id;
 
 
+    transferButton.addEventListener(
+        "click",
+        () =>
+        {
+            openAdminTransferModal(
+                student
+            );
+        }
+    );
+
+
     actionCell.appendChild(
         transferButton
     );
@@ -453,6 +761,10 @@ function displayAdminTeacherStudents(
     students
 )
 {
+    adminTransferAllButton.disabled =
+        students.length === 0;
+
+
     adminTeacherStudentTableBody.innerHTML =
         "";
 
@@ -538,6 +850,10 @@ async function loadAdminTeacher(
     }
 
 
+    adminCurrentTeacher =
+        teacher;
+
+
     adminSelectedTeacherId.textContent =
         teacher.id;
 
@@ -564,16 +880,16 @@ async function loadAdminTeacher(
             );
 
 
-        const students =
+        adminCurrentStudents =
             data.eleves || [];
 
 
         adminSelectedTeacherStudentCount.textContent =
-            students.length;
+            adminCurrentStudents.length;
 
 
         displayAdminTeacherStudents(
-            students
+            adminCurrentStudents
         );
     }
     catch (error)
@@ -581,6 +897,10 @@ async function loadAdminTeacher(
         console.error(
             error
         );
+
+
+        adminCurrentStudents =
+            [];
 
 
         if (
@@ -629,7 +949,282 @@ async function loadAdminTeacher(
         );
     }
 }
+/* ==========================================================
+   OUVERTURE DU TRANSFERT GROUPÉ
+========================================================== */
 
+adminTransferAllButton.addEventListener(
+    "click",
+    () =>
+    {
+        openAdminTransferAllModal();
+    }
+);
+
+
+/* ==========================================================
+   CHOIX DU PROFESSEUR DE DESTINATION
+========================================================== */
+
+adminTransferTeacherSelect.addEventListener(
+    "change",
+    () =>
+    {
+        adminTransferConfirmButton.disabled =
+            adminTransferTeacherSelect.value === "";
+    }
+);
+
+
+/* ==========================================================
+   FERMETURE — BOUTON X
+========================================================== */
+
+adminTransferCloseButton.addEventListener(
+    "click",
+    () =>
+    {
+        closeAdminTransferModal();
+    }
+);
+
+
+/* ==========================================================
+   FERMETURE — BOUTON ANNULER
+========================================================== */
+
+adminTransferCancelButton.addEventListener(
+    "click",
+    () =>
+    {
+        closeAdminTransferModal();
+    }
+);
+
+/* ==========================================================
+   TRANSFERT DE L'ÉLÈVE
+========================================================== */
+
+adminTransferConfirmButton.addEventListener(
+    "click",
+    async () =>
+    {
+        if (
+            adminTransferTeacherSelect.value === "" ||
+            !adminCurrentTeacher
+        )
+        {
+            return;
+        }
+
+
+        const currentTeacherId =
+            adminCurrentTeacher.id;
+
+        const newTeacherId =
+            Number(
+                adminTransferTeacherSelect.value
+            );
+
+
+        const destinationTeacher =
+            adminTeachers.find(
+                (teacher) =>
+                    Number(teacher.id) ===
+                    newTeacherId
+            );
+
+
+        if (!destinationTeacher)
+        {
+            return;
+        }
+
+
+        adminTransferConfirmButton.disabled =
+            true;
+
+        adminTransferTeacherSelect.disabled =
+            true;
+
+        adminTransferCloseButton.disabled =
+            true;
+
+        adminTransferCancelButton.disabled =
+            true;
+
+
+        adminTransferMessage.textContent =
+            "> TRANSFERT EN COURS...";
+
+
+        try
+        {
+            /* ==============================================
+               TRANSFERT INDIVIDUEL
+            ============================================== */
+
+            if (adminSelectedStudent)
+            {
+                await transferAdminStudent(
+                    adminSelectedStudent.id,
+                    newTeacherId
+                );
+            }
+
+
+            /* ==============================================
+               TRANSFERT DE TOUS LES ÉLÈVES
+            ============================================== */
+
+            else
+            {
+                await transferAdminClass(
+                    currentTeacherId,
+                    newTeacherId
+                );
+            }
+
+
+            adminTransferMessage.textContent =
+                "> TRANSFERT EFFECTUE";
+
+
+            /* ==============================================
+               RECHARGEMENT DES PROFESSEURS
+            ============================================== */
+
+            const teachersData =
+                await getAdminTeachers();
+
+
+            adminTeachers =
+                teachersData.professeurs || [];
+
+
+            adminTeacherCount.textContent =
+                adminTeachers.length;
+
+
+            adminStudentCount.textContent =
+                getAdminStudentTotal(
+                    adminTeachers
+                );
+
+
+            displayAdminTeachers(
+                adminTeachers
+            );
+
+
+            /* ==============================================
+               RECHARGEMENT DU PROFESSEUR ACTUEL
+            ============================================== */
+
+            const updatedCurrentTeacher =
+                adminTeachers.find(
+                    (teacher) =>
+                        Number(teacher.id) ===
+                        Number(currentTeacherId)
+                );
+
+
+            if (updatedCurrentTeacher)
+            {
+                adminCurrentTeacher =
+                    updatedCurrentTeacher;
+
+
+                const studentsData =
+                    await getAdminTeacherStudents(
+                        currentTeacherId
+                    );
+
+
+                adminCurrentStudents =
+                    studentsData.eleves || [];
+
+
+                adminSelectedTeacherStudentCount.textContent =
+                    adminCurrentStudents.length;
+
+
+                displayAdminTeacherStudents(
+                    adminCurrentStudents
+                );
+            }
+
+
+            /* ==============================================
+               FERMETURE DE LA MODALE
+            ============================================== */
+
+            closeAdminTransferModal();
+        }
+        catch (error)
+        {
+            console.error(
+                error
+            );
+
+
+            if (
+                error.message ===
+                "SERVER_UNAVAILABLE"
+            )
+            {
+                adminTransferMessage.textContent =
+                    "> ERREUR : SERVEUR INDISPONIBLE";
+            }
+            else if (
+                error.message ===
+                "UNAUTHORIZED" ||
+                error.message ===
+                "FORBIDDEN"
+            )
+            {
+                adminTransferMessage.textContent =
+                    "> ERREUR : ACCES REFUSE";
+            }
+            else if (
+                error.message ===
+                "STUDENT_NOT_FOUND"
+            )
+            {
+                adminTransferMessage.textContent =
+                    "> ERREUR : ELEVE INTROUVABLE";
+            }
+            else if (
+                error.message ===
+                "TEACHER_NOT_FOUND"
+            )
+            {
+                adminTransferMessage.textContent =
+                    "> ERREUR : PROFESSEUR INTROUVABLE";
+            }
+            else
+            {
+                adminTransferMessage.textContent =
+                    "> ERREUR : TRANSFERT IMPOSSIBLE";
+            }
+        }
+        finally
+        {
+            adminTransferTeacherSelect.disabled =
+                false;
+
+            adminTransferCloseButton.disabled =
+                false;
+
+            adminTransferCancelButton.disabled =
+                false;
+
+
+            adminTransferConfirmButton.disabled =
+                adminTransferTeacherSelect.value === "";
+        }
+    }
+);
 
 /* ==========================================================
    RETOUR AU TABLEAU DE BORD
@@ -639,6 +1234,12 @@ adminTeacherBackButton.addEventListener(
     "click",
     () =>
     {
+        adminCurrentTeacher =
+            null;
+
+        adminCurrentStudents =
+            [];
+
         showAdminDashboardView();
     }
 );
@@ -653,6 +1254,13 @@ async function loadAdminDashboard()
     showAdminDashboardView();
 
     showAdminLoading();
+
+
+    adminCurrentTeacher =
+        null;
+
+    adminCurrentStudents =
+        [];
 
 
     try
@@ -726,3 +1334,63 @@ async function loadAdminDashboard()
         );
     }
 }
+/* ==========================================================
+   NAVIGATION DU MENU ADMINISTRATEUR
+========================================================== */
+
+const adminMenuButtons =
+    document.querySelectorAll(
+        ".admin-menu__button"
+    );
+
+const adminViews =
+    document.querySelectorAll(
+        ".admin-view"
+    );
+
+
+adminMenuButtons.forEach(
+    (button) =>
+    {
+        button.addEventListener(
+            "click",
+            () =>
+            {
+                const target =
+                    button.dataset.adminView;
+
+
+                adminMenuButtons.forEach(
+                    (menuButton) =>
+                    {
+                        menuButton.classList.remove(
+                            "admin-menu__button--active"
+                        );
+                    }
+                );
+
+
+                button.classList.add(
+                    "admin-menu__button--active"
+                );
+
+
+                adminViews.forEach(
+                    (view) =>
+                    {
+                        view.hidden =
+                            view.dataset.adminSection !== target;
+                    }
+                );
+
+
+                if (
+                    target === "dashboard"
+                )
+                {
+                    loadAdminDashboard();
+                }
+            }
+        );
+    }
+);

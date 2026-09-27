@@ -1295,20 +1295,14 @@
                     [3] ELEVES
                 </button>
 
-                <button
-                    class="admin-menu__button"
-                    type="button"
-                    data-admin-view="transferts"
-                >
-                    [4] TRANSFERTS
-                </button>
+               
 
                 <button
                     class="admin-menu__button"
                     type="button"
                     data-admin-view="contacts"
                 >
-                    [5] CONTACTS
+                    [4] CONTACTS
                 </button>
 
             </nav>
@@ -1413,7 +1407,7 @@
                 </section>
 
 
-              <!-- =====================================
+ <!-- =====================================
      PROFESSEURS
 ====================================== -->
 
@@ -1487,13 +1481,22 @@
 
     <div class="admin-dashboard-block">
 
-        <div class="admin-block-header">
+    <div class="admin-block-header">
 
-            <h3>
-                &gt; ELEVES RATTACHES
-            </h3>
+        <h3>
+            &gt; ELEVES RATTACHES
+        </h3>
 
-        </div>
+        <button
+            id="admin-transfer-all-button"
+            class="admin-button"
+            type="button"
+            disabled
+        >
+            [ TRANSFERER TOUS LES ELEVES ]
+        </button>
+
+    </div>
 
 
         <div class="admin-table-wrapper">
@@ -1545,27 +1548,7 @@
                     </p>
                 </section>
 
-
-                <!-- =====================================
-                     TRANSFERTS
-                ====================================== -->
-
-                <section
-                    id="admin-transfers-view"
-                    class="admin-view"
-                    data-admin-section="transferts"
-                    hidden
-                >
-                    <h2 class="admin-view__title">
-                        &gt; TRANSFERTS
-                    </h2>
-
-                    <p>
-                        MODULE EN CONSTRUCTION_
-                    </p>
-                </section>
-
-
+                          
                 <!-- =====================================
                      CONTACTS
                 ====================================== -->
@@ -1600,6 +1583,127 @@
 
     </div>
 </section>
+
+<!-- =====================================================
+     MODALE TRANSFERT D'UN ÉLÈVE
+====================================================== -->
+
+<div
+    class="admin-transfer-modal"
+    id="admin-transfer-modal"
+    aria-hidden="true"
+>
+    <div
+        class="admin-transfer-modal__content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="admin-transfer-modal-title"
+    >
+
+        <!-- =============================================
+             EN-TÊTE
+        ============================================== -->
+
+        <div class="admin-transfer-modal__header">
+
+            <h2 id="admin-transfer-modal-title">
+                &gt; TRANSFERT ELEVE
+            </h2>
+
+            <button
+                class="admin-button"
+                id="admin-transfer-close-button"
+                type="button"
+                aria-label="Fermer"
+            >
+                [ X ]
+            </button>
+
+        </div>
+
+
+        <!-- =============================================
+             ÉLÈVE
+        ============================================== -->
+
+        <div class="admin-system-info">
+
+            <p>
+                ELEVE ............
+                <span id="admin-transfer-student-name">
+                    -
+                </span>
+            </p>
+
+            <p>
+                PROFESSEUR ACTUEL
+                <span id="admin-transfer-current-teacher">
+                    -
+                </span>
+            </p>
+
+        </div>
+
+
+        <!-- =============================================
+             PROFESSEUR DE DESTINATION
+        ============================================== -->
+
+        <div class="admin-transfer-field">
+
+            <label for="admin-transfer-teacher-select">
+                &gt; NOUVEAU PROFESSEUR
+            </label>
+
+            <select id="admin-transfer-teacher-select">
+
+                <option value="">
+                    -- SELECTIONNER --
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- =============================================
+             MESSAGE
+        ============================================== -->
+
+        <p
+            class="admin-transfer-message"
+            id="admin-transfer-message"
+            aria-live="polite"
+        ></p>
+
+
+        <!-- =============================================
+             ACTIONS
+        ============================================== -->
+
+        <div class="admin-transfer-actions">
+
+            <button
+                class="admin-button"
+                id="admin-transfer-cancel-button"
+                type="button"
+            >
+                [ ANNULER ]
+            </button>
+
+            <button
+                class="admin-button"
+                id="admin-transfer-confirm-button"
+                type="button"
+                disabled
+            >
+                [ TRANSFERER ]
+            </button>
+
+        </div>
+
+    </div>
+</div>
 
     <!-- =====================================================
          MODALE PRÉPARATION DU QUIZ
@@ -2100,7 +2204,7 @@
          JAVASCRIPT
     ====================================================== -->
 
-   <script src="assets/JS/screen.js"></script>
+<script src="assets/JS/screen.js"></script>
 <script src="assets/JS/professeur.js"></script>
 <script src="assets/JS/boat.js"></script>
 <script src="assets/JS/quiz-timer.js"></script>

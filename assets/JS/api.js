@@ -867,3 +867,198 @@ async function getAdminTeacherStudents(
 
     return await response.json();
 }
+/* ==========================================================
+   TRANSFERT D'UN ÉLÈVE PAR L'ADMINISTRATEUR
+========================================================== */
+
+async function transferAdminStudent(
+    studentId,
+    newTeacherId
+)
+{
+    if (
+        !apiToken ||
+        currentRole !== "administrateur"
+    )
+    {
+        throw new Error(
+            "Accès réservé aux administrateurs."
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/administrateur/eleves/${studentId}/transfert`,
+                {
+                    method:
+                        "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    },
+
+                    body:
+                        JSON.stringify({
+                            nouveau_professeur_id:
+                                Number(newTeacherId)
+                        })
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (
+        response.status === 401
+    )
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    if (
+        response.status === 403
+    )
+    {
+        throw new Error(
+            "FORBIDDEN"
+        );
+    }
+
+
+    if (
+        response.status === 404
+    )
+    {
+        throw new Error(
+            "STUDENT_NOT_FOUND"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "Impossible de transférer l'élève."
+        );
+    }
+
+
+    return await response.json();
+}
+/* ==========================================================
+   TRANSFERT COMPLET D'UNE CLASSE PAR L'ADMINISTRATEUR
+========================================================== */
+
+async function transferAdminClass(
+    oldTeacherId,
+    newTeacherId
+)
+{
+    if (
+        !apiToken ||
+        currentRole !== "administrateur"
+    )
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/administrateur/professeurs/transfert-classe`,
+                {
+                    method:
+                        "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    },
+
+                    body:
+                        JSON.stringify({
+                            ancien_professeur_id:
+                                Number(oldTeacherId),
+
+                            nouveau_professeur_id:
+                                Number(newTeacherId)
+                        })
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (
+        response.status === 401
+    )
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    if (
+        response.status === 403
+    )
+    {
+        throw new Error(
+            "FORBIDDEN"
+        );
+    }
+
+
+    if (
+        response.status === 404
+    )
+    {
+        throw new Error(
+            "TEACHER_NOT_FOUND"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "TRANSFER_CLASS_ERROR"
+        );
+    }
+
+
+    return await response.json();
+}

@@ -134,6 +134,14 @@
 
     --postcard-inner-border:
         rgba(139, 91, 39, 0.32);
+        --admin-modal-overlay:
+    rgba(0, 0, 0, 0.82);
+
+    --admin-glow:
+    rgba(5, 234, 111, 0.25);
+
+    --admin-glow-focus:
+    rgba(5, 234, 111, 0.30);
 
 
     /* ===========================
