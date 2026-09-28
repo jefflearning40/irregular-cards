@@ -48,6 +48,22 @@
 
 
 /* ==========================================================
+   GLASS TTY VT220
+========================================================== */
+
+@font-face {
+    font-family: "Glass TTY VT220";
+
+    src: url("../polices/terminal/Glass_TTY_VT220.ttf")
+        format("truetype");
+
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+
+/* ==========================================================
    VARIABLES
 ========================================================== */
 
@@ -58,10 +74,10 @@
     =========================== */
 
     --color-background: #1C1C1F;
-    --color-surface:    #394054;
-    --color-primary:    #5DA6B3;
-    --color-secondary:  #BCCDD4;
-    --color-text:       #DCE2EA;
+    --color-surface: #394054;
+    --color-primary: #5DA6B3;
+    --color-secondary: #BCCDD4;
+    --color-text: #DCE2EA;
 
     --color-white: #FFFFFF;
 
@@ -72,30 +88,30 @@
 
     --color-success: #05EA6F;
     --color-warning: #F7B800;
-    --color-error:   #DD006B;
-    --color-action:  #0064FA;
-    --color-reward:  #87FF00;
+    --color-error: #DD006B;
+    --color-action: #0064FA;
+    --color-reward: #87FF00;
 
 
     /* ===========================
        Carte postale / Parchemin
     =========================== */
 
-    --postcard-blue:       #073F69;
+    --postcard-blue: #073F69;
     --postcard-blue-light: #0875B5;
-    --postcard-blue-mid:   #064B7C;
-    --postcard-blue-dark:  #033B65;
+    --postcard-blue-mid: #064B7C;
+    --postcard-blue-dark: #033B65;
 
     --postcard-red: #9E1F2F;
 
-    --postcard-brown:       #9B6C35;
+    --postcard-brown: #9B6C35;
     --postcard-brown-light: #B98542;
-    --postcard-brown-dark:  #6E481F;
+    --postcard-brown-dark: #6E481F;
 
     --postcard-paper-light: #FFF8DA;
-    --postcard-paper:       #FAE9BD;
-    --postcard-paper-mid:   #F8E2AE;
-    --postcard-paper-dark:  #DEB56F;
+    --postcard-paper: #FAE9BD;
+    --postcard-paper-mid: #F8E2AE;
+    --postcard-paper-dark: #DEB56F;
 
 
     /* ===========================
@@ -134,14 +150,6 @@
 
     --postcard-inner-border:
         rgba(139, 91, 39, 0.32);
-        --admin-modal-overlay:
-    rgba(0, 0, 0, 0.82);
-
-    --admin-glow:
-    rgba(5, 234, 111, 0.25);
-
-    --admin-glow-focus:
-    rgba(5, 234, 111, 0.30);
 
 
     /* ===========================
@@ -164,47 +172,221 @@
 
 
     /* ===========================
-       Administration / Terminal CRT
-    =========================== */
+   Administration / Terminal CRT
+=========================== */
 
-    --admin-black:
-        #020502;
 
-    --admin-black-light:
-        #061006;
+/* ---------------------------
+   FONDS PRINCIPAUX
 
-    --admin-green:
-        #33FF66;
+   --admin-black
+   → fond général de .admin-screen
+   → fond des champs <select>
+   → couleur du texte au survol
+     des boutons
 
-    --admin-green-soft:
-        #22C94D;
+   --admin-black-light
+   → centre du dégradé du terminal
+   → fond de la modale de transfert
+--------------------------- */
 
-    --admin-green-dark:
-        #0B6B27;
+--admin-black:
+    #020502;
 
-    --admin-green-transparent:
-        rgba(51, 255, 102, 0.12);
+--admin-black-light:
+    #061006;
 
-    --admin-green-hover:
-        rgba(51, 255, 102, 0.06);
 
-    --admin-green-glow:
-        rgba(51, 255, 102, 0.35);
+/* ---------------------------
+   TEXTE ET CONTOURS PRINCIPAUX
 
-    --admin-crt-light:
-        rgba(255, 255, 255, 0.015);
+   --admin-green
+   → couleur générale du texte
+   → contour de l'en-tête
+   → contours principaux
+   → séparation menu / contenu
+   → titres
+   → boutons
+   → tableaux
+   → modale de transfert
+   → champs de sélection
+--------------------------- */
 
-    --admin-crt-dark:
-        rgba(0, 0, 0, 0.08);
+--admin-green:
+    #24C94F;
 
-    --admin-terminal-shadow:
-        rgba(51, 255, 102, 0.06);
+
+/* ---------------------------
+   VERT SECONDAIRE
+
+   --admin-green-soft
+   → vert secondaire disponible
+   → peut servir pour des informations
+     moins importantes ou des états
+     secondaires
+--------------------------- */
+
+--admin-green-soft:
+    #1FAE43;
+
+
+/* ---------------------------
+   CONTOURS INTÉRIEURS
+
+   --admin-green-dark
+   → cadre extérieur CRT
+   → barre gauche des informations
+     système
+   → séparateurs pointillés
+   → contour extérieur des tableaux
+   → lignes intérieures des tableaux
+   → séparation du prompt terminal
+--------------------------- */
+
+--admin-green-dark:
+    #0B6B27;
+
+
+/* ---------------------------
+   BOUTONS DU MENU
+
+   --admin-green-transparent
+   → fond du bouton actif
+   → fond au survol des boutons
+     du menu
+--------------------------- */
+
+--admin-green-transparent:
+    rgba(36, 201, 79, 0.12);
+
+
+/* ---------------------------
+   LIGNES DES TABLEAUX
+
+   --admin-green-hover
+   → fond d'une ligne du tableau
+     lorsque la souris passe dessus
+--------------------------- */
+
+--admin-green-hover:
+    rgba(36, 201, 79, 0.06);
+
+
+/* ---------------------------
+   LUEUR DU TEXTE
+
+   --admin-green-glow
+   → halo vert autour du texte
+     de la console
+--------------------------- */
+
+--admin-green-glow:
+    rgba(36, 201, 79, 0.25);
+
+
+/* ---------------------------
+   EFFET ÉCRAN CRT
+
+   --admin-crt-light
+   → partie claire des lignes
+     horizontales de l'écran
+
+   --admin-crt-dark
+   → partie sombre des lignes
+     horizontales de l'écran
+--------------------------- */
+
+--admin-crt-light:
+    rgba(255, 255, 255, 0.015);
+
+--admin-crt-dark:
+    rgba(0, 0, 0, 0.08);
+
+
+/* ---------------------------
+   OMBRE DU CADRE TERMINAL
+
+   --admin-terminal-shadow
+   → légère lueur intérieure du
+     grand cadre de la console
+--------------------------- */
+
+--admin-terminal-shadow:
+    rgba(36, 201, 79, 0.06);
+
+
+/* ---------------------------
+   MODALE DE TRANSFERT
+
+   --admin-modal-overlay
+   → assombrit toute la console
+     derrière la modale
+
+   --admin-glow
+   → halo autour du contour
+     extérieur de la modale
+
+   --admin-glow-focus
+   → halo du champ de sélection
+     lorsqu'il reçoit le focus
+--------------------------- */
+
+--admin-modal-overlay:
+    rgba(0, 0, 0, 0.82);
+
+--admin-glow:
+    rgba(36, 201, 79, 0.25);
+
+--admin-glow-focus:
+    rgba(36, 201, 79, 0.30);
 
 
     /* ===========================
-       Boutons
-    =========================== */
+   Administration / Terminal CRT
+   THÈME AMBRE
+=========================== */
 
-    --button-radius: 8px;
-    --button-border-width: 2px;
+/* Fond principal */
+--admin-amber-black:
+    #080603;
+
+/* Fond légèrement éclairci */
+--admin-amber-black-light:
+    #161006;
+
+/* Texte + contours principaux */
+--admin-amber:
+    #D99A32;
+
+/* Texte secondaire */
+--admin-amber-soft:
+    #B97A24;
+
+/* Contours intérieurs */
+--admin-amber-dark:
+    #754612;
+
+/* Fond bouton actif */
+--admin-amber-transparent:
+    rgba(217, 154, 50, 0.12);
+
+/* Survol lignes tableau */
+--admin-amber-hover:
+    rgba(217, 154, 50, 0.06);
+
+/* Halo du texte */
+--admin-amber-glow:
+    rgba(217, 154, 50, 0.22);
+
+/* Ombre intérieure terminal */
+--admin-amber-terminal-shadow:
+    rgba(217, 154, 50, 0.06);
+
+/* Halo modale */
+--admin-amber-modal-glow:
+    rgba(217, 154, 50, 0.22);
+
+/* Focus champs */
+--admin-amber-focus:
+    rgba(217, 154, 50, 0.28);
 }

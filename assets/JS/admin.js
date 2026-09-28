@@ -35,7 +35,7 @@ const adminTeacherBackButton =
         "admin-teacher-back-button"
     );
 
-    const adminTransferAllButton =
+const adminTransferAllButton =
     document.getElementById(
         "admin-transfer-all-button"
     );
@@ -108,6 +108,56 @@ const adminTransferTeacherSelect =
 const adminTransferMessage =
     document.getElementById(
         "admin-transfer-message"
+    );
+
+
+/* ==========================================================
+   ÉLÉMENTS HTML — CRÉATION PROFESSEUR
+========================================================== */
+
+const adminCreateTeacherButton =
+    document.getElementById(
+        "admin-create-teacher-button"
+    );
+
+const adminCreateTeacherModal =
+    document.getElementById(
+        "admin-create-teacher-modal"
+    );
+
+const adminCreateTeacherCloseButton =
+    document.getElementById(
+        "admin-create-teacher-close-button"
+    );
+
+const adminCreateTeacherCancelButton =
+    document.getElementById(
+        "admin-create-teacher-cancel-button"
+    );
+
+const adminCreateTeacherForm =
+    document.getElementById(
+        "admin-create-teacher-form"
+    );
+
+const adminCreateTeacherMessage =
+    document.getElementById(
+        "admin-create-teacher-message"
+    );
+
+const adminCreateTeacherPassword =
+    document.getElementById(
+        "admin-create-teacher-password"
+    );
+
+const adminCreateTeacherPasswordConfirm =
+    document.getElementById(
+        "admin-create-teacher-password-confirm"
+    );
+
+const adminCreateTeacherShowPassword =
+    document.getElementById(
+        "admin-create-teacher-show-password"
     );
 
 
@@ -224,6 +274,24 @@ function showAdminTeacherView()
         true;
 
     adminTeachersView.hidden =
+        false;
+
+
+    const adminTeachersList =
+        document.getElementById(
+            "admin-teachers-list"
+        );
+
+    const adminTeacherManagement =
+        document.getElementById(
+            "admin-teacher-management"
+        );
+
+
+    adminTeachersList.hidden =
+        true;
+
+    adminTeacherManagement.hidden =
         false;
 }
 
@@ -502,6 +570,8 @@ function openAdminTransferModal(
         "false"
     );
 }
+
+
 /* ==========================================================
    OUVERTURE DE LA MODALE DE TRANSFERT GROUPÉ
 ========================================================== */
@@ -603,6 +673,7 @@ function openAdminTransferAllModal()
         "false"
     );
 }
+
 
 /* ==========================================================
    FERMETURE DE LA MODALE DE TRANSFERT
@@ -869,6 +940,7 @@ async function loadAdminTeacher(
 
     showAdminTeacherView();
 
+
     showAdminTeacherStudentsLoading();
 
 
@@ -949,6 +1021,344 @@ async function loadAdminTeacher(
         );
     }
 }
+
+
+/* ==========================================================
+   OUVERTURE DE LA MODALE CRÉER PROFESSEUR
+========================================================== */
+
+function openAdminCreateTeacherModal()
+{
+    adminCreateTeacherForm.reset();
+
+    adminCreateTeacherMessage.classList.remove(
+        "admin-transfer-message--error"
+    );
+
+    adminCreateTeacherMessage.textContent =
+        "";
+
+    adminCreateTeacherPassword.type =
+        "password";
+
+    adminCreateTeacherPasswordConfirm.type =
+        "password";
+
+
+    adminCreateTeacherModal.classList.add(
+        "admin-transfer-modal--open"
+    );
+
+    adminCreateTeacherModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+}
+
+
+/* ==========================================================
+   FERMETURE DE LA MODALE CRÉER PROFESSEUR
+========================================================== */
+
+function closeAdminCreateTeacherModal()
+{
+    adminCreateTeacherModal.classList.remove(
+        "admin-transfer-modal--open"
+    );
+
+    adminCreateTeacherModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    adminCreateTeacherForm.reset();
+
+    adminCreateTeacherMessage.classList.remove(
+        "admin-transfer-message--error"
+    );
+
+    adminCreateTeacherMessage.textContent =
+        "";
+
+    adminCreateTeacherPassword.type =
+        "password";
+
+    adminCreateTeacherPasswordConfirm.type =
+        "password";
+}
+
+
+/* ==========================================================
+   BOUTON CRÉER PROFESSEUR
+========================================================== */
+
+adminCreateTeacherButton.addEventListener(
+    "click",
+    () =>
+    {
+        openAdminCreateTeacherModal();
+    }
+);
+
+
+/* ==========================================================
+   FERMETURE — BOUTON X
+========================================================== */
+
+adminCreateTeacherCloseButton.addEventListener(
+    "click",
+    () =>
+    {
+        closeAdminCreateTeacherModal();
+    }
+);
+
+
+/* ==========================================================
+   FERMETURE — BOUTON ANNULER - CREATE TEACHER
+========================================================== */
+
+adminCreateTeacherCancelButton.addEventListener(
+    "click",
+    () =>
+    {
+        closeAdminCreateTeacherModal();
+    }
+);
+
+
+/* ==========================================================
+   AFFICHAGE / MASQUAGE DES MOTS DE PASSE
+========================================================== */
+
+adminCreateTeacherShowPassword.addEventListener(
+    "change",
+    () =>
+    {
+        const inputType =
+            adminCreateTeacherShowPassword.checked
+                ? "text"
+                : "password";
+
+
+        adminCreateTeacherPassword.type =
+            inputType;
+
+        adminCreateTeacherPasswordConfirm.type =
+            inputType;
+    }
+);
+
+
+/* ==========================================================
+   CRÉATION D'UN PROFESSEUR
+========================================================== */
+
+adminCreateTeacherForm.addEventListener(
+    "submit",
+    async (event) =>
+    {
+        event.preventDefault();
+
+
+        const nom =
+            document
+                .getElementById(
+                    "admin-create-teacher-name"
+                )
+                .value
+                .trim();
+
+
+        const prenom =
+            document
+                .getElementById(
+                    "admin-create-teacher-firstname"
+                )
+                .value
+                .trim();
+
+
+        const email =
+            document
+                .getElementById(
+                    "admin-create-teacher-email"
+                )
+                .value
+                .trim();
+
+
+        const motDePasse =
+            adminCreateTeacherPassword.value;
+
+
+        const confirmationMotDePasse =
+            adminCreateTeacherPasswordConfirm.value;
+
+
+        /* ==================================================
+           VÉRIFICATION DES CHAMPS OBLIGATOIRES
+        ================================================== */
+
+        if (
+            !nom ||
+            !prenom ||
+            !email ||
+            !motDePasse ||
+            !confirmationMotDePasse
+        )
+        {
+            adminCreateTeacherMessage.classList.add(
+                "admin-transfer-message--error"
+            );
+
+            adminCreateTeacherMessage.textContent =
+                "> ERREUR : TOUS LES CHAMPS SONT OBLIGATOIRES";
+
+            return;
+        }
+
+
+        /* ==================================================
+           VÉRIFICATION DE L'ADRESSE E-MAIL
+        ================================================== */
+
+        const emailPattern =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+        if (
+            !emailPattern.test(
+                email
+            )
+        )
+        {
+            adminCreateTeacherMessage.classList.add(
+                "admin-transfer-message--error"
+            );
+
+            adminCreateTeacherMessage.textContent =
+                "> ERREUR : ADRESSE E-MAIL INVALIDE";
+
+            return;
+        }
+
+
+        /* ==================================================
+           VÉRIFICATION DES MOTS DE PASSE
+        ================================================== */
+
+        if (
+            motDePasse.length < 8 ||
+            motDePasse.length > 72
+        )
+        {
+            adminCreateTeacherMessage.classList.add(
+                "admin-transfer-message--error"
+            );
+
+            adminCreateTeacherMessage.textContent =
+                "> ERREUR : LE MOT DE PASSE DOIT CONTENIR ENTRE 8 ET 72 CARACTERES";
+
+            return;
+        }
+
+
+        const passwordHasLetter =
+            /\p{L}/u.test(
+                motDePasse
+            );
+
+        const passwordHasNumber =
+            /\d/.test(
+                motDePasse
+            );
+
+
+        if (
+            !passwordHasLetter ||
+            !passwordHasNumber
+        )
+        {
+            adminCreateTeacherMessage.classList.add(
+                "admin-transfer-message--error"
+            );
+
+            adminCreateTeacherMessage.textContent =
+                "> ERREUR : LE MOT DE PASSE DOIT CONTENIR AU MOINS UNE LETTRE ET UN CHIFFRE";
+
+            return;
+        }
+
+
+        if (
+            motDePasse !==
+            confirmationMotDePasse
+        )
+        {
+            adminCreateTeacherMessage.classList.add(
+                "admin-transfer-message--error"
+            );
+
+            adminCreateTeacherMessage.textContent =
+                "> ERREUR : LES MOTS DE PASSE SONT DIFFERENTS";
+
+            return;
+        }
+
+
+        adminCreateTeacherMessage.classList.remove(
+            "admin-transfer-message--error"
+        );
+
+
+        adminCreateTeacherMessage.textContent =
+            "> CREATION EN COURS...";
+
+
+        try
+        {
+            await createAdminTeacher(
+                nom,
+                prenom,
+                email,
+                motDePasse
+            );
+
+
+            adminCreateTeacherMessage.classList.remove(
+                "admin-transfer-message--error"
+            );
+
+
+            adminCreateTeacherMessage.textContent =
+                "> PROFESSEUR CREE";
+
+
+            await loadAdminDashboard();
+
+
+            setTimeout(
+                () =>
+                {
+                    closeAdminCreateTeacherModal();
+                },
+                700
+            );
+        }
+        catch (error)
+        {
+            adminCreateTeacherMessage.classList.add(
+                "admin-transfer-message--error"
+            );
+
+            adminCreateTeacherMessage.textContent =
+                `> ERREUR : ${error.message}`;
+        }
+    }
+);
+
+
 /* ==========================================================
    OUVERTURE DU TRANSFERT GROUPÉ
 ========================================================== */
@@ -960,8 +1370,6 @@ adminTransferAllButton.addEventListener(
         openAdminTransferAllModal();
     }
 );
-
-
 /* ==========================================================
    CHOIX DU PROFESSEUR DE DESTINATION
 ========================================================== */
@@ -990,7 +1398,7 @@ adminTransferCloseButton.addEventListener(
 
 
 /* ==========================================================
-   FERMETURE — BOUTON ANNULER
+   FERMETURE — BOUTON ANNULER - TRANSFER
 ========================================================== */
 
 adminTransferCancelButton.addEventListener(
@@ -1001,8 +1409,9 @@ adminTransferCancelButton.addEventListener(
     }
 );
 
+
 /* ==========================================================
-   TRANSFERT DE L'ÉLÈVE
+   TRANSFERT DE L'ÉLÈVE / DE LA CLASSE
 ========================================================== */
 
 adminTransferConfirmButton.addEventListener(
@@ -1226,8 +1635,9 @@ adminTransferConfirmButton.addEventListener(
     }
 );
 
+
 /* ==========================================================
-   RETOUR AU TABLEAU DE BORD
+   RETOUR À LA LISTE DES PROFESSEURS
 ========================================================== */
 
 adminTeacherBackButton.addEventListener(
@@ -1240,7 +1650,23 @@ adminTeacherBackButton.addEventListener(
         adminCurrentStudents =
             [];
 
-        showAdminDashboardView();
+
+        const adminTeachersList =
+            document.getElementById(
+                "admin-teachers-list"
+            );
+
+        const adminTeacherManagement =
+            document.getElementById(
+                "admin-teacher-management"
+            );
+
+
+        adminTeacherManagement.hidden =
+            true;
+
+        adminTeachersList.hidden =
+            false;
     }
 );
 
@@ -1252,6 +1678,7 @@ adminTeacherBackButton.addEventListener(
 async function loadAdminDashboard()
 {
     showAdminDashboardView();
+
 
     showAdminLoading();
 
@@ -1334,6 +1761,8 @@ async function loadAdminDashboard()
         );
     }
 }
+
+
 /* ==========================================================
    NAVIGATION DU MENU ADMINISTRATEUR
 ========================================================== */
@@ -1360,6 +1789,10 @@ adminMenuButtons.forEach(
                     button.dataset.adminView;
 
 
+                /* ==========================================
+                   BOUTON ACTIF
+                ========================================== */
+
                 adminMenuButtons.forEach(
                     (menuButton) =>
                     {
@@ -1375,22 +1808,120 @@ adminMenuButtons.forEach(
                 );
 
 
-                adminViews.forEach(
-                    (view) =>
-                    {
-                        view.hidden =
-                            view.dataset.adminSection !== target;
-                    }
-                );
-
+                /* ==========================================
+                   TABLEAU DE BORD
+                ========================================== */
 
                 if (
                     target === "dashboard"
                 )
                 {
                     loadAdminDashboard();
+
+                    return;
                 }
+
+
+                /* ==========================================
+                   PROFESSEURS
+                ========================================== */
+
+                if (
+                    target === "professeurs"
+                )
+                {
+                    adminViews.forEach(
+                        (view) =>
+                        {
+                            view.hidden =
+                                view.dataset.adminSection !==
+                                "professeurs";
+                        }
+                    );
+
+
+                    const adminTeachersList =
+                        document.getElementById(
+                            "admin-teachers-list"
+                        );
+
+                    const adminTeacherManagement =
+                        document.getElementById(
+                            "admin-teacher-management"
+                        );
+
+
+                    adminTeachersList.hidden =
+                        false;
+
+                    adminTeacherManagement.hidden =
+                        true;
+
+
+                    adminCurrentTeacher =
+                        null;
+
+                    adminCurrentStudents =
+                        [];
+
+
+                    return;
+                }
+
+
+                /* ==========================================
+                   ELEVES / CONTACTS
+                ========================================== */
+
+                adminViews.forEach(
+                    (view) =>
+                    {
+                        view.hidden =
+                            view.dataset.adminSection !==
+                            target;
+                    }
+                );
             }
+        );
+    }
+);
+
+
+/* ==========================================================
+   THÈME DE LA CONSOLE ADMINISTRATEUR
+========================================================== */
+
+const adminThemeSwitch =
+    document.getElementById(
+        "admin-theme-switch"
+    );
+
+
+/* ==========================================================
+   BASCULE VERT / AMBRE
+========================================================== */
+
+adminThemeSwitch.addEventListener(
+    "click",
+    () =>
+    {
+        const adminScreen =
+            adminThemeSwitch.closest(
+                ".admin-screen"
+            );
+
+
+        const amberEnabled =
+            adminScreen.classList.toggle(
+                "admin-screen--amber"
+            );
+
+
+        adminThemeSwitch.setAttribute(
+            "aria-checked",
+            amberEnabled
+                ? "true"
+                : "false"
         );
     }
 );

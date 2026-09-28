@@ -716,6 +716,109 @@ async function deleteTeacherStudent(
 
     return await response.json();
 }
+
+/* ==========================================================
+   CRÉATION D'UN PROFESSEUR PAR L'ADMINISTRATEUR
+========================================================== */
+
+async function createAdminTeacher(
+    nom,
+    prenom,
+    email,
+    motDePasse
+)
+{
+    if (
+        !apiToken ||
+        currentRole !== "administrateur"
+    )
+    {
+        throw new Error(
+            "Accès réservé aux administrateurs."
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/administrateur/professeurs`,
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    },
+
+                    body:
+                        JSON.stringify({
+                            nom:
+                                nom,
+
+                            prenom:
+                                prenom,
+
+                            email:
+                                email,
+
+                            mot_de_passe:
+                                motDePasse
+                        })
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    const data =
+        await response.json();
+
+
+    if (
+        response.status === 401
+    )
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    if (
+        response.status === 403
+    )
+    {
+        throw new Error(
+            "FORBIDDEN"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            data.error ||
+            "Impossible de créer le professeur."
+        );
+    }
+
+
+    return data;
+}
 /* ==========================================================
    RÉCUPÉRATION DES PROFESSEURS PAR L'ADMINISTRATEUR
 ========================================================== */
