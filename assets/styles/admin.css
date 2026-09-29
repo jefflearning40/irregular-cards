@@ -1179,6 +1179,293 @@
     margin-top: 20px;
 }
 
+/* ==========================================================
+   ACTIONS PROFESSEUR
+========================================================== */
+
+.admin-table td:last-child
+{
+    white-space:
+        nowrap;
+}
+
+
+.admin-table td:last-child .admin-button
+{
+    display:
+        inline-block;
+
+    margin-right:
+        30px;
+}
+
+
+.admin-table td:last-child .admin-button:last-child
+{
+    margin-right:
+        0;
+}
+
+/* ==========================================================
+   MODALE SUPPRESSION D'UN PROFESSEUR
+========================================================== */
+
+.admin-delete-teacher-modal__content
+{
+    width:
+        min(720px, 100%);
+
+    padding:
+        38px 42px;
+}
+
+
+/* ==========================================================
+   AVERTISSEMENT
+========================================================== */
+
+.admin-delete-teacher-warning
+{
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        42px;
+}
+
+
+/* ==========================================================
+   TRIANGLE D'AVERTISSEMENT
+========================================================== */
+
+.admin-delete-teacher-warning__icon
+{
+    position:
+        relative;
+
+    flex-shrink:
+        0;
+
+    width:
+        0;
+
+    height:
+        0;
+
+    border-left:
+        82px solid transparent;
+
+    border-right:
+        82px solid transparent;
+
+    border-bottom:
+        142px solid
+        var(--admin-theme-color);
+
+    filter:
+        drop-shadow(
+            0 0 8px
+            var(--admin-theme-glow)
+        );
+}
+
+
+.admin-delete-teacher-warning__icon::before
+{
+    content:
+        "";
+
+    position:
+        absolute;
+
+    top:
+        13px;
+
+    left:
+        -65px;
+
+    width:
+        0;
+
+    height:
+        0;
+
+    border-left:
+        65px solid transparent;
+
+    border-right:
+        65px solid transparent;
+
+    border-bottom:
+        113px solid
+        var(--admin-theme-background-light);
+}
+
+
+.admin-delete-teacher-warning__icon span
+{
+    position:
+        absolute;
+
+    z-index:
+        1;
+
+    top:
+        46px;
+
+    left:
+        -13px;
+
+    width:
+        26px;
+
+    color:
+        var(--admin-theme-color);
+
+    font-family:
+        inherit;
+
+    font-size:
+        4rem;
+
+    font-weight:
+        700;
+
+    line-height:
+        1;
+
+    text-align:
+        center;
+}
+
+
+/* ==========================================================
+   CONTENU DE L'AVERTISSEMENT
+========================================================== */
+
+.admin-delete-teacher-warning__content
+{
+    flex:
+        1;
+
+    min-width:
+        0;
+}
+
+
+.admin-delete-teacher-warning__title
+{
+    margin:
+        0;
+
+    color:
+        var(--admin-theme-color);
+
+    font-family:
+        inherit;
+
+    font-size:
+        1.15rem;
+
+    font-weight:
+        400;
+
+    line-height:
+        1.5;
+
+    text-transform:
+        none;
+}
+
+
+.admin-delete-teacher-warning__title span
+{
+    overflow-wrap:
+        anywhere;
+
+    font-weight:
+        700;
+}
+
+
+/* ==========================================================
+   ACTIONS SUPPRESSION
+========================================================== */
+
+.admin-delete-teacher-actions
+{
+    display:
+        flex;
+
+    justify-content:
+        flex-start;
+
+    gap:
+        14px;
+
+    margin-top:
+        24px;
+}
+
+
+/* ==========================================================
+   RESPONSIVE MODALE SUPPRESSION
+========================================================== */
+
+@media (max-width: 650px)
+{
+    .admin-delete-teacher-modal__content
+    {
+        padding:
+            24px 18px;
+    }
+
+
+    .admin-delete-teacher-warning
+    {
+        flex-direction:
+            column;
+
+        gap:
+            28px;
+    }
+
+
+    .admin-delete-teacher-warning__icon
+    {
+        transform:
+            scale(0.75);
+
+        margin:
+            -15px 0;
+    }
+
+
+    .admin-delete-teacher-warning__content
+    {
+        width:
+            100%;
+    }
+
+
+    .admin-delete-teacher-actions
+    {
+        flex-direction:
+            column;
+    }
+
+
+    .admin-delete-teacher-actions .admin-button
+    {
+        width:
+            100%;
+    }
+}
 
 /* ==========================================================
    RESPONSIVE — TABLETTE

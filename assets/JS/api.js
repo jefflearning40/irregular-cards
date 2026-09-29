@@ -819,6 +819,8 @@ async function createAdminTeacher(
 
     return data;
 }
+
+
 /* ==========================================================
    RÉCUPÉRATION DES PROFESSEURS PAR L'ADMINISTRATEUR
 ========================================================== */
@@ -863,7 +865,9 @@ async function getAdminTeachers()
     }
 
 
-    if (response.status === 401)
+    if (
+        response.status === 401
+    )
     {
         throw new Error(
             "UNAUTHORIZED"
@@ -871,7 +875,9 @@ async function getAdminTeachers()
     }
 
 
-    if (response.status === 403)
+    if (
+        response.status === 403
+    )
     {
         throw new Error(
             "FORBIDDEN"
@@ -889,6 +895,8 @@ async function getAdminTeachers()
 
     return await response.json();
 }
+
+
 /* ==========================================================
    RÉCUPÉRATION DES ÉLÈVES D'UN PROFESSEUR
    PAR L'ADMINISTRATEUR
@@ -936,7 +944,9 @@ async function getAdminTeacherStudents(
     }
 
 
-    if (response.status === 401)
+    if (
+        response.status === 401
+    )
     {
         throw new Error(
             "UNAUTHORIZED"
@@ -944,7 +954,9 @@ async function getAdminTeacherStudents(
     }
 
 
-    if (response.status === 403)
+    if (
+        response.status === 403
+    )
     {
         throw new Error(
             "FORBIDDEN"
@@ -952,7 +964,9 @@ async function getAdminTeacherStudents(
     }
 
 
-    if (response.status === 404)
+    if (
+        response.status === 404
+    )
     {
         throw new Error(
             "TEACHER_NOT_FOUND"
@@ -970,6 +984,121 @@ async function getAdminTeacherStudents(
 
     return await response.json();
 }
+
+
+/* ==========================================================
+   SUPPRESSION D'UN PROFESSEUR PAR L'ADMINISTRATEUR
+========================================================== */
+
+async function deleteAdminTeacher(
+    teacherId
+)
+{
+    if (
+        !apiToken ||
+        currentRole !== "administrateur"
+    )
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/administrateur/professeurs/${teacherId}`,
+                {
+                    method:
+                        "DELETE",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    }
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    let data = {};
+
+
+    try
+    {
+        data =
+            await response.json();
+    }
+    catch (error)
+    {
+        data = {};
+    }
+
+
+    if (
+        response.status === 401
+    )
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    if (
+        response.status === 403
+    )
+    {
+        throw new Error(
+            "FORBIDDEN"
+        );
+    }
+
+
+    if (
+        response.status === 404
+    )
+    {
+        throw new Error(
+            "TEACHER_NOT_FOUND"
+        );
+    }
+
+
+    if (
+        response.status === 409
+    )
+    {
+        throw new Error(
+            "TEACHER_HAS_STUDENTS"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            data.error ||
+            "DELETE_TEACHER_ERROR"
+        );
+    }
+
+
+    return data;
+}
+
+
 /* ==========================================================
    TRANSFERT D'UN ÉLÈVE PAR L'ADMINISTRATEUR
 ========================================================== */
@@ -1066,6 +1195,8 @@ async function transferAdminStudent(
 
     return await response.json();
 }
+
+
 /* ==========================================================
    TRANSFERT COMPLET D'UNE CLASSE PAR L'ADMINISTRATEUR
 ========================================================== */

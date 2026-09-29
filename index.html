@@ -1966,8 +1966,96 @@
 </div>
 
 
-</section>
 
+
+<!-- =====================================================
+     MODALE SUPPRESSION D'UN PROFESSEUR
+====================================================== -->
+
+<div
+    class="admin-transfer-modal"
+    id="admin-delete-teacher-modal"
+    aria-hidden="true"
+>
+    <div
+        class="admin-transfer-modal__content admin-delete-teacher-modal__content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="admin-delete-teacher-modal-title"
+    >
+
+        <!-- =============================================
+             AVERTISSEMENT
+        ============================================== -->
+
+        <div class="admin-delete-teacher-warning">
+
+            <div
+                class="admin-delete-teacher-warning__icon"
+                aria-hidden="true"
+            >
+                <span>!</span>
+            </div>
+
+
+            <div class="admin-delete-teacher-warning__content">
+
+                <h2
+                    id="admin-delete-teacher-modal-title"
+                    class="admin-delete-teacher-warning__title"
+                >
+                    Vous êtes sur le point<br>
+                    de SUPPRIMER le<br>
+                    professeur :
+                    <span id="admin-delete-teacher-email">
+                        -
+                    </span>
+                </h2>
+
+
+                <!-- =====================================
+                     MESSAGE
+                ====================================== -->
+
+                <p
+                    class="admin-transfer-message"
+                    id="admin-delete-teacher-message"
+                    aria-live="polite"
+                ></p>
+
+
+                <!-- =====================================
+                     ACTIONS
+                ====================================== -->
+
+                <div class="admin-delete-teacher-actions">
+
+                    <button
+                        class="admin-button"
+                        id="admin-delete-teacher-cancel-button"
+                        type="button"
+                    >
+                        ANNULER
+                    </button>
+
+
+                    <button
+                        class="admin-button"
+                        id="admin-delete-teacher-confirm-button"
+                        type="button"
+                    >
+                        SUPPRIMER
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</section>
     <!-- =====================================================
          MODALE PRÉPARATION DU QUIZ
     ====================================================== -->

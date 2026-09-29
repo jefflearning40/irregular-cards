@@ -297,6 +297,148 @@ function showAdminTeacherView()
 
 
 /* ==========================================================
+   ÉLÉMENTS DE LA MODALE DE SUPPRESSION PROFESSEUR
+========================================================== */
+
+const adminDeleteTeacherModal =
+    document.getElementById(
+        "admin-delete-teacher-modal"
+    );
+
+const adminDeleteTeacherEmail =
+    document.getElementById(
+        "admin-delete-teacher-email"
+    );
+
+const adminDeleteTeacherMessage =
+    document.getElementById(
+        "admin-delete-teacher-message"
+    );
+
+const adminDeleteTeacherCancelButton =
+    document.getElementById(
+        "admin-delete-teacher-cancel-button"
+    );
+
+const adminDeleteTeacherConfirmButton =
+    document.getElementById(
+        "admin-delete-teacher-confirm-button"
+    );
+
+
+let adminTeacherPendingDeletion =
+    null;
+
+
+/* ==========================================================
+   OUVERTURE DE LA MODALE DE SUPPRESSION
+========================================================== */
+
+function openAdminDeleteTeacherModal(
+    teacher
+)
+{
+    if (
+        !teacher ||
+        Number(teacher.nombre_eleves) !== 0
+    )
+    {
+        return;
+    }
+
+
+    adminTeacherPendingDeletion =
+        teacher;
+
+
+    adminDeleteTeacherEmail.textContent =
+        teacher.email;
+
+
+    adminDeleteTeacherMessage.textContent =
+        "";
+
+    adminDeleteTeacherMessage.classList.remove(
+        "admin-transfer-message--error"
+    );
+
+
+    adminDeleteTeacherConfirmButton.disabled =
+        false;
+
+    adminDeleteTeacherCancelButton.disabled =
+        false;
+
+
+    adminDeleteTeacherModal.classList.add(
+        "admin-transfer-modal--open"
+    );
+
+    adminDeleteTeacherModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+}
+
+
+/* ==========================================================
+   FERMETURE DE LA MODALE DE SUPPRESSION
+========================================================== */
+
+function closeAdminDeleteTeacherModal()
+{
+    adminDeleteTeacherModal.classList.remove(
+        "admin-transfer-modal--open"
+    );
+
+    adminDeleteTeacherModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    adminDeleteTeacherEmail.textContent =
+        "-";
+
+
+    adminDeleteTeacherMessage.textContent =
+        "";
+
+    adminDeleteTeacherMessage.classList.remove(
+        "admin-transfer-message--error"
+    );
+
+
+    adminDeleteTeacherConfirmButton.disabled =
+        false;
+
+    adminDeleteTeacherCancelButton.disabled =
+        false;
+
+
+    adminTeacherPendingDeletion =
+        null;
+}
+
+
+/* ==========================================================
+   MESSAGE D'ERREUR DE SUPPRESSION
+========================================================== */
+
+function showAdminDeleteTeacherError(
+    message
+)
+{
+    adminDeleteTeacherMessage.classList.add(
+        "admin-transfer-message--error"
+    );
+
+    adminDeleteTeacherMessage.textContent =
+        `> ERREUR : ${message}`;
+}
+
+
+/* ==========================================================
    CRÉATION D'UNE LIGNE PROFESSEUR
 ========================================================== */
 
@@ -395,6 +537,50 @@ function createAdminTeacherRow(
     );
 
 
+    /* ======================================================
+       SUPPRESSION AUTORISÉE UNIQUEMENT SANS ÉLÈVE
+    ====================================================== */
+
+    if (
+        Number(teacher.nombre_eleves) === 0
+    )
+    {
+        const deleteButton =
+            document.createElement(
+                "button"
+            );
+
+
+        deleteButton.type =
+            "button";
+
+        deleteButton.className =
+            "admin-button";
+
+        deleteButton.textContent =
+            "[ SUPPRIMER ]";
+
+        deleteButton.dataset.teacherId =
+            teacher.id;
+
+
+        deleteButton.addEventListener(
+            "click",
+            () =>
+            {
+                openAdminDeleteTeacherModal(
+                    teacher
+                );
+            }
+        );
+
+
+        actionCell.appendChild(
+            deleteButton
+        );
+    }
+
+
     row.appendChild(
         idCell
     );
@@ -436,7 +622,9 @@ function displayAdminTeachers(
         "";
 
 
-    if (teachers.length === 0)
+    if (
+        teachers.length === 0
+    )
     {
         adminTeacherTableBody.innerHTML =
             `
@@ -468,6 +656,186 @@ function displayAdminTeachers(
 }
 
 
+/* ==========================================================
+   ANNULATION DE LA SUPPRESSION
+========================================================== */
+
+adminDeleteTeacherCancelButton.addEventListener(
+    "click",
+    () =>
+    {
+        closeAdminDeleteTeacherModal();
+    }
+);
+
+
+/* ==========================================================
+   /* ==========================================================
+   CONFIRMATION DE LA SUPPRESSION
+========================================================== */
+
+adminDeleteTeacherConfirmButton.addEventListener(
+    "click",
+    async () =>
+    {
+        if (
+            !adminTeacherPendingDeletion
+        )
+        {
+            return;
+        }
+
+
+        const teacherId =
+            adminTeacherPendingDeletion.id;
+
+
+        adminDeleteTeacherMessage.classList.remove(
+            "admin-transfer-message--error"
+        );
+
+        adminDeleteTeacherMessage.textContent =
+            "> SUPPRESSION EN COURS...";
+
+
+        adminDeleteTeacherConfirmButton.disabled =
+            true;
+
+        adminDeleteTeacherCancelButton.disabled =
+            true;
+
+
+        try
+        {
+            await deleteAdminTeacher(
+                teacherId
+            );
+
+
+            closeAdminDeleteTeacherModal();
+
+
+            /* ==================================================
+               ACTUALISATION DE LA LISTE DES PROFESSEURS
+            ================================================== */
+
+            const data =
+                await getAdminTeachers();
+
+
+            adminTeachers =
+                data.professeurs || [];
+
+
+            adminTeacherCount.textContent =
+                adminTeachers.length;
+
+
+            adminStudentCount.textContent =
+                getAdminStudentTotal(
+                    adminTeachers
+                );
+
+
+            displayAdminTeachers(
+                adminTeachers
+            );
+        }
+        catch (error)
+        {
+            console.error(
+                error
+            );
+
+
+            adminDeleteTeacherConfirmButton.disabled =
+                false;
+
+            adminDeleteTeacherCancelButton.disabled =
+                false;
+
+
+            if (
+                error.message ===
+                "TEACHER_HAS_STUDENTS"
+            )
+            {
+                showAdminDeleteTeacherError(
+                    "CE PROFESSEUR POSSEDE ENCORE DES ELEVES"
+                );
+
+                return;
+            }
+
+
+            if (
+                error.message ===
+                "TEACHER_NOT_FOUND"
+            )
+            {
+                showAdminDeleteTeacherError(
+                    "PROFESSEUR INTROUVABLE"
+                );
+
+                return;
+            }
+
+
+            if (
+                error.message ===
+                "SERVER_UNAVAILABLE"
+            )
+            {
+                showAdminDeleteTeacherError(
+                    "SERVEUR INDISPONIBLE"
+                );
+
+                return;
+            }
+
+
+            if (
+                error.message ===
+                "UNAUTHORIZED" ||
+                error.message ===
+                "FORBIDDEN"
+            )
+            {
+                showAdminDeleteTeacherError(
+                    "ACCES REFUSE"
+                );
+
+                return;
+            }
+
+
+            showAdminDeleteTeacherError(
+                "SUPPRESSION IMPOSSIBLE"
+            );
+        }
+    }
+);
+
+
+/* ==========================================================
+   FERMETURE PAR CLIC SUR LE FOND
+========================================================== */
+
+adminDeleteTeacherModal.addEventListener(
+    "click",
+    (event) =>
+    {
+        if (
+            event.target ===
+            adminDeleteTeacherModal
+        )
+        {
+            closeAdminDeleteTeacherModal();
+        }
+    }
+);
+
+/*----------------------------------------------------------------------------------------------------------------------------------------------
 /* ==========================================================
    OUVERTURE DE LA MODALE DE TRANSFERT
 ========================================================== */
