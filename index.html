@@ -1597,28 +1597,175 @@
                 </section>
 
 
-                <!-- =====================================
-                     ELEVES
-                ====================================== -->
+ <!-- =====================================
+     ELEVES
+====================================== -->
 
-                <section
-                    id="admin-students-view"
-                    class="admin-view"
-                    data-admin-section="eleves"
-                    hidden
+<section
+    id="admin-students-view"
+    class="admin-view"
+    data-admin-section="eleves"
+    hidden
+>
+
+    <div
+        id="admin-students-list"
+        class="admin-dashboard-block"
+    >
+
+        <div class="admin-block-header">
+
+            <h2 class="admin-view__title">
+                &gt; GESTION DES ELEVES
+            </h2>
+
+        </div>
+
+
+        <div class="admin-table-wrapper">
+
+            <table class="admin-table">
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>NOM</th>
+                        <th>PRENOM</th>
+                        <th>EMAIL</th>
+                        <th>PROFESSEUR</th>
+                        <th>ACTION</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="admin-student-table-body">
+
+                    <tr>
+
+                        <td colspan="6">
+                            &gt; EN ATTENTE DES DONNEES...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+           </div>
+
+    
+
+
+    <!-- =================================
+         GESTION DE L'ÉLÈVE
+    ================================== -->
+
+    <div
+        id="admin-student-management"
+        hidden
+    >
+
+        <div class="admin-block-header">
+
+            <h2 class="admin-view__title">
+                &gt; GESTION DE L'ELEVE
+            </h2>
+
+            <button
+                id="admin-student-back-button"
+                class="admin-button"
+                type="button"
+            >
+                &lt; RETOUR
+            </button>
+
+        </div>
+
+
+        <div class="admin-system-info">
+
+            <p>
+                ID ..............
+                <span id="admin-selected-student-id">
+                    -
+                </span>
+            </p>
+
+            <p>
+                NOM .............
+                <span id="admin-selected-student-name">
+                    -
+                </span>
+            </p>
+
+            <p>
+                EMAIL ...........
+                <span id="admin-selected-student-email">
+                    -
+                </span>
+            </p>
+
+            <p>
+                PROFESSEUR ......
+                <span id="admin-selected-student-teacher">
+                    -
+                </span>
+            </p>
+
+        </div>
+
+
+        <div class="admin-dashboard-block">
+
+            <div class="admin-block-header">
+
+                <h3>
+                    &gt; ACTIONS
+                </h3>
+
+            </div>
+
+
+            <div class="admin-student-actions">
+
+                <button
+                    id="admin-student-transfer-button"
+                    class="admin-button"
+                    type="button"
                 >
+                    TRANSFERER
+                </button>
 
-                    <h2 class="admin-view__title">
-                        &gt; GESTION DES ELEVES
-                    </h2>
+                <button
+                    id="admin-student-password-button"
+                    class="admin-button"
+                    type="button"
+                >
+                    REINITIALISER MOT DE PASSE
+                </button>
 
-                    <p>
-                        MODULE EN CONSTRUCTION_
-                    </p>
+                <button
+                    id="admin-student-delete-button"
+                    class="admin-button"
+                    type="button"
+                >
+                    SUPPRIMER
+                </button>
 
-                </section>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 
+               
                 <!-- =====================================
                      CONTACTS
                 ====================================== -->

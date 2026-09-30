@@ -470,6 +470,65 @@ router.post(
         );
     }
 );
+
+/* ==========================================================
+   LISTE GLOBALE DES ÉLÈVES
+========================================================== */
+
+router.get(
+    "/eleves",
+    verifyToken,
+    requireAdmin,
+    (request, response) =>
+    {
+        database.query(
+            `
+                SELECT
+                    eleve.id,
+                    eleve.nom,
+                    eleve.prenom,
+                    eleve.email,
+                    eleve.professeur_id,
+
+                    professeur.nom AS professeur_nom,
+                    professeur.prenom AS professeur_prenom,
+                    professeur.email AS professeur_email
+
+                FROM eleve
+
+                LEFT JOIN professeur
+                    ON professeur.id =
+                       eleve.professeur_id
+
+                ORDER BY
+                    eleve.nom ASC,
+                    eleve.prenom ASC
+            `,
+            (error, students) =>
+            {
+                if (error)
+                {
+                    console.error(
+                        error
+                    );
+
+                    response.status(500).json({
+                        error:
+                            "Erreur serveur"
+                    });
+
+                    return;
+                }
+
+
+                response.status(200).json({
+                    eleves:
+                        students
+                });
+            }
+        );
+    }
+);
 /* ==========================================================
    LISTE DES ÉLÈVES D'UN PROFESSEUR
 ========================================================== */

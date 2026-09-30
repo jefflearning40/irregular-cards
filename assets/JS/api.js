@@ -895,7 +895,81 @@ async function getAdminTeachers()
 
     return await response.json();
 }
+/* ==========================================================
+   RÉCUPÉRATION DE TOUS LES ÉLÈVES
+   PAR L'ADMINISTRATEUR
+========================================================== */
 
+async function getAdminStudents()
+{
+    if (
+        !apiToken ||
+        currentRole !== "administrateur"
+    )
+    {
+        throw new Error(
+            "Accès réservé aux administrateurs."
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/administrateur/eleves`,
+                {
+                    method:
+                        "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    }
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (
+        response.status === 401
+    )
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    if (
+        response.status === 403
+    )
+    {
+        throw new Error(
+            "FORBIDDEN"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "Impossible de récupérer les élèves."
+        );
+    }
+
+
+    return await response.json();
+}
 
 /* ==========================================================
    RÉCUPÉRATION DES ÉLÈVES D'UN PROFESSEUR

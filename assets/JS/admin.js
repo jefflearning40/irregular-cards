@@ -64,8 +64,77 @@ const adminTeacherStudentTableBody =
     document.getElementById(
         "admin-teacher-student-table-body"
     );
+    /* ==========================================================
+   ÉLÉMENTS HTML — LISTE GLOBALE DES ÉLÈVES
+========================================================== */
+
+const adminStudentTableBody =
+    document.getElementById(
+        "admin-student-table-body"
+    );
+
+/* ==========================================================
+   ÉLÉMENTS HTML — GESTION D'UN ÉLÈVE
+========================================================== */
+
+const adminStudentsList =
+    document.getElementById(
+        "admin-students-list"
+    );
 
 
+const adminStudentManagement =
+    document.getElementById(
+        "admin-student-management"
+    );
+
+
+const adminStudentBackButton =
+    document.getElementById(
+        "admin-student-back-button"
+    );
+
+
+const adminSelectedStudentId =
+    document.getElementById(
+        "admin-selected-student-id"
+    );
+
+
+const adminSelectedStudentName =
+    document.getElementById(
+        "admin-selected-student-name"
+    );
+
+
+const adminSelectedStudentEmail =
+    document.getElementById(
+        "admin-selected-student-email"
+    );
+
+
+const adminSelectedStudentTeacher =
+    document.getElementById(
+        "admin-selected-student-teacher"
+    );
+
+
+const adminStudentTransferButton =
+    document.getElementById(
+        "admin-student-transfer-button"
+    );
+
+
+const adminStudentPasswordButton =
+    document.getElementById(
+        "admin-student-password-button"
+    );
+
+
+const adminStudentDeleteButton =
+    document.getElementById(
+        "admin-student-delete-button"
+    );
 /* ==========================================================
    ÉLÉMENTS HTML — MODALE TRANSFERT
 ========================================================== */
@@ -1239,7 +1308,317 @@ function displayAdminTeacherStudents(
     }
 }
 
+/* ==========================================================
+   /* ==========================================================
+   CRÉATION D'UNE LIGNE ÉLÈVE — LISTE GLOBALE
+========================================================== */
 
+function createAdminStudentRow(
+    student
+)
+{
+    const row =
+        document.createElement(
+            "tr"
+        );
+
+
+    const idCell =
+        document.createElement(
+            "td"
+        );
+
+    idCell.textContent =
+        student.id;
+
+
+    const nameCell =
+        document.createElement(
+            "td"
+        );
+
+    nameCell.textContent =
+        student.nom;
+
+
+    const firstNameCell =
+        document.createElement(
+            "td"
+        );
+
+    firstNameCell.textContent =
+        student.prenom;
+
+
+    const emailCell =
+        document.createElement(
+            "td"
+        );
+
+    emailCell.textContent =
+        student.email;
+
+
+    const teacherCell =
+        document.createElement(
+            "td"
+        );
+
+    teacherCell.textContent =
+        `${student.professeur_prenom || ""} ${student.professeur_nom || ""}`.trim() ||
+        "-";
+
+
+    const actionCell =
+        document.createElement(
+            "td"
+        );
+
+
+    const manageButton =
+        document.createElement(
+            "button"
+        );
+
+
+    manageButton.type =
+        "button";
+
+
+    manageButton.className =
+        "admin-button";
+
+
+    manageButton.textContent =
+        "[ GERER ]";
+
+
+    manageButton.dataset.studentId =
+        student.id;
+
+
+    manageButton.addEventListener(
+        "click",
+        () =>
+        {
+            showAdminStudentManagement(
+                student
+            );
+        }
+    );
+
+
+    actionCell.appendChild(
+        manageButton
+    );
+
+
+    row.appendChild(
+        idCell
+    );
+
+    row.appendChild(
+        nameCell
+    );
+
+    row.appendChild(
+        firstNameCell
+    );
+
+    row.appendChild(
+        emailCell
+    );
+
+    row.appendChild(
+        teacherCell
+    );
+
+    row.appendChild(
+        actionCell
+    );
+
+
+    return row;
+}
+
+
+/* ==========================================================
+   OUVERTURE DE LA GESTION D'UN ÉLÈVE
+========================================================== */
+
+function showAdminStudentManagement(
+    student
+)
+{
+    adminSelectedStudent =
+        student;
+
+
+    adminSelectedStudentId.textContent =
+        student.id;
+
+
+    adminSelectedStudentName.textContent =
+        `${student.prenom} ${student.nom}`;
+
+
+    adminSelectedStudentEmail.textContent =
+        student.email;
+
+
+    adminSelectedStudentTeacher.textContent =
+        `${student.professeur_prenom || ""} ${student.professeur_nom || ""}`.trim() ||
+        "-";
+
+
+    adminStudentsList.hidden =
+        true;
+
+
+    adminStudentManagement.hidden =
+        false;
+}
+
+
+/* ==========================================================
+   RETOUR À LA LISTE GLOBALE DES ÉLÈVES
+========================================================== */
+
+adminStudentBackButton.addEventListener(
+    "click",
+    () =>
+    {
+        adminSelectedStudent =
+            null;
+
+
+        adminStudentManagement.hidden =
+            true;
+
+
+        adminStudentsList.hidden =
+            false;
+    }
+);
+
+
+/* ==========================================================
+   AFFICHAGE DE LA LISTE GLOBALE DES ÉLÈVES
+========================================================== */
+
+function displayAdminStudents(
+    students
+)
+{
+    adminStudentTableBody.innerHTML =
+        "";
+
+
+    if (
+        students.length === 0
+    )
+    {
+        adminStudentTableBody.innerHTML =
+            `
+                <tr>
+                    <td colspan="6">
+                        &gt; AUCUN ELEVE ENREGISTRE
+                    </td>
+                </tr>
+            `;
+
+        return;
+    }
+
+
+    for (
+        const student of students
+    )
+    {
+        const row =
+            createAdminStudentRow(
+                student
+            );
+
+
+        adminStudentTableBody.appendChild(
+            row
+        );
+    }
+}
+
+
+/* ==========================================================
+   CHARGEMENT DE LA LISTE GLOBALE DES ÉLÈVES
+========================================================== */
+
+async function loadAdminStudents()
+{
+    adminStudentTableBody.innerHTML =
+        `
+            <tr>
+                <td colspan="6">
+                    &gt; CHARGEMENT DES ELEVES...
+                </td>
+            </tr>
+        `;
+
+
+    try
+    {
+        const data =
+            await getAdminStudents();
+
+
+        const students =
+            data.eleves || [];
+
+
+        displayAdminStudents(
+            students
+        );
+    }
+    catch (error)
+    {
+        console.error(
+            error
+        );
+
+
+        let message =
+            "IMPOSSIBLE DE CHARGER LES ELEVES";
+
+
+        if (
+            error.message ===
+            "SERVER_UNAVAILABLE"
+        )
+        {
+            message =
+                "SERVEUR INDISPONIBLE";
+        }
+
+
+        if (
+            error.message === "UNAUTHORIZED" ||
+            error.message === "FORBIDDEN"
+        )
+        {
+            message =
+                "ACCES REFUSE";
+        }
+
+
+        adminStudentTableBody.innerHTML =
+            `
+                <tr>
+                    <td colspan="6">
+                        &gt; ERREUR : ${message}
+                    </td>
+                </tr>
+            `;
+    }
+}
 /* ==========================================================
    CALCUL DU NOMBRE TOTAL D'ÉLÈVES
 ========================================================== */
@@ -2237,9 +2616,30 @@ adminMenuButtons.forEach(
                 }
 
 
-                /* ==========================================
-                   ELEVES / CONTACTS
-                ========================================== */
+/* ==========================================
+   ELEVES / CONTACTS
+========================================== */
+
+                if (
+                    target === "eleves"
+                )
+                {
+                    adminViews.forEach(
+                        (view) =>
+                        {
+                            view.hidden =
+                                view.dataset.adminSection !==
+                                "eleves";
+                        }
+                    );
+
+
+                    loadAdminStudents();
+
+
+                    return;
+                }
+
 
                 adminViews.forEach(
                     (view) =>
