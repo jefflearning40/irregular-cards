@@ -2202,6 +2202,119 @@
 
     </div>
 </div>
+<!-- =====================================================
+     MODALE SUPPRESSION D'UN ÉLÈVE
+====================================================== -->
+
+<div
+    class="admin-transfer-modal"
+    id="admin-delete-student-modal"
+    aria-hidden="true"
+>
+    <div
+        class="admin-transfer-modal__content admin-delete-teacher-modal__content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="admin-delete-student-modal-title"
+    >
+
+        <div class="admin-delete-teacher-warning">
+
+            <div
+                class="admin-delete-teacher-warning__icon"
+                aria-hidden="true"
+            >
+                <span>!</span>
+            </div>
+
+
+            <div class="admin-delete-teacher-warning__content">
+
+                <h2
+                    id="admin-delete-student-modal-title"
+                    class="admin-delete-teacher-warning__title"
+                >
+                    Vous êtes sur le point<br>
+                    de SUPPRIMER l'élève :
+                    <span id="admin-delete-student-name">
+                        -
+                    </span>
+                </h2>
+
+
+                <div class="admin-system-info">
+
+                    <p>
+                        EMAIL ............
+                        <span id="admin-delete-student-email">
+                            -
+                        </span>
+                    </p>
+
+                    <p>
+                        PROFESSEUR .......
+                        <span id="admin-delete-student-teacher">
+                            -
+                        </span>
+                    </p>
+
+                </div>
+
+
+                <p>
+                    &gt; La progression de l'élève sera récupérée
+                    avant la suppression.
+                </p>
+
+                <p>
+                    &gt; Une archive PDF sera créée afin de pouvoir
+                    la transmettre à l'élève sur demande.
+                </p>
+
+                <p>
+                    &gt; La suppression sera définitive après
+                    création de l'archive.
+                </p>
+
+
+                <p
+                    class="admin-transfer-message"
+                    id="admin-delete-student-message"
+                    aria-live="polite"
+                ></p>
+
+
+                <div class="admin-delete-teacher-actions">
+
+                    <button
+                        class="admin-button"
+                        id="admin-delete-student-cancel-button"
+                        type="button"
+                    >
+                        ANNULER
+                    </button>
+
+
+                    <button
+                        class="admin-button"
+                        id="admin-delete-student-confirm-button"
+                        type="button"
+                    >
+                        ARCHIVER ET SUPPRIMER
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
 </section>
     <!-- =====================================================
          MODALE PRÉPARATION DU QUIZ

@@ -11,6 +11,17 @@ const express =
 const bcrypt =
     require("bcrypt");
 
+const PDFDocument =
+    require("pdfkit");
+
+
+const fs =
+    require("fs");
+
+
+const path =
+    require("path");
+
 const database =
     require("../database");
 
@@ -686,6 +697,997 @@ router.get(
                             eleves:
                                 students
                         });
+                    }
+                );
+            }
+        );
+    }
+);
+/* ==========================================================
+   ARCHIVE COMPLÈTE D'UN ÉLÈVE
+========================================================== */
+
+router.get(
+    "/eleves/:eleveId/archive",
+    verifyToken,
+    requireAdmin,
+    (request, response) =>
+    {
+        const eleveId =
+            Number(
+                request.params.eleveId
+            );
+
+
+        if (
+            !Number.isInteger(eleveId) ||
+            eleveId <= 0
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Identifiant élève invalide"
+            });
+
+            return;
+        }
+
+
+        database.query(
+            `
+                SELECT
+                    eleve.id,
+                    eleve.nom,
+                    eleve.prenom,
+                    eleve.email,
+                    eleve.professeur_id,
+
+                    professeur.nom AS professeur_nom,
+                    professeur.prenom AS professeur_prenom,
+                    professeur.email AS professeur_email
+
+                FROM eleve
+
+                LEFT JOIN professeur
+                    ON professeur.id =
+                       eleve.professeur_id
+
+                WHERE eleve.id = ?
+            `,
+            [
+                eleveId
+            ],
+            (studentError, students) =>
+            {
+                if (studentError)
+                {
+                    console.error(
+                        studentError
+                    );
+
+                    response.status(500).json({
+                        error:
+                            "Erreur serveur"
+                    });
+
+                    return;
+                }
+
+
+                if (
+                    students.length === 0
+                )
+                {
+                    response.status(404).json({
+                        error:
+                            "Élève introuvable"
+                    });
+
+                    return;
+                }
+
+
+                const student =
+                    students[0];
+
+
+                database.query(
+                    `
+                        SELECT
+                            id,
+                            eleve_id,
+                            date_session,
+                            difficulte,
+                            type_quiz,
+                            score,
+                            nombre_questions,
+                            duree
+
+                        FROM session_quiz
+
+                        WHERE eleve_id = ?
+
+                        ORDER BY
+                            date_session ASC
+                    `,
+                    [
+                        eleveId
+                    ],
+                    (sessionError, sessions) =>
+                    {
+                        if (sessionError)
+                        {
+                            console.error(
+                                sessionError
+                            );
+
+                            response.status(500).json({
+                                error:
+                                    "Erreur serveur"
+                            });
+
+                            return;
+                        }
+
+
+                        database.query(
+                            `
+                                SELECT
+                                    erreur_quiz.id,
+                                    erreur_quiz.session_quiz_id,
+                                    erreur_quiz.infinitif,
+                                    erreur_quiz.reponse_attendue,
+                                    erreur_quiz.reponse_eleve
+
+                                FROM erreur_quiz
+
+                                INNER JOIN session_quiz
+                                    ON session_quiz.id =
+                                       erreur_quiz.session_quiz_id
+
+                                WHERE session_quiz.eleve_id = ?
+
+                                ORDER BY
+                                    erreur_quiz.id ASC
+                            `,
+                            [
+                                eleveId
+                            ],
+                            (quizError, quizErrors) =>
+                            {
+                                if (quizError)
+                                {
+                                    console.error(
+                                        quizError
+                                    );
+
+                                    response.status(500).json({
+                                        error:
+                                            "Erreur serveur"
+                                    });
+
+                                    return;
+                                }
+
+
+                                database.query(
+                                    `
+                                        SELECT
+                                            id,
+                                            eleve_id,
+                                            infinitif,
+                                            nombre_reussites,
+                                            nombre_erreurs,
+                                            derniere_revision
+
+                                        FROM progression
+
+                                        WHERE eleve_id = ?
+
+                                        ORDER BY
+                                            infinitif ASC
+                                    `,
+                                    [
+                                        eleveId
+                                    ],
+                                    (
+                                        progressionError,
+                                        progressions
+                                    ) =>
+                                    {
+                                        if (progressionError)
+                                        {
+                                            console.error(
+                                                progressionError
+                                            );
+
+                                            response.status(500).json({
+                                                error:
+                                                    "Erreur serveur"
+                                            });
+
+                                            return;
+                                        }
+
+
+                                        database.query(
+                                            `
+                                                SELECT
+                                                    revision.id,
+                                                    revision.progression_id,
+                                                    revision.date_revision,
+                                                    revision.effectuee
+
+                                                FROM revision
+
+                                                INNER JOIN progression
+                                                    ON progression.id =
+                                                       revision.progression_id
+
+                                                WHERE progression.eleve_id = ?
+
+                                                ORDER BY
+                                                    revision.date_revision ASC
+                                            `,
+                                            [
+                                                eleveId
+                                            ],
+                                            (
+                                                revisionError,
+                                                revisions
+                                            ) =>
+                                            {
+                                                if (revisionError)
+                                                {
+                                                    console.error(
+                                                        revisionError
+                                                    );
+
+                                                    response.status(500).json({
+                                                        error:
+                                                            "Erreur serveur"
+                                                    });
+
+                                                    return;
+                                                }
+
+
+                                                response.status(200).json({
+                                                    eleve:
+                                                        student,
+
+                                                    sessions_quiz:
+                                                        sessions,
+
+                                                    erreurs_quiz:
+                                                        quizErrors,
+
+                                                    progressions:
+                                                        progressions,
+
+                                                    revisions:
+                                                        revisions
+                                                });
+                                            }
+                                        );
+                                    }
+                                );
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    }
+);
+
+
+/* ==========================================================
+   SUPPRESSION D'UN ÉLÈVE
+   AVEC ARCHIVAGE PDF
+========================================================== */
+
+router.delete(
+    "/eleves/:eleveId",
+    verifyToken,
+    requireAdmin,
+    (request, response) =>
+    {
+        const eleveId =
+            Number(
+                request.params.eleveId
+            );
+
+
+        if (
+            !Number.isInteger(eleveId) ||
+            eleveId <= 0
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Identifiant élève invalide"
+            });
+
+            return;
+        }
+
+
+        database.query(
+            `
+                SELECT
+                    eleve.id,
+                    eleve.nom,
+                    eleve.prenom,
+                    eleve.email,
+                    eleve.professeur_id,
+
+                    professeur.nom AS professeur_nom,
+                    professeur.prenom AS professeur_prenom,
+                    professeur.email AS professeur_email
+
+                FROM eleve
+
+                LEFT JOIN professeur
+                    ON professeur.id =
+                       eleve.professeur_id
+
+                WHERE eleve.id = ?
+            `,
+            [
+                eleveId
+            ],
+            (studentError, students) =>
+            {
+                if (studentError)
+                {
+                    console.error(
+                        studentError
+                    );
+
+                    response.status(500).json({
+                        error:
+                            "Erreur serveur"
+                    });
+
+                    return;
+                }
+
+
+                if (
+                    students.length === 0
+                )
+                {
+                    response.status(404).json({
+                        error:
+                            "Élève introuvable"
+                    });
+
+                    return;
+                }
+
+
+                const student =
+                    students[0];
+
+
+                database.query(
+                    `
+                        SELECT
+                            id,
+                            date_session,
+                            difficulte,
+                            type_quiz,
+                            score,
+                            nombre_questions,
+                            duree
+
+                        FROM session_quiz
+
+                        WHERE eleve_id = ?
+
+                        ORDER BY
+                            date_session ASC
+                    `,
+                    [
+                        eleveId
+                    ],
+                    (sessionError, sessions) =>
+                    {
+                        if (sessionError)
+                        {
+                            console.error(
+                                sessionError
+                            );
+
+                            response.status(500).json({
+                                error:
+                                    "Erreur serveur"
+                            });
+
+                            return;
+                        }
+
+
+                        database.query(
+                            `
+                                SELECT
+                                    erreur_quiz.id,
+                                    erreur_quiz.session_quiz_id,
+                                    erreur_quiz.infinitif,
+                                    erreur_quiz.reponse_attendue,
+                                    erreur_quiz.reponse_eleve
+
+                                FROM erreur_quiz
+
+                                INNER JOIN session_quiz
+                                    ON session_quiz.id =
+                                       erreur_quiz.session_quiz_id
+
+                                WHERE session_quiz.eleve_id = ?
+
+                                ORDER BY
+                                    erreur_quiz.id ASC
+                            `,
+                            [
+                                eleveId
+                            ],
+                            (quizError, quizErrors) =>
+                            {
+                                if (quizError)
+                                {
+                                    console.error(
+                                        quizError
+                                    );
+
+                                    response.status(500).json({
+                                        error:
+                                            "Erreur serveur"
+                                    });
+
+                                    return;
+                                }
+
+
+                                database.query(
+                                    `
+                                        SELECT
+                                            id,
+                                            infinitif,
+                                            nombre_reussites,
+                                            nombre_erreurs,
+                                            derniere_revision
+
+                                        FROM progression
+
+                                        WHERE eleve_id = ?
+
+                                        ORDER BY
+                                            infinitif ASC
+                                    `,
+                                    [
+                                        eleveId
+                                    ],
+                                    (
+                                        progressionError,
+                                        progressions
+                                    ) =>
+                                    {
+                                        if (progressionError)
+                                        {
+                                            console.error(
+                                                progressionError
+                                            );
+
+                                            response.status(500).json({
+                                                error:
+                                                    "Erreur serveur"
+                                            });
+
+                                            return;
+                                        }
+
+
+                                        database.query(
+                                            `
+                                                SELECT
+                                                    revision.id,
+                                                    revision.progression_id,
+                                                    revision.date_revision,
+                                                    revision.effectuee
+
+                                                FROM revision
+
+                                                INNER JOIN progression
+                                                    ON progression.id =
+                                                       revision.progression_id
+
+                                                WHERE progression.eleve_id = ?
+
+                                                ORDER BY
+                                                    revision.date_revision ASC
+                                            `,
+                                            [
+                                                eleveId
+                                            ],
+                                            (
+                                                revisionError,
+                                                revisions
+                                            ) =>
+                                            {
+                                                if (revisionError)
+                                                {
+                                                    console.error(
+                                                        revisionError
+                                                    );
+
+                                                    response.status(500).json({
+                                                        error:
+                                                            "Erreur serveur"
+                                                    });
+
+                                                    return;
+                                                }
+
+
+                                                /* ==================================
+                                                   PRÉPARATION DE L'ARCHIVE PDF
+                                                ================================== */
+
+                                                const archiveDirectory =
+                                                    path.join(
+                                                        __dirname,
+                                                        "..",
+                                                        "archives",
+                                                        "eleves"
+                                                    );
+
+
+                                                try
+                                                {
+                                                    fs.mkdirSync(
+                                                        archiveDirectory,
+                                                        {
+                                                            recursive:
+                                                                true
+                                                        }
+                                                    );
+                                                }
+                                                catch (directoryError)
+                                                {
+                                                    console.error(
+                                                        directoryError
+                                                    );
+
+                                                    response.status(500).json({
+                                                        error:
+                                                            "Impossible de créer le dossier d'archive"
+                                                    });
+
+                                                    return;
+                                                }
+
+
+                                                const archiveDate =
+                                                    new Date();
+
+
+                                                const datePart =
+                                                    archiveDate
+                                                        .toISOString()
+                                                        .replace(
+                                                            /[:.]/g,
+                                                            "-"
+                                                        );
+
+
+                                                const safeName =
+                                                    `${student.nom}-${student.prenom}`
+                                                        .normalize("NFD")
+                                                        .replace(
+                                                            /[\u0300-\u036f]/g,
+                                                            ""
+                                                        )
+                                                        .replace(
+                                                            /[^a-zA-Z0-9_-]/g,
+                                                            "-"
+                                                        );
+
+
+                                                const archiveFileName =
+                                                    `eleve-${student.id}-${safeName}-${datePart}.pdf`;
+
+
+                                                const archivePath =
+                                                    path.join(
+                                                        archiveDirectory,
+                                                        archiveFileName
+                                                    );
+
+
+                                                /* ==================================
+                                                   CRÉATION DU PDF
+                                                ================================== */
+
+                                                const document =
+                                                    new PDFDocument({
+                                                        size:
+                                                            "A4",
+
+                                                        margin:
+                                                            50
+                                                    });
+
+
+                                                const output =
+                                                    fs.createWriteStream(
+                                                        archivePath
+                                                    );
+
+
+                                                let pdfFailed =
+                                                    false;
+
+
+                                                output.on(
+                                                    "error",
+                                                    (pdfError) =>
+                                                    {
+                                                        pdfFailed =
+                                                            true;
+
+                                                        console.error(
+                                                            pdfError
+                                                        );
+
+
+                                                        if (
+                                                            !response.headersSent
+                                                        )
+                                                        {
+                                                            response.status(500).json({
+                                                                error:
+                                                                    "Impossible de créer l'archive PDF"
+                                                            });
+                                                        }
+                                                    }
+                                                );
+
+
+                                                document.on(
+                                                    "error",
+                                                    (pdfError) =>
+                                                    {
+                                                        pdfFailed =
+                                                            true;
+
+                                                        console.error(
+                                                            pdfError
+                                                        );
+                                                    }
+                                                );
+
+
+                                                document.pipe(
+                                                    output
+                                                );
+
+
+                                                document
+                                                    .fontSize(20)
+                                                    .text(
+                                                        "ARCHIVE DE PROGRESSION",
+                                                        {
+                                                            align:
+                                                                "center"
+                                                        }
+                                                    );
+
+
+                                                document.moveDown();
+
+
+                                                document
+                                                    .fontSize(12)
+                                                    .text(
+                                                        `Élève : ${student.prenom} ${student.nom}`
+                                                    );
+
+
+                                                document.text(
+                                                    `Identifiant : ${student.id}`
+                                                );
+
+
+                                                document.text(
+                                                    `E-mail : ${student.email}`
+                                                );
+
+
+                                                document.text(
+                                                    `Professeur : ${student.professeur_prenom || ""} ${student.professeur_nom || ""}`.trim()
+                                                );
+
+
+                                                document.text(
+                                                    `E-mail professeur : ${student.professeur_email || "-"}`
+                                                );
+
+
+                                                document.text(
+                                                    `Date d'archivage : ${archiveDate.toLocaleString("fr-FR")}`
+                                                );
+
+
+                                                document.moveDown();
+
+
+                                                /* ==================================
+                                                   SESSIONS DE QUIZ
+                                                ================================== */
+
+                                                document
+                                                    .fontSize(16)
+                                                    .text(
+                                                        "SESSIONS DE QUIZ"
+                                                    );
+
+
+                                                document.moveDown(0.5);
+
+
+                                                if (
+                                                    sessions.length === 0
+                                                )
+                                                {
+                                                    document
+                                                        .fontSize(10)
+                                                        .text(
+                                                            "Aucune session de quiz."
+                                                        );
+                                                }
+                                                else
+                                                {
+                                                    sessions.forEach(
+                                                        (session) =>
+                                                        {
+                                                            document
+                                                                .fontSize(10)
+                                                                .text(
+                                                                    `Session #${session.id}`
+                                                                );
+
+                                                            document.text(
+                                                                `Date : ${session.date_session || "-"}`
+                                                            );
+
+                                                            document.text(
+                                                                `Difficulté : ${session.difficulte}`
+                                                            );
+
+                                                            document.text(
+                                                                `Type : ${session.type_quiz}`
+                                                            );
+
+                                                            document.text(
+                                                                `Score : ${session.score}/${session.nombre_questions}`
+                                                            );
+
+                                                            document.text(
+                                                                `Durée : ${session.duree ?? "-"} seconde(s)`
+                                                            );
+
+                                                            document.moveDown(
+                                                                0.5
+                                                            );
+                                                        }
+                                                    );
+                                                }
+
+
+                                                document.moveDown();
+
+
+                                                /* ==================================
+                                                   ERREURS DE QUIZ
+                                                ================================== */
+
+                                                document
+                                                    .fontSize(16)
+                                                    .text(
+                                                        "ERREURS DE QUIZ"
+                                                    );
+
+
+                                                document.moveDown(0.5);
+
+
+                                                if (
+                                                    quizErrors.length === 0
+                                                )
+                                                {
+                                                    document
+                                                        .fontSize(10)
+                                                        .text(
+                                                            "Aucune erreur enregistrée."
+                                                        );
+                                                }
+                                                else
+                                                {
+                                                    quizErrors.forEach(
+                                                        (quizError) =>
+                                                        {
+                                                            document
+                                                                .fontSize(10)
+                                                                .text(
+                                                                    `${quizError.infinitif} | réponse : ${quizError.reponse_eleve || "-"} | attendu : ${quizError.reponse_attendue}`
+                                                                );
+                                                        }
+                                                    );
+                                                }
+
+
+                                                document.moveDown();
+
+
+                                                /* ==================================
+                                                   PROGRESSION
+                                                ================================== */
+
+                                                document
+                                                    .fontSize(16)
+                                                    .text(
+                                                        "PROGRESSION"
+                                                    );
+
+
+                                                document.moveDown(0.5);
+
+
+                                                if (
+                                                    progressions.length === 0
+                                                )
+                                                {
+                                                    document
+                                                        .fontSize(10)
+                                                        .text(
+                                                            "Aucune progression enregistrée."
+                                                        );
+                                                }
+                                                else
+                                                {
+                                                    progressions.forEach(
+                                                        (progression) =>
+                                                        {
+                                                            document
+                                                                .fontSize(10)
+                                                                .text(
+                                                                    `${progression.infinitif} | réussites : ${progression.nombre_reussites} | erreurs : ${progression.nombre_erreurs} | dernière révision : ${progression.derniere_revision || "-"}`
+                                                                );
+                                                        }
+                                                    );
+                                                }
+
+
+                                                document.moveDown();
+
+
+                                                /* ==================================
+                                                   RÉVISIONS
+                                                ================================== */
+
+                                                document
+                                                    .fontSize(16)
+                                                    .text(
+                                                        "RÉVISIONS"
+                                                    );
+
+
+                                                document.moveDown(0.5);
+
+
+                                                if (
+                                                    revisions.length === 0
+                                                )
+                                                {
+                                                    document
+                                                        .fontSize(10)
+                                                        .text(
+                                                            "Aucune révision enregistrée."
+                                                        );
+                                                }
+                                                else
+                                                {
+                                                    revisions.forEach(
+                                                        (revision) =>
+                                                        {
+                                                            document
+                                                                .fontSize(10)
+                                                                .text(
+                                                                    `Révision #${revision.id} | date : ${revision.date_revision} | effectuée : ${revision.effectuee ? "oui" : "non"}`
+                                                                );
+                                                        }
+                                                    );
+                                                }
+
+
+                                                document.end();
+
+
+                                                /* ==================================
+                                                   SUPPRESSION APRÈS CRÉATION DU PDF
+                                                ================================== */
+
+                                                output.on(
+                                                    "finish",
+                                                    () =>
+                                                    {
+                                                        if (pdfFailed)
+                                                        {
+                                                            return;
+                                                        }
+
+
+                                                        database.query(
+                                                            `
+                                                                DELETE FROM eleve
+
+                                                                WHERE id = ?
+                                                            `,
+                                                            [
+                                                                eleveId
+                                                            ],
+                                                            (deleteError) =>
+                                                            {
+                                                                if (deleteError)
+                                                                {
+                                                                    console.error(
+                                                                        deleteError
+                                                                    );
+
+                                                                    response.status(500).json({
+                                                                        error:
+                                                                            "Archive créée mais suppression de l'élève impossible",
+
+                                                                        archive_pdf:
+                                                                            archiveFileName
+                                                                    });
+
+                                                                    return;
+                                                                }
+
+
+                                                                response.status(200).json({
+                                                                    message:
+                                                                        "Élève archivé et supprimé avec succès",
+
+                                                                    archive_pdf:
+                                                                        archiveFileName,
+
+                                                                    eleve: {
+                                                                        id:
+                                                                            student.id,
+
+                                                                        nom:
+                                                                            student.nom,
+
+                                                                        prenom:
+                                                                            student.prenom,
+
+                                                                        email:
+                                                                            student.email
+                                                                    }
+                                                                });
+                                                            }
+                                                        );
+                                                    }
+                                                );
+                                            }
+                                        );
+                                    }
+                                );
+                            }
+                        );
                     }
                 );
             }

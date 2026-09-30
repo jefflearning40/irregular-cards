@@ -136,6 +136,53 @@ const adminStudentDeleteButton =
         "admin-student-delete-button"
     );
 /* ==========================================================
+   ÉLÉMENTS HTML — MODALE SUPPRESSION ÉLÈVE
+========================================================== */
+
+const adminDeleteStudentModal =
+    document.getElementById(
+        "admin-delete-student-modal"
+    );
+
+
+const adminDeleteStudentName =
+    document.getElementById(
+        "admin-delete-student-name"
+    );
+
+
+const adminDeleteStudentEmail =
+    document.getElementById(
+        "admin-delete-student-email"
+    );
+
+
+const adminDeleteStudentTeacher =
+    document.getElementById(
+        "admin-delete-student-teacher"
+    );
+
+
+const adminDeleteStudentMessage =
+    document.getElementById(
+        "admin-delete-student-message"
+    );
+
+
+const adminDeleteStudentCancelButton =
+    document.getElementById(
+        "admin-delete-student-cancel-button"
+    );
+
+
+const adminDeleteStudentConfirmButton =
+    document.getElementById(
+        "admin-delete-student-confirm-button"
+    );
+
+
+
+/* ==========================================================
    ÉLÉMENTS HTML — MODALE TRANSFERT
 ========================================================== */
 
@@ -245,6 +292,14 @@ let adminCurrentStudents =
 
 let adminSelectedStudent =
     null;
+
+
+let adminTransferStudent =
+    null;
+
+
+let adminTransferContext =
+    "teacher";
 
 
 /* ==========================================================
@@ -910,19 +965,44 @@ adminDeleteTeacherModal.addEventListener(
 ========================================================== */
 
 function openAdminTransferModal(
-    student
+    student,
+    context = "teacher"
 )
 {
+    let currentTeacher =
+        null;
+
+
     if (
-        !adminCurrentTeacher
+        context === "global"
     )
+    {
+        currentTeacher =
+            adminTeachers.find(
+                (teacher) =>
+                    Number(teacher.id) ===
+                    Number(student.professeur_id)
+            );
+    }
+    else
+    {
+        currentTeacher =
+            adminCurrentTeacher;
+    }
+
+
+    if (!currentTeacher)
     {
         return;
     }
 
 
-    adminSelectedStudent =
+    adminTransferStudent =
         student;
+
+
+    adminTransferContext =
+        context;
 
 
     adminTransferStudentName.textContent =
@@ -930,7 +1010,7 @@ function openAdminTransferModal(
 
 
     adminTransferCurrentTeacher.textContent =
-        `${adminCurrentTeacher.prenom} ${adminCurrentTeacher.nom}`;
+        `${currentTeacher.prenom} ${currentTeacher.nom}`;
 
 
     adminTransferMessage.textContent =
@@ -946,8 +1026,10 @@ function openAdminTransferModal(
             "option"
         );
 
+
     defaultOption.value =
         "";
+
 
     defaultOption.textContent =
         "-- SELECTIONNER --";
@@ -964,7 +1046,7 @@ function openAdminTransferModal(
     {
         if (
             Number(teacher.id) ===
-            Number(adminCurrentTeacher.id)
+            Number(currentTeacher.id)
         )
         {
             continue;
@@ -976,8 +1058,10 @@ function openAdminTransferModal(
                 "option"
             );
 
+
         option.value =
             teacher.id;
+
 
         option.textContent =
             `${teacher.prenom} ${teacher.nom}`;
@@ -1024,8 +1108,12 @@ function openAdminTransferAllModal()
     }
 
 
-    adminSelectedStudent =
-        null;
+    adminTransferStudent =
+    null;
+
+
+adminTransferContext =
+    "teacher";
 
 
     adminTransferStudentName.textContent =
@@ -1141,8 +1229,12 @@ function closeAdminTransferModal()
         true;
 
 
-    adminSelectedStudent =
+    adminTransferStudent =
         null;
+
+
+    adminTransferContext =
+        "teacher";
 }
 
 
@@ -1481,8 +1573,271 @@ function showAdminStudentManagement(
 
 
 /* ==========================================================
+   OUVERTURE DE LA MODALE SUPPRESSION ÉLÈVE
+========================================================== */
+
+function openAdminDeleteStudentModal()
+{
+    if (
+        !adminSelectedStudent
+    )
+    {
+        return;
+    }
+
+
+    adminDeleteStudentName.textContent =
+        `${adminSelectedStudent.prenom} ${adminSelectedStudent.nom}`;
+
+
+    adminDeleteStudentEmail.textContent =
+        adminSelectedStudent.email;
+
+
+    adminDeleteStudentTeacher.textContent =
+        `${adminSelectedStudent.professeur_prenom || ""} ${adminSelectedStudent.professeur_nom || ""}`.trim() ||
+        "-";
+
+
+    adminDeleteStudentMessage.textContent =
+        "";
+
+
+    adminDeleteStudentConfirmButton.disabled =
+        false;
+
+
+    adminDeleteStudentModal.classList.add(
+        "admin-transfer-modal--open"
+    );
+
+
+    adminDeleteStudentModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+}
+
+
+/* ==========================================================
+   FERMETURE DE LA MODALE SUPPRESSION ÉLÈVE
+========================================================== */
+
+function closeAdminDeleteStudentModal()
+{
+    adminDeleteStudentModal.classList.remove(
+        "admin-transfer-modal--open"
+    );
+
+
+    adminDeleteStudentModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    adminDeleteStudentMessage.textContent =
+        "";
+
+
+    adminDeleteStudentConfirmButton.disabled =
+        false;
+}
+
+
+/* ==========================================================
    RETOUR À LA LISTE GLOBALE DES ÉLÈVES
 ========================================================== */
+
+/* ==========================================================
+   TRANSFERT DEPUIS LA GESTION GLOBALE D'UN ÉLÈVE
+========================================================== */
+
+adminStudentTransferButton.addEventListener(
+    "click",
+    () =>
+    {
+        if (!adminSelectedStudent)
+        {
+            return;
+        }
+
+
+        openAdminTransferModal(
+            adminSelectedStudent,
+            "global"
+        );
+    }
+);
+
+
+/* ==========================================================
+   OUVERTURE SUPPRESSION D'UN ÉLÈVE
+========================================================== */
+
+adminStudentDeleteButton.addEventListener(
+    "click",
+    () =>
+    {
+        openAdminDeleteStudentModal();
+    }
+);
+
+
+/* ==========================================================
+   ANNULATION SUPPRESSION D'UN ÉLÈVE
+========================================================== */
+
+adminDeleteStudentCancelButton.addEventListener(
+    "click",
+    () =>
+    {
+        closeAdminDeleteStudentModal();
+    }
+);
+
+
+/* ==========================================================
+   ARCHIVAGE ET SUPPRESSION D'UN ÉLÈVE
+========================================================== */
+
+adminDeleteStudentConfirmButton.addEventListener(
+    "click",
+    async () =>
+    {
+        if (
+            !adminSelectedStudent
+        )
+        {
+            return;
+        }
+
+
+        const studentId =
+            adminSelectedStudent.id;
+
+
+        adminDeleteStudentConfirmButton.disabled =
+            true;
+
+
+        adminDeleteStudentCancelButton.disabled =
+            true;
+
+
+        adminDeleteStudentMessage.textContent =
+            "> RECUPERATION DE LA PROGRESSION...";
+
+
+        try
+        {
+            const archive =
+                await getAdminStudentArchive(
+                    studentId
+                );
+
+
+            adminDeleteStudentMessage.textContent =
+                "> ARCHIVE RECUPEREE - SUPPRESSION EN COURS...";
+
+
+            await deleteAdminStudent(
+                studentId
+            );
+
+
+            console.log(
+                "Archive élève :",
+                archive
+            );
+
+
+            const studentsData =
+                await getAdminStudents();
+
+
+            const students =
+                studentsData.eleves || [];
+
+
+            displayAdminStudents(
+                students
+            );
+
+
+            adminSelectedStudent =
+                null;
+
+
+            closeAdminDeleteStudentModal();
+
+
+            adminStudentManagement.hidden =
+                true;
+
+
+            adminStudentsList.hidden =
+                false;
+        }
+        catch (error)
+        {
+            console.error(
+                error
+            );
+
+
+            if (
+                error.message ===
+                "SERVER_UNAVAILABLE"
+            )
+            {
+                adminDeleteStudentMessage.textContent =
+                    "> ERREUR : SERVEUR INDISPONIBLE";
+            }
+            else if (
+                error.message ===
+                "UNAUTHORIZED" ||
+                error.message ===
+                "FORBIDDEN"
+            )
+            {
+                adminDeleteStudentMessage.textContent =
+                    "> ERREUR : ACCES REFUSE";
+            }
+            else if (
+                error.message ===
+                "STUDENT_NOT_FOUND"
+            )
+            {
+                adminDeleteStudentMessage.textContent =
+                    "> ERREUR : ELEVE INTROUVABLE";
+            }
+            else if (
+                error.message ===
+                "STUDENT_ARCHIVE_ERROR"
+            )
+            {
+                adminDeleteStudentMessage.textContent =
+                    "> ERREUR : ARCHIVAGE IMPOSSIBLE";
+            }
+            else
+            {
+                adminDeleteStudentMessage.textContent =
+                    "> ERREUR : SUPPRESSION IMPOSSIBLE";
+            }
+        }
+        finally
+        {
+            adminDeleteStudentConfirmButton.disabled =
+                false;
+
+
+            adminDeleteStudentCancelButton.disabled =
+                false;
+        }
+    }
+);
+
 
 adminStudentBackButton.addEventListener(
     "click",
@@ -2166,16 +2521,12 @@ adminTransferConfirmButton.addEventListener(
     async () =>
     {
         if (
-            adminTransferTeacherSelect.value === "" ||
-            !adminCurrentTeacher
+            adminTransferTeacherSelect.value === ""
         )
         {
             return;
         }
 
-
-        const currentTeacherId =
-            adminCurrentTeacher.id;
 
         const newTeacherId =
             Number(
@@ -2194,6 +2545,40 @@ adminTransferConfirmButton.addEventListener(
         if (!destinationTeacher)
         {
             return;
+        }
+
+
+        let currentTeacherId =
+            null;
+
+
+        if (
+            adminTransferContext === "global"
+        )
+        {
+            if (!adminTransferStudent)
+            {
+                return;
+            }
+
+
+            currentTeacherId =
+                Number(
+                    adminTransferStudent.professeur_id
+                );
+        }
+        else
+        {
+            if (!adminCurrentTeacher)
+            {
+                return;
+            }
+
+
+            currentTeacherId =
+                Number(
+                    adminCurrentTeacher.id
+                );
         }
 
 
@@ -2220,10 +2605,10 @@ adminTransferConfirmButton.addEventListener(
                TRANSFERT INDIVIDUEL
             ============================================== */
 
-            if (adminSelectedStudent)
+            if (adminTransferStudent)
             {
                 await transferAdminStudent(
-                    adminSelectedStudent.id,
+                    adminTransferStudent.id,
                     newTeacherId
                 );
             }
@@ -2271,6 +2656,72 @@ adminTransferConfirmButton.addEventListener(
             displayAdminTeachers(
                 adminTeachers
             );
+
+
+            /* ==============================================
+               TRANSFERT DEPUIS LA GESTION GLOBALE
+            ============================================== */
+
+            if (
+                adminTransferContext === "global" &&
+                adminTransferStudent
+            )
+            {
+                const transferredStudentId =
+                    Number(
+                        adminTransferStudent.id
+                    );
+
+
+                const studentsData =
+                    await getAdminStudents();
+
+
+                const students =
+                    studentsData.eleves || [];
+
+
+                displayAdminStudents(
+                    students
+                );
+
+
+                const updatedStudent =
+                    students.find(
+                        (student) =>
+                            Number(student.id) ===
+                            transferredStudentId
+                    );
+
+
+                if (updatedStudent)
+                {
+                    adminSelectedStudent =
+                        updatedStudent;
+
+
+                    adminSelectedStudentId.textContent =
+                        updatedStudent.id;
+
+
+                    adminSelectedStudentName.textContent =
+                        `${updatedStudent.prenom} ${updatedStudent.nom}`;
+
+
+                    adminSelectedStudentEmail.textContent =
+                        updatedStudent.email;
+
+
+                    adminSelectedStudentTeacher.textContent =
+                        `${updatedStudent.professeur_prenom || ""} ${updatedStudent.professeur_nom || ""}`.trim() ||
+                        "-";
+                }
+
+
+                closeAdminTransferModal();
+
+                return;
+            }
 
 
             /* ==============================================
