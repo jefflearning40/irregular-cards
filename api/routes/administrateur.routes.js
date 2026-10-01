@@ -1235,12 +1235,14 @@ router.delete(
                                                 ================================== */
 
                                                 const archiveDirectory =
-                                                    path.join(
-                                                        __dirname,
-                                                        "..",
-                                                        "archives",
-                                                        "eleves"
-                                                    );
+                                                        path.join(
+                                                            __dirname,
+                                                            "..",
+                                                            "..",
+                                                            "..",
+                                                            "irregular-cards-archives",
+                                                            "eleves"
+                                                        );
 
 
                                                 try

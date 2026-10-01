@@ -9,7 +9,11 @@ const express = require("express");
 
 const bcrypt = require("bcrypt");
 
+const crypto = require("crypto");
+
 const jwt = require("jsonwebtoken");
+
+const nodemailer = require("nodemailer");
 
 const database = require("../database");
 
@@ -404,6 +408,222 @@ router.post(
     }
 );
 
+/* ==========================================================
+   DEMANDE DE RÉINITIALISATION DU MOT DE PASSE
+========================================================== */
+
+router.post(
+    "/mot-de-passe-oublie",
+    (request, response) =>
+    {
+        const email =
+            String(
+                request.body.email || ""
+            )
+                .trim()
+                .toLowerCase();
+
+
+        const genericResponse = () =>
+        {
+            response.json({
+                message:
+                    "Si cette adresse correspond à un compte, un e-mail de réinitialisation sera envoyé."
+            });
+        };
+
+
+        if (!email)
+        {
+            genericResponse();
+
+            return;
+        }
+
+
+        /* ==================================================
+           RECHERCHE DE L'UTILISATEUR
+        ================================================== */
+
+        database.query(
+            `
+                SELECT
+                    id,
+                    email,
+                    'eleve' AS utilisateur_type
+                FROM eleve
+                WHERE LOWER(email) = ?
+
+                UNION ALL
+
+                SELECT
+                    id,
+                    email,
+                    'professeur' AS utilisateur_type
+                FROM professeur
+                WHERE LOWER(email) = ?
+
+                LIMIT 1
+            `,
+            [
+                email,
+                email
+            ],
+            (
+                userError,
+                users
+            ) =>
+            {
+                if (userError)
+                {
+                    console.error(
+                        userError
+                    );
+
+                    response.status(500).json({
+                        error:
+                            "Erreur serveur"
+                    });
+
+                    return;
+                }
+
+
+                if (users.length === 0)
+                {
+                    genericResponse();
+
+                    return;
+                }
+
+
+                const user =
+                    users[0];
+
+
+                /* ==========================================
+                   GÉNÉRATION DU JETON
+                ========================================== */
+
+                const resetToken =
+                    crypto
+                        .randomBytes(32)
+                        .toString("hex");
+
+
+                const tokenHash =
+                    crypto
+                        .createHash("sha256")
+                        .update(resetToken)
+                        .digest("hex");
+
+
+                /* ==========================================
+                   EXPIRATION : 30 MINUTES
+                ========================================== */
+
+                const expirationDate =
+                    new Date(
+                        Date.now() +
+                        30 * 60 * 1000
+                    );
+
+
+                /* ==========================================
+                   INVALIDATION DES ANCIENS JETONS
+                ========================================== */
+
+                database.query(
+                    `
+                        DELETE FROM reinitialisation_mot_de_passe
+                        WHERE utilisateur_type = ?
+                        AND utilisateur_id = ?
+                    `,
+                    [
+                        user.utilisateur_type,
+                        user.id
+                    ],
+                    (deleteError) =>
+                    {
+                        if (deleteError)
+                        {
+                            console.error(
+                                deleteError
+                            );
+
+                            response.status(500).json({
+                                error:
+                                    "Erreur serveur"
+                            });
+
+                            return;
+                        }
+
+
+                        /* ==================================
+                           ENREGISTREMENT DU HASH DU JETON
+                        ================================== */
+
+                        database.query(
+                            `
+                                INSERT INTO reinitialisation_mot_de_passe
+                                (
+                                    utilisateur_type,
+                                    utilisateur_id,
+                                    token_hash,
+                                    date_expiration
+                                )
+                                VALUES (?, ?, ?, ?)
+                            `,
+                            [
+                                user.utilisateur_type,
+                                user.id,
+                                tokenHash,
+                                expirationDate
+                            ],
+                            (insertError) =>
+                            {
+                                if (insertError)
+                                {
+                                    console.error(
+                                        insertError
+                                    );
+
+                                    response.status(500).json({
+                                        error:
+                                            "Erreur serveur"
+                                    });
+
+                                    return;
+                                }
+
+
+                                /*
+                                 * L'envoi de l'e-mail sera branché
+                                 * à l'étape suivante.
+                                 *
+                                 * resetToken contient le jeton
+                                 * utilisable dans le futur lien.
+                                 *
+                                 * Seul tokenHash est enregistré
+                                 * dans MySQL.
+                                 */
+
+                                console.log(
+                                    "Jeton de réinitialisation créé pour :",
+                                    user.email
+                                );
+
+
+                                genericResponse();
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    }
+);
 
 /* ==========================================================
    EXPORT

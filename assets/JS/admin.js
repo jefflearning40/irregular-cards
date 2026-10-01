@@ -1726,31 +1726,26 @@ adminDeleteStudentConfirmButton.addEventListener(
 
 
         adminDeleteStudentMessage.textContent =
-            "> RECUPERATION DE LA PROGRESSION...";
+            "> ARCHIVAGE ET SUPPRESSION EN COURS...";
 
 
         try
         {
-            const archive =
-                await getAdminStudentArchive(
+            const result =
+                await deleteAdminStudent(
                     studentId
                 );
 
 
-            adminDeleteStudentMessage.textContent =
-                "> ARCHIVE RECUPEREE - SUPPRESSION EN COURS...";
-
-
-            await deleteAdminStudent(
-                studentId
-            );
-
-
             console.log(
-                "Archive élève :",
-                archive
+                "Archive PDF :",
+                result.archive_pdf
             );
 
+
+            /* ==================================================
+               ACTUALISATION DE LA LISTE DES ÉLÈVES
+            ================================================== */
 
             const studentsData =
                 await getAdminStudents();
@@ -1764,6 +1759,37 @@ adminDeleteStudentConfirmButton.addEventListener(
                 students
             );
 
+
+            /* ==================================================
+               ACTUALISATION DE LA LISTE DES PROFESSEURS
+            ================================================== */
+
+            const teachersData =
+                await getAdminTeachers();
+
+
+            adminTeachers =
+                teachersData.professeurs || [];
+
+
+            adminTeacherCount.textContent =
+                adminTeachers.length;
+
+
+            adminStudentCount.textContent =
+                getAdminStudentTotal(
+                    adminTeachers
+                );
+
+
+            displayAdminTeachers(
+                adminTeachers
+            );
+
+
+            /* ==================================================
+               RETOUR À LA LISTE DES ÉLÈVES
+            ================================================== */
 
             adminSelectedStudent =
                 null;
@@ -1812,18 +1838,10 @@ adminDeleteStudentConfirmButton.addEventListener(
                 adminDeleteStudentMessage.textContent =
                     "> ERREUR : ELEVE INTROUVABLE";
             }
-            else if (
-                error.message ===
-                "STUDENT_ARCHIVE_ERROR"
-            )
-            {
-                adminDeleteStudentMessage.textContent =
-                    "> ERREUR : ARCHIVAGE IMPOSSIBLE";
-            }
             else
             {
                 adminDeleteStudentMessage.textContent =
-                    "> ERREUR : SUPPRESSION IMPOSSIBLE";
+                    "> ERREUR : ARCHIVAGE OU SUPPRESSION IMPOSSIBLE";
             }
         }
         finally
@@ -1837,6 +1855,7 @@ adminDeleteStudentConfirmButton.addEventListener(
         }
     }
 );
+
 
 
 adminStudentBackButton.addEventListener(
