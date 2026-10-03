@@ -17,7 +17,33 @@ const nodemailer = require("nodemailer");
 
 const database = require("../database");
 
+/* ==========================================================
+   CONFIGURATION DE L'ENVOI DES E-MAILS
+========================================================== */
 
+const mailTransporter =
+    nodemailer.createTransport({
+        host:
+            process.env.MAIL_HOST,
+
+        port:
+            Number(
+                process.env.MAIL_PORT
+            ),
+
+        secure:
+            false,
+
+        auth:
+        {
+            user:
+                process.env.MAIL_USER,
+
+            pass:
+                process.env.MAIL_PASSWORD
+        }
+    }
+);
 /* ==========================================================
    ROUTER
 ========================================================== */
@@ -598,24 +624,60 @@ router.post(
                                 }
 
 
-                                /*
-                                 * L'envoi de l'e-mail sera branché
-                                 * à l'étape suivante.
-                                 *
-                                 * resetToken contient le jeton
-                                 * utilisable dans le futur lien.
-                                 *
-                                 * Seul tokenHash est enregistré
-                                 * dans MySQL.
-                                 */
+                                /* ==================================
+                                   CRÉATION DU LIEN
+                                ================================== */
 
-                                console.log(
-                                    "Jeton de réinitialisation créé pour :",
-                                    user.email
+                                const resetLink =
+                                    `${process.env.APP_URL}/?reset_token=${resetToken}`;
+
+
+                                /* ==================================
+                                   ENVOI DE L'E-MAIL
+                                ================================== */
+
+                                mailTransporter.sendMail(
+                                    {
+                                        from:
+                                            process.env.MAIL_FROM,
+
+                                        to:
+                                            user.email,
+
+                                        subject:
+                                            "Irregular Cards - Réinitialisation du mot de passe",
+
+                                        text:
+                                            `Une demande de réinitialisation de votre mot de passe a été effectuée.
+
+Pour créer un nouveau mot de passe, utilisez le lien suivant :
+
+${resetLink}
+
+Ce lien est valable pendant 30 minutes.
+
+Si vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail.`
+                                    },
+                                    (mailError) =>
+                                    {
+                                        if (mailError)
+                                        {
+                                            console.error(
+                                                mailError
+                                            );
+
+                                            response.status(500).json({
+                                                error:
+                                                    "Erreur lors de l'envoi de l'e-mail"
+                                            });
+
+                                            return;
+                                        }
+
+
+                                        genericResponse();
+                                    }
                                 );
-
-
-                                genericResponse();
                             }
                         );
                     }
