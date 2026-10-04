@@ -123,3 +123,50 @@ CREATE TABLE IF NOT EXISTS `session_quiz` (
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
+
+CREATE TABLE `message` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    `expediteur_type` ENUM(
+        'administrateur',
+        'professeur',
+        'eleve'
+    ) NOT NULL,
+
+    `expediteur_id` INT UNSIGNED NOT NULL,
+
+    `destinataire_type` ENUM(
+        'administrateur',
+        'professeur',
+        'eleve'
+    ) NOT NULL,
+
+    `destinataire_id` INT UNSIGNED NOT NULL,
+
+    `objet` VARCHAR(255) NOT NULL,
+
+    `contenu` TEXT NOT NULL,
+
+    `est_lu` TINYINT(1) NOT NULL DEFAULT 0,
+
+    `date_envoi` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (`id`),
+
+    KEY `idx_message_expediteur` (
+        `expediteur_type`,
+        `expediteur_id`
+    ),
+
+    KEY `idx_message_destinataire` (
+        `destinataire_type`,
+        `destinataire_id`
+    ),
+
+    KEY `idx_message_date_envoi` (
+        `date_envoi`
+    )
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;

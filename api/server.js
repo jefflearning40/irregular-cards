@@ -35,8 +35,11 @@ const authRoutes =
 const statistiqueRoutes =
     require("./routes/statistique.routes");
 
-    const administrateurRoutes =
+const administrateurRoutes =
     require("./routes/administrateur.routes");
+
+const messageRoutes =
+    require("./routes/message.routes");
 
 
 /* ==========================================================
@@ -147,9 +150,16 @@ app.use(
     statistiqueRoutes
 );
 
+
 app.use(
     "/api/administrateur",
     administrateurRoutes
+);
+
+
+app.use(
+    "/api/messages",
+    messageRoutes
 );
 
 
