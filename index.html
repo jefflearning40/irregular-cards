@@ -160,13 +160,153 @@
                 >
                     Se connecter
                 </button>
+                <button
+                    class="login-forgot-password"
+                    id="login-forgot-password"
+                    type="button"
+                >
+                    Mot de passe oublié ?
+                </button>
 
             </form>
 
         </div>
 
     </div>
+    <!-- =====================================================
+     MOT DE PASSE OUBLIÉ
+====================================================== -->
 
+<div
+    class="login-modal"
+    id="forgot-password-modal"
+    aria-hidden="true"
+>
+
+    <div class="login-modal__content">
+
+        <h2>
+            Mot de passe oublié
+        </h2>
+
+        <form id="forgot-password-form">
+
+            <div class="login-field">
+
+                <label for="forgot-password-email">
+                    E-mail
+                </label>
+
+                <input
+                    type="email"
+                    id="forgot-password-email"
+                    name="email"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+            <p
+                class="login-error"
+                id="forgot-password-message"
+                aria-live="polite"
+            ></p>
+
+            <button
+                class="login-button"
+                id="forgot-password-submit"
+                type="submit"
+            >
+                Envoyer le lien
+            </button>
+
+            <button
+                class="login-forgot-password"
+                id="forgot-password-back"
+                type="button"
+            >
+                Retour à la connexion
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+<!-- =====================================================
+     RÉINITIALISATION DU MOT DE PASSE
+====================================================== -->
+
+<div
+    class="login-modal"
+    id="reset-password-modal"
+    aria-hidden="true"
+>
+
+    <div class="login-modal__content">
+
+        <h2>
+            Nouveau mot de passe
+        </h2>
+
+        <form id="reset-password-form">
+
+            <div class="login-field">
+
+                <label for="reset-password">
+                    Nouveau mot de passe
+                </label>
+
+                <input
+                    type="password"
+                    id="reset-password"
+                    name="password"
+                    autocomplete="new-password"
+                    minlength="8"
+                    maxlength="72"
+                    required
+                >
+
+            </div>
+
+            <div class="login-field">
+
+                <label for="reset-password-confirm">
+                    Confirmer le mot de passe
+                </label>
+
+                <input
+                    type="password"
+                    id="reset-password-confirm"
+                    name="password-confirm"
+                    autocomplete="new-password"
+                    minlength="8"
+                    maxlength="72"
+                    required
+                >
+
+            </div>
+
+            <p
+                class="login-error"
+                id="reset-password-message"
+                aria-live="polite"
+            ></p>
+
+            <button
+                class="login-button"
+                id="reset-password-submit"
+                type="submit"
+            >
+                Modifier le mot de passe
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
 
     <!-- =====================================================
          DÉCONNEXION

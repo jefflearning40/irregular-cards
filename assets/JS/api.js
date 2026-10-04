@@ -161,8 +161,215 @@ async function loginUser(
             currentUser
     };
 }
+/* ==========================================================
+   DEMANDE DE RÉINITIALISATION DU MOT DE PASSE
+========================================================== */
+
+async function requestPasswordReset(
+    email
+)
+{
+    let response;
 
 
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/auth/mot-de-passe-oublie`,
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            email:
+                                email
+                        })
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    let data = {};
+
+
+    try
+    {
+        data =
+            await response.json();
+    }
+    catch (error)
+    {
+        data = {};
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            data.error ||
+            "PASSWORD_RESET_REQUEST_ERROR"
+        );
+    }
+
+
+    return data;
+}
+/* ==========================================================
+   VÉRIFICATION DU TOKEN DE RÉINITIALISATION
+========================================================== */
+
+async function verifyPasswordResetToken(
+    token
+)
+{
+    let response;
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/auth/verifier-token-reinitialisation`,
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            token:
+                                token
+                        })
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    let data = {};
+
+    try
+    {
+        data =
+            await response.json();
+    }
+    catch (error)
+    {
+        data = {};
+    }
+
+
+    if (
+        response.status === 400
+    )
+    {
+        throw new Error(
+            "INVALID_RESET_TOKEN"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "TOKEN_VERIFICATION_ERROR"
+        );
+    }
+
+
+    return data;
+}
+/* ==========================================================
+   RÉINITIALISATION DU MOT DE PASSE
+========================================================== */
+
+async function resetUserPassword(
+    token,
+    password
+)
+{
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/auth/reinitialiser-mot-de-passe`,
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            token:
+                                token,
+
+                            mot_de_passe:
+                                password
+                        })
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    let data = {};
+
+
+    try
+    {
+        data =
+            await response.json();
+    }
+    catch (error)
+    {
+        data = {};
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            data.error ||
+            "PASSWORD_RESET_ERROR"
+        );
+    }
+
+
+    return data;
+}
 /* ==========================================================
    CRÉATION D'UNE SESSION DE QUIZ
 ========================================================== */

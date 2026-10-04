@@ -686,6 +686,485 @@ Si vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail.`
         );
     }
 );
+/* ==========================================================
+
+   RÉINITIALISATION DU MOT DE PASSE
+
+========================================================== */
+/* ==========================================================
+   VÉRIFICATION DU TOKEN DE RÉINITIALISATION
+========================================================== */
+
+router.post(
+    "/verifier-token-reinitialisation",
+    (request, response) =>
+    {
+        const token =
+            String(
+                request.body.token || ""
+            )
+                .trim();
+
+
+        if (!token)
+        {
+            response.status(400).json({
+                error:
+                    "Token manquant"
+            });
+
+            return;
+        }
+
+
+        const tokenHash =
+            crypto
+                .createHash("sha256")
+                .update(token)
+                .digest("hex");
+
+
+        database.query(
+            `
+                SELECT
+                    id,
+                    date_expiration
+                FROM reinitialisation_mot_de_passe
+                WHERE token_hash = ?
+                LIMIT 1
+            `,
+            [
+                tokenHash
+            ],
+            (
+                tokenError,
+                resetTokens
+            ) =>
+            {
+                if (tokenError)
+                {
+                    console.error(
+                        "Erreur vérification token :",
+                        tokenError
+                    );
+
+
+                    response.status(500).json({
+                        error:
+                            "Erreur serveur"
+                    });
+
+
+                    return;
+                }
+
+
+                if (
+                    resetTokens.length === 0
+                )
+                {
+                    response.status(400).json({
+                        error:
+                            "Lien invalide ou expiré"
+                    });
+
+
+                    return;
+                }
+
+
+                const resetData =
+                    resetTokens[0];
+
+
+                if (
+                    new Date(
+                        resetData.date_expiration
+                    ).getTime() <= Date.now()
+                )
+                {
+                    database.query(
+                        `
+                            DELETE FROM reinitialisation_mot_de_passe
+                            WHERE id = ?
+                        `,
+                        [
+                            resetData.id
+                        ],
+                        (deleteError) =>
+                        {
+                            if (deleteError)
+                            {
+                                console.error(
+                                    deleteError
+                                );
+                            }
+                        }
+                    );
+
+
+                    response.status(400).json({
+                        error:
+                            "Lien invalide ou expiré"
+                    });
+
+
+                    return;
+                }
+
+
+                response.status(200).json({
+                    valid:
+                        true
+                });
+            }
+        );
+    }
+);
+
+router.post(
+    "/reinitialiser-mot-de-passe",
+    (request, response) =>
+    {
+        const token =
+            String(
+                request.body.token || ""
+            )
+                .trim();
+
+
+        const motDePasse =
+            String(
+                request.body.mot_de_passe || ""
+            );
+
+
+        /* ==================================================
+           VÉRIFICATION DES DONNÉES
+        ================================================== */
+
+        if (
+            !token ||
+            !motDePasse
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Token et nouveau mot de passe obligatoires"
+            });
+
+
+            return;
+        }
+
+
+        /* ==================================================
+           VÉRIFICATION DU MOT DE PASSE
+        ================================================== */
+
+        if (
+            motDePasse.length < 8 ||
+            motDePasse.length > 72
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Le mot de passe doit contenir entre 8 et 72 caractères"
+            });
+
+
+            return;
+        }
+
+
+        const passwordHasLetter =
+            /\p{L}/u.test(
+                motDePasse
+            );
+
+
+        const passwordHasNumber =
+            /\d/.test(
+                motDePasse
+            );
+
+
+        if (
+            !passwordHasLetter ||
+            !passwordHasNumber
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Le mot de passe doit contenir au moins une lettre et un chiffre"
+            });
+
+
+            return;
+        }
+
+
+        /* ==================================================
+           HASH DU TOKEN REÇU
+        ================================================== */
+
+        const tokenHash =
+            crypto
+                .createHash("sha256")
+                .update(token)
+                .digest("hex");
+
+
+        /* ==================================================
+           RECHERCHE DU TOKEN
+        ================================================== */
+
+        database.query(
+            `
+                SELECT
+                    id,
+                    utilisateur_type,
+                    utilisateur_id,
+                    date_expiration
+                FROM reinitialisation_mot_de_passe
+                WHERE token_hash = ?
+                LIMIT 1
+            `,
+            [tokenHash],
+            async (
+                tokenError,
+                resetTokens
+            ) =>
+            {
+                if (tokenError)
+                {
+                    console.error(
+                        tokenError
+                    );
+
+
+                    response.status(500).json({
+                        error:
+                            "Erreur serveur"
+                    });
+
+
+                    return;
+                }
+
+
+                /* ==========================================
+                   TOKEN INTROUVABLE
+                ========================================== */
+
+                if (resetTokens.length === 0)
+                {
+                    response.status(400).json({
+                        error:
+                            "Lien de réinitialisation invalide ou expiré"
+                    });
+
+
+                    return;
+                }
+
+
+                const resetData =
+                    resetTokens[0];
+
+
+                /* ==========================================
+                   VÉRIFICATION DE L'EXPIRATION
+                ========================================== */
+
+                if (
+                    new Date(
+                        resetData.date_expiration
+                    ).getTime() <= Date.now()
+                )
+                {
+                    database.query(
+                        `
+                            DELETE FROM reinitialisation_mot_de_passe
+                            WHERE id = ?
+                        `,
+                        [resetData.id],
+                        (deleteExpiredError) =>
+                        {
+                            if (deleteExpiredError)
+                            {
+                                console.error(
+                                    deleteExpiredError
+                                );
+                            }
+                        }
+                    );
+
+
+                    response.status(400).json({
+                        error:
+                            "Lien de réinitialisation invalide ou expiré"
+                    });
+
+
+                    return;
+                }
+
+
+                /* ==========================================
+                   VÉRIFICATION DU TYPE D'UTILISATEUR
+                ========================================== */
+
+                if (
+                    resetData.utilisateur_type !== "eleve" &&
+                    resetData.utilisateur_type !== "professeur"
+                )
+                {
+                    response.status(400).json({
+                        error:
+                            "Lien de réinitialisation invalide ou expiré"
+                    });
+
+
+                    return;
+                }
+
+
+                /* ==========================================
+                   HASH DU NOUVEAU MOT DE PASSE
+                ========================================== */
+
+                let passwordHash;
+
+
+                try
+                {
+                    passwordHash =
+                        await bcrypt.hash(
+                            motDePasse,
+                            10
+                        );
+                }
+                catch (error)
+                {
+                    console.error(
+                        error
+                    );
+
+
+                    response.status(500).json({
+                        error:
+                            "Erreur serveur"
+                    });
+
+
+                    return;
+                }
+
+
+                /* ==========================================
+                   TABLE À MODIFIER
+                ========================================== */
+
+                const tableName =
+                    resetData.utilisateur_type === "eleve"
+                        ? "eleve"
+                        : "professeur";
+
+
+                /* ==========================================
+                   MODIFICATION DU MOT DE PASSE
+                ========================================== */
+
+                database.query(
+                    `
+                        UPDATE ${tableName}
+                        SET mot_de_passe = ?
+                        WHERE id = ?
+                    `,
+                    [
+                        passwordHash,
+                        resetData.utilisateur_id
+                    ],
+                    (
+                        updateError,
+                        updateResult
+                    ) =>
+                    {
+                        if (updateError)
+                        {
+                            console.error(
+                                updateError
+                            );
+
+
+                            response.status(500).json({
+                                error:
+                                    "Erreur serveur"
+                            });
+
+
+                            return;
+                        }
+
+
+                        if (updateResult.affectedRows === 0)
+                        {
+                            response.status(400).json({
+                                error:
+                                    "Lien de réinitialisation invalide ou expiré"
+                            });
+
+
+                            return;
+                        }
+
+
+                        /* ==================================
+                           SUPPRESSION DU TOKEN UTILISÉ
+                        ================================== */
+
+                        database.query(
+                            `
+                                DELETE FROM reinitialisation_mot_de_passe
+                                WHERE utilisateur_type = ?
+                                AND utilisateur_id = ?
+                            `,
+                            [
+                                resetData.utilisateur_type,
+                                resetData.utilisateur_id
+                            ],
+                            (deleteError) =>
+                            {
+                                if (deleteError)
+                                {
+                                    console.error(
+                                        deleteError
+                                    );
+
+
+                                    response.status(500).json({
+                                        error:
+                                            "Erreur serveur"
+                                    });
+
+
+                                    return;
+                                }
+
+
+                                response.json({
+                                    message:
+                                        "Mot de passe réinitialisé avec succès"
+                                });
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    }
+);
 
 /* ==========================================================
    EXPORT

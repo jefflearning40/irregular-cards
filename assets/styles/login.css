@@ -1,5 +1,5 @@
 /* ==========================================================
-   MODALE DE CONNEXION
+   MODALES DE CONNEXION
 ========================================================== */
 
 .login-modal {
@@ -123,10 +123,11 @@
 
 
 /* ==========================================================
-   FORMULAIRE
+   FORMULAIRES
 ========================================================== */
 
-#login-form {
+#login-form,
+#forgot-password-form {
     position: relative;
 }
 
@@ -205,7 +206,7 @@
 
 
 /* ==========================================================
-   MESSAGE D'ERREUR
+   MESSAGE
 ========================================================== */
 
 .login-error {
@@ -226,7 +227,7 @@
 
 
 /* ==========================================================
-   BOUTON CONNEXION
+   BOUTON PRINCIPAL
 ========================================================== */
 
 .login-button {
@@ -299,6 +300,55 @@
     cursor: not-allowed;
 
     transform: none;
+}
+
+
+/* ==========================================================
+   MOT DE PASSE OUBLIÉ / RETOUR CONNEXION
+========================================================== */
+
+.login-forgot-password {
+    display: block;
+
+    margin: 20px auto 0;
+    padding: 4px 8px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--postcard-blue);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 0.9rem;
+    font-weight: 700;
+
+    text-decoration: underline;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.login-forgot-password:hover {
+    color: var(--postcard-red);
+
+    transform: translateY(-1px);
+}
+
+.login-forgot-password:focus-visible {
+    outline:
+        2px
+        solid
+        var(--postcard-blue);
+
+    outline-offset: 3px;
 }
 
 
@@ -409,6 +459,10 @@
 
     .login-button {
         width: 100%;
+    }
+
+    .login-forgot-password {
+        font-size: 0.85rem;
     }
 
     .logout-button {
