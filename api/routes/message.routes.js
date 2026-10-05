@@ -37,7 +37,204 @@ const rolesAutorises = [
     "eleve"
 ];
 
+/* ==========================================================
+   DESTINATAIRES AUTORISÉS
+========================================================== */
 
+router.get(
+    "/destinataires",
+    verifyToken,
+    (request, response) =>
+    {
+        const utilisateurId =
+            request.user.id;
+
+        const utilisateurRole =
+            request.user.role;
+
+
+        if (
+            !rolesAutorises.includes(
+                utilisateurRole
+            )
+        )
+        {
+            response.status(403).json({
+                error:
+                    "Rôle utilisateur non autorisé"
+            });
+
+            return;
+        }
+
+
+        if (
+            utilisateurRole ===
+            "administrateur"
+        )
+        {
+            database.query(
+                `
+                    SELECT
+                        id,
+                        nom,
+                        prenom,
+                        email,
+                        'professeur' AS type
+
+                    FROM professeur
+
+                    ORDER BY
+                        nom ASC,
+                        prenom ASC
+                `,
+                (
+                    error,
+                    destinataires
+                ) =>
+                {
+                    if (error)
+                    {
+                        console.error(
+                            "Erreur récupération destinataires :",
+                            error
+                        );
+
+                        response.status(500).json({
+                            error:
+                                "Erreur serveur"
+                        });
+
+                        return;
+                    }
+
+
+                    response.json(
+                        destinataires
+                    );
+                }
+            );
+
+            return;
+        }
+
+
+        if (
+            utilisateurRole ===
+            "eleve"
+        )
+        {
+            database.query(
+                `
+                    SELECT
+                        professeur.id,
+                        professeur.nom,
+                        professeur.prenom,
+                        professeur.email,
+                        'professeur' AS type
+
+                    FROM eleve
+
+                    INNER JOIN professeur
+                        ON professeur.id =
+                            eleve.professeur_id
+
+                    WHERE eleve.id = ?
+                `,
+                [
+                    utilisateurId
+                ],
+                (
+                    error,
+                    destinataires
+                ) =>
+                {
+                    if (error)
+                    {
+                        console.error(
+                            "Erreur récupération destinataires :",
+                            error
+                        );
+
+                        response.status(500).json({
+                            error:
+                                "Erreur serveur"
+                        });
+
+                        return;
+                    }
+
+
+                    response.json(
+                        destinataires
+                    );
+                }
+            );
+
+            return;
+        }
+
+
+        database.query(
+            `
+                SELECT
+                    id,
+                    nom,
+                    prenom,
+                    email,
+                    'administrateur' AS type
+
+                FROM administrateur
+
+                UNION ALL
+
+                SELECT
+                    id,
+                    nom,
+                    prenom,
+                    email,
+                    'eleve' AS type
+
+                FROM eleve
+
+                WHERE professeur_id = ?
+
+                ORDER BY
+                    type ASC,
+                    nom ASC,
+                    prenom ASC
+            `,
+            [
+                utilisateurId
+            ],
+            (
+                error,
+                destinataires
+            ) =>
+            {
+                if (error)
+                {
+                    console.error(
+                        "Erreur récupération destinataires :",
+                        error
+                    );
+
+                    response.status(500).json({
+                        error:
+                            "Erreur serveur"
+                    });
+
+                    return;
+                }
+
+
+                response.json(
+                    destinataires
+                );
+            }
+        );
+    }
+);
 /* ==========================================================
    MESSAGES REÇUS PAR L'UTILISATEUR CONNECTÉ
 ========================================================== */

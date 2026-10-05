@@ -1611,128 +1611,157 @@
                     </div>
 
 
-                    <!-- =================================
-                         GESTION DU PROFESSEUR
-                    ================================== -->
+                  <!-- =================================
+     GESTION DU PROFESSEUR
+================================== -->
 
-                    <div
-                        id="admin-teacher-management"
-                        hidden
-                    >
+<div
+    id="admin-teacher-management"
+    hidden
+>
 
-                        <div class="admin-block-header">
+    <div class="admin-block-header">
 
-                            <h2 class="admin-view__title">
-                                &gt; GESTION DU PROFESSEUR
-                            </h2>
+        <h2 class="admin-view__title">
+            &gt; GESTION DU PROFESSEUR
+        </h2>
 
-                            <button
-                                id="admin-teacher-back-button"
-                                class="admin-button"
-                                type="button"
-                            >
-                                &lt; RETOUR
-                            </button>
+        <button
+            id="admin-teacher-back-button"
+            class="admin-button"
+            type="button"
+        >
+            &lt; RETOUR
+        </button>
 
-                        </div>
-
-
-                        <!-- =============================
-                             INFORMATIONS PROFESSEUR
-                        ============================== -->
-
-                        <div class="admin-system-info">
-
-                            <p>
-                                ID ..............
-                                <span id="admin-selected-teacher-id">
-                                    -
-                                </span>
-                            </p>
-
-                            <p>
-                                NOM .............
-                                <span id="admin-selected-teacher-name">
-                                    -
-                                </span>
-                            </p>
-
-                            <p>
-                                EMAIL ...........
-                                <span id="admin-selected-teacher-email">
-                                    -
-                                </span>
-                            </p>
-
-                            <p>
-                                ELEVES ..........
-                                <span id="admin-selected-teacher-student-count">
-                                    -
-                                </span>
-                            </p>
-
-                        </div>
+    </div>
 
 
-                        <!-- =============================
-                             LISTE DES ÉLÈVES RATTACHÉS
-                        ============================== -->
+    <!-- =============================
+         INFORMATIONS PROFESSEUR
+    ============================== -->
 
-                        <div class="admin-dashboard-block">
+    <div class="admin-system-info">
 
-                            <div class="admin-block-header">
+        <p>
+            ID ..............
+            <span id="admin-selected-teacher-id">
+                -
+            </span>
+        </p>
 
-                                <h3>
-                                    &gt; ELEVES RATTACHES
-                                </h3>
+        <p>
+            NOM .............
+            <span id="admin-selected-teacher-name">
+                -
+            </span>
+        </p>
 
-                                <button
-                                    id="admin-transfer-all-button"
-                                    class="admin-button"
-                                    type="button"
-                                    disabled
-                                >
-                                    TRANSFERER TOUS LES ELEVES
-                                </button>
+        <p>
+            EMAIL ...........
+            <span id="admin-selected-teacher-email">
+                -
+            </span>
+        </p>
 
-                            </div>
+        <p>
+            ELEVES ..........
+            <span id="admin-selected-teacher-student-count">
+                -
+            </span>
+        </p>
+
+    </div>
 
 
-                            <div class="admin-table-wrapper">
+    <!-- =============================
+         ACTIONS
+    ============================== -->
 
-                                <table class="admin-table">
+    <div class="admin-dashboard-block">
 
-                                    <thead>
+        <div class="admin-block-header">
 
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>NOM</th>
-                                            <th>PRENOM</th>
-                                            <th>EMAIL</th>
-                                            <th>ACTION</th>
-                                        </tr>
+            <h3>
+                &gt; ACTIONS
+            </h3>
 
-                                    </thead>
+        </div>
 
-                                    <tbody id="admin-teacher-student-table-body">
+        <div class="admin-student-actions">
 
-                                        <tr>
+            <button
+                id="admin-teacher-edit-button"
+                class="admin-button"
+                type="button"
+            >
+                MODIFIER
+            </button>
 
-                                            <td colspan="5">
-                                                &gt; SELECTIONNEZ UN PROFESSEUR...
-                                            </td>
+        </div>
 
-                                        </tr>
+    </div>
 
-                                    </tbody>
 
-                                </table>
+    <!-- =============================
+         LISTE DES ÉLÈVES RATTACHÉS
+    ============================== -->
 
-                            </div>
+    <div class="admin-dashboard-block">
 
-                        </div>
+        <div class="admin-block-header">
 
-                    </div>
+            <h3>
+                &gt; ELEVES RATTACHES
+            </h3>
+
+            <button
+                id="admin-transfer-all-button"
+                class="admin-button"
+                type="button"
+                disabled
+            >
+                TRANSFERER TOUS LES ELEVES
+            </button>
+
+        </div>
+
+
+        <div class="admin-table-wrapper">
+
+            <table class="admin-table">
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>NOM</th>
+                        <th>PRENOM</th>
+                        <th>EMAIL</th>
+                        <th>ACTION</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="admin-teacher-student-table-body">
+
+                    <tr>
+
+                        <td colspan="5">
+                            &gt; SELECTIONNEZ UN PROFESSEUR...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
 
                 </section>
 
@@ -1878,6 +1907,14 @@
                     type="button"
                 >
                     TRANSFERER
+                </button>
+
+                <button
+                    id="admin-student-edit-button"
+                    class="admin-button"
+                    type="button"
+                >
+                    MODIFIER
                 </button>
 
                 <button
@@ -2061,6 +2098,213 @@
             </button>
 
         </div>
+
+    </div>
+</div>
+<!-- =====================================================
+     MODALE MODIFICATION D'UN ÉLÈVE
+====================================================== -->
+
+<div
+    class="admin-transfer-modal"
+    id="admin-edit-student-modal"
+    aria-hidden="true"
+>
+    <div class="admin-transfer-modal__content">
+
+        <div class="admin-transfer-modal__header">
+
+            <h3 id="admin-edit-student-modal-title">
+                MODIFIER L'ÉLÈVE
+            </h3>
+
+            <button
+                class="admin-transfer-modal__close"
+                id="admin-edit-student-close-button"
+                type="button"
+                aria-label="Fermer"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <form id="admin-edit-student-form">
+
+            <div class="admin-transfer-field">
+
+                <label for="admin-edit-student-name">
+                    NOM
+                </label>
+
+                <input
+                    id="admin-edit-student-name"
+                    type="text"
+                    required
+                >
+
+            </div>
+
+            <div class="admin-transfer-field">
+
+                <label for="admin-edit-student-firstname">
+                    PRÉNOM
+                </label>
+
+                <input
+                    id="admin-edit-student-firstname"
+                    type="text"
+                    required
+                >
+
+            </div>
+
+            <div class="admin-transfer-field">
+
+                <label for="admin-edit-student-email">
+                    EMAIL
+                </label>
+
+                <input
+                    id="admin-edit-student-email"
+                    type="email"
+                    required
+                >
+
+            </div>
+
+            <p
+                class="admin-transfer-message"
+                id="admin-edit-student-message"
+            ></p>
+
+            <div class="admin-transfer-actions">
+
+                <button
+                    class="admin-button"
+                    id="admin-edit-student-cancel-button"
+                    type="button"
+                >
+                    ANNULER
+                </button>
+
+                <button
+                    class="admin-button"
+                    id="admin-edit-student-confirm-button"
+                    type="submit"
+                >
+                    ENREGISTRER
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+<!-- =====================================================
+     MODALE MODIFICATION D'UN PROFESSEUR
+====================================================== -->
+
+<div
+    class="admin-transfer-modal"
+    id="admin-edit-teacher-modal"
+    aria-hidden="true"
+>
+    <div class="admin-transfer-modal__content">
+
+        <div class="admin-transfer-modal__header">
+
+            <h3 id="admin-edit-teacher-modal-title">
+                MODIFIER LE PROFESSEUR
+            </h3>
+
+            <button
+                class="admin-transfer-modal__close"
+                id="admin-edit-teacher-close-button"
+                type="button"
+                aria-label="Fermer"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="admin-edit-teacher-form">
+
+            <div class="admin-transfer-field">
+
+                <label for="admin-edit-teacher-name">
+                    NOM
+                </label>
+
+                <input
+                    id="admin-edit-teacher-name"
+                    type="text"
+                    required
+                >
+
+            </div>
+
+
+            <div class="admin-transfer-field">
+
+                <label for="admin-edit-teacher-firstname">
+                    PRÉNOM
+                </label>
+
+                <input
+                    id="admin-edit-teacher-firstname"
+                    type="text"
+                    required
+                >
+
+            </div>
+
+
+            <div class="admin-transfer-field">
+
+                <label for="admin-edit-teacher-email">
+                    EMAIL
+                </label>
+
+                <input
+                    id="admin-edit-teacher-email"
+                    type="email"
+                    required
+                >
+
+            </div>
+
+
+            <p
+                class="admin-transfer-message"
+                id="admin-edit-teacher-message"
+            ></p>
+
+
+            <div class="admin-transfer-actions">
+
+                <button
+                    class="admin-button"
+                    id="admin-edit-teacher-cancel-button"
+                    type="button"
+                >
+                    ANNULER
+                </button>
+
+                <button
+                    class="admin-button"
+                    id="admin-edit-teacher-confirm-button"
+                    type="submit"
+                >
+                    ENREGISTRER
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 </div>

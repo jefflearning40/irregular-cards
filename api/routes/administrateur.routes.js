@@ -340,16 +340,30 @@ router.post(
 
         database.query(
             `
-                SELECT id
+                SELECT email
                 FROM professeur
+                WHERE email = ?
+
+                UNION ALL
+
+                SELECT email
+                FROM eleve
+                WHERE email = ?
+
+                UNION ALL
+
+                SELECT email
+                FROM administrateur
                 WHERE email = ?
             `,
             [
+                email,
+                email,
                 email
             ],
             async (
                 emailError,
-                existingTeachers
+                existingAccounts
             ) =>
             {
                 if (emailError)
@@ -370,7 +384,7 @@ router.post(
 
 
                 if (
-                    existingTeachers.length > 0
+                    existingAccounts.length > 0
                 )
                 {
                     response.status(409).json({
@@ -482,6 +496,364 @@ router.post(
     }
 );
 
+
+/* ==========================================================
+   MODIFICATION D'UN PROFESSEUR
+========================================================== */
+
+router.put(
+    "/professeurs/:professeurId",
+    verifyToken,
+    requireAdmin,
+    (request, response) =>
+    {
+        const professeurId =
+            Number(
+                request.params.professeurId
+            );
+
+
+        let {
+            nom,
+            prenom,
+            email
+        } = request.body;
+
+
+        /* ==================================================
+           VALIDATION DE L'IDENTIFIANT
+        ================================================== */
+
+        if (
+            !Number.isInteger(
+                professeurId
+            ) ||
+            professeurId <= 0
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Identifiant professeur invalide"
+            });
+
+            return;
+        }
+
+
+        /* ==================================================
+           CHAMPS OBLIGATOIRES
+        ================================================== */
+
+        if (
+            typeof nom !== "string" ||
+            typeof prenom !== "string" ||
+            typeof email !== "string"
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Nom, prénom et adresse e-mail obligatoires"
+            });
+
+            return;
+        }
+
+
+        nom =
+            nom.trim();
+
+        prenom =
+            prenom.trim();
+
+        email =
+            email
+                .trim()
+                .toLowerCase();
+
+
+        if (
+            !nom ||
+            !prenom ||
+            !email
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Nom, prénom et adresse e-mail obligatoires"
+            });
+
+            return;
+        }
+
+
+        /* ==================================================
+           VALIDATION DU NOM
+        ================================================== */
+
+        if (
+            nom.length < 2 ||
+            nom.length > 50
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Nom invalide : entre 2 et 50 caractères"
+            });
+
+            return;
+        }
+
+
+        if (
+            !namePattern.test(
+                nom
+            )
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Nom invalide : lettres, espaces, apostrophes et tirets uniquement"
+            });
+
+            return;
+        }
+
+
+        /* ==================================================
+           VALIDATION DU PRÉNOM
+        ================================================== */
+
+        if (
+            prenom.length < 2 ||
+            prenom.length > 50
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Prénom invalide : entre 2 et 50 caractères"
+            });
+
+            return;
+        }
+
+
+        if (
+            !namePattern.test(
+                prenom
+            )
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Prénom invalide : lettres, espaces, apostrophes et tirets uniquement"
+            });
+
+            return;
+        }
+
+
+        /* ==================================================
+           VALIDATION DE L'E-MAIL
+        ================================================== */
+
+        if (
+            email.length > 254 ||
+            !emailPattern.test(
+                email
+            )
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Adresse e-mail invalide"
+            });
+
+            return;
+        }
+
+
+        /* ==================================================
+           VÉRIFICATION DU PROFESSEUR
+        ================================================== */
+
+        database.query(
+            `
+                SELECT id
+
+                FROM professeur
+
+                WHERE id = ?
+            `,
+            [
+                professeurId
+            ],
+            (
+                teacherError,
+                teachers
+            ) =>
+            {
+                if (teacherError)
+                {
+                    console.error(
+                        teacherError
+                    );
+
+                    response.status(500).json({
+                        error:
+                            "Erreur serveur"
+                    });
+
+                    return;
+                }
+
+
+                if (
+                    teachers.length === 0
+                )
+                {
+                    response.status(404).json({
+                        error:
+                            "Professeur introuvable"
+                    });
+
+                    return;
+                }
+
+
+                /* ==========================================
+                   VÉRIFICATION DE L'ADRESSE E-MAIL
+                ========================================== */
+
+                database.query(
+                    `
+                        SELECT id
+
+                        FROM professeur
+
+                        WHERE email = ?
+                        AND id <> ?
+
+                        UNION ALL
+
+                        SELECT id
+
+                        FROM eleve
+
+                        WHERE email = ?
+
+                        UNION ALL
+
+                        SELECT id
+
+                        FROM administrateur
+
+                        WHERE email = ?
+                    `,
+                    [
+                        email,
+                        professeurId,
+                        email,
+                        email
+                    ],
+                    (
+                        emailError,
+                        existingTeachers
+                    ) =>
+                    {
+                        if (emailError)
+                        {
+                            console.error(
+                                emailError
+                            );
+
+                            response.status(500).json({
+                                error:
+                                    "Erreur serveur"
+                            });
+
+                            return;
+                        }
+
+
+                        if (
+                            existingTeachers.length > 0
+                        )
+                        {
+                            response.status(409).json({
+                                error:
+                                    "Cette adresse e-mail est déjà utilisée"
+                            });
+
+                            return;
+                        }
+
+
+                        /* ==================================
+                           MODIFICATION DU PROFESSEUR
+                        ================================== */
+
+                        database.query(
+                            `
+                                UPDATE professeur
+
+                                SET
+                                    nom = ?,
+                                    prenom = ?,
+                                    email = ?
+
+                                WHERE id = ?
+                            `,
+                            [
+                                nom,
+                                prenom,
+                                email,
+                                professeurId
+                            ],
+                            (
+                                updateError
+                            ) =>
+                            {
+                                if (updateError)
+                                {
+                                    console.error(
+                                        updateError
+                                    );
+
+                                    response.status(500).json({
+                                        error:
+                                            "Erreur serveur"
+                                    });
+
+                                    return;
+                                }
+
+
+                                response.status(200).json({
+                                    message:
+                                        "Professeur modifié avec succès",
+
+                                    professeur: {
+                                        id:
+                                            professeurId,
+
+                                        nom:
+                                            nom,
+
+                                        prenom:
+                                            prenom,
+
+                                        email:
+                                            email
+                                    }
+                                });
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    }
+);
 /* ==========================================================
    LISTE GLOBALE DES ÉLÈVES
 ========================================================== */
@@ -540,6 +912,368 @@ router.get(
         );
     }
 );
+
+
+/* ==========================================================
+   MODIFICATION D'UN ÉLÈVE
+========================================================== */
+
+router.put(
+    "/eleves/:eleveId",
+    verifyToken,
+    requireAdmin,
+    (request, response) =>
+    {
+        const eleveId =
+            Number(
+                request.params.eleveId
+            );
+
+
+        let {
+            nom,
+            prenom,
+            email
+        } = request.body;
+
+
+        /* ==================================================
+           VALIDATION DE L'IDENTIFIANT
+        ================================================== */
+
+        if (
+            !Number.isInteger(
+                eleveId
+            ) ||
+            eleveId <= 0
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Identifiant élève invalide"
+            });
+
+            return;
+        }
+
+
+        /* ==================================================
+           CHAMPS OBLIGATOIRES
+        ================================================== */
+
+        if (
+            typeof nom !== "string" ||
+            typeof prenom !== "string" ||
+            typeof email !== "string"
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Nom, prénom et adresse e-mail obligatoires"
+            });
+
+            return;
+        }
+
+
+        nom =
+            nom.trim();
+
+        prenom =
+            prenom.trim();
+
+        email =
+            email
+                .trim()
+                .toLowerCase();
+
+
+        if (
+            !nom ||
+            !prenom ||
+            !email
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Nom, prénom et adresse e-mail obligatoires"
+            });
+
+            return;
+        }
+
+
+        /* ==================================================
+           VALIDATION DU NOM
+        ================================================== */
+
+        if (
+            nom.length < 2 ||
+            nom.length > 50
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Nom invalide : entre 2 et 50 caractères"
+            });
+
+            return;
+        }
+
+
+        if (
+            !namePattern.test(
+                nom
+            )
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Nom invalide : lettres, espaces, apostrophes et tirets uniquement"
+            });
+
+            return;
+        }
+
+
+        /* ==================================================
+           VALIDATION DU PRÉNOM
+        ================================================== */
+
+        if (
+            prenom.length < 2 ||
+            prenom.length > 50
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Prénom invalide : entre 2 et 50 caractères"
+            });
+
+            return;
+        }
+
+
+        if (
+            !namePattern.test(
+                prenom
+            )
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Prénom invalide : lettres, espaces, apostrophes et tirets uniquement"
+            });
+
+            return;
+        }
+
+
+        /* ==================================================
+           VALIDATION DE L'E-MAIL
+        ================================================== */
+
+        if (
+            email.length > 254 ||
+            !emailPattern.test(
+                email
+            )
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Adresse e-mail invalide"
+            });
+
+            return;
+        }
+
+
+        /* ==================================================
+           VÉRIFICATION DE L'ÉLÈVE
+        ================================================== */
+
+        database.query(
+            `
+                SELECT
+                    id
+
+                FROM eleve
+
+                WHERE id = ?
+            `,
+            [
+                eleveId
+            ],
+            (
+                studentError,
+                students
+            ) =>
+            {
+                if (studentError)
+                {
+                    console.error(
+                        studentError
+                    );
+
+                    response.status(500).json({
+                        error:
+                            "Erreur serveur"
+                    });
+
+                    return;
+                }
+
+
+                if (
+                    students.length === 0
+                )
+                {
+                    response.status(404).json({
+                        error:
+                            "Élève introuvable"
+                    });
+
+                    return;
+                }
+
+
+                /* ==========================================
+                   VÉRIFICATION DE L'ADRESSE E-MAIL
+                ========================================== */
+
+                database.query(
+                    `
+                        SELECT id
+
+                        FROM eleve
+
+                        WHERE email = ?
+                        AND id <> ?
+
+                        UNION ALL
+
+                        SELECT id
+
+                        FROM professeur
+
+                        WHERE email = ?
+
+                        UNION ALL
+
+                        SELECT id
+
+                        FROM administrateur
+
+                        WHERE email = ?
+                    `,
+                    [
+                        email,
+                        eleveId,
+                        email,
+                        email
+                    ],
+                    (
+                        emailError,
+                        existingStudents
+                    ) =>
+                    {
+                        if (emailError)
+                        {
+                            console.error(
+                                emailError
+                            );
+
+                            response.status(500).json({
+                                error:
+                                    "Erreur serveur"
+                            });
+
+                            return;
+                        }
+
+
+                        if (
+                            existingStudents.length > 0
+                        )
+                        {
+                            response.status(409).json({
+                                error:
+                                    "Cette adresse e-mail est déjà utilisée"
+                            });
+
+                            return;
+                        }
+
+
+                        /* ==================================
+                           MODIFICATION DE L'ÉLÈVE
+                        ================================== */
+
+                        database.query(
+                            `
+                                UPDATE eleve
+
+                                SET
+                                    nom = ?,
+                                    prenom = ?,
+                                    email = ?
+
+                                WHERE id = ?
+                            `,
+                            [
+                                nom,
+                                prenom,
+                                email,
+                                eleveId
+                            ],
+                            (
+                                updateError
+                            ) =>
+                            {
+                                if (updateError)
+                                {
+                                    console.error(
+                                        updateError
+                                    );
+
+                                    response.status(500).json({
+                                        error:
+                                            "Erreur serveur"
+                                    });
+
+                                    return;
+                                }
+
+
+                                response.status(200).json({
+                                    message:
+                                        "Élève modifié avec succès",
+
+                                    eleve: {
+                                        id:
+                                            eleveId,
+
+                                        nom:
+                                            nom,
+
+                                        prenom:
+                                            prenom,
+
+                                        email:
+                                            email
+                                    }
+                                });
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    }
+);
+
+
 /* ==========================================================
    LISTE DES ÉLÈVES D'UN PROFESSEUR
 ========================================================== */
@@ -1354,9 +2088,7 @@ router.delete(
                                                         }
                                                     }
                                                 );
-
-
-                                                document.on(
+                                                                                                document.on(
                                                     "error",
                                                     (pdfError) =>
                                                     {
@@ -1696,6 +2428,8 @@ router.delete(
         );
     }
 );
+
+
 /* ==========================================================
    TRANSFERT D'UN ÉLÈVE VERS UN AUTRE PROFESSEUR
 ========================================================== */
@@ -1716,10 +2450,6 @@ router.put(
                 request.body.nouveau_professeur_id
             );
 
-
-        /* ==================================================
-           VALIDATION DES IDENTIFIANTS
-        ================================================== */
 
         if (
             !Number.isInteger(eleveId) ||
@@ -1748,10 +2478,6 @@ router.put(
             return;
         }
 
-
-        /* ==================================================
-           VÉRIFICATION DE L'ÉLÈVE
-        ================================================== */
 
         database.query(
             `
@@ -1801,14 +2527,6 @@ router.put(
                 }
 
 
-                const student =
-                    students[0];
-
-
-                /* ==========================================
-                   VÉRIFICATION DU NOUVEAU PROFESSEUR
-                ========================================== */
-
                 database.query(
                     `
                         SELECT
@@ -1856,27 +2574,9 @@ router.put(
                         }
 
 
-                        if (
-                            student.professeur_id ===
-                            nouveauProfesseurId
-                        )
-                        {
-                            response.status(400).json({
-                                error:
-                                    "L'élève est déjà rattaché à ce professeur"
-                            });
-
-                            return;
-                        }
-
-
                         const teacher =
                             teachers[0];
 
-
-                        /* ==================================
-                           TRANSFERT
-                        ================================== */
 
                         database.query(
                             `
@@ -1890,7 +2590,9 @@ router.put(
                                 nouveauProfesseurId,
                                 eleveId
                             ],
-                            (updateError) =>
+                            (
+                                updateError
+                            ) =>
                             {
                                 if (updateError)
                                 {
@@ -1911,17 +2613,6 @@ router.put(
                                     message:
                                         "Élève transféré avec succès",
 
-                                    eleve: {
-                                        id:
-                                            student.id,
-
-                                        nom:
-                                            student.nom,
-
-                                        prenom:
-                                            student.prenom
-                                    },
-
                                     nouveau_professeur: {
                                         id:
                                             teacher.id,
@@ -1941,12 +2632,14 @@ router.put(
         );
     }
 );
+
+
 /* ==========================================================
    TRANSFERT DE PLUSIEURS ÉLÈVES
 ========================================================== */
 
 router.put(
-    "/eleves/transfert-groupe",
+    "/eleves/transfert-multiple",
     verifyToken,
     requireAdmin,
     (request, response) =>
@@ -1962,10 +2655,6 @@ router.put(
                 nouveau_professeur_id
             );
 
-
-        /* ==================================================
-           VALIDATION DES ÉLÈVES
-        ================================================== */
 
         if (
             !Array.isArray(eleve_ids) ||
@@ -2007,10 +2696,6 @@ router.put(
         }
 
 
-        /* ==================================================
-           VALIDATION DU PROFESSEUR
-        ================================================== */
-
         if (
             !Number.isInteger(
                 nouveauProfesseurId
@@ -2026,10 +2711,6 @@ router.put(
             return;
         }
 
-
-        /* ==================================================
-           VÉRIFICATION DU PROFESSEUR
-        ================================================== */
 
         database.query(
             `
@@ -2082,10 +2763,6 @@ router.put(
                     teachers[0];
 
 
-                /* ==========================================
-                   VÉRIFICATION DES ÉLÈVES
-                ========================================== */
-
                 const placeholders =
                     eleveIds
                         .map(
@@ -2136,10 +2813,6 @@ router.put(
                             return;
                         }
 
-
-                        /* ==================================
-                           TRANSFERT
-                        ================================== */
 
                         database.query(
                             `
@@ -2199,6 +2872,8 @@ router.put(
         );
     }
 );
+
+
 /* ==========================================================
    SUPPRESSION D'UN PROFESSEUR
 ========================================================== */
@@ -2215,10 +2890,6 @@ router.delete(
             );
 
 
-        /* ==================================================
-           VALIDATION DE L'IDENTIFIANT
-        ================================================== */
-
         if (
             !Number.isInteger(
                 professeurId
@@ -2234,10 +2905,6 @@ router.delete(
             return;
         }
 
-
-        /* ==================================================
-           VÉRIFICATION DU PROFESSEUR
-        ================================================== */
 
         database.query(
             `
@@ -2291,10 +2958,6 @@ router.delete(
                     teachers[0];
 
 
-                /* ==========================================
-                   VÉRIFICATION DES ÉLÈVES
-                ========================================== */
-
                 database.query(
                     `
                         SELECT COUNT(*) AS nombre_eleves
@@ -2332,10 +2995,6 @@ router.delete(
                             );
 
 
-                        /* ==================================
-                           SUPPRESSION REFUSÉE
-                        ================================== */
-
                         if (
                             nombreEleves > 0
                         )
@@ -2351,10 +3010,6 @@ router.delete(
                             return;
                         }
 
-
-                        /* ==================================
-                           SUPPRESSION DU PROFESSEUR
-                        ================================== */
 
                         database.query(
                             `
@@ -2408,6 +3063,8 @@ router.delete(
         );
     }
 );
+
+
 /* ==========================================================
    TRANSFERT COMPLET D'UNE CLASSE
 ========================================================== */
@@ -2428,10 +3085,6 @@ router.put(
                 request.body.nouveau_professeur_id
             );
 
-
-        /* ==================================================
-           VALIDATION DES IDENTIFIANTS
-        ================================================== */
 
         if (
             !Number.isInteger(
@@ -2465,10 +3118,6 @@ router.put(
         }
 
 
-        /* ==================================================
-           PROFESSEURS IDENTIQUES
-        ================================================== */
-
         if (
             ancienProfesseurId ===
             nouveauProfesseurId
@@ -2482,10 +3131,6 @@ router.put(
             return;
         }
 
-
-        /* ==================================================
-           VÉRIFICATION DE L'ANCIEN PROFESSEUR
-        ================================================== */
 
         database.query(
             `
@@ -2538,10 +3183,6 @@ router.put(
                     oldTeachers[0];
 
 
-                /* ==========================================
-                   VÉRIFICATION DU NOUVEAU PROFESSEUR
-                ========================================== */
-
                 database.query(
                     `
                         SELECT
@@ -2592,10 +3233,6 @@ router.put(
                         const newTeacher =
                             newTeachers[0];
 
-
-                        /* ==================================
-                           TRANSFERT DE TOUS LES ÉLÈVES
-                        ================================== */
 
                         database.query(
                             `
@@ -2666,6 +3303,7 @@ router.put(
         );
     }
 );
+
 
 /* ==========================================================
    EXPORT

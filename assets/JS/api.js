@@ -1466,7 +1466,266 @@ async function getAdminStudentArchive(
 
     return await response.json();
 }
+/* ==========================================================
+   MODIFICATION D'UN ÉLÈVE
+   PAR L'ADMINISTRATEUR
+========================================================== */
 
+async function updateAdminStudent(
+    studentId,
+    nom,
+    prenom,
+    email
+)
+{
+    if (
+        !apiToken ||
+        currentRole !== "administrateur"
+    )
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/administrateur/eleves/${studentId}`,
+                {
+                    method:
+                        "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    },
+
+                    body:
+                        JSON.stringify({
+                            nom:
+                                nom,
+
+                            prenom:
+                                prenom,
+
+                            email:
+                                email
+                        })
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    let data = {};
+
+
+    try
+    {
+        data =
+            await response.json();
+    }
+    catch (error)
+    {
+        data = {};
+    }
+
+
+    if (
+        response.status === 401
+    )
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    if (
+        response.status === 403
+    )
+    {
+        throw new Error(
+            "FORBIDDEN"
+        );
+    }
+
+
+    if (
+        response.status === 404
+    )
+    {
+        throw new Error(
+            "STUDENT_NOT_FOUND"
+        );
+    }
+
+
+    if (
+        response.status === 409
+    )
+    {
+        throw new Error(
+            "EMAIL_ALREADY_USED"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            data.error ||
+            "UPDATE_STUDENT_ERROR"
+        );
+    }
+
+
+    return data;
+}
+/* ==========================================================
+   MODIFICATION D'UN PROFESSEUR
+   PAR L'ADMINISTRATEUR
+========================================================== */
+
+async function updateAdminTeacher(
+    teacherId,
+    nom,
+    prenom,
+    email
+)
+{
+    if (
+        !apiToken ||
+        currentRole !== "administrateur"
+    )
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/administrateur/professeurs/${teacherId}`,
+                {
+                    method:
+                        "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    },
+
+                    body:
+                        JSON.stringify({
+                            nom:
+                                nom,
+
+                            prenom:
+                                prenom,
+
+                            email:
+                                email
+                        })
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    let data = {};
+
+
+    try
+    {
+        data =
+            await response.json();
+    }
+    catch (error)
+    {
+        data = {};
+    }
+
+
+    if (
+        response.status === 401
+    )
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    if (
+        response.status === 403
+    )
+    {
+        throw new Error(
+            "FORBIDDEN"
+        );
+    }
+
+
+    if (
+        response.status === 404
+    )
+    {
+        throw new Error(
+            "TEACHER_NOT_FOUND"
+        );
+    }
+
+
+    if (
+        response.status === 409
+    )
+    {
+        throw new Error(
+            "EMAIL_ALREADY_USED"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            data.error ||
+            "UPDATE_TEACHER_ERROR"
+        );
+    }
+
+
+    return data;
+}
 
 /* ==========================================================
    SUPPRESSION D'UN ÉLÈVE

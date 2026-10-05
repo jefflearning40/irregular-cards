@@ -473,61 +473,48 @@ router.post(
 
 
             /* ==============================================
-               HACHAGE DU MOT DE PASSE
-            ============================================== */
-
-            const motDePasseHash =
-                await bcrypt.hash(
-                    motDePasse,
-                    12
-                );
-
-
-            /* ==============================================
-               ENREGISTREMENT
+               VÉRIFICATION DE L'E-MAIL
             ============================================== */
 
             database.query(
                 `
-                    INSERT INTO eleve
-                    (
-                        professeur_id,
-                        nom,
-                        prenom,
-                        email,
-                        mot_de_passe
-                    )
-                    VALUES (?, ?, ?, ?, ?)
+                    SELECT email
+
+                    FROM eleve
+
+                    WHERE email = ?
+
+                    UNION ALL
+
+                    SELECT email
+
+                    FROM professeur
+
+                    WHERE email = ?
+
+                    UNION ALL
+
+                    SELECT email
+
+                    FROM administrateur
+
+                    WHERE email = ?
                 `,
                 [
-                    professeurId,
-                    nom,
-                    prenom,
                     email,
-                    motDePasseHash
+                    email,
+                    email
                 ],
-                (error, result) =>
+                async (
+                    emailError,
+                    existingAccounts
+                ) =>
                 {
-                    if (error)
+                    if (emailError)
                     {
                         console.error(
-                            error
+                            emailError
                         );
-
-
-                        if (
-                            error.code ===
-                            "ER_DUP_ENTRY"
-                        )
-                        {
-                            response.status(409).json({
-                                error:
-                                    "Cette adresse email est déjà utilisée"
-                            });
-
-                            return;
-                        }
-
 
                         response.status(500).json({
                             error:
@@ -538,22 +525,103 @@ router.post(
                     }
 
 
-                    response.status(201).json({
-                        id:
-                            result.insertId,
+                    if (
+                        existingAccounts.length > 0
+                    )
+                    {
+                        response.status(409).json({
+                            error:
+                                "Cette adresse email est déjà utilisée"
+                        });
 
-                        professeur_id:
+                        return;
+                    }
+
+
+                    /* ==============================================
+                       HACHAGE DU MOT DE PASSE
+                    ============================================== */
+
+                    const motDePasseHash =
+                        await bcrypt.hash(
+                            motDePasse,
+                            12
+                        );
+
+
+                    /* ==============================================
+                       ENREGISTREMENT
+                    ============================================== */
+
+                    database.query(
+                        `
+                            INSERT INTO eleve
+                            (
+                                professeur_id,
+                                nom,
+                                prenom,
+                                email,
+                                mot_de_passe
+                            )
+                            VALUES (?, ?, ?, ?, ?)
+                        `,
+                        [
                             professeurId,
-
-                        nom:
                             nom,
-
-                        prenom:
                             prenom,
+                            email,
+                            motDePasseHash
+                        ],
+                        (error, result) =>
+                        {
+                            if (error)
+                            {
+                                console.error(
+                                    error
+                                );
 
-                        email:
-                            email
-                    });
+
+                                if (
+                                    error.code ===
+                                    "ER_DUP_ENTRY"
+                                )
+                                {
+                                    response.status(409).json({
+                                        error:
+                                            "Cette adresse email est déjà utilisée"
+                                    });
+
+                                    return;
+                                }
+
+
+                                response.status(500).json({
+                                    error:
+                                        "Erreur serveur"
+                                });
+
+                                return;
+                            }
+
+
+                            response.status(201).json({
+                                id:
+                                    result.insertId,
+
+                                professeur_id:
+                                    professeurId,
+
+                                nom:
+                                    nom,
+
+                                prenom:
+                                    prenom,
+
+                                email:
+                                    email
+                            });
+                        }
+                    );
                 }
             );
         }
@@ -665,47 +733,51 @@ router.put(
         }
 
 
+        /* ==============================================
+           VÉRIFICATION DE L'E-MAIL
+        ============================================== */
+
         database.query(
             `
-                UPDATE eleve
+                SELECT id
 
-                SET
-                    nom = ?,
-                    prenom = ?,
-                    email = ?
+                FROM eleve
 
-                WHERE id = ?
-                AND professeur_id = ?
+                WHERE email = ?
+                AND id <> ?
+
+                UNION ALL
+
+                SELECT id
+
+                FROM professeur
+
+                WHERE email = ?
+
+                UNION ALL
+
+                SELECT id
+
+                FROM administrateur
+
+                WHERE email = ?
             `,
             [
-                nom,
-                prenom,
                 email,
                 id,
-                professeurId
+                email,
+                email
             ],
-            (error, result) =>
+            (
+                emailError,
+                existingAccounts
+            ) =>
             {
-                if (error)
+                if (emailError)
                 {
                     console.error(
-                        error
+                        emailError
                     );
-
-
-                    if (
-                        error.code ===
-                        "ER_DUP_ENTRY"
-                    )
-                    {
-                        response.status(409).json({
-                            error:
-                                "Cette adresse email est déjà utilisée"
-                        });
-
-                        return;
-                    }
-
 
                     response.status(500).json({
                         error:
@@ -717,39 +789,104 @@ router.put(
 
 
                 if (
-                    result.affectedRows === 0
+                    existingAccounts.length > 0
                 )
                 {
-                    response.status(404).json({
+                    response.status(409).json({
                         error:
-                            "Élève introuvable"
+                            "Cette adresse email est déjà utilisée"
                     });
 
                     return;
                 }
 
 
-                response.json({
-                    id:
-                        Number(id),
+                database.query(
+                    `
+                        UPDATE eleve
 
-                    professeur_id:
-                        professeurId,
+                        SET
+                            nom = ?,
+                            prenom = ?,
+                            email = ?
 
-                    nom:
+                        WHERE id = ?
+                        AND professeur_id = ?
+                    `,
+                    [
                         nom,
-
-                    prenom:
                         prenom,
+                        email,
+                        id,
+                        professeurId
+                    ],
+                    (error, result) =>
+                    {
+                        if (error)
+                        {
+                            console.error(
+                                error
+                            );
 
-                    email:
-                        email
-                });
+
+                            if (
+                                error.code ===
+                                "ER_DUP_ENTRY"
+                            )
+                            {
+                                response.status(409).json({
+                                    error:
+                                        "Cette adresse email est déjà utilisée"
+                                });
+
+                                return;
+                            }
+
+
+                            response.status(500).json({
+                                error:
+                                    "Erreur serveur"
+                            });
+
+                            return;
+                        }
+
+
+                        if (
+                            result.affectedRows === 0
+                        )
+                        {
+                            response.status(404).json({
+                                error:
+                                    "Élève introuvable"
+                            });
+
+                            return;
+                        }
+
+
+                        response.json({
+                            id:
+                                Number(id),
+
+                            professeur_id:
+                                professeurId,
+
+                            nom:
+                                nom,
+
+                            prenom:
+                                prenom,
+
+                            email:
+                                email
+                        });
+                    }
+                );
             }
         );
     }
 );
-
 
 /* ==========================================================
    SUPPRESSION D'UN ÉLÈVE

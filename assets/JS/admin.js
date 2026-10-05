@@ -10,61 +10,136 @@ const adminTeacherCount =
         "admin-teacher-count"
     );
 
+
 const adminStudentCount =
     document.getElementById(
         "admin-student-count"
     );
+
 
 const adminTeacherTableBody =
     document.getElementById(
         "admin-teacher-table-body"
     );
 
+
 const adminDashboardView =
     document.getElementById(
         "admin-dashboard-view"
     );
+
 
 const adminTeachersView =
     document.getElementById(
         "admin-teachers-view"
     );
 
+
 const adminTeacherBackButton =
     document.getElementById(
         "admin-teacher-back-button"
     );
+
 
 const adminTransferAllButton =
     document.getElementById(
         "admin-transfer-all-button"
     );
 
+
 const adminSelectedTeacherId =
     document.getElementById(
         "admin-selected-teacher-id"
     );
+
 
 const adminSelectedTeacherName =
     document.getElementById(
         "admin-selected-teacher-name"
     );
 
+
 const adminSelectedTeacherEmail =
     document.getElementById(
         "admin-selected-teacher-email"
     );
+
 
 const adminSelectedTeacherStudentCount =
     document.getElementById(
         "admin-selected-teacher-student-count"
     );
 
+
 const adminTeacherStudentTableBody =
     document.getElementById(
         "admin-teacher-student-table-body"
     );
+
     /* ==========================================================
+   ÉLÉMENTS HTML — MODIFICATION PROFESSEUR
+========================================================== */
+
+const adminTeacherEditButton =
+    document.getElementById(
+        "admin-teacher-edit-button"
+    );
+
+
+const adminEditTeacherModal =
+    document.getElementById(
+        "admin-edit-teacher-modal"
+    );
+
+
+const adminEditTeacherCloseButton =
+    document.getElementById(
+        "admin-edit-teacher-close-button"
+    );
+
+
+const adminEditTeacherForm =
+    document.getElementById(
+        "admin-edit-teacher-form"
+    );
+
+
+const adminEditTeacherName =
+    document.getElementById(
+        "admin-edit-teacher-name"
+    );
+
+
+const adminEditTeacherFirstname =
+    document.getElementById(
+        "admin-edit-teacher-firstname"
+    );
+
+
+const adminEditTeacherEmail =
+    document.getElementById(
+        "admin-edit-teacher-email"
+    );
+
+
+const adminEditTeacherMessage =
+    document.getElementById(
+        "admin-edit-teacher-message"
+    );
+
+
+const adminEditTeacherCancelButton =
+    document.getElementById(
+        "admin-edit-teacher-cancel-button"
+    );
+
+
+const adminEditTeacherConfirmButton =
+    document.getElementById(
+        "admin-edit-teacher-confirm-button"
+    );
+
+/* ==========================================================
    ÉLÉMENTS HTML — LISTE GLOBALE DES ÉLÈVES
 ========================================================== */
 
@@ -72,6 +147,7 @@ const adminStudentTableBody =
     document.getElementById(
         "admin-student-table-body"
     );
+
 
 /* ==========================================================
    ÉLÉMENTS HTML — GESTION D'UN ÉLÈVE
@@ -125,6 +201,12 @@ const adminStudentTransferButton =
     );
 
 
+const adminStudentEditButton =
+    document.getElementById(
+        "admin-student-edit-button"
+    );
+
+
 const adminStudentPasswordButton =
     document.getElementById(
         "admin-student-password-button"
@@ -135,6 +217,66 @@ const adminStudentDeleteButton =
     document.getElementById(
         "admin-student-delete-button"
     );
+
+
+/* ==========================================================
+   ÉLÉMENTS HTML — MODALE MODIFICATION ÉLÈVE
+========================================================== */
+
+const adminEditStudentModal =
+    document.getElementById(
+        "admin-edit-student-modal"
+    );
+
+
+const adminEditStudentCloseButton =
+    document.getElementById(
+        "admin-edit-student-close-button"
+    );
+
+
+const adminEditStudentForm =
+    document.getElementById(
+        "admin-edit-student-form"
+    );
+
+
+const adminEditStudentName =
+    document.getElementById(
+        "admin-edit-student-name"
+    );
+
+
+const adminEditStudentFirstname =
+    document.getElementById(
+        "admin-edit-student-firstname"
+    );
+
+
+const adminEditStudentEmail =
+    document.getElementById(
+        "admin-edit-student-email"
+    );
+
+
+const adminEditStudentMessage =
+    document.getElementById(
+        "admin-edit-student-message"
+    );
+
+
+const adminEditStudentCancelButton =
+    document.getElementById(
+        "admin-edit-student-cancel-button"
+    );
+
+
+const adminEditStudentConfirmButton =
+    document.getElementById(
+        "admin-edit-student-confirm-button"
+    );
+
+
 /* ==========================================================
    ÉLÉMENTS HTML — MODALE SUPPRESSION ÉLÈVE
 ========================================================== */
@@ -181,7 +323,6 @@ const adminDeleteStudentConfirmButton =
     );
 
 
-
 /* ==========================================================
    ÉLÉMENTS HTML — MODALE TRANSFERT
 ========================================================== */
@@ -191,35 +332,42 @@ const adminTransferModal =
         "admin-transfer-modal"
     );
 
+
 const adminTransferCloseButton =
     document.getElementById(
         "admin-transfer-close-button"
     );
+
 
 const adminTransferCancelButton =
     document.getElementById(
         "admin-transfer-cancel-button"
     );
 
+
 const adminTransferConfirmButton =
     document.getElementById(
         "admin-transfer-confirm-button"
     );
+
 
 const adminTransferStudentName =
     document.getElementById(
         "admin-transfer-student-name"
     );
 
+
 const adminTransferCurrentTeacher =
     document.getElementById(
         "admin-transfer-current-teacher"
     );
 
+
 const adminTransferTeacherSelect =
     document.getElementById(
         "admin-transfer-teacher-select"
     );
+
 
 const adminTransferMessage =
     document.getElementById(
@@ -236,40 +384,48 @@ const adminCreateTeacherButton =
         "admin-create-teacher-button"
     );
 
+
 const adminCreateTeacherModal =
     document.getElementById(
         "admin-create-teacher-modal"
     );
+
 
 const adminCreateTeacherCloseButton =
     document.getElementById(
         "admin-create-teacher-close-button"
     );
 
+
 const adminCreateTeacherCancelButton =
     document.getElementById(
         "admin-create-teacher-cancel-button"
     );
+
 
 const adminCreateTeacherForm =
     document.getElementById(
         "admin-create-teacher-form"
     );
 
+
 const adminCreateTeacherMessage =
     document.getElementById(
         "admin-create-teacher-message"
     );
+
 
 const adminCreateTeacherPassword =
     document.getElementById(
         "admin-create-teacher-password"
     );
 
+
 const adminCreateTeacherPasswordConfirm =
     document.getElementById(
         "admin-create-teacher-password-confirm"
     );
+
 
 const adminCreateTeacherShowPassword =
     document.getElementById(
@@ -1570,7 +1726,79 @@ function showAdminStudentManagement(
     adminStudentManagement.hidden =
         false;
 }
+/* ==========================================================
+   OUVERTURE DE LA MODALE MODIFICATION ÉLÈVE
+========================================================== */
 
+function openAdminEditStudentModal()
+{
+    if (
+        !adminSelectedStudent
+    )
+    {
+        return;
+    }
+
+
+    adminEditStudentName.value =
+        adminSelectedStudent.nom;
+
+
+    adminEditStudentFirstname.value =
+        adminSelectedStudent.prenom;
+
+
+    adminEditStudentEmail.value =
+        adminSelectedStudent.email;
+
+
+    adminEditStudentMessage.classList.remove(
+        "admin-transfer-message--error"
+    );
+
+
+    adminEditStudentMessage.textContent =
+        "";
+
+
+    adminEditStudentModal.classList.add(
+        "admin-transfer-modal--open"
+    );
+
+
+    adminEditStudentModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+}
+/* ==========================================================
+   FERMETURE DE LA MODALE MODIFICATION ÉLÈVE
+========================================================== */
+
+function closeAdminEditStudentModal()
+{
+    adminEditStudentModal.classList.remove(
+        "admin-transfer-modal--open"
+    );
+
+
+    adminEditStudentModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    adminEditStudentForm.reset();
+
+
+    adminEditStudentMessage.classList.remove(
+        "admin-transfer-message--error"
+    );
+
+
+    adminEditStudentMessage.textContent =
+        "";
+}
 
 /* ==========================================================
    OUVERTURE DE LA MODALE SUPPRESSION ÉLÈVE
@@ -1667,6 +1895,231 @@ adminStudentTransferButton.addEventListener(
             adminSelectedStudent,
             "global"
         );
+    }
+);
+
+
+/* ==========================================================
+   OUVERTURE MODIFICATION D'UN ÉLÈVE
+========================================================== */
+
+adminStudentEditButton.addEventListener(
+    "click",
+    () =>
+    {
+        openAdminEditStudentModal();
+    }
+);
+
+
+/* ==========================================================
+   FERMETURE MODIFICATION D'UN ÉLÈVE — BOUTON X
+========================================================== */
+
+adminEditStudentCloseButton.addEventListener(
+    "click",
+    () =>
+    {
+        closeAdminEditStudentModal();
+    }
+);
+
+
+/* ==========================================================
+   FERMETURE MODIFICATION D'UN ÉLÈVE — ANNULER
+========================================================== */
+
+adminEditStudentCancelButton.addEventListener(
+    "click",
+    () =>
+    {
+        closeAdminEditStudentModal();
+    }
+);
+
+
+/* ==========================================================
+   ENREGISTREMENT MODIFICATION D'UN ÉLÈVE
+========================================================== */
+
+adminEditStudentForm.addEventListener(
+    "submit",
+    async (event) =>
+    {
+        event.preventDefault();
+
+
+        if (!adminSelectedStudent)
+        {
+            return;
+        }
+
+
+        const studentId =
+            adminSelectedStudent.id;
+
+
+        const nom =
+            adminEditStudentName.value.trim();
+
+        const prenom =
+            adminEditStudentFirstname.value.trim();
+
+        const email =
+            adminEditStudentEmail.value
+                .trim()
+                .toLowerCase();
+
+
+        adminEditStudentMessage.classList.remove(
+            "admin-transfer-message--error"
+        );
+
+
+        adminEditStudentMessage.textContent =
+            "> MODIFICATION EN COURS...";
+
+
+        adminEditStudentConfirmButton.disabled =
+            true;
+
+        adminEditStudentCancelButton.disabled =
+            true;
+
+        adminEditStudentCloseButton.disabled =
+            true;
+
+
+        try
+        {
+            await updateAdminStudent(
+                studentId,
+                nom,
+                prenom,
+                email
+            );
+
+
+            const studentsData =
+                await getAdminStudents();
+
+
+            const students =
+                studentsData.eleves || [];
+
+
+            displayAdminStudents(
+                students
+            );
+
+
+            const updatedStudent =
+                students.find(
+                    (student) =>
+                        Number(student.id) ===
+                        Number(studentId)
+                );
+
+
+            if (updatedStudent)
+            {
+                adminSelectedStudent =
+                    updatedStudent;
+
+
+                adminSelectedStudentId.textContent =
+                    updatedStudent.id;
+
+
+                adminSelectedStudentName.textContent =
+                    `${updatedStudent.prenom} ${updatedStudent.nom}`;
+
+
+                adminSelectedStudentEmail.textContent =
+                    updatedStudent.email;
+
+
+                adminSelectedStudentTeacher.textContent =
+                    `${updatedStudent.professeur_prenom || ""} ${updatedStudent.professeur_nom || ""}`.trim() ||
+                    "-";
+            }
+
+
+            adminEditStudentMessage.textContent =
+                "> ÉLÈVE MODIFIÉ";
+
+
+            setTimeout(
+                () =>
+                {
+                    closeAdminEditStudentModal();
+                },
+                700
+            );
+        }
+        catch (error)
+        {
+            console.error(
+                error
+            );
+
+
+            adminEditStudentMessage.classList.add(
+                "admin-transfer-message--error"
+            );
+
+
+            if (
+                error.message ===
+                "SERVER_UNAVAILABLE"
+            )
+            {
+                adminEditStudentMessage.textContent =
+                    "> ERREUR : SERVEUR INDISPONIBLE";
+            }
+            else if (
+                error.message ===
+                "UNAUTHORIZED" ||
+                error.message ===
+                "FORBIDDEN"
+            )
+            {
+                adminEditStudentMessage.textContent =
+                    "> ERREUR : ACCES REFUSE";
+            }
+            else if (
+                error.message ===
+                "STUDENT_NOT_FOUND"
+            )
+            {
+                adminEditStudentMessage.textContent =
+                    "> ERREUR : ELEVE INTROUVABLE";
+            }
+            else if (
+                error.message ===
+                "EMAIL_ALREADY_USED"
+            )
+            {
+                adminEditStudentMessage.textContent =
+                    "> ERREUR : CETTE ADRESSE E-MAIL EST DEJA UTILISEE";
+            }
+            else
+            {
+                adminEditStudentMessage.textContent =
+                    `> ERREUR : ${error.message}`;
+            }
+        }
+        finally
+        {
+            adminEditStudentConfirmButton.disabled =
+                false;
+
+            adminEditStudentCancelButton.disabled =
+                false;
+
+            adminEditStudentCloseButton.disabled =
+                false;
+        }
     }
 );
 
@@ -2142,6 +2595,307 @@ async function loadAdminTeacher(
         );
     }
 }
+
+
+/* ==========================================================
+   OUVERTURE DE LA MODALE MODIFICATION PROFESSEUR
+========================================================== */
+
+function openAdminEditTeacherModal()
+{
+    if (!adminCurrentTeacher)
+    {
+        return;
+    }
+
+
+    adminEditTeacherName.value =
+        adminCurrentTeacher.nom;
+
+    adminEditTeacherFirstname.value =
+        adminCurrentTeacher.prenom;
+
+    adminEditTeacherEmail.value =
+        adminCurrentTeacher.email;
+
+
+    adminEditTeacherMessage.classList.remove(
+        "admin-transfer-message--error"
+    );
+
+    adminEditTeacherMessage.textContent =
+        "";
+
+
+    adminEditTeacherModal.classList.add(
+        "admin-transfer-modal--open"
+    );
+
+    adminEditTeacherModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+}
+
+
+/* ==========================================================
+   FERMETURE DE LA MODALE MODIFICATION PROFESSEUR
+========================================================== */
+
+function closeAdminEditTeacherModal()
+{
+    adminEditTeacherModal.classList.remove(
+        "admin-transfer-modal--open"
+    );
+
+    adminEditTeacherModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    adminEditTeacherForm.reset();
+
+
+    adminEditTeacherMessage.classList.remove(
+        "admin-transfer-message--error"
+    );
+
+    adminEditTeacherMessage.textContent =
+        "";
+}
+
+
+/* ==========================================================
+   BOUTON MODIFIER PROFESSEUR
+========================================================== */
+
+adminTeacherEditButton.addEventListener(
+    "click",
+    () =>
+    {
+        openAdminEditTeacherModal();
+    }
+);
+
+
+/* ==========================================================
+   FERMETURE MODALE MODIFICATION PROFESSEUR
+========================================================== */
+
+adminEditTeacherCloseButton.addEventListener(
+    "click",
+    () =>
+    {
+        closeAdminEditTeacherModal();
+    }
+);
+
+
+adminEditTeacherCancelButton.addEventListener(
+    "click",
+    () =>
+    {
+        closeAdminEditTeacherModal();
+    }
+);
+
+
+/* ==========================================================
+   ENREGISTREMENT MODIFICATION PROFESSEUR
+========================================================== */
+
+adminEditTeacherForm.addEventListener(
+    "submit",
+    async (event) =>
+    {
+        event.preventDefault();
+
+
+        if (!adminCurrentTeacher)
+        {
+            return;
+        }
+
+
+        const teacherId =
+            adminCurrentTeacher.id;
+
+
+        const nom =
+            adminEditTeacherName.value.trim();
+
+        const prenom =
+            adminEditTeacherFirstname.value.trim();
+
+        const email =
+            adminEditTeacherEmail.value
+                .trim()
+                .toLowerCase();
+
+
+        adminEditTeacherMessage.classList.remove(
+            "admin-transfer-message--error"
+        );
+
+        adminEditTeacherMessage.textContent =
+            "> MODIFICATION EN COURS...";
+
+
+        adminEditTeacherConfirmButton.disabled =
+            true;
+
+        adminEditTeacherCancelButton.disabled =
+            true;
+
+        adminEditTeacherCloseButton.disabled =
+            true;
+
+
+        try
+        {
+            await updateAdminTeacher(
+                teacherId,
+                nom,
+                prenom,
+                email
+            );
+
+
+            const teachersData =
+                await getAdminTeachers();
+
+
+            adminTeachers =
+                teachersData.professeurs || [];
+
+
+            displayAdminTeachers(
+                adminTeachers
+            );
+
+
+            const updatedTeacher =
+                adminTeachers.find(
+                    (teacher) =>
+                        Number(teacher.id) ===
+                        Number(teacherId)
+                );
+
+
+            if (updatedTeacher)
+            {
+                adminCurrentTeacher =
+                    updatedTeacher;
+
+
+                adminSelectedTeacherId.textContent =
+                    updatedTeacher.id;
+
+                adminSelectedTeacherName.textContent =
+                    `${updatedTeacher.prenom} ${updatedTeacher.nom}`;
+
+                adminSelectedTeacherEmail.textContent =
+                    updatedTeacher.email;
+
+
+                const studentsData =
+                    await getAdminTeacherStudents(
+                        updatedTeacher.id
+                    );
+
+
+                adminCurrentStudents =
+                    studentsData.eleves || [];
+
+
+                adminSelectedTeacherStudentCount.textContent =
+                    adminCurrentStudents.length;
+
+
+                displayAdminTeacherStudents(
+                    adminCurrentStudents
+                );
+            }
+
+
+            adminEditTeacherMessage.textContent =
+                "> PROFESSEUR MODIFIÉ";
+
+
+            setTimeout(
+                () =>
+                {
+                    closeAdminEditTeacherModal();
+                },
+                700
+            );
+        }
+        catch (error)
+        {
+            console.error(
+                error
+            );
+
+
+            adminEditTeacherMessage.classList.add(
+                "admin-transfer-message--error"
+            );
+
+
+            if (
+                error.message ===
+                "SERVER_UNAVAILABLE"
+            )
+            {
+                adminEditTeacherMessage.textContent =
+                    "> ERREUR : SERVEUR INDISPONIBLE";
+            }
+            else if (
+                error.message ===
+                "UNAUTHORIZED" ||
+                error.message ===
+                "FORBIDDEN"
+            )
+            {
+                adminEditTeacherMessage.textContent =
+                    "> ERREUR : ACCES REFUSE";
+            }
+            else if (
+                error.message ===
+                "TEACHER_NOT_FOUND"
+            )
+            {
+                adminEditTeacherMessage.textContent =
+                    "> ERREUR : PROFESSEUR INTROUVABLE";
+            }
+            else if (
+                error.message ===
+                "EMAIL_ALREADY_USED"
+            )
+            {
+                adminEditTeacherMessage.textContent =
+                    "> ERREUR : CETTE ADRESSE E-MAIL EST DEJA UTILISEE";
+            }
+            else
+            {
+                adminEditTeacherMessage.textContent =
+                    `> ERREUR : ${error.message}`;
+            }
+        }
+        finally
+        {
+            adminEditTeacherConfirmButton.disabled =
+                false;
+
+            adminEditTeacherCancelButton.disabled =
+                false;
+
+            adminEditTeacherCloseButton.disabled =
+                false;
+        }
+    }
+);
 
 
 /* ==========================================================
