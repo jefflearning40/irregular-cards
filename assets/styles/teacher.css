@@ -3,6 +3,7 @@
 ========================================================== */
 
 .teacher-screen {
+
     position: fixed;
 
     inset: 0;
@@ -34,6 +35,7 @@
 ========================================================== */
 
 .teacher-container {
+
     position: relative;
 
     width:
@@ -78,6 +80,7 @@
 ========================================================== */
 
 .teacher-container::before {
+
     content: "";
 
     position: absolute;
@@ -98,6 +101,7 @@
 ========================================================== */
 
 .teacher-header {
+
     position: relative;
 
     z-index: 2;
@@ -127,12 +131,14 @@
 ========================================================== */
 
 .teacher-heading {
+
     text-align:
         center;
 }
 
 
 .teacher-heading-school {
+
     margin-bottom:
         5px;
 
@@ -145,6 +151,7 @@
 
 
 .teacher-title {
+
     margin:
         0;
 
@@ -173,6 +180,7 @@
 ========================================================== */
 
 .teacher-identity {
+
     position: relative;
 
     z-index: 2;
@@ -201,6 +209,7 @@
 
 
 .teacher-identity strong {
+
     color:
         var(--postcard-blue);
 
@@ -214,6 +223,7 @@
 ========================================================== */
 
 .teacher-summary {
+
     position: relative;
 
     z-index: 2;
@@ -244,6 +254,7 @@
 ========================================================== */
 
 .teacher-card {
+
     min-height:
         clamp(95px, 11vw, 125px);
 
@@ -285,6 +296,7 @@
 ========================================================== */
 
 .teacher-card-label {
+
     color:
         var(--postcard-brown-dark);
 
@@ -301,6 +313,7 @@
 ========================================================== */
 
 .teacher-card-value {
+
     color:
         var(--postcard-blue);
 
@@ -317,6 +330,7 @@
 ========================================================== */
 
 .teacher-actions {
+
     position: relative;
 
     z-index: 2;
@@ -336,6 +350,7 @@
 ========================================================== */
 
 .teacher-action-button {
+
     padding:
         10px 20px;
 
@@ -369,6 +384,7 @@
 
 
 .teacher-action-button:hover {
+
     color:
         var(--postcard-paper-light);
 
@@ -378,6 +394,7 @@
 
 
 .teacher-action-button:focus-visible {
+
     outline:
         3px solid
         var(--color-warning);
@@ -392,6 +409,7 @@
 ========================================================== */
 
 .teacher-students {
+
     position: relative;
 
     z-index: 2;
@@ -405,6 +423,7 @@
 
 
 .teacher-students h2 {
+
     margin:
         0 0 18px;
 
@@ -427,13 +446,14 @@
 ========================================================== */
 
 .teacher-students-header {
+
     display: grid;
 
     grid-template-columns:
         minmax(200px, 2fr)
         minmax(80px, .7fr)
         minmax(110px, .9fr)
-        minmax(120px, 1fr);
+        minmax(220px, 1.4fr);
 
     border:
         2px solid
@@ -457,6 +477,7 @@
 
 
 .teacher-students-header span {
+
     display: flex;
 
     align-items:
@@ -475,6 +496,7 @@
 
 
 .teacher-students-header span:first-child {
+
     justify-content:
         flex-start;
 
@@ -488,6 +510,7 @@
 ========================================================== */
 
 #teacher-students-list {
+
     display:
         block;
 
@@ -502,6 +525,7 @@
 ========================================================== */
 
 .teacher-student-item {
+
     min-height:
         48px;
 
@@ -512,7 +536,7 @@
         minmax(200px, 2fr)
         minmax(80px, .7fr)
         minmax(110px, .9fr)
-        minmax(120px, 1fr);
+        minmax(220px, 1.4fr);
 
     align-items:
         stretch;
@@ -527,6 +551,7 @@
 
 
 .teacher-student-item:last-child {
+
     border-bottom:
         0;
 }
@@ -539,6 +564,7 @@
 .teacher-student-name,
 .teacher-student-quiz-count,
 .teacher-student-average {
+
     display:
         flex;
 
@@ -555,6 +581,7 @@
 
 
 .teacher-student-name {
+
     border-left:
         0;
 
@@ -568,6 +595,7 @@
 
 .teacher-student-quiz-count,
 .teacher-student-average {
+
     justify-content:
         center;
 
@@ -577,21 +605,41 @@
 
 
 .teacher-student-average {
+
     color:
         var(--postcard-red);
 }
 
 
 /* ==========================================================
-   BOUTON CONSULTER
+   BOUTONS CONSULTER ET SUPPRIMER
 ========================================================== */
 
-.teacher-student-button {
-    align-self:
+.teacher-student-actions {
+
+    display:
+        flex;
+
+    align-items:
         center;
 
-    justify-self:
+    justify-content:
         center;
+
+    gap:
+        16px;
+
+    padding:
+        8px 12px;
+
+    border-left:
+        1px solid
+        var(--postcard-blue);
+}
+
+
+.teacher-student-button,
+.teacher-student-delete-button {
 
     padding:
         6px 14px;
@@ -622,7 +670,9 @@
 }
 
 
-.teacher-student-button:hover {
+.teacher-student-button:hover,
+.teacher-student-delete-button:hover {
+
     color:
         var(--postcard-paper-light);
 
@@ -631,7 +681,9 @@
 }
 
 
-.teacher-student-button:focus-visible {
+.teacher-student-button:focus-visible,
+.teacher-student-delete-button:focus-visible {
+
     outline:
         3px solid
         var(--color-warning);
@@ -640,7 +692,6 @@
         2px;
 }
 
-
 /* ==========================================================
    TABLETTE
 ========================================================== */
@@ -648,6 +699,7 @@
 @media (max-width: 900px) {
 
     .teacher-summary {
+
         grid-template-columns:
             repeat(
                 2,
@@ -657,6 +709,7 @@
 
 
     .teacher-identity {
+
         flex-direction:
             column;
 
@@ -673,12 +726,14 @@
 @media (max-width: 600px) {
 
     .teacher-screen {
+
         padding:
             8px;
     }
 
 
     .teacher-container {
+
         width:
             100%;
 
@@ -691,12 +746,14 @@
 
 
     .teacher-title {
+
         font-size:
             clamp(1.8rem, 10vw, 2.7rem);
     }
 
 
     .teacher-summary {
+
         grid-template-columns:
             1fr;
 
@@ -707,6 +764,7 @@
 
 
     .teacher-card {
+
         min-height:
             80px;
 
@@ -716,18 +774,21 @@
 
 
     .teacher-actions {
+
         justify-content:
             stretch;
     }
 
 
     .teacher-action-button {
+
         width:
             100%;
     }
 
 
     .teacher-students {
+
         overflow-x:
             auto;
     }
@@ -735,7 +796,8 @@
 
     .teacher-students-header,
     .teacher-student-item {
+
         min-width:
-            650px;
+            750px;
     }
 }

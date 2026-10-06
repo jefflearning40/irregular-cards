@@ -1,0 +1,1002 @@
+/* ==========================================================
+   ACCÈS MESSAGERIE
+========================================================== */
+
+.messages-access {
+
+    position: absolute;
+
+    right: 20px;
+    bottom: 20px;
+
+    z-index: 5;
+
+    padding:
+        8px
+        16px;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    border-radius:
+        var(--button-radius);
+
+    color:
+        var(--postcard-blue);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(.9rem, 1.3vw, 1.1rem);
+
+    font-weight: 400;
+
+    cursor: pointer;
+}
+
+
+.messages-access:hover {
+
+    color:
+        var(--postcard-paper-light);
+
+    background:
+        var(--postcard-blue);
+}
+
+
+.messages-access:focus-visible {
+
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset: 3px;
+}
+
+
+/* ==========================================================
+   MODALE MESSAGERIE
+========================================================== */
+
+.messages-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 110;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        clamp(15px, 3vw, 40px);
+
+    background:
+        var(--overlay-dark);
+}
+
+
+.messages-modal.is-open {
+
+    display: flex;
+}
+
+
+/* ==========================================================
+   FEUILLE DE LA MESSAGERIE
+========================================================== */
+
+.messages-modal__content {
+
+    position: relative;
+
+    width:
+        min(950px, 96vw);
+
+    max-height: 92vh;
+
+    padding:
+        clamp(25px, 4vw, 45px);
+
+    overflow-y: auto;
+
+    border:
+        3px solid
+        var(--postcard-blue);
+
+    color:
+        var(--postcard-blue-dark);
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent 27px,
+            rgba(7, 63, 105, 0.13) 28px
+        ),
+        var(--postcard-paper-light);
+
+    box-shadow:
+        0 15px 45px
+        var(--shadow-dark);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+}
+
+
+/* ==========================================================
+   MARGE ROUGE TYPE CAHIER
+========================================================== */
+
+.messages-modal__content::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    left:
+        clamp(45px, 7vw, 75px);
+
+    width: 2px;
+
+    background:
+        rgba(158, 31, 47, 0.55);
+
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   EN-TÊTE
+========================================================== */
+
+.messages-modal__header {
+
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-left:
+        clamp(35px, 6vw, 65px);
+
+    margin-bottom: 25px;
+}
+
+
+.messages-modal__header h2 {
+
+    margin: 0;
+
+    color:
+        var(--postcard-blue);
+
+    font-size:
+        clamp(2rem, 4vw, 3.2rem);
+
+    font-weight: 400;
+
+    text-transform: uppercase;
+}
+
+
+/* ==========================================================
+   CROIX DE FERMETURE
+========================================================== */
+
+.messages-modal__close {
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border:
+        2px solid
+        var(--postcard-red);
+
+    border-radius: 50%;
+
+    color:
+        var(--postcard-red);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size: 1.6rem;
+    font-weight: 400;
+
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+.messages-modal__close:hover {
+
+    color:
+        var(--postcard-paper-light);
+
+    background:
+        var(--postcard-red);
+}
+
+
+.messages-modal__close:focus-visible {
+
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset: 3px;
+}
+
+
+/* ==========================================================
+   NAVIGATION MESSAGERIE
+========================================================== */
+
+.messages-modal__navigation {
+
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    gap: 12px;
+
+    margin-bottom: 25px;
+
+    padding-left:
+        clamp(35px, 6vw, 65px);
+
+    padding-bottom: 15px;
+
+    border-bottom:
+        2px solid
+        var(--postcard-blue);
+}
+
+
+.messages-modal__navigation button {
+
+    padding:
+        8px
+        15px;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    border-radius:
+        var(--button-radius);
+
+    color:
+        var(--postcard-blue);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(.85rem, 1.2vw, 1rem);
+
+    font-weight: 400;
+
+    cursor: pointer;
+}
+
+
+.messages-modal__navigation button:hover {
+
+    color:
+        var(--postcard-paper-light);
+
+    background:
+        var(--postcard-blue);
+}
+
+
+.messages-modal__navigation button:focus-visible {
+
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset: 2px;
+}
+
+
+/* ==========================================================
+   LISTE DES MESSAGES
+========================================================== */
+
+.messages-modal__list {
+
+    position: relative;
+
+    z-index: 2;
+
+    min-height: 250px;
+
+    margin-left:
+        clamp(35px, 6vw, 65px);
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    background:
+        rgba(255, 248, 218, 0.42);
+}
+/* ==========================================================
+   MESSAGE
+========================================================== */
+
+.messages-list-item {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        auto;
+
+    gap:
+        8px
+        20px;
+
+    padding:
+        14px
+        18px;
+
+    border: 0;
+
+    border-bottom:
+        1px solid
+        rgba(7, 63, 105, 0.35);
+
+    color:
+        var(--postcard-blue-dark);
+
+    background:
+        transparent;
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(.9rem, 1.3vw, 1.05rem);
+
+    text-align: left;
+}
+
+
+button.messages-list-item {
+
+    cursor: pointer;
+}
+
+
+button.messages-list-item:hover {
+
+    background:
+        rgba(7, 63, 105, 0.07);
+}
+
+
+button.messages-list-item:focus-visible {
+
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset: -3px;
+}
+
+
+/* ==========================================================
+   OBJET DU MESSAGE
+========================================================== */
+
+.messages-list-item__subject {
+
+    color:
+        var(--postcard-blue);
+
+    font-weight: 700;
+}
+
+
+/* ==========================================================
+   ÉTAT LU / NON LU
+========================================================== */
+
+.messages-list-item__status {
+
+    color:
+        var(--postcard-red);
+
+    text-align: right;
+}
+
+/* ==========================================================
+   ÉTAT MESSAGE LU
+========================================================== */
+
+.messages-list-item__status--read {
+
+    color:
+        var(--postcard-blue-dark);
+}
+
+
+/* ==========================================================
+   LECTURE D'UN MESSAGE
+========================================================== */
+
+.messages-reader {
+
+    padding:
+        20px;
+
+    color:
+        var(--postcard-blue-dark);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+}
+
+
+.messages-reader__header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap:
+        20px;
+
+    padding-bottom:
+        15px;
+
+    border-bottom:
+        1px solid
+        rgba(7, 63, 105, 0.35);
+}
+
+
+.messages-reader__subject {
+
+    margin:
+        0;
+
+    color:
+        var(--postcard-blue);
+
+    font-size:
+        clamp(1rem, 1.5vw, 1.2rem);
+}
+
+
+.messages-reader__close {
+
+    width:
+        36px;
+
+    height:
+        36px;
+
+    flex-shrink:
+        0;
+
+    border:
+        2px solid
+        var(--postcard-red);
+
+    border-radius:
+        50%;
+
+    color:
+        var(--postcard-red);
+
+    background:
+        transparent;
+
+    font-family:
+        inherit;
+
+    font-size:
+        1.4rem;
+
+    cursor:
+        pointer;
+}
+
+
+.messages-reader__content {
+
+    margin:
+        20px 0 0;
+
+    line-height:
+        1.7;
+
+    white-space:
+        pre-wrap;
+}
+
+.messages-list-item__status:first-letter {
+
+    text-transform: uppercase;
+}
+
+
+/* ==========================================================
+   CONTENU DU MESSAGE
+========================================================== */
+
+.messages-list-item__content {
+
+    grid-column:
+        1 / -1;
+
+    color:
+        var(--postcard-blue-dark);
+
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+}
+/* ==========================================================
+   LIGNE AVEC SÉLECTEUR
+========================================================== */
+
+.messages-list-row {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        46px
+        1fr;
+
+    align-items: stretch;
+
+    border-bottom:
+        1px solid
+        rgba(7, 63, 105, 0.35);
+}
+
+
+.messages-list-row .messages-list-item {
+
+    border-bottom: 0;
+}
+
+
+/* ==========================================================
+   SÉLECTEUR DE MESSAGE
+========================================================== */
+
+.messages-list-selector {
+
+    width:
+        18px;
+
+    height:
+        18px;
+
+    align-self:
+        center;
+
+    justify-self:
+        center;
+
+    accent-color:
+        var(--postcard-blue);
+
+    cursor:
+        pointer;
+}
+
+
+.messages-list-selector:focus-visible {
+
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset:
+        3px;
+}
+
+
+/* ==========================================================
+   BOUTON SUPPRIMER LES MESSAGES
+========================================================== */
+
+.messages-delete-button {
+
+    display:
+        block;
+
+    margin:
+        20px
+        18px
+        20px
+        auto;
+
+    padding:
+        8px
+        18px;
+
+    border:
+        2px solid
+        var(--postcard-red);
+
+    border-radius:
+        var(--button-radius);
+
+    color:
+        var(--postcard-red);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(.9rem, 1.3vw, 1.05rem);
+
+    cursor:
+        pointer;
+}
+
+
+.messages-delete-button:hover {
+
+    color:
+        var(--postcard-paper-light);
+
+    background:
+        var(--postcard-red);
+}
+
+
+.messages-delete-button:focus-visible {
+
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset:
+        3px;
+}
+
+
+.messages-delete-button:disabled {
+
+    opacity:
+        .5;
+
+    cursor:
+        not-allowed;
+}
+
+/* ==========================================================
+   FORMULAIRE NOUVEAU MESSAGE
+========================================================== */
+
+#messages-form {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin-left:
+        clamp(35px, 6vw, 65px);
+}
+
+
+#messages-form[hidden] {
+
+    display: none;
+}
+
+
+/* ==========================================================
+   CHAMPS
+========================================================== */
+
+.messages-field {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-bottom: 20px;
+}
+
+
+.messages-field label {
+
+    color:
+        var(--postcard-brown-dark);
+
+    font-size:
+        clamp(.9rem, 1.3vw, 1.1rem);
+}
+
+
+.messages-field input,
+.messages-field select,
+.messages-field textarea {
+
+    width: 100%;
+
+    padding:
+        9px
+        12px;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    border-radius:
+        var(--button-radius);
+
+    color:
+        var(--postcard-blue-dark);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(.9rem, 1.3vw, 1.05rem);
+}
+
+
+.messages-field textarea {
+
+    min-height: 160px;
+
+    resize: vertical;
+}
+
+
+.messages-field input:focus-visible,
+.messages-field select:focus-visible,
+.messages-field textarea:focus-visible {
+
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset: 2px;
+}
+
+
+/* ==========================================================
+   MESSAGE DU FORMULAIRE
+========================================================== */
+
+#messages-form-message {
+
+    min-height: 24px;
+
+    margin-bottom: 15px;
+
+    color:
+        var(--postcard-red);
+
+    font-size:
+        clamp(.85rem, 1.2vw, 1rem);
+}
+
+
+#messages-form-message.messages-form-message--success {
+
+    color:
+        var(--color-success);
+}
+
+
+#messages-form-message.messages-form-message--error {
+
+    color:
+        var(--postcard-red);
+}
+
+/* ==========================================================
+   BOUTON ENVOYER
+========================================================== */
+
+#messages-send-button {
+
+    padding:
+        10px
+        20px;
+
+    border:
+        2px solid
+        var(--postcard-blue);
+
+    border-radius:
+        var(--button-radius);
+
+    color:
+        var(--postcard-blue);
+
+    background:
+        var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(1rem, 1.5vw, 1.25rem);
+
+    font-weight: 400;
+
+    cursor: pointer;
+}
+
+
+#messages-send-button:hover {
+
+    color:
+        var(--postcard-paper-light);
+
+    background:
+        var(--postcard-blue);
+}
+
+
+#messages-send-button:focus-visible {
+
+    outline:
+        3px solid
+        var(--color-warning);
+
+    outline-offset: 3px;
+}
+
+
+/* ==========================================================
+   TABLETTE
+========================================================== */
+
+@media (max-width: 900px) {
+
+    .messages-modal__navigation {
+
+        flex-wrap: wrap;
+    }
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 600px) {
+
+    .messages-modal {
+
+        padding: 8px;
+    }
+
+
+    .messages-modal__content {
+
+        width: 100%;
+
+        padding:
+            25px
+            15px;
+    }
+
+
+    .messages-modal__content::before {
+
+        display: none;
+    }
+
+
+    .messages-modal__header,
+    .messages-modal__navigation {
+
+        padding-left: 0;
+    }
+
+
+    .messages-modal__header h2 {
+
+        font-size:
+            clamp(1.7rem, 9vw, 2.5rem);
+    }
+
+
+    .messages-modal__navigation {
+
+        flex-direction: column;
+    }
+
+
+    .messages-modal__navigation button {
+
+        width: 100%;
+    }
+
+
+    .messages-modal__list,
+    #messages-form {
+
+        margin-left: 0;
+    }
+
+
+    #messages-send-button {
+
+        width: 100%;
+    }
+}

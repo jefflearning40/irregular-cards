@@ -512,7 +512,278 @@ router.put(
         );
     }
 );
+/* ==========================================================
+   SUPPRESSION DE MESSAGES REÇUS
+========================================================== */
 
+router.delete(
+    "/recus",
+    verifyToken,
+    (request, response) =>
+    {
+        const utilisateurId =
+            request.user.id;
+
+
+        const utilisateurRole =
+            request.user.role;
+
+
+        const messageIds =
+            request.body.ids;
+
+
+        if (
+            !rolesAutorises.includes(
+                utilisateurRole
+            )
+        )
+        {
+            response.status(403).json({
+                error:
+                    "Rôle utilisateur non autorisé"
+            });
+
+
+            return;
+        }
+
+
+        if (
+            !Array.isArray(
+                messageIds
+            ) ||
+            messageIds.length === 0
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Aucun message sélectionné"
+            });
+
+
+            return;
+        }
+
+
+        const ids =
+            messageIds.map(
+                (id) =>
+                    Number(
+                        id
+                    )
+            );
+
+
+        if (
+            ids.some(
+                (id) =>
+                    !Number.isInteger(
+                        id
+                    ) ||
+                    id <= 0
+            )
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Identifiant message invalide"
+            });
+
+
+            return;
+        }
+
+
+        const placeholders =
+            ids.map(
+                () => "?"
+            ).join(", ");
+
+
+        database.query(
+            `
+                DELETE FROM message
+
+                WHERE id IN (${placeholders})
+                AND destinataire_type = ?
+                AND destinataire_id = ?
+            `,
+            [
+                ...ids,
+                utilisateurRole,
+                utilisateurId
+            ],
+            (
+                error,
+                result
+            ) =>
+            {
+                if (error)
+                {
+                    console.error(
+                        "Erreur suppression messages :",
+                        error
+                    );
+
+
+                    response.status(500).json({
+                        error:
+                            "Erreur serveur"
+                    });
+
+
+                    return;
+                }
+
+
+                response.json({
+                    message:
+                        "Messages supprimés avec succès",
+
+                    nombre:
+                        result.affectedRows
+                });
+            }
+        );
+    }
+);
+/* ==========================================================
+   SUPPRESSION DE MESSAGES ENVOYÉS
+========================================================== */
+
+router.delete(
+    "/envoyes",
+    verifyToken,
+    (request, response) =>
+    {
+        const utilisateurId =
+            request.user.id;
+
+
+        const utilisateurRole =
+            request.user.role;
+
+
+        const messageIds =
+            request.body.ids;
+
+
+        if (
+            !rolesAutorises.includes(
+                utilisateurRole
+            )
+        )
+        {
+            response.status(403).json({
+                error:
+                    "Rôle utilisateur non autorisé"
+            });
+
+
+            return;
+        }
+
+
+        if (
+            !Array.isArray(
+                messageIds
+            ) ||
+            messageIds.length === 0
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Aucun message sélectionné"
+            });
+
+
+            return;
+        }
+
+
+        const ids =
+            messageIds.map(
+                (id) =>
+                    Number(
+                        id
+                    )
+            );
+
+
+        if (
+            ids.some(
+                (id) =>
+                    !Number.isInteger(
+                        id
+                    ) ||
+                    id <= 0
+            )
+        )
+        {
+            response.status(400).json({
+                error:
+                    "Identifiant message invalide"
+            });
+
+
+            return;
+        }
+
+
+        const placeholders =
+            ids.map(
+                () => "?"
+            ).join(", ");
+
+
+        database.query(
+            `
+                DELETE FROM message
+
+                WHERE id IN (${placeholders})
+                AND expediteur_type = ?
+                AND expediteur_id = ?
+            `,
+            [
+                ...ids,
+                utilisateurRole,
+                utilisateurId
+            ],
+            (
+                error,
+                result
+            ) =>
+            {
+                if (error)
+                {
+                    console.error(
+                        "Erreur suppression messages envoyés :",
+                        error
+                    );
+
+
+                    response.status(500).json({
+                        error:
+                            "Erreur serveur"
+                    });
+
+
+                    return;
+                }
+
+
+                response.json({
+                    message:
+                        "Messages envoyés supprimés avec succès",
+
+                    nombre:
+                        result.affectedRows
+                });
+            }
+        );
+    }
+);
 
 /* ==========================================================
    ENVOI D'UN MESSAGE

@@ -4,6 +4,79 @@
 /* ==========================================================
    ÉLÉMENTS HTML
 ========================================================== */
+/* ==========================================================
+   ÉLÉMENTS HTML — MESSAGERIE ADMINISTRATEUR
+========================================================== */
+
+const adminMessagesReceivedButton =
+    document.getElementById(
+        "admin-messages-received-button"
+    );
+
+
+const adminMessagesSentButton =
+    document.getElementById(
+        "admin-messages-sent-button"
+    );
+
+
+const adminMessagesNewButton =
+    document.getElementById(
+        "admin-messages-new-button"
+    );
+
+
+const adminMessagesList =
+    document.getElementById(
+        "admin-messages-list"
+    );
+
+
+const adminMessagesForm =
+    document.getElementById(
+        "admin-messages-form"
+    );
+
+
+const adminMessagesRecipient =
+    document.getElementById(
+        "admin-messages-recipient"
+    );
+
+const adminMessagesRecipientButton =
+    document.getElementById(
+        "admin-messages-recipient-button"
+    );
+
+
+const adminMessagesRecipientList =
+    document.getElementById(
+        "admin-messages-recipient-list"
+    );
+
+
+const adminMessagesSubject =
+    document.getElementById(
+        "admin-messages-subject"
+    );
+
+
+const adminMessagesContent =
+    document.getElementById(
+        "admin-messages-content"
+    );
+
+
+const adminMessagesFormMessage =
+    document.getElementById(
+        "admin-messages-form-message"
+    );
+
+
+const adminMessagesSendButton =
+    document.getElementById(
+        "admin-messages-send-button"
+    );
 
 const adminTeacherCount =
     document.getElementById(
@@ -3732,6 +3805,784 @@ async function loadAdminDashboard()
         );
     }
 }
+/* ==========================================================
+   MISE À JOUR DES COMPTEURS — ADMINISTRATEUR
+========================================================== */
+
+async function updateAdminMessageCounters()
+{
+    try
+    {
+        const [
+            receivedMessages,
+            sentMessages
+        ] =
+            await Promise.all([
+                getReceivedMessages(),
+                getSentMessages()
+            ]);
+
+
+        const unreadMessages =
+            receivedMessages.filter(
+                (message) =>
+                    Number(
+                        message.est_lu
+                    ) !== 1
+            );
+
+
+        adminMessagesReceivedButton.textContent =
+            `MESSAGES RECUS (${receivedMessages.length})`;
+
+        adminMessagesSentButton.textContent =
+            `MESSAGES ENVOYES (${sentMessages.length})`;
+
+        adminMessagesNewButton.textContent =
+            `NOUVEAU MESSAGE (${unreadMessages.length})`;
+    }
+    catch (error)
+    {
+        console.error(
+            error
+        );
+    }
+}
+/* ==========================================================
+   AFFICHAGE DES MESSAGES REÇUS — ADMINISTRATEUR
+========================================================== */
+
+async function showAdminReceivedMessages()
+{
+    adminMessagesForm.hidden =
+        true;
+
+    adminMessagesList.hidden =
+        false;
+
+    adminMessagesList.innerHTML =
+        "&gt; CHARGEMENT DES MESSAGES...";
+
+
+    try
+    {
+        const messages =
+            await getReceivedMessages();
+
+
+        adminMessagesList.innerHTML =
+            "";
+
+
+        if (
+            messages.length === 0
+        )
+        {
+            adminMessagesList.innerHTML =
+                "&gt; AUCUN MESSAGE RECU";
+
+
+            await updateAdminMessageCounters();
+
+
+            return;
+        }
+
+
+        const deleteButton =
+            document.createElement(
+                "button"
+            );
+
+
+        deleteButton.type =
+            "button";
+
+        deleteButton.className =
+            "admin-action-button";
+
+        deleteButton.textContent =
+            "SUPPRIMER";
+
+
+        deleteButton.addEventListener(
+            "click",
+            async () =>
+            {
+                const selectedMessages =
+                    adminMessagesList.querySelectorAll(
+                        ".admin-message-row__selector:checked"
+                    );
+
+
+                const messageIds =
+                    Array.from(
+                        selectedMessages
+                    ).map(
+                        (selector) =>
+                            Number(
+                                selector.value
+                            )
+                    );
+
+
+                if (
+                    messageIds.length === 0
+                )
+                {
+                    return;
+                }
+
+
+                try
+                {
+                    await deleteReceivedMessages(
+                        messageIds
+                    );
+
+
+                    await showAdminReceivedMessages();
+
+                    await updateAdminMessageCounters();
+                }
+                catch (error)
+                {
+                    console.error(
+                        error
+                    );
+                }
+            }
+        );
+
+
+        adminMessagesList.appendChild(
+            deleteButton
+        );
+
+
+        for (
+            const message of messages
+        )
+        {
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "admin-message-row";
+
+
+            const selector =
+                document.createElement(
+                    "input"
+                );
+
+
+            selector.type =
+                "checkbox";
+
+            selector.className =
+                "admin-message-row__selector";
+
+            selector.value =
+                message.id;
+
+
+            const sender =
+                document.createElement(
+                    "span"
+                );
+
+
+            sender.textContent =
+                `${message.expediteur_type} #${message.expediteur_id}`;
+
+
+            const subject =
+                document.createElement(
+                    "span"
+                );
+
+
+            subject.className =
+                "admin-message-row__subject";
+
+            subject.textContent =
+                message.objet;
+
+
+            const status =
+                document.createElement(
+                    "span"
+                );
+
+
+            status.className =
+                "admin-message-row__status";
+
+            status.textContent =
+                Number(
+                    message.est_lu
+                ) === 1
+                    ? "LU"
+                    : "NON LU";
+
+
+            row.appendChild(
+                selector
+            );
+
+            row.appendChild(
+                sender
+            );
+
+            row.appendChild(
+                subject
+            );
+
+            row.appendChild(
+                status
+            );
+
+
+            adminMessagesList.appendChild(
+                row
+            );
+        }
+
+
+        await updateAdminMessageCounters();
+    }
+    catch (error)
+    {
+        console.error(
+            error
+        );
+
+
+        adminMessagesList.innerHTML =
+            "&gt; ERREUR : IMPOSSIBLE DE CHARGER LES MESSAGES";
+    }
+}
+
+
+/* ==========================================================
+   AFFICHAGE DES MESSAGES ENVOYÉS — ADMINISTRATEUR
+========================================================== */
+
+async function showAdminSentMessages()
+{
+    adminMessagesForm.hidden =
+        true;
+
+    adminMessagesList.hidden =
+        false;
+
+    adminMessagesList.innerHTML =
+        "&gt; CHARGEMENT DES MESSAGES...";
+
+
+    try
+    {
+        const messages =
+            await getSentMessages();
+
+
+        adminMessagesList.innerHTML =
+            "";
+
+
+        if (
+            messages.length === 0
+        )
+        {
+            adminMessagesList.innerHTML =
+                "&gt; AUCUN MESSAGE ENVOYE";
+
+
+            await updateAdminMessageCounters();
+
+
+            return;
+        }
+
+
+        const deleteButton =
+            document.createElement(
+                "button"
+            );
+
+
+        deleteButton.type =
+            "button";
+
+        deleteButton.className =
+            "admin-action-button";
+
+        deleteButton.textContent =
+            "SUPPRIMER";
+
+
+        deleteButton.addEventListener(
+            "click",
+            async () =>
+            {
+                const selectedMessages =
+                    adminMessagesList.querySelectorAll(
+                        ".admin-message-row__selector:checked"
+                    );
+
+
+                const messageIds =
+                    Array.from(
+                        selectedMessages
+                    ).map(
+                        (selector) =>
+                            Number(
+                                selector.value
+                            )
+                    );
+
+
+                if (
+                    messageIds.length === 0
+                )
+                {
+                    return;
+                }
+
+
+                try
+                {
+                    await deleteSentMessages(
+                        messageIds
+                    );
+
+
+                    await showAdminSentMessages();
+
+                    await updateAdminMessageCounters();
+                }
+                catch (error)
+                {
+                    console.error(
+                        error
+                    );
+                }
+            }
+        );
+
+
+        adminMessagesList.appendChild(
+            deleteButton
+        );
+
+
+        for (
+            const message of messages
+        )
+        {
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "admin-message-row";
+
+
+            const selector =
+                document.createElement(
+                    "input"
+                );
+
+
+            selector.type =
+                "checkbox";
+
+            selector.className =
+                "admin-message-row__selector";
+
+            selector.value =
+                message.id;
+
+
+            const recipient =
+                document.createElement(
+                    "span"
+                );
+
+
+            recipient.textContent =
+                `${message.destinataire_type} #${message.destinataire_id}`;
+
+
+            const subject =
+                document.createElement(
+                    "span"
+                );
+
+
+            subject.className =
+                "admin-message-row__subject";
+
+            subject.textContent =
+                message.objet;
+
+
+            const status =
+                document.createElement(
+                    "span"
+                );
+
+
+            status.className =
+                "admin-message-row__status";
+
+            status.textContent =
+                Number(
+                    message.est_lu
+                ) === 1
+                    ? "LU"
+                    : "NON LU";
+
+
+            row.appendChild(
+                selector
+            );
+
+            row.appendChild(
+                recipient
+            );
+
+            row.appendChild(
+                subject
+            );
+
+            row.appendChild(
+                status
+            );
+
+
+            adminMessagesList.appendChild(
+                row
+            );
+        }
+
+
+        await updateAdminMessageCounters();
+    }
+    catch (error)
+    {
+        console.error(
+            error
+        );
+
+
+        adminMessagesList.innerHTML =
+            "&gt; ERREUR : IMPOSSIBLE DE CHARGER LES MESSAGES";
+    }
+}
+
+
+/* ==========================================================
+   BOUTON MESSAGES REÇUS — ADMINISTRATEUR
+========================================================== */
+
+adminMessagesReceivedButton.addEventListener(
+    "click",
+    async () =>
+    {
+        await showAdminReceivedMessages();
+
+        await updateAdminMessageCounters();
+    }
+);
+
+
+/* ==========================================================
+   BOUTON MESSAGES ENVOYÉS — ADMINISTRATEUR
+========================================================== */
+
+adminMessagesSentButton.addEventListener(
+    "click",
+    async () =>
+    {
+        await showAdminSentMessages();
+
+        await updateAdminMessageCounters();
+    }
+);
+
+
+/* ==========================================================
+   NOUVEAU MESSAGE — ADMINISTRATEUR
+========================================================== */
+
+async function showAdminNewMessageForm()
+{
+    adminMessagesList.hidden =
+        true;
+
+    adminMessagesForm.hidden =
+        false;
+
+    adminMessagesForm.reset();
+
+    adminMessagesFormMessage.textContent =
+        "";
+
+
+    adminMessagesRecipient.dataset.value =
+        "";
+
+    adminMessagesRecipient.dataset.type =
+        "";
+
+    adminMessagesRecipientButton.textContent =
+        "-- SELECTIONNER UN PROFESSEUR --";
+
+    adminMessagesRecipientButton.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
+    adminMessagesRecipientList.innerHTML =
+        "";
+
+    adminMessagesRecipientList.hidden =
+        true;
+
+
+    try
+    {
+        const data =
+            await getMessageRecipients();
+
+
+        const recipients =
+            data;
+
+
+        for (
+            const recipient of recipients
+        )
+        {
+            const option =
+                document.createElement(
+                    "button"
+                );
+
+
+            option.type =
+                "button";
+
+            option.className =
+                "admin-messages-recipient__option";
+
+            option.dataset.value =
+                recipient.id;
+
+            option.dataset.type =
+                recipient.type;
+
+            option.textContent =
+                `${recipient.prenom} ${recipient.nom} - ${recipient.email}`;
+
+
+            option.addEventListener(
+                "click",
+                () =>
+                {
+                    adminMessagesRecipient.dataset.value =
+                        option.dataset.value;
+
+                    adminMessagesRecipient.dataset.type =
+                        option.dataset.type;
+
+                    adminMessagesRecipientButton.textContent =
+                        option.textContent;
+
+                    adminMessagesRecipientList.hidden =
+                        true;
+
+                    adminMessagesRecipientButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+                }
+            );
+
+
+            adminMessagesRecipientList.appendChild(
+                option
+            );
+        }
+    }
+    catch (error)
+    {
+        console.error(
+            error
+        );
+
+
+        adminMessagesFormMessage.textContent =
+            "> ERREUR : IMPOSSIBLE DE CHARGER LES PROFESSEURS";
+    }
+}
+
+
+/* ==========================================================
+   BOUTON NOUVEAU MESSAGE — ADMINISTRATEUR
+========================================================== */
+
+adminMessagesNewButton.addEventListener(
+    "click",
+    () =>
+    {
+        showAdminNewMessageForm();
+    }
+);
+
+
+/* ==========================================================
+   OUVERTURE DU CHOIX DU DESTINATAIRE — ADMINISTRATEUR
+========================================================== */
+
+adminMessagesRecipientButton.addEventListener(
+    "click",
+    () =>
+    {
+        adminMessagesRecipientList.hidden =
+            !adminMessagesRecipientList.hidden;
+
+
+        adminMessagesRecipientButton.setAttribute(
+            "aria-expanded",
+            String(
+                !adminMessagesRecipientList.hidden
+            )
+        );
+    }
+);
+
+
+/* ==========================================================
+   ENVOI DU MESSAGE — ADMINISTRATEUR
+========================================================== */
+
+adminMessagesForm.addEventListener(
+    "submit",
+    async (event) =>
+    {
+        event.preventDefault();
+
+
+        adminMessagesFormMessage.textContent =
+            "";
+
+
+        const recipientId =
+            adminMessagesRecipient.dataset.value;
+
+        const recipientType =
+            adminMessagesRecipient.dataset.type;
+
+
+        if (
+            !recipientId ||
+            !recipientType
+        )
+        {
+            adminMessagesFormMessage.textContent =
+                "> ERREUR : SELECTIONNEZ UN PROFESSEUR";
+
+
+            return;
+        }
+
+
+        const subject =
+            adminMessagesSubject.value.trim();
+
+
+        const content =
+            adminMessagesContent.value.trim();
+
+
+        if (
+            !subject ||
+            !content
+        )
+        {
+            adminMessagesFormMessage.textContent =
+                "> ERREUR : OBJET ET MESSAGE OBLIGATOIRES";
+
+
+            return;
+        }
+
+
+        adminMessagesSendButton.disabled =
+            true;
+
+
+        try
+        {
+            await sendMessage(
+                recipientType,
+                recipientId,
+                subject,
+                content
+            );
+
+
+            adminMessagesForm.reset();
+
+            adminMessagesRecipient.dataset.value =
+                "";
+
+            adminMessagesRecipient.dataset.type =
+                "";
+
+            adminMessagesRecipientButton.textContent =
+                "-- SELECTIONNER UN PROFESSEUR --";
+
+            adminMessagesRecipientList.hidden =
+                true;
+
+            adminMessagesRecipientButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+
+            adminMessagesFormMessage.textContent =
+                "> MESSAGE ENVOYE";
+
+
+            await updateAdminMessageCounters();
+        }
+        catch (error)
+        {
+            console.error(
+                error
+            );
+
+
+            adminMessagesFormMessage.textContent =
+                "> ERREUR : IMPOSSIBLE D'ENVOYER LE MESSAGE";
+        }
+        finally
+        {
+            adminMessagesSendButton.disabled =
+                false;
+        }
+    }
+);
 
 
 /* ==========================================================
@@ -3840,9 +4691,9 @@ adminMenuButtons.forEach(
                 }
 
 
-/* ==========================================
-   ELEVES / CONTACTS
-========================================== */
+                /* ==========================================
+                   ELEVES
+                ========================================== */
 
                 if (
                     target === "eleves"
@@ -3865,14 +4716,43 @@ adminMenuButtons.forEach(
                 }
 
 
-                adminViews.forEach(
-                    (view) =>
-                    {
-                        view.hidden =
-                            view.dataset.adminSection !==
-                            target;
-                    }
-                );
+                /* ==========================================
+   MESSAGERIE
+========================================== */
+
+if (
+    target === "contacts"
+)
+{
+    adminViews.forEach(
+        (view) =>
+        {
+            view.hidden =
+                view.dataset.adminSection !==
+                "contacts";
+        }
+    );
+
+
+    showAdminReceivedMessages();
+
+updateAdminMessageCounters();
+
+
+return;
+}
+
+
+adminViews.forEach(
+    (view) =>
+    {
+        view.hidden =
+            view.dataset.adminSection !==
+            target;
+    }
+);
+
+
             }
         );
     }

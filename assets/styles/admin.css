@@ -1615,3 +1615,623 @@
         width: 100%;
     }
 }
+/* ==========================================================
+   MESSAGERIE ADMINISTRATEUR
+========================================================== */
+
+.admin-messages
+{
+    width:
+        100%;
+}
+
+
+/* ==========================================================
+   NAVIGATION MESSAGERIE
+========================================================== */
+
+.admin-messages__navigation
+{
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        12px;
+
+    margin-bottom:
+        28px;
+
+    padding-bottom:
+        18px;
+
+    border-bottom:
+        1px dashed
+        var(--admin-theme-color-dark);
+}
+
+
+.admin-messages__navigation .admin-action-button
+{
+    padding:
+        8px 14px;
+
+    border:
+        1px solid
+        var(--admin-theme-color);
+
+    color:
+        var(--admin-theme-color);
+
+    background:
+        transparent;
+
+    font-family:
+        inherit;
+
+    font-size:
+        0.9rem;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.03em;
+
+    cursor:
+        pointer;
+
+    text-shadow:
+        inherit;
+}
+
+
+.admin-messages__navigation .admin-action-button:hover
+{
+    color:
+        var(--admin-theme-background);
+
+    background:
+        var(--admin-theme-color);
+
+    text-shadow:
+        none;
+}
+
+
+.admin-messages__navigation .admin-action-button:focus-visible
+{
+    outline:
+        2px solid
+        var(--admin-theme-color);
+
+    outline-offset:
+        3px;
+}
+/* ==========================================================
+   BOUTON SUPPRIMER — MESSAGERIE
+========================================================== */
+
+.admin-messages__list > .admin-action-button
+{
+    margin-bottom:
+        18px;
+
+    padding:
+        8px 14px;
+
+    border:
+        1px solid
+        var(--admin-theme-color);
+
+    color:
+        var(--admin-theme-color);
+
+    background:
+        transparent;
+
+    font-family:
+        inherit;
+
+    font-size:
+        0.9rem;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.03em;
+
+    cursor:
+        pointer;
+
+    text-shadow:
+        inherit;
+}
+
+
+.admin-messages__list > .admin-action-button:hover
+{
+    color:
+        var(--admin-theme-background);
+
+    background:
+        var(--admin-theme-color);
+
+    text-shadow:
+        none;
+}
+
+
+.admin-messages__list > .admin-action-button:focus-visible
+{
+    outline:
+        2px solid
+        var(--admin-theme-color);
+
+    outline-offset:
+        3px;
+}
+
+
+
+
+/* ==========================================================
+   LISTE DES MESSAGES
+========================================================== */
+
+.admin-messages__list
+{
+    width:
+        100%;
+}
+
+
+.admin-message-row
+{
+    display:
+        grid;
+
+    grid-template-columns:
+        40px
+        minmax(140px, 220px)
+        minmax(180px, 1fr)
+        100px;
+
+    gap:
+        14px;
+
+    align-items:
+        center;
+
+    padding:
+        12px 10px;
+
+    border-bottom:
+        1px solid
+        var(--admin-theme-color-dark);
+}
+
+
+.admin-message-row:hover
+{
+    background:
+        var(--admin-theme-hover);
+}
+
+
+.admin-message-row__subject
+{
+    overflow-wrap:
+        anywhere;
+}
+
+
+.admin-message-row__status
+{
+    text-align:
+        right;
+}
+
+
+.admin-message-row__selector
+{
+    width:
+        14px;
+
+    height:
+        14px;
+
+    margin:
+        0;
+
+    border:
+        1px solid
+        var(--admin-theme-color);
+
+    border-radius:
+        0;
+
+    background:
+        var(--admin-theme-background);
+
+    appearance:
+        none;
+
+    cursor:
+        pointer;
+}
+
+
+.admin-message-row__selector:checked
+{
+    background:
+        var(--admin-theme-color);
+
+    box-shadow:
+        inset 0 0 0 3px
+        var(--admin-theme-background);
+}
+
+
+/* ==========================================================
+   FORMULAIRE NOUVEAU MESSAGE
+========================================================== */
+
+/* ==========================================================
+   FORMULAIRE NOUVEAU MESSAGE
+========================================================== */
+
+.admin-messages__form
+{
+    width:
+        min(800px, 100%);
+}
+
+
+.admin-messages__form[hidden]
+{
+    display:
+        none !important;
+}
+
+
+.admin-messages__form label
+{
+    display:
+        block;
+
+    margin:
+        18px 0 8px;
+
+    color:
+        var(--admin-theme-color);
+}
+
+
+/* ==========================================================
+   CHOIX DU DESTINATAIRE
+========================================================== */
+
+.admin-messages-recipient
+{
+    position:
+        relative;
+
+    width:
+        100%;
+}
+
+
+.admin-messages-recipient__button
+{
+    width:
+        100%;
+
+    padding:
+        10px 12px;
+
+    box-sizing:
+        border-box;
+
+    border:
+        1px solid
+        var(--admin-theme-color);
+
+    color:
+        var(--admin-theme-color);
+
+    background:
+        var(--admin-theme-background);
+
+    font:
+        inherit;
+
+    text-align:
+        left;
+
+    cursor:
+        pointer;
+
+    outline:
+        none;
+
+    text-shadow:
+        inherit;
+}
+
+
+.admin-messages-recipient__button:hover
+{
+    background:
+        var(--admin-theme-hover);
+}
+
+
+.admin-messages-recipient__button:focus-visible
+{
+    box-shadow:
+        0 0 8px
+        var(--admin-theme-focus);
+}
+
+
+/* ==========================================================
+   LISTE DES DESTINATAIRES
+========================================================== */
+
+.admin-messages-recipient__list
+{
+    position:
+        absolute;
+
+    z-index:
+        20;
+
+    top:
+        100%;
+
+    left:
+        0;
+
+    width:
+        100%;
+
+    max-height:
+        240px;
+
+    overflow-y:
+        auto;
+
+    box-sizing:
+        border-box;
+
+    border-right:
+        1px solid
+        var(--admin-theme-color);
+
+    border-bottom:
+        1px solid
+        var(--admin-theme-color);
+
+    border-left:
+        1px solid
+        var(--admin-theme-color);
+
+    background:
+        var(--admin-theme-background);
+
+    box-shadow:
+        0 0 8px
+        var(--admin-theme-focus);
+}
+
+
+.admin-messages-recipient__list[hidden]
+{
+    display:
+        none !important;
+}
+
+
+/* ==========================================================
+   DESTINATAIRE
+========================================================== */
+
+.admin-messages-recipient__option
+{
+    display:
+        block;
+
+    width:
+        100%;
+
+    padding:
+        10px 12px;
+
+    border:
+        0;
+
+    border-bottom:
+        1px solid
+        var(--admin-theme-color-dark);
+
+    color:
+        var(--admin-theme-color);
+
+    background:
+        var(--admin-theme-background);
+
+    font:
+        inherit;
+
+    text-align:
+        left;
+
+    cursor:
+        pointer;
+
+    text-shadow:
+        inherit;
+}
+
+
+.admin-messages-recipient__option:last-child
+{
+    border-bottom:
+        0;
+}
+
+
+.admin-messages-recipient__option:hover,
+.admin-messages-recipient__option:focus-visible
+{
+    color:
+        var(--admin-theme-background);
+
+    background:
+        var(--admin-theme-color);
+
+    outline:
+        none;
+
+    text-shadow:
+        none;
+}
+
+
+/* ==========================================================
+   OBJET ET MESSAGE
+========================================================== */
+
+.admin-messages__form input,
+.admin-messages__form textarea
+{
+    width:
+        100%;
+
+    padding:
+        10px 12px;
+
+    box-sizing:
+        border-box;
+
+    border:
+        1px solid
+        var(--admin-theme-color);
+
+    color:
+        var(--admin-theme-color);
+
+    background:
+        var(--admin-theme-background);
+
+    font:
+        inherit;
+
+    outline:
+        none;
+}
+
+
+.admin-messages__form textarea
+{
+    resize:
+        vertical;
+}
+
+
+.admin-messages__form input:focus,
+.admin-messages__form textarea:focus
+{
+    box-shadow:
+        0 0 8px
+        var(--admin-theme-focus);
+}
+
+
+/* ==========================================================
+   BOUTON ENVOYER
+========================================================== */
+
+.admin-messages__form .admin-action-button
+{
+    padding:
+        8px 14px;
+
+    border:
+        1px solid
+        var(--admin-theme-color);
+
+    color:
+        var(--admin-theme-color);
+
+    background:
+        transparent;
+
+    font-family:
+        inherit;
+
+    font-size:
+        0.9rem;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+}
+
+
+.admin-messages__form .admin-action-button:hover
+{
+    color:
+        var(--admin-theme-background);
+
+    background:
+        var(--admin-theme-color);
+}
+
+
+/* ==========================================================
+   RESPONSIVE MESSAGERIE
+========================================================== */
+
+@media (max-width: 650px)
+{
+    .admin-messages__navigation
+    {
+        flex-direction:
+            column;
+    }
+
+
+    .admin-messages__navigation .admin-action-button
+    {
+        width:
+            100%;
+    }
+
+
+    .admin-message-row
+    {
+        grid-template-columns:
+            32px 1fr;
+    }
+
+
+    .admin-message-row__status
+    {
+        text-align:
+            left;
+    }
+
+
+    .admin-messages__form .admin-action-button
+    {
+        width:
+            100%;
+    }
+}

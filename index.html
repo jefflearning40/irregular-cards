@@ -32,6 +32,7 @@
 <link rel="stylesheet" href="assets/styles/quiz.css">
 <link rel="stylesheet" href="assets/styles/login.css">
 <link rel="stylesheet" href="assets/styles/statistics.css">
+<link rel="stylesheet" href="assets/styles/messages.css">
 <link rel="stylesheet" href="assets/styles/teacher.css">
 <link rel="stylesheet" href="assets/styles/teacher-student-modal.css">
 <link rel="stylesheet" href="assets/styles/teacher-delete-student-modal.css">
@@ -380,33 +381,184 @@
 
 
             <!-- =====================================================
-                 ACCÈS STATISTIQUES
-            ====================================================== -->
+     ACCÈS STATISTIQUES
+====================================================== -->
+
+<button
+    class="statistics-access"
+    id="statistics-button"
+    type="button"
+    aria-label="Ouvrir mes statistiques"
+>
+
+    <img
+        src="assets/images/icones/stats1.svg"
+        alt=""
+        aria-hidden="true"
+        draggable="false"
+    >
+
+    <span>
+        Stats
+    </span>
+
+</button>
+
+
+<!-- =====================================================
+     ACCÈS MESSAGERIE
+====================================================== -->
+
+<button
+    class="messages-access"
+    id="messages-button"
+    type="button"
+    aria-label="Ouvrir ma messagerie"
+>
+
+    <span>
+        Messages
+    </span>
+
+</button>
+</div>
+
+</section>
+<!-- =====================================================
+     MESSAGERIE ÉLÈVE
+====================================================== -->
+
+<div
+    class="messages-modal"
+    id="messages-modal"
+    aria-hidden="true"
+>
+
+    <div
+        class="messages-modal__content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="messages-modal-title"
+    >
+
+        <div class="messages-modal__header">
+
+            <h2 id="messages-modal-title">
+                Messagerie
+            </h2>
 
             <button
-                class="statistics-access"
-                id="statistics-button"
+                class="messages-modal__close"
+                id="messages-modal-close"
                 type="button"
-                aria-label="Ouvrir mes statistiques"
+                aria-label="Fermer la messagerie"
             >
-
-                <img
-                    src="assets/images/icones/stats1.svg"
-                    alt=""
-                    aria-hidden="true"
-                    draggable="false"
-                >
-
-                <span>
-                    Stats
-                </span>
-
+                ×
             </button>
 
         </div>
 
-    </section>
 
+        <div class="messages-modal__navigation">
+
+            <button
+                id="messages-received-button"
+                type="button"
+            >
+                Messages reçus
+            </button>
+
+            <button
+                id="messages-sent-button"
+                type="button"
+            >
+                Messages envoyés
+            </button>
+
+            <button
+                id="messages-new-button"
+                type="button"
+            >
+                Nouveau message
+            </button>
+
+        </div>
+
+
+        <div
+            class="messages-modal__list"
+            id="messages-list"
+        >
+        </div>
+
+
+        <form
+            id="messages-form"
+            hidden
+        >
+
+            <div class="messages-field">
+
+                <label for="messages-recipient">
+                    Destinataire
+                </label>
+
+                <select
+                    id="messages-recipient"
+                    required
+                >
+                </select>
+
+            </div>
+
+
+            <div class="messages-field">
+
+                <label for="messages-subject">
+                    Objet
+                </label>
+
+                <input
+                    id="messages-subject"
+                    type="text"
+                    required
+                >
+
+            </div>
+
+
+            <div class="messages-field">
+
+                <label for="messages-content">
+                    Message
+                </label>
+
+                <textarea
+                    id="messages-content"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <p
+                id="messages-form-message"
+                aria-live="polite"
+            ></p>
+
+
+            <button
+                id="messages-send-button"
+                type="submit"
+            >
+                Envoyer
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
 
        <!-- =====================================================
          STATISTIQUES ÉLÈVE
@@ -932,21 +1084,30 @@
         </div>
 
 
-        <!-- =================================================
-             ACTIONS
-        ================================================== -->
+       <!-- =================================================
+     ACTIONS
+================================================== -->
 
-        <div class="teacher-actions">
+<div class="teacher-actions">
 
-            <button
-                class="teacher-action-button"
-                id="teacher-create-student-button"
-                type="button"
-            >
-                Créer un élève
-            </button>
+    <button
+        class="teacher-action-button"
+        id="teacher-create-student-button"
+        type="button"
+    >
+        Créer un élève
+    </button>
 
-        </div>
+
+    <button
+        class="teacher-action-button"
+        id="teacher-messages-button"
+        type="button"
+    >
+        Messages
+    </button>
+
+</div>
 
 
         <!-- =================================================
@@ -1485,7 +1646,7 @@
                     type="button"
                     data-admin-view="contacts"
                 >
-                    CONTACTS
+                    MESSAGERIE
                 </button>
 
             </nav>
@@ -1944,7 +2105,7 @@
 
                
                 <!-- =====================================
-                     CONTACTS
+                     MESSAGERIE
                 ====================================== -->
 
                 <section
@@ -1955,15 +2116,120 @@
                 >
 
                     <h2 class="admin-view__title">
-                        &gt; CONTACTS
+                        &gt; MESSAGERIE
                     </h2>
 
-                    <p>
-                        MODULE EN CONSTRUCTION_
-                    </p>
+                    <div class="admin-messages">
+
+                        <div class="admin-messages__navigation">
+
+                            <button
+                                id="admin-messages-received-button"
+                                class="admin-action-button"
+                                type="button"
+                            >
+                                MESSAGES RECUS
+                            </button>
+
+                            <button
+                                id="admin-messages-sent-button"
+                                class="admin-action-button"
+                                type="button"
+                            >
+                                MESSAGES ENVOYES
+                            </button>
+
+                            <button
+                                id="admin-messages-new-button"
+                                class="admin-action-button"
+                                type="button"
+                            >
+                                NOUVEAU MESSAGE
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="admin-messages-list"
+                            class="admin-messages__list"
+                        ></div>
+
+
+                        <form
+                            id="admin-messages-form"
+                            class="admin-messages__form"
+                            hidden
+                        >
+
+                          <label>
+    DESTINATAIRE
+</label>
+
+<div
+    id="admin-messages-recipient"
+    class="admin-messages-recipient"
+    data-value=""
+    data-type=""
+>
+    <button
+        id="admin-messages-recipient-button"
+        class="admin-messages-recipient__button"
+        type="button"
+        aria-expanded="false"
+    >
+        -- SELECTIONNER UN PROFESSEUR --
+    </button>
+
+    <div
+        id="admin-messages-recipient-list"
+        class="admin-messages-recipient__list"
+        hidden
+    ></div>
+</div>
+
+
+                            <label for="admin-messages-subject">
+                                OBJET
+                            </label>
+
+                            <input
+                                id="admin-messages-subject"
+                                type="text"
+                                required
+                            >
+
+
+                            <label for="admin-messages-content">
+                                MESSAGE
+                            </label>
+
+                            <textarea
+                                id="admin-messages-content"
+                                rows="8"
+                                required
+                            ></textarea>
+
+
+                            <p
+                                id="admin-messages-form-message"
+                                class="admin-transfer-message"
+                            ></p>
+
+
+                            <button
+                                id="admin-messages-send-button"
+                                class="admin-action-button"
+                                type="submit"
+                            >
+                                ENVOYER
+                            </button>
+
+                        </form>
+
+                    </div>
 
                 </section>
-
 
                 <!-- =====================================
                      LIGNE TERMINAL
@@ -3212,6 +3478,7 @@
 <script src="assets/JS/classroom-learning.js"></script>
 <script src="assets/JS/classroom-training.js"></script>
 <script src="assets/JS/statistics.js"></script>
+<script src="assets/JS/messages.js"></script>
 <script src="assets/JS/script.js"></script>
 </body>
 

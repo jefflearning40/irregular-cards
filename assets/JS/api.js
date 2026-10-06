@@ -2028,3 +2028,460 @@ async function transferAdminClass(
 
     return await response.json();
 }
+/* ==========================================================
+   RÉCUPÉRATION DES DESTINATAIRES DE LA MESSAGERIE
+========================================================== */
+
+async function getMessageRecipients()
+{
+    if (!apiToken)
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/messages/destinataires`,
+                {
+                    method:
+                        "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    }
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "Impossible de récupérer les destinataires."
+        );
+    }
+
+
+    return await response.json();
+}
+
+
+/* ==========================================================
+   RÉCUPÉRATION DES MESSAGES REÇUS
+========================================================== */
+
+async function getReceivedMessages()
+{
+    if (!apiToken)
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/messages/recus`,
+                {
+                    method:
+                        "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    }
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "Impossible de récupérer les messages reçus."
+        );
+    }
+
+
+    return await response.json();
+}
+
+
+/* ==========================================================
+   RÉCUPÉRATION DES MESSAGES ENVOYÉS
+========================================================== */
+
+async function getSentMessages()
+{
+    if (!apiToken)
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/messages/envoyes`,
+                {
+                    method:
+                        "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    }
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "Impossible de récupérer les messages envoyés."
+        );
+    }
+
+
+    return await response.json();
+}
+
+
+/* ==========================================================
+   ENVOI D'UN MESSAGE
+========================================================== */
+
+async function sendMessage(
+    recipientType,
+    recipientId,
+    subject,
+    content
+)
+{
+    if (!apiToken)
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/messages`,
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    },
+
+                    body:
+                        JSON.stringify({
+                            destinataire_type:
+                                recipientType,
+
+                            destinataire_id:
+                                Number(recipientId),
+
+                            objet:
+                                subject,
+
+                            contenu:
+                                content
+                        })
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    let data = {};
+
+
+    try
+    {
+        data =
+            await response.json();
+    }
+    catch (error)
+    {
+        data = {};
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            data.error ||
+            "Impossible d'envoyer le message."
+        );
+    }
+
+
+    return data;
+}
+
+
+/* ==========================================================
+   MARQUER UN MESSAGE COMME LU
+========================================================== */
+
+async function markMessageAsRead(
+    messageId
+)
+{
+    if (!apiToken)
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/messages/${messageId}/lu`,
+                {
+                    method:
+                        "PUT",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    }
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            "Impossible de marquer le message comme lu."
+        );
+    }
+
+
+    return await response.json();
+}
+/* ==========================================================
+   SUPPRESSION DE MESSAGES REÇUS
+========================================================== */
+
+async function deleteReceivedMessages(
+    messageIds
+)
+{
+    if (!apiToken)
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/messages/recus`,
+                {
+                    method:
+                        "DELETE",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    },
+
+                    body:
+                        JSON.stringify({
+                            ids:
+                                messageIds
+                        })
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    let data = {};
+
+
+    try
+    {
+        data =
+            await response.json();
+    }
+    catch (error)
+    {
+        data = {};
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            data.error ||
+            "Impossible de supprimer les messages."
+        );
+    }
+
+
+    return data;
+}
+/* ==========================================================
+   SUPPRESSION DE MESSAGES ENVOYÉS
+========================================================== */
+
+async function deleteSentMessages(
+    messageIds
+)
+{
+    if (!apiToken)
+    {
+        throw new Error(
+            "UNAUTHORIZED"
+        );
+    }
+
+
+    let response;
+
+
+    try
+    {
+        response =
+            await fetch(
+                `${API_URL}/messages/envoyes`,
+                {
+                    method:
+                        "DELETE",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${apiToken}`
+                    },
+
+                    body:
+                        JSON.stringify({
+                            ids:
+                                messageIds
+                        })
+                }
+            );
+    }
+    catch (error)
+    {
+        throw new Error(
+            "SERVER_UNAVAILABLE"
+        );
+    }
+
+
+    let data = {};
+
+
+    try
+    {
+        data =
+            await response.json();
+    }
+    catch (error)
+    {
+        data = {};
+    }
+
+
+    if (!response.ok)
+    {
+        throw new Error(
+            data.error ||
+            "Impossible de supprimer les messages envoyés."
+        );
+    }
+
+
+    return data;
+}
