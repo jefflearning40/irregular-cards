@@ -54,6 +54,39 @@
 
 
 /* ==========================================================
+   VERSION DU TOME
+========================================================== */
+
+.postcard-version {
+    position: absolute;
+
+    top: 3.2%;
+    right: 2%;
+    left: auto;
+
+    z-index: 30;
+
+    padding: 0;
+    border: 0;
+
+    color: var(--color-white);
+    background: transparent;
+
+    font-family: inherit;
+    font-size: clamp(.7rem, 1vw, 1rem);
+    font-weight: 700;
+
+    line-height: 1;
+
+    white-space: nowrap;
+
+    user-select: none;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+
+/* ==========================================================
    MOUETTES POSÉES
 ========================================================== */
 
@@ -209,6 +242,7 @@
     pointer-events: none;
 }
 
+
 /* ==========================================================
    SURVOL STATISTIQUES
 ========================================================== */
@@ -231,4 +265,136 @@
     outline: 3px solid var(--color-warning);
     outline-offset: 5px;
     border-radius: 8px;
+}
+
+
+/* ==========================================================
+   ACCÈS MESSAGERIE
+   À DROITE DU BOUTON STATS
+========================================================== */
+
+#departure-screen .messages-access {
+    position: absolute;
+
+   left: calc(3% + clamp(65px, 8vw, 105px) + 35px);
+    bottom: 6%;
+    right: auto;
+    top: auto;
+
+    z-index: 20;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: clamp(85px, 10vw, 125px);
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    outline: 0;
+
+    color: var(--color-white);
+    background: transparent;
+
+    font-family: inherit;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================================
+   ICÔNE MESSAGERIE
+========================================================== */
+
+#departure-screen .messages-access img {
+    display: block;
+
+    width: clamp(36px, 4.5vw, 60px);
+    height: auto;
+
+    pointer-events: none;
+
+    transition:
+        transform 200ms ease,
+        filter 200ms ease;
+}
+
+
+/* ==========================================================
+   TEXTE MESSAGERIE
+========================================================== */
+
+#departure-screen .messages-access span {
+    margin-top: clamp(3px, .4vw, 6px);
+
+    padding:
+        clamp(3px, .4vw, 5px)
+        clamp(8px, .8vw, 12px);
+
+    border-radius: 6px;
+
+    color: var(--color-white);
+    background: var(--color-background);
+
+    font-size: clamp(1.5rem, 1.8vw, 1.8rem);
+    font-weight: 700;
+
+    line-height: 1.1;
+    text-align: center;
+
+    white-space: nowrap;
+
+    text-shadow:
+        0 1px 2px var(--shadow-dark);
+
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   SURVOL MESSAGERIE
+========================================================== */
+
+#departure-screen .messages-access:hover img {
+    transform: scale(1.12);
+}
+
+
+#departure-screen .messages-access:hover span {
+    color: var(--color-warning);
+}
+
+
+/* ==========================================================
+   FOCUS MESSAGERIE
+========================================================== */
+
+#departure-screen .messages-access:focus-visible {
+    outline: 3px solid var(--color-warning);
+    outline-offset: 5px;
+    border-radius: 8px;
+}
+
+
+/* ==========================================================
+   DÉCONNEXION — EN BAS À DROITE
+========================================================== */
+
+#departure-screen .postcard-container > .logout-layer {
+    position: absolute;
+
+    top: auto;
+    left: auto;
+    right: 3%;
+    bottom: 6%;
+
+    width: auto;
+    height: auto;
+
+    transform: none;
+
+    z-index: 50;
 }

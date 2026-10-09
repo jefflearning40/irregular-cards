@@ -389,4 +389,72 @@
 /* Focus champs */
 --admin-amber-focus:
     rgba(217, 154, 50, 0.28);
+
+
+/* ===========================
+   Collection / Modale
+=========================== */
+
+--collection-overlay:
+    rgba(12, 20, 30, 0.72);
+
+--collection-paper-light:
+    #F4E5C7;
+
+--collection-paper-dark:
+    #E7D1A5;
+
+--collection-border-red:
+    #C82936;
+
+--collection-border-blue:
+    #2368A0;
+
+--collection-text:
+    #493A29;
+
+--collection-text-dark:
+    #653B28;
+
+--collection-border-brown:
+    #A87948;
+
+--collection-border-light:
+    #B99462;
+
+--collection-button:
+    #F9EDCF;
+
+--collection-button-hover:
+    #E9C894;
+
+--collection-title-highlight:
+    #FFF8E8;
+
+--collection-owned:
+    #188E45;
+
+--collection-status:
+    #237243;
+
+--collection-description-background:
+    rgba(255, 249, 229, 0.75);
+
+--collection-shadow:
+    rgba(0, 0, 0, 0.65);
+
+--collection-inner-shadow:
+    rgba(112, 75, 35, 0.12);
+
+--collection-button-shadow:
+    rgba(77, 51, 27, 0.20);
+
+--collection-book-shadow:
+    rgba(55, 35, 20, 0.35);
+
+--collection-badge-shadow:
+    rgba(0, 0, 0, 0.35);
+
+--collection-description-shadow:
+    rgba(115, 77, 38, 0.08);
 }

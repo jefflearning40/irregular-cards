@@ -1,0 +1,508 @@
+
+@import url("./variables.css");
+
+
+/* ==========================================================
+   MODALE COLLECTION
+========================================================== */
+
+.collection-modal {
+    position: fixed;
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 20px;
+
+    background: var(--collection-overlay);
+
+    box-sizing: border-box;
+}
+
+.collection-modal[hidden] {
+    display: none !important;
+}
+
+
+/* ==========================================================
+   CONTENU DE LA MODALE
+========================================================== */
+
+.collection-modal__content {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    width: min(900px, 94vw);
+    max-height: 92vh;
+
+    padding: clamp(16px, 2.5vw, 30px);
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    border: 12px solid transparent;
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            var(--collection-paper-light),
+            var(--collection-paper-dark)
+        ) padding-box,
+
+        repeating-linear-gradient(
+            135deg,
+            var(--collection-border-red) 0 14px,
+            var(--color-white) 14px 28px,
+            var(--collection-border-blue) 28px 42px,
+            var(--color-white) 42px 56px
+        ) border-box;
+
+    color: var(--collection-text);
+
+    box-shadow:
+        0 20px 65px var(--collection-shadow),
+        inset 0 0 35px var(--collection-inner-shadow);
+
+    box-sizing: border-box;
+}
+
+
+/* ==========================================================
+   EN-TÊTE
+========================================================== */
+
+.collection-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 12px;
+}
+
+.collection-modal__header h2 {
+    margin: 0;
+
+    color: var(--collection-text);
+
+    font-family: Georgia, serif;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 700;
+
+    text-shadow:
+        1px 1px 0 var(--collection-title-highlight);
+}
+
+
+/* ==========================================================
+   FERMETURE
+========================================================== */
+
+.collection-modal__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+
+    padding: 0;
+
+    border: 2px solid var(--collection-border-brown);
+    border-radius: 50%;
+
+    color: var(--collection-text-dark);
+    background: var(--collection-button);
+
+    font-size: 1.8rem;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background-color 200ms ease,
+        transform 200ms ease;
+}
+
+.collection-modal__close:hover {
+    background: var(--collection-button-hover);
+    transform: scale(1.08);
+}
+
+
+/* ==========================================================
+   CARROUSEL
+========================================================== */
+
+.collection-carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: clamp(4px, 1vw, 12px);
+
+    width: 100%;
+}
+
+
+/* ==========================================================
+   FLÈCHES DE NAVIGATION
+========================================================== */
+
+.collection-carousel__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: clamp(45px, 5vw, 70px);
+    height: clamp(35px, 4vw, 55px);
+
+    padding: 0;
+
+    border: none;
+    border-radius: 0;
+
+    color: transparent;
+
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    font-size: 0;
+
+    cursor: pointer;
+
+    box-shadow: none;
+
+    transition: transform 200ms ease;
+}
+
+
+/* ==========================================================
+   FLÈCHE GAUCHE
+========================================================== */
+
+.collection-carousel__arrow--previous {
+    background-image:
+        url("../images/icones/carousel-gauche.png");
+}
+
+
+/* ==========================================================
+   FLÈCHE DROITE
+========================================================== */
+
+.collection-carousel__arrow--next {
+    background-image:
+        url("../images/icones/carousel-droite.png");
+}
+
+
+/* ==========================================================
+   SURVOL DES FLÈCHES
+========================================================== */
+
+.collection-carousel__arrow:hover {
+    background-color: transparent;
+    transform: scale(1.12);
+}
+
+
+/* ==========================================================
+   CONTENEUR DES TOMES
+========================================================== */
+
+.collection-carousel__books {
+    position: relative;
+
+    flex: 1;
+
+    min-width: 0;
+
+    height: clamp(240px, 48vh, 470px);
+
+    overflow: hidden;
+
+    perspective: 1200px;
+}
+
+
+/* ==========================================================
+   COUVERTURES
+========================================================== */
+
+.collection-book {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: clamp(115px, 20vw, 245px);
+    height: 85%;
+
+    transform-origin: center center;
+
+    transition:
+        transform 450ms ease,
+        opacity 450ms ease,
+        filter 450ms ease;
+}
+
+.collection-book img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    user-select: none;
+    pointer-events: none;
+
+    filter: drop-shadow(
+        5px 9px 7px var(--collection-book-shadow)
+    );
+}
+
+
+/* ==========================================================
+   TOME CENTRAL
+========================================================== */
+
+.collection-book--active {
+    z-index: 3;
+
+    opacity: 1;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1.18);
+}
+
+
+/* ==========================================================
+   TOME À GAUCHE
+========================================================== */
+
+.collection-book--previous {
+    z-index: 2;
+
+    opacity: .85;
+
+    filter: brightness(.88);
+
+    transform:
+        translate(-122%, -50%)
+        rotate(-13deg)
+        scale(.8);
+}
+
+
+/* ==========================================================
+   TOME À DROITE
+========================================================== */
+
+.collection-book--next {
+    z-index: 2;
+
+    opacity: .85;
+
+    filter: brightness(.88);
+
+    transform:
+        translate(22%, -50%)
+        rotate(13deg)
+        scale(.8);
+}
+
+
+/* ==========================================================
+   COCHE VERTE : TOME POSSÉDÉ
+========================================================== */
+
+.collection-book__owned {
+    position: absolute;
+
+    top: 7%;
+    right: 7%;
+
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: clamp(26px, 3vw, 38px);
+    height: clamp(26px, 3vw, 38px);
+
+    border: 2px solid var(--color-white);
+    border-radius: 50%;
+
+    color: var(--color-white);
+    background: var(--collection-owned);
+
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+    font-weight: 700;
+
+    box-shadow:
+        0 3px 9px var(--collection-badge-shadow);
+}
+
+
+/* ==========================================================
+   DESCRIPTION DU TOME
+========================================================== */
+
+.collection-description {
+    margin-top: 12px;
+    padding: clamp(12px, 2vw, 20px);
+
+    border: 2px solid var(--collection-border-light);
+    border-radius: 10px;
+
+    background:
+        var(--collection-description-background);
+
+    box-shadow:
+        inset 0 0 14px
+        var(--collection-description-shadow);
+
+    text-align: center;
+}
+
+.collection-description h3 {
+    margin: 0 0 10px;
+
+    color: var(--collection-text-dark);
+
+    font-family: Georgia, serif;
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+}
+
+.collection-description p {
+    margin: 6px 0;
+
+    color: var(--collection-text);
+
+    font-size: clamp(.85rem, 1.1vw, 1rem);
+    line-height: 1.5;
+}
+
+#collection-book-status {
+    margin-top: 12px;
+
+    color: var(--collection-status);
+
+    font-weight: 700;
+}
+
+
+/* ==========================================================
+   FOCUS CLAVIER
+========================================================== */
+
+.collection-modal button:focus-visible {
+    outline: 3px solid var(--collection-border-blue);
+    outline-offset: 4px;
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 768px) {
+
+    .collection-modal {
+        padding: 8px;
+    }
+
+    .collection-modal__content {
+        width: 98vw;
+        max-height: 94vh;
+
+        padding: 12px;
+
+        border-width: 8px;
+    }
+
+    .collection-carousel__books {
+        height: clamp(180px, 38vh, 320px);
+    }
+
+    .collection-book {
+        width: clamp(90px, 25vw, 170px);
+    }
+
+    .collection-book--previous {
+        transform:
+            translate(-105%, -50%)
+            rotate(-10deg)
+            scale(.72);
+    }
+
+    .collection-book--next {
+        transform:
+            translate(5%, -50%)
+            rotate(10deg)
+            scale(.72);
+    }
+
+    .collection-description {
+        padding: 10px;
+    }
+}
+
+
+/* ==========================================================
+   ÉCRANS DE FAIBLE HAUTEUR
+========================================================== */
+
+@media (max-height: 600px) {
+
+    .collection-modal__content {
+        max-height: 96vh;
+    }
+
+    .collection-carousel__books {
+        height: 38vh;
+    }
+
+    .collection-description {
+        padding: 8px;
+    }
+
+    .collection-description h3 {
+        margin-bottom: 5px;
+    }
+
+    .collection-description p {
+        line-height: 1.3;
+    }
+}
+
+
+/* ==========================================================
+   POLICE MACHINE À ÉCRIRE — DESCRIPTION COLLECTION
+========================================================== */
+
+#collection-book-description,
+#collection-book-status {
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+}

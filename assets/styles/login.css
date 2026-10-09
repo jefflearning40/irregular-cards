@@ -357,19 +357,19 @@
 ========================================================== */
 
 .logout-layer {
-    position: fixed;
+    position: absolute;
 
-    left: 50%;
-    top: 50%;
+    right: 3%;
+    bottom: 6%;
+    top: auto;
+    left: auto;
 
-    z-index: 9000;
+    width: auto;
+    height: auto;
 
-    width: min(100vw, 150vh);
+    transform: none;
 
-    aspect-ratio: 3 / 2;
-
-    transform:
-        translate(-50%, -50%);
+    z-index: 50;
 
     pointer-events: none;
 }
@@ -380,10 +380,7 @@
 ========================================================== */
 
 .logout-button {
-    position: absolute;
-
-    top: 18px;
-    right: 18px;
+    position: static;
 
     padding: 9px 18px;
 
@@ -418,7 +415,6 @@
         inset 0 1px 1px var(--highlight-white);
 
     cursor: pointer;
-
     pointer-events: auto;
 
     transition:
@@ -428,14 +424,12 @@
 
 .logout-button:hover {
     transform: translateY(-2px);
-
     filter: brightness(1.1);
 }
 
 .logout-button[hidden] {
     display: none;
 }
-
 
 /* ==========================================================
    RESPONSIVE
