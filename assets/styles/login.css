@@ -194,15 +194,17 @@
     box-sizing: border-box;
 }
 
+
 .login-field input:focus {
-    outline: none;
+    outline: 3px solid var(--postcard-blue);
+    outline-offset: 3px;
 
     border-color: var(--postcard-blue);
 
     box-shadow:
-        0 0 0 2px var(--focus-blue),
         inset 0 2px 4px var(--shadow-brown-input);
 }
+
 
 
 /* ==========================================================
@@ -292,6 +294,10 @@
     transform: translateY(-2px);
 
     filter: brightness(1.1);
+}
+.login-button:focus-visible {
+    outline: 3px solid var(--postcard-blue);
+    outline-offset: 4px;
 }
 
 .login-button:disabled {
@@ -425,6 +431,10 @@
 .logout-button:hover {
     transform: translateY(-2px);
     filter: brightness(1.1);
+}
+.logout-button:focus-visible {
+    outline: 3px solid var(--color-white);
+    outline-offset: 4px;
 }
 
 .logout-button[hidden] {
