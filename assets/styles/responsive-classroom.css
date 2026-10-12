@@ -1,781 +1,195 @@
+
 /* ==========================================================
    RESPONSIVE-CLASSROOM.CSS
    RESPONSIVE DE LA CLASSE UNIQUEMENT
 
    DIMENSION MINIMALE :
    768px × 493px
+
+   SCÈNE :
+   1523px × 1033px
 ========================================================== */
 
 
 /* ==========================================================
-   768px À 899px
+   AFFICHAGE RESPONSIVE DE LA SCÈNE
 ========================================================== */
 
-@media (min-width: 768px) and
-       (max-width: 899px) and
-       (min-height: 493px) and
-       (orientation: landscape) {
+.classroom-scene {
+    position: relative;
 
-    /* ======================================================
-       ÉCRAN
-    ====================================================== */
+    width: min(100vw, 147.4347vh);
+    aspect-ratio: 1523 / 1033;
 
-    .classroom-screen {
-        width: 100vw;
-        height: 100vh;
+    flex: none;
 
-        overflow: hidden;
-    }
+    overflow: hidden;
 
-
-    .classroom-image {
-        width: 100%;
-        height: 100%;
-
-        object-fit: contain;
-        object-position: center;
-    }
-
-
-    /* ======================================================
-       TABLEAU
-    ====================================================== */
-
-    .classroom-board {
-        left: 22%;
-        top: 20%;
-
-        width: 53%;
-        height: 40%;
-
-        justify-content: center;
-    }
-
-
-    /* ======================================================
-       TITRE
-    ====================================================== */
-
-    .classroom-board__title {
-        width: 100%;
-
-        margin:
-            0
-            0
-            0.7vh;
-
-        font-size: clamp(
-            1.6rem,
-            4vw,
-            2rem
-        );
-
-        line-height: 1;
-
-        white-space: nowrap;
-    }
-
-
-    /* ======================================================
-       TRADUCTION
-    ====================================================== */
-
-    .classroom-board__translation {
-        width: 100%;
-
-        margin:
-            0
-            0
-            1.8vh;
-
-        font-size: clamp(
-            0.8rem,
-            2vw,
-            1rem
-        );
-
-        line-height: 1;
-    }
-
-
-    /* ======================================================
-       FORMES DU VERBE
-    ====================================================== */
-
-    .classroom-board__verb {
-        width: 82%;
-
-        column-gap: 3%;
-
-        font-size: clamp(
-            0.9rem,
-            2.3vw,
-            1.2rem
-        );
-    }
-
-
-    .classroom-board__verb span {
-        min-width: 0;
-
-        white-space: nowrap;
-    }
-
-
-    /* ======================================================
-       FORMES LONGUES
-    ====================================================== */
-
-    .classroom-board__verb.classroom-board__verb--column {
-        width: 90%;
-
-        gap: 2px;
-
-        font-size: clamp(
-            0.75rem,
-            1.8vw,
-            0.95rem
-        );
-    }
-
-
-    /* ======================================================
-       CHAMPS EXERCICE
-    ====================================================== */
-
-    .classroom-training-input {
-        width: 100%;
-        min-width: 0;
-
-        padding:
-            3px
-            4px;
-
-        box-sizing: border-box;
-
-        font-size: clamp(
-            0.65rem,
-            1.6vw,
-            0.8rem
-        );
-    }
-
-
-    /* ======================================================
-       NAVIGATION
-    ====================================================== */
-
-    .classroom-learning-controls {
-        left: 45%;
-        top: 83%;
-
-        width: 38%;
-
-        transform:
-            translateX(-50%);
-
-        gap: 14px;
-    }
-
-
-    .classroom-learning-controls button {
-        padding:
-            5px
-            8px;
-
-        font-size:
-            0.7rem;
-    }
-
-
-    /* ======================================================
-       COMPTEUR
-    ====================================================== */
-
-    #classroom-verb-counter {
-        min-width: max-content;
-
-        white-space: nowrap;
-
-        font-size:
-            0.7rem;
-    }
-
-
-    /* ======================================================
-       SORTIR
-    ====================================================== */
-
-    .classroom-back-button {
-        left: 26%;
-        top: 53%;
-
-        transform:
-            translateX(-50%);
-
-        padding:
-            5px
-            8px;
-
-        font-size:
-            0.7rem;
-    }
-
-
-    /* ======================================================
-       EXERCICE / VALIDER
-    ====================================================== */
-
-    .classroom-exercise-button {
-        left: 68%;
-        top: 19%;
-
-        transform:
-            translateX(-50%);
-
-        padding:
-            5px
-            8px;
-
-        font-size:
-            0.7rem;
-    }
-
-
-    /* ======================================================
-       PROFESSEUR
-    ====================================================== */
-
-    .classroom-professor {
-        left: 0%;
-        bottom: 5%;
-
-        width: 30%;
-        height: auto;
-    }
+    container-type: size;
 }
 
 
 /* ==========================================================
-   768px À 899px - HAUTEUR 550px ET PLUS
+   ADAPTATION DES TEXTES DU TABLEAU
 ========================================================== */
 
-@media (min-width: 768px) and
-       (max-width: 899px) and
-       (min-height: 550px) and
-       (orientation: landscape) {
+.classroom-board__title {
+    width: 100%;
 
-    /* ======================================================
-       NAVIGATION
-    ====================================================== */
+    margin-bottom: 0.7cqh;
 
-    .classroom-learning-controls {
-        left: 48%;
-        top: 82%;
+    font-size: clamp(1rem, 4.5cqw, 5rem);
+    line-height: 1;
 
-        width: 38%;
+    white-space: nowrap;
+}
 
-        transform:
-            translateX(-50%);
-    }
+.classroom-board__translation {
+    width: 100%;
 
+    margin-bottom: 2cqh;
 
-    /* ======================================================
-       SORTIR
-    ====================================================== */
+    font-size: clamp(0.75rem, 2.2cqw, 2.2rem);
+    line-height: 1;
+}
 
-    .classroom-back-button {
-        left: 24%;
-        top: 53%;
+.classroom-board__verb {
+    width: 82%;
 
-        transform:
-            translateX(-50%);
-    }
+    column-gap: 3%;
 
+    font-size: clamp(0.85rem, 3cqw, 3.4rem);
+}
 
-    /* ======================================================
-       EXERCICE / VALIDER
-    ====================================================== */
+.classroom-board__verb span {
+    min-width: 0;
 
-    .classroom-exercise-button {
-        left: 70%;
-        top: 21%;
-
-        transform:
-            translateX(-50%);
-    }
-
-
-    /* ======================================================
-       PROFESSEUR
-    ====================================================== */
-
-    .classroom-professor {
-        left: -3%;
-        bottom: 5%;
-
-        width: 30%;
-        height: auto;
-    }
+    white-space: nowrap;
 }
 
 
 /* ==========================================================
-   900px À 1024px
+   FORMES LONGUES
 ========================================================== */
 
-@media (min-width: 900px) and
-       (max-width: 1024px) and
-       (min-height: 493px) and
-       (orientation: landscape) {
+.classroom-board__verb.classroom-board__verb--column {
+    width: 90%;
 
-    /* ======================================================
-       TABLEAU
-    ====================================================== */
+    gap: 0.8cqh;
 
-    .classroom-board {
-        left: 22%;
-        top: 20%;
-
-        width: 53%;
-        height: 40%;
-    }
-
-
-    /* ======================================================
-       TITRE
-    ====================================================== */
-
-    .classroom-board__title {
-        margin-bottom:
-            0.8vh;
-
-        font-size: clamp(
-            1.8rem,
-            3.5vw,
-            2.4rem
-        );
-    }
-
-
-    /* ======================================================
-       TRADUCTION
-    ====================================================== */
-
-    .classroom-board__translation {
-        margin-bottom:
-            2vh;
-
-        font-size: clamp(
-            0.9rem,
-            1.8vw,
-            1.15rem
-        );
-    }
-
-
-    /* ======================================================
-       FORMES DU VERBE
-    ====================================================== */
-
-    .classroom-board__verb {
-        width: 80%;
-
-        font-size: clamp(
-            1rem,
-            2.1vw,
-            1.35rem
-        );
-    }
-
-
-    /* ======================================================
-       FORMES LONGUES
-    ====================================================== */
-
-    .classroom-board__verb.classroom-board__verb--column {
-        width: 88%;
-
-        font-size: clamp(
-            0.8rem,
-            1.6vw,
-            1rem
-        );
-    }
-
-
-    /* ======================================================
-       CHAMPS EXERCICE
-    ====================================================== */
-
-    .classroom-training-input {
-        min-width: 0;
-
-        font-size: clamp(
-            0.7rem,
-            1.4vw,
-            0.9rem
-        );
-    }
-
-
-    /* ======================================================
-       NAVIGATION
-    ====================================================== */
-
-    .classroom-learning-controls {
-        left: 48%;
-        top: 83%;
-
-        width: 38%;
-
-        transform:
-            translateX(-50%);
-
-        gap: 20px;
-    }
-
-
-    /* ======================================================
-       BOUTONS
-    ====================================================== */
-
-    .classroom-learning-controls button,
-    .classroom-back-button,
-    .classroom-exercise-button {
-        padding:
-            5px
-            9px;
-
-        font-size:
-            0.72rem;
-    }
-
-
-    /* ======================================================
-       COMPTEUR
-    ====================================================== */
-
-    #classroom-verb-counter {
-        min-width: max-content;
-
-        white-space: nowrap;
-
-        font-size:
-            0.72rem;
-    }
-
-
-    /* ======================================================
-       SORTIR
-    ====================================================== */
-
-    .classroom-back-button {
-        left: 30%;
-        top: 53%;
-
-        transform:
-            translateX(-50%);
-    }
-
-
-    /* ======================================================
-       EXERCICE / VALIDER
-    ====================================================== */
-
-    .classroom-exercise-button {
-        left: 65%;
-        top: 19%;
-
-        transform:
-            translateX(-50%);
-    }
-
-
-    /* ======================================================
-       PROFESSEUR
-    ====================================================== */
-
-    .classroom-professor {
-        left: 6%;
-        bottom: 0%;
-
-        width: 25%;
-        height: auto;
-    }
+    font-size: clamp(0.75rem, 2.2cqw, 2.2rem);
 }
 
 
 /* ==========================================================
-   1024px - HAUTEUR 550px ET PLUS
+   CHAMPS DES EXERCICES
 ========================================================== */
 
-@media (min-width: 1024px) and
-       (max-width: 1024px) and
-       (min-height: 550px) and
-       (orientation: landscape) {
+.classroom-training-input {
+    width: 100%;
+    min-width: 0;
 
-    /* ======================================================
-       NAVIGATION
-    ====================================================== */
+    padding: 0.5cqh 0.5cqw;
 
-    .classroom-learning-controls {
-        left: 48%;
-        top: 83%;
+    box-sizing: border-box;
 
-        width: 38%;
-
-        transform:
-            translateX(-50%);
-    }
-
-
-    /* ======================================================
-       SORTIR
-    ====================================================== */
-
-    .classroom-back-button {
-        left: 27%;
-        top: 53%;
-
-        transform:
-            translateX(-50%);
-    }
-
-
-    /* ======================================================
-       EXERCICE / VALIDER
-    ====================================================== */
-
-    .classroom-exercise-button {
-        left: 67%;
-        top: 19%;
-
-        transform:
-            translateX(-50%);
-    }
-
-
-    /* ======================================================
-       PROFESSEUR
-    ====================================================== */
-
-    .classroom-professor {
-        left: 1%;
-        bottom: 0%;
-
-        width: 28%;
-        height: auto;
-    }
+    font-size: clamp(0.7rem, 2cqw, 2rem);
 }
 
 
 /* ==========================================================
-   1025px À 1199px
+   NAVIGATION DES VERBES
 ========================================================== */
 
-@media (min-width: 1025px) and
-       (max-width: 1199px) and
-       (min-height: 493px) and
-       (orientation: landscape) {
+.classroom-learning-controls {
+    left: 48%;
+    top: 83%;
 
-    /* ======================================================
-       NAVIGATION
-    ====================================================== */
+    width: 45%;
 
-    .classroom-learning-controls {
-        left: 48%;
-        top: 83%;
+    transform: translateX(-50%);
 
-        width: 45%;
-
-        transform:
-            translateX(-50%);
-    }
-
-
-    /* ======================================================
-       COMPTEUR
-    ====================================================== */
-
-    #classroom-verb-counter {
-        min-width: max-content;
-
-        white-space: nowrap;
-    }
-
-
-    /* ======================================================
-       SORTIR
-    ====================================================== */
-
-    .classroom-back-button {
-        left: 25%;
-        top: 53%;
-
-        transform:
-            translateX(-50%);
-    }
-
-
-    /* ======================================================
-       EXERCICE / VALIDER
-    ====================================================== */
-
-    .classroom-exercise-button {
-        left: 69%;
-        top: 22%;
-
-        transform:
-            translateX(-50%);
-    }
-
-
-    /* ======================================================
-       PROFESSEUR
-    ====================================================== */
-
-    .classroom-professor {
-        left: -3%;
-        bottom: 5%;
-
-        width: 31%;
-        height: auto;
-    }
+    gap: 2cqw;
 }
 
 
 /* ==========================================================
-   1200px À 1279px
+   BOUTONS DE LA CLASSE
 ========================================================== */
 
-@media (min-width: 1200px) and
-       (max-width: 1279px) and
-       (min-height: 493px) and
-       (orientation: landscape) {
 
-    /* ======================================================
-       NAVIGATION
-    ====================================================== */
+.classroom-learning-controls button,
+.classroom-back-button,
+.classroom-exercise-button,
+.classroom-review-button,
+.classroom-learning-button {
+    padding: 1cqh 1.5cqw;
 
-    .classroom-learning-controls {
-        width: 45%;
-    }
+    font-size: clamp(0.85rem, 1.8cqw, 1.7rem);
+}
 
 
-    /* ======================================================
-       COMPTEUR
-    ====================================================== */
 
-    #classroom-verb-counter {
-        min-width: max-content;
-
-        white-space: nowrap;
-    }
+/* ==========================================================
+   COMPTEUR
+========================================================== */
 
 
-    /* ======================================================
-       SORTIR
-    ====================================================== */
+#classroom-verb-counter {
+    min-width: max-content;
 
-    .classroom-back-button {
-        left: 24%;
-        top: 55%;
+    white-space: nowrap;
 
-        transform:
-            translateX(-50%);
-    }
+    font-size: clamp(0.85rem, 1.8cqw, 1.7rem);
+}
 
 
-    /* ======================================================
-       EXERCICE / VALIDER
-    ====================================================== */
 
-    .classroom-exercise-button {
-        left: 69%;
-        top: 24%;
+/* ==========================================================
+   BOUTON SORTIR
+========================================================== */
 
-        transform:
-            translateX(-50%);
-    }
+.classroom-back-button {
+    left: 27%;
+    top: 53%;
 
-
-    /* ======================================================
-       PROFESSEUR
-    ====================================================== */
-
-    .classroom-professor {
-        left: -5%;
-        bottom: 5%;
-
-        width: 31%;
-        height: auto;
-    }
+    transform: translateX(-50%);
 }
 
 
 /* ==========================================================
-   1200px À 1279px - HAUTEUR 1000px ET PLUS
+   BOUTON EXERCICE / VALIDER
 ========================================================== */
 
-@media (min-width: 1200px) and
-       (max-width: 1279px) and
-       (min-height: 1000px) and
-       (orientation: landscape) {
+.classroom-exercise-button {
+    left: 68%;
+    top: 19%;
 
-    /* ======================================================
-       NAVIGATION
-    ====================================================== */
-
-    .classroom-learning-controls {
-        left: 48%;
-        top: 84%;
-
-        width: 45%;
-
-        transform:
-            translateX(-50%);
-    }
-
-
-    /* ======================================================
-       SORTIR
-    ====================================================== */
-
-    .classroom-back-button {
-        left: 24%;
-        top: 54%;
-
-        transform:
-            translateX(-50%);
-    }
-
-
-    /* ======================================================
-       EXERCICE / VALIDER
-    ====================================================== */
-
-    .classroom-exercise-button {
-        left: 70%;
-        top: 24%;
-
-        transform:
-            translateX(-50%);
-    }
-
-
-    /* ======================================================
-       PROFESSEUR
-    ====================================================== */
-
-    .classroom-professor {
-        left: -5%;
-        bottom: 5%;
-
-        width: 33%;
-        height: auto;
-    }
+    transform: translateX(-50%);
 }
+
+
+/* ==========================================================
+   PROFESSEUR
+========================================================== */
+
+
+
+.classroom-professor {
+    position: absolute;
+
+    left: 0%;
+    bottom: 5%;
+
+    width: 30%;
+    height: 65%;
+
+    z-index: 15;
+
+    pointer-events: none;
+}
+
+
 
 
 /* ==========================================================
@@ -788,4 +202,5 @@
     .classroom-exercise-button {
         transition: none;
     }
+
 }

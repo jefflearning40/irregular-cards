@@ -1,0 +1,31 @@
+/* ==========================================================
+   RESPONSIVE MESSAGERIE ADMINISTRATEUR
+========================================================== */
+
+@media (max-width: 650px)
+{
+    .admin-messages__navigation
+    {
+        flex-direction: column;
+    }
+
+    .admin-messages__navigation .admin-action-button
+    {
+        width: 100%;
+    }
+
+    .admin-message-row
+    {
+        grid-template-columns: 32px 1fr;
+    }
+
+    .admin-message-row__status
+    {
+        text-align: left;
+    }
+
+    .admin-messages__form .admin-action-button
+    {
+        width: 100%;
+    }
+}

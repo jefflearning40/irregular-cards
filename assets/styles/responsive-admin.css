@@ -1,0 +1,256 @@
+
+/* ==========================================================
+   RESPONSIVE ADMINISTRATION
+========================================================== */
+
+/* ==========================================================
+   TABLEAUX — DÉFILEMENT HORIZONTAL
+========================================================== */
+
+.admin-table-wrapper
+{
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+.admin-table
+{
+    min-width: 760px;
+}
+
+/* ==========================================================
+   CONTENEURS — ÉVITER LES DÉBORDEMENTS
+========================================================== */
+
+.admin-layout
+{
+    min-width: 0;
+}
+
+.admin-content
+{
+    min-width: 0;
+    max-width: 100%;
+}
+
+.admin-view
+{
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* ==========================================================
+   MODALES — DÉFILEMENT VERTICAL
+========================================================== */
+
+.admin-transfer-modal
+{
+    box-sizing: border-box;
+    max-height: 100dvh;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.admin-transfer-modal__content
+{
+    box-sizing: border-box;
+
+    max-width: 100%;
+    max-height: calc(100dvh - 40px);
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+/* ==========================================================
+   TABLETTE ET PETIT ÉCRAN PC
+========================================================== */
+
+@media (max-width: 900px)
+{
+    .admin-terminal
+    {
+        padding: 15px;
+    }
+
+    .admin-layout
+    {
+        grid-template-columns:
+            190px minmax(0, 1fr);
+    }
+
+    .admin-menu
+    {
+        padding: 22px 12px;
+    }
+
+    .admin-content
+    {
+        padding: 25px 20px;
+    }
+
+    .admin-menu__button
+    {
+        font-size: 0.82rem;
+    }
+}
+
+/* ==========================================================
+   PETITE HAUTEUR D'ÉCRAN
+========================================================== */
+
+@media (max-height: 600px)
+{
+    .admin-terminal
+    {
+        min-height: 100dvh;
+    }
+
+    .admin-layout
+    {
+        min-height: 0;
+    }
+
+    .admin-transfer-modal
+    {
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .admin-transfer-modal__content
+    {
+        max-height: calc(100dvh - 20px);
+        overflow-y: auto;
+    }
+}
+
+/* ==========================================================
+   RESPONSIVE MODALE SUPPRESSION
+========================================================== */
+
+@media (max-width: 650px)
+{
+    .admin-delete-teacher-modal__content
+    {
+        padding: 24px 18px;
+    }
+
+    .admin-delete-teacher-warning
+    {
+        flex-direction: column;
+        gap: 28px;
+    }
+
+    .admin-delete-teacher-warning__icon
+    {
+        transform: scale(0.75);
+        margin: -15px 0;
+    }
+
+    .admin-delete-teacher-warning__content
+    {
+        width: 100%;
+    }
+
+    .admin-delete-teacher-actions
+    {
+        flex-direction: column;
+    }
+
+    .admin-delete-teacher-actions .admin-button
+    {
+        width: 100%;
+    }
+}
+
+/* ==========================================================
+   RESPONSIVE MOBILE
+========================================================== */
+
+@media (max-width: 650px)
+{
+    .admin-terminal
+    {
+        padding: 8px;
+    }
+
+    .admin-terminal::after
+    {
+        inset: 4px;
+    }
+
+    .admin-header
+    {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px;
+    }
+
+    .admin-layout
+    {
+        display: block;
+    }
+
+    .admin-menu
+    {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        border-right: 0;
+
+        border-bottom:
+            2px solid var(--admin-theme-color);
+    }
+
+    .admin-menu__title
+    {
+        grid-column: 1 / -1;
+        margin-bottom: 8px;
+    }
+
+    .admin-content
+    {
+        padding: 22px 15px;
+    }
+
+    .admin-block-header
+    {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-button--logout
+    {
+        width: 100%;
+    }
+
+    .admin-transfer-modal
+    {
+        padding: 10px;
+    }
+
+    .admin-transfer-modal__content
+    {
+        padding: 18px;
+    }
+
+    .admin-transfer-actions
+    {
+        flex-direction: column;
+    }
+
+    .admin-transfer-actions .admin-button
+    {
+        width: 100%;
+    }
+}
