@@ -125,6 +125,43 @@
         var(--postcard-blue);
 }
 
+/* ==========================================================
+   BOUTON DÉCONNEXION PROFESSEUR
+========================================================== */
+
+.teacher-logout-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: 8px 14px;
+
+    border: 2px solid var(--postcard-blue);
+    border-radius: var(--button-radius);
+
+    color: var(--postcard-blue);
+    background: var(--postcard-paper-light);
+
+    font-family:
+        "Special Elite",
+        "Courier New",
+        monospace;
+
+    font-size: clamp(.85rem, 1.2vw, 1rem);
+
+    cursor: pointer;
+}
+
+.teacher-logout-button:hover {
+    color: var(--postcard-paper-light);
+    background: var(--postcard-blue);
+}
+
+.teacher-logout-button:focus-visible {
+    outline: 3px solid var(--color-warning);
+    outline-offset: 3px;
+}
+
 
 /* ==========================================================
    TITRE

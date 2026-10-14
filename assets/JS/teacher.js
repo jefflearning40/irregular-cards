@@ -39,7 +39,10 @@ const teacherCreateStudentButton =
     document.getElementById(
         "teacher-create-student-button"
     );
-
+const teacherLogoutButton =
+    document.getElementById(
+        "teacher-logout-button"
+    );
 
 /* ==========================================================
    MODALE CRÉATION ÉLÈVE
@@ -792,7 +795,29 @@ async function loadTeacherDashboard()
         );
     }
 }
+/* ==========================================================
+   DÉCONNEXION PROFESSEUR
+========================================================== */
 
+teacherLogoutButton.addEventListener(
+    "click",
+    () =>
+    {
+        logoutUser();
+
+        document.getElementById(
+            "teacher-screen"
+        ).style.display = "none";
+
+        showDeparture();
+
+        document.getElementById(
+            "login-form"
+        ).reset();
+
+        openLoginModal();
+    }
+);
 
 /* ==========================================================
    ÉVÉNEMENTS MODALE CRÉATION ÉLÈVE
