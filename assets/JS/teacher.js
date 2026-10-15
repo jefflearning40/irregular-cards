@@ -1,141 +1,118 @@
-"use strict";
 
+"use strict";
 
 /* ==========================================================
    ÉLÉMENTS HTML
 ========================================================== */
 
-const teacherName =
-    document.getElementById(
-        "teacher-name"
-    );
+const teacherName = document.getElementById("teacher-name");
+const teacherStudentCount = document.getElementById("teacher-student-count");
+const teacherQuizCount = document.getElementById("teacher-quiz-count");
+const teacherClassAverage = document.getElementById("teacher-class-average");
+const teacherErrorCount = document.getElementById("teacher-error-count");
+const teacherStudentsList = document.getElementById("teacher-students-list");
+const teacherCreateStudentButton = document.getElementById("teacher-create-student-button");
+const teacherLogoutButton = document.getElementById("teacher-logout-button");
+const teacherServerError = document.getElementById("teacher-server-error");
 
-const teacherStudentCount =
-    document.getElementById(
-        "teacher-student-count"
-    );
+const teacherStudentModal = document.getElementById("teacher-student-modal");
+const teacherStudentModalClose = document.getElementById("teacher-student-modal-close");
+const teacherStudentCancelButton = document.getElementById("teacher-student-cancel-button");
+const teacherStudentForm = document.getElementById("teacher-student-form");
+const teacherStudentMessage = document.getElementById("teacher-student-message");
+const teacherStudentPassword = document.getElementById("teacher-student-password");
+const teacherStudentPasswordToggle = document.getElementById("teacher-student-password-toggle");
+const teacherStudentPasswordConfirm = document.getElementById("teacher-student-password-confirm");
+const teacherStudentPasswordConfirmToggle = document.getElementById("teacher-student-password-confirm-toggle");
 
-const teacherQuizCount =
-    document.getElementById(
-        "teacher-quiz-count"
-    );
+const teacherDeleteStudentModal = document.getElementById("teacher-delete-student-modal");
+const teacherDeleteStudentModalClose = document.getElementById("teacher-delete-student-modal-close");
+const teacherDeleteStudentName = document.getElementById("teacher-delete-student-name");
+const teacherDeleteStudentMessage = document.getElementById("teacher-delete-student-message");
+const teacherDeleteStudentCancelButton = document.getElementById("teacher-delete-student-cancel-button");
+const teacherDeleteStudentConfirmButton = document.getElementById("teacher-delete-student-confirm-button");
 
-const teacherClassAverage =
-    document.getElementById(
-        "teacher-class-average"
-    );
-
-const teacherErrorCount =
-    document.getElementById(
-        "teacher-error-count"
-    );
-
-const teacherStudentsList =
-    document.getElementById(
-        "teacher-students-list"
-    );
-
-const teacherCreateStudentButton =
-    document.getElementById(
-        "teacher-create-student-button"
-    );
-const teacherLogoutButton =
-    document.getElementById(
-        "teacher-logout-button"
-    );
+let teacherStudentToDelete = null;
+let teacherServerOffline = false;
 
 /* ==========================================================
-   MODALE CRÉATION ÉLÈVE
+   GESTION DE L'INDISPONIBILITÉ DU SERVEUR
 ========================================================== */
 
-const teacherStudentModal =
-    document.getElementById(
-        "teacher-student-modal"
+function isTeacherServerUnavailable(error)
+{
+    return (
+        error?.message === "SERVER_UNAVAILABLE" ||
+        error instanceof TypeError
     );
+}
 
-const teacherStudentModalClose =
-    document.getElementById(
-        "teacher-student-modal-close"
-    );
+function setTeacherDashboardDisabled(disabled)
+{
+    const teacherScreen = document.getElementById("teacher-screen");
 
-const teacherStudentCancelButton =
-    document.getElementById(
-        "teacher-student-cancel-button"
-    );
+    teacherScreen.querySelectorAll("button").forEach((button) =>
+    {
+        if (button === teacherLogoutButton)
+        {
+            button.disabled = false;
+            return;
+        }
 
-const teacherStudentForm =
-    document.getElementById(
-        "teacher-student-form"
-    );
+        button.disabled = disabled;
+        button.style.opacity = disabled ? "0.35" : "";
+        button.style.filter = disabled ? "grayscale(100%)" : "";
+        button.style.cursor = disabled ? "not-allowed" : "";
+    });
+}
 
-const teacherStudentMessage =
-    document.getElementById(
-        "teacher-student-message"
-    );
+function handleTeacherServerUnavailable(error)
+{
+    if (!isTeacherServerUnavailable(error))
+    {
+        return false;
+    }
 
-const teacherStudentPassword =
-    document.getElementById(
-        "teacher-student-password"
-    );
+    teacherServerOffline = true;
 
-const teacherStudentPasswordToggle =
-    document.getElementById(
-        "teacher-student-password-toggle"
-    );
+    teacherServerError.textContent =
+        "Connexion au serveur impossible. Veuillez réessayer ultérieurement.";
 
-const teacherStudentPasswordConfirm =
-    document.getElementById(
-        "teacher-student-password-confirm"
-    );
+    teacherServerError.hidden = false;
 
-const teacherStudentPasswordConfirmToggle =
-    document.getElementById(
-        "teacher-student-password-confirm-toggle"
-    );
+    if (typeof closeMessagesModal === "function")
+    {
+        closeMessagesModal();
+    }
 
+    closeTeacherStudentModal();
+    closeTeacherDeleteStudentModal();
+
+    setTeacherDashboardDisabled(true);
+
+    return true;
+}
+
+function resetTeacherServerState()
+{
+    teacherServerOffline = false;
+
+    teacherServerError.textContent = "";
+    teacherServerError.hidden = true;
+
+    setTeacherDashboardDisabled(false);
+}
 
 /* ==========================================================
-   MODALE SUPPRESSION ÉLÈVE
+   ERREURS API PROVENANT DE LA MESSAGERIE
 ========================================================== */
 
-const teacherDeleteStudentModal =
-    document.getElementById(
-        "teacher-delete-student-modal"
+document.addEventListener("teacher-api-unavailable", () =>
+{
+    handleTeacherServerUnavailable(
+        new Error("SERVER_UNAVAILABLE")
     );
-
-const teacherDeleteStudentModalClose =
-    document.getElementById(
-        "teacher-delete-student-modal-close"
-    );
-
-const teacherDeleteStudentName =
-    document.getElementById(
-        "teacher-delete-student-name"
-    );
-
-const teacherDeleteStudentMessage =
-    document.getElementById(
-        "teacher-delete-student-message"
-    );
-
-const teacherDeleteStudentCancelButton =
-    document.getElementById(
-        "teacher-delete-student-cancel-button"
-    );
-
-const teacherDeleteStudentConfirmButton =
-    document.getElementById(
-        "teacher-delete-student-confirm-button"
-    );
-
-
-/* ==========================================================
-   ÉLÈVE EN ATTENTE DE SUPPRESSION
-========================================================== */
-
-let teacherStudentToDelete =
-    null;
-
+});
 
 /* ==========================================================
    AFFICHAGE DU NOM DU PROFESSEUR
@@ -145,52 +122,32 @@ function displayTeacherName()
 {
     if (!currentUser)
     {
-        teacherName.textContent =
-            "-";
-
+        teacherName.textContent = "-";
         return;
     }
-
 
     teacherName.textContent =
         `${currentUser.prenom} ${currentUser.nom}`;
 }
 
-
 /* ==========================================================
    AFFICHAGE DES STATISTIQUES DE LA CLASSE
 ========================================================== */
 
-function displayTeacherStatistics(
-    statistics
-)
+function displayTeacherStatistics(statistics)
 {
     teacherStudentCount.textContent =
-        Number(
-            statistics.nombre_eleves
-        );
-
+        Number(statistics.nombre_eleves);
 
     teacherQuizCount.textContent =
-        Number(
-            statistics.nombre_quiz
-        );
-
+        Number(statistics.nombre_quiz);
 
     teacherClassAverage.textContent =
-        `${
-            Number(
-                statistics.moyenne_classe
-            )
-        } %`;
-
+        `${Number(statistics.moyenne_classe)} %`;
 
     teacherErrorCount.textContent =
-        Number(
-            statistics.nombre_erreurs
-        );
+        Number(statistics.nombre_erreurs);
 }
-
 
 /* ==========================================================
    RÉINITIALISATION DES MOTS DE PASSE
@@ -198,38 +155,29 @@ function displayTeacherStatistics(
 
 function resetTeacherStudentPasswords()
 {
-    teacherStudentPassword.type =
-        "password";
-
-
-    teacherStudentPasswordConfirm.type =
-        "password";
-
+    teacherStudentPassword.type = "password";
+    teacherStudentPasswordConfirm.type = "password";
 
     teacherStudentPasswordToggle.setAttribute(
         "aria-label",
         "Afficher le mot de passe"
     );
 
-
     teacherStudentPasswordToggle.setAttribute(
         "title",
         "Afficher le mot de passe"
     );
-
 
     teacherStudentPasswordConfirmToggle.setAttribute(
         "aria-label",
         "Afficher la confirmation du mot de passe"
     );
 
-
     teacherStudentPasswordConfirmToggle.setAttribute(
         "title",
         "Afficher le mot de passe"
     );
 }
-
 
 /* ==========================================================
    AFFICHER / MASQUER LE MOT DE PASSE
@@ -238,15 +186,10 @@ function resetTeacherStudentPasswords()
 function toggleTeacherStudentPassword()
 {
     const passwordIsHidden =
-        teacherStudentPassword.type ===
-        "password";
-
+        teacherStudentPassword.type === "password";
 
     teacherStudentPassword.type =
-        passwordIsHidden
-            ? "text"
-            : "password";
-
+        passwordIsHidden ? "text" : "password";
 
     teacherStudentPasswordToggle.setAttribute(
         "aria-label",
@@ -255,7 +198,6 @@ function toggleTeacherStudentPassword()
             : "Afficher le mot de passe"
     );
 
-
     teacherStudentPasswordToggle.setAttribute(
         "title",
         passwordIsHidden
@@ -263,7 +205,6 @@ function toggleTeacherStudentPassword()
             : "Afficher le mot de passe"
     );
 }
-
 
 /* ==========================================================
    AFFICHER / MASQUER LA CONFIRMATION
@@ -272,15 +213,10 @@ function toggleTeacherStudentPassword()
 function toggleTeacherStudentPasswordConfirm()
 {
     const passwordIsHidden =
-        teacherStudentPasswordConfirm.type ===
-        "password";
-
+        teacherStudentPasswordConfirm.type === "password";
 
     teacherStudentPasswordConfirm.type =
-        passwordIsHidden
-            ? "text"
-            : "password";
-
+        passwordIsHidden ? "text" : "password";
 
     teacherStudentPasswordConfirmToggle.setAttribute(
         "aria-label",
@@ -288,7 +224,6 @@ function toggleTeacherStudentPasswordConfirm()
             ? "Masquer la confirmation du mot de passe"
             : "Afficher la confirmation du mot de passe"
     );
-
 
     teacherStudentPasswordConfirmToggle.setAttribute(
         "title",
@@ -298,34 +233,31 @@ function toggleTeacherStudentPasswordConfirm()
     );
 }
 
-
 /* ==========================================================
    OUVERTURE MODALE CRÉATION ÉLÈVE
 ========================================================== */
 
 function openTeacherStudentModal()
 {
+    if (teacherServerOffline)
+    {
+        return;
+    }
+
     teacherStudentForm.reset();
-
-
-    teacherStudentMessage.textContent =
-        "";
-
+    teacherStudentMessage.textContent = "";
 
     resetTeacherStudentPasswords();
-
 
     teacherStudentModal.classList.add(
         "teacher-student-modal--open"
     );
-
 
     teacherStudentModal.setAttribute(
         "aria-hidden",
         "false"
     );
 }
-
 
 /* ==========================================================
    FERMETURE MODALE CRÉATION ÉLÈVE
@@ -337,59 +269,45 @@ function closeTeacherStudentModal()
         "teacher-student-modal--open"
     );
 
-
     teacherStudentModal.setAttribute(
         "aria-hidden",
         "true"
     );
 
-
     teacherStudentForm.reset();
-
-
-    teacherStudentMessage.textContent =
-        "";
-
+    teacherStudentMessage.textContent = "";
 
     resetTeacherStudentPasswords();
 }
-
 
 /* ==========================================================
    OUVERTURE MODALE SUPPRESSION ÉLÈVE
 ========================================================== */
 
-function openTeacherDeleteStudentModal(
-    student
-)
+function openTeacherDeleteStudentModal(student)
 {
-    teacherStudentToDelete =
-        student;
+    if (teacherServerOffline)
+    {
+        return;
+    }
 
+    teacherStudentToDelete = student;
 
     teacherDeleteStudentName.textContent =
         `${student.prenom} ${student.nom}`;
 
-
-    teacherDeleteStudentMessage.textContent =
-        "";
-
-
-    teacherDeleteStudentConfirmButton.disabled =
-        false;
-
+    teacherDeleteStudentMessage.textContent = "";
+    teacherDeleteStudentConfirmButton.disabled = false;
 
     teacherDeleteStudentModal.classList.add(
         "teacher-delete-student-modal--open"
     );
-
 
     teacherDeleteStudentModal.setAttribute(
         "aria-hidden",
         "false"
     );
 }
-
 
 /* ==========================================================
    FERMETURE MODALE SUPPRESSION ÉLÈVE
@@ -401,313 +319,173 @@ function closeTeacherDeleteStudentModal()
         "teacher-delete-student-modal--open"
     );
 
-
     teacherDeleteStudentModal.setAttribute(
         "aria-hidden",
         "true"
     );
 
+    teacherDeleteStudentName.textContent = "";
+    teacherDeleteStudentMessage.textContent = "";
+    teacherDeleteStudentConfirmButton.disabled = false;
 
-    teacherDeleteStudentName.textContent =
-        "";
-
-
-    teacherDeleteStudentMessage.textContent =
-        "";
-
-
-    teacherDeleteStudentConfirmButton.disabled =
-        false;
-
-
-    teacherStudentToDelete =
-        null;
+    teacherStudentToDelete = null;
 }
-
 
 /* ==========================================================
    CRÉATION D'UNE LIGNE ÉLÈVE
 ========================================================== */
 
-function createTeacherStudentItem(
-    student
-)
+function createTeacherStudentItem(student)
 {
-    const item =
-        document.createElement(
-            "div"
-        );
-
-
-    item.className =
-        "teacher-student-item";
-
+    const item = document.createElement("div");
+    item.className = "teacher-student-item";
 
     /* ======================================================
        NOM
     ====================================================== */
 
-    const name =
-        document.createElement(
-            "span"
-        );
-
-
-    name.className =
-        "teacher-student-name";
-
-
-    name.textContent =
-        `${student.prenom} ${student.nom}`;
-
+    const name = document.createElement("span");
+    name.className = "teacher-student-name";
+    name.textContent = `${student.prenom} ${student.nom}`;
 
     /* ======================================================
        NOMBRE DE QUIZ
     ====================================================== */
 
-    const quizCount =
-        document.createElement(
-            "span"
-        );
-
-
-    quizCount.className =
-        "teacher-student-quiz-count";
-
-
-    quizCount.textContent =
-        Number(
-            student.nombre_quiz
-        );
-
+    const quizCount = document.createElement("span");
+    quizCount.className = "teacher-student-quiz-count";
+    quizCount.textContent = Number(student.nombre_quiz);
 
     /* ======================================================
        MOYENNE
     ====================================================== */
 
-    const average =
-        document.createElement(
-            "span"
-        );
-
-
-    average.className =
-        "teacher-student-average";
-
-
-    average.textContent =
-        `${Number(student.moyenne)} %`;
-
+    const average = document.createElement("span");
+    average.className = "teacher-student-average";
+    average.textContent = `${Number(student.moyenne)} %`;
 
     /* ======================================================
        ACTIONS
     ====================================================== */
 
-    const actions =
-        document.createElement(
-            "div"
-        );
-
-
-    actions.className =
-        "teacher-student-actions";
-
+    const actions = document.createElement("div");
+    actions.className = "teacher-student-actions";
 
     /* ======================================================
        BOUTON CONSULTER
     ====================================================== */
 
-    const consultButton =
-        document.createElement(
-            "button"
-        );
+    const consultButton = document.createElement("button");
+    consultButton.className = "teacher-student-button";
+    consultButton.type = "button";
+    consultButton.textContent = "Consulter";
+    consultButton.dataset.studentId = student.id;
 
-
-    consultButton.className =
-        "teacher-student-button";
-
-
-    consultButton.type =
-        "button";
-
-
-    consultButton.textContent =
-        "Consulter";
-
-
-    consultButton.dataset.studentId =
-        student.id;
-
-
-    consultButton.addEventListener(
-        "click",
-        async () =>
+    consultButton.addEventListener("click", async () =>
+    {
+        if (teacherServerOffline)
         {
-            consultButton.disabled =
-                true;
+            return;
+        }
 
+        teacherServerError.textContent = "";
+        teacherServerError.hidden = true;
 
-            try
+        consultButton.disabled = true;
+
+        try
+        {
+            const studentStatistics =
+                await getTeacherStudentStatistics(student.id);
+
+            if (teacherServerOffline)
             {
-                const studentStatistics =
-                    await getTeacherStudentStatistics(
-                        student.id
-                    );
-
-
-                displayStudentStatistics(
-                    studentStatistics
-                );
-
-
-                showStatistics();
+                return;
             }
-            catch (error)
+
+            displayStudentStatistics(studentStatistics);
+            showStatistics();
+        }
+        catch (error)
+        {
+            console.error(error);
+
+            if (!handleTeacherServerUnavailable(error))
             {
-                console.error(
-                    error
-                );
-            }
-            finally
-            {
-                consultButton.disabled =
-                    false;
+                teacherServerError.textContent =
+                    "Impossible de consulter les statistiques de cet élève.";
+
+                teacherServerError.hidden = false;
             }
         }
-    );
-
+        finally
+        {
+            consultButton.disabled = teacherServerOffline;
+        }
+    });
 
     /* ======================================================
        BOUTON SUPPRIMER
     ====================================================== */
 
-    const deleteButton =
-        document.createElement(
-            "button"
-        );
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "teacher-student-delete-button";
+    deleteButton.type = "button";
+    deleteButton.textContent = "Supprimer";
+    deleteButton.dataset.studentId = student.id;
 
-
-    deleteButton.className =
-        "teacher-student-delete-button";
-
-
-    deleteButton.type =
-        "button";
-
-
-    deleteButton.textContent =
-        "Supprimer";
-
-
-    deleteButton.dataset.studentId =
-        student.id;
-
-
-    deleteButton.addEventListener(
-        "click",
-        () =>
-        {
-            openTeacherDeleteStudentModal(
-                student
-            );
-        }
-    );
-
+    deleteButton.addEventListener("click", () =>
+    {
+        openTeacherDeleteStudentModal(student);
+    });
 
     /* ======================================================
        AJOUT DES BOUTONS
     ====================================================== */
 
-    actions.appendChild(
-        consultButton
-    );
-
-
-    actions.appendChild(
-        deleteButton
-    );
-
+    actions.appendChild(consultButton);
+    actions.appendChild(deleteButton);
 
     /* ======================================================
        AJOUT À LA LIGNE
     ====================================================== */
 
-    item.appendChild(
-        name
-    );
-
-
-    item.appendChild(
-        quizCount
-    );
-
-
-    item.appendChild(
-        average
-    );
-
-
-    item.appendChild(
-        actions
-    );
-
+    item.appendChild(name);
+    item.appendChild(quizCount);
+    item.appendChild(average);
+    item.appendChild(actions);
 
     return item;
 }
-
 
 /* ==========================================================
    AFFICHAGE DE LA LISTE DES ÉLÈVES
 ========================================================== */
 
-function displayTeacherStudents(
-    students
-)
+function displayTeacherStudents(students)
 {
-    teacherStudentsList.innerHTML =
-        "";
+    teacherStudentsList.innerHTML = "";
 
-
-    if (
-        !Array.isArray(students) ||
-        students.length === 0
-    )
+    if (!Array.isArray(students) || students.length === 0)
     {
-        const message =
-            document.createElement(
-                "p"
-            );
+        const message = document.createElement("p");
+        message.textContent = "Aucun élève enregistré.";
 
-
-        message.textContent =
-            "Aucun élève enregistré.";
-
-
-        teacherStudentsList.appendChild(
-            message
-        );
-
-
+        teacherStudentsList.appendChild(message);
         return;
     }
 
+    students.forEach((student) =>
+    {
+        const item = createTeacherStudentItem(student);
+        teacherStudentsList.appendChild(item);
+    });
 
-    students.forEach(
-        (student) =>
-        {
-            const item =
-                createTeacherStudentItem(
-                    student
-                );
-
-
-            teacherStudentsList.appendChild(
-                item
-            );
-        }
-    );
+    if (teacherServerOffline)
+    {
+        setTeacherDashboardDisabled(true);
+    }
 }
-
 
 /* ==========================================================
    CHARGEMENT DU TABLEAU DE BORD
@@ -715,109 +493,83 @@ function displayTeacherStudents(
 
 async function loadTeacherDashboard()
 {
+    resetTeacherServerState();
+
     displayTeacherName();
 
+    teacherStudentCount.textContent = "...";
+    teacherQuizCount.textContent = "...";
+    teacherClassAverage.textContent = "...";
+    teacherErrorCount.textContent = "...";
 
-    teacherStudentCount.textContent =
-        "...";
-
-    teacherQuizCount.textContent =
-        "...";
-
-    teacherClassAverage.textContent =
-        "...";
-
-    teacherErrorCount.textContent =
-        "...";
-
-
-    teacherStudentsList.innerHTML =
-        "";
-
+    teacherStudentsList.innerHTML = "";
 
     try
     {
-        const [
-            students,
-            statistics
-        ] =
-            await Promise.all([
-                getTeacherStudents(),
-                getTeacherStatistics()
-            ]);
+        const [students, statistics] = await Promise.all([
+            getTeacherStudents(),
+            getTeacherStatistics()
+        ]);
 
+        if (teacherServerOffline)
+        {
+            return;
+        }
 
-        displayTeacherStatistics(
-            statistics
-        );
-
-
-        displayTeacherStudents(
-            students
-        );
+        displayTeacherStatistics(statistics);
+        displayTeacherStudents(students);
     }
     catch (error)
     {
-        console.error(
-            error
-        );
+        console.error(error);
 
+        teacherStudentCount.textContent = "-";
+        teacherQuizCount.textContent = "-";
+        teacherClassAverage.textContent = "-";
+        teacherErrorCount.textContent = "-";
 
-        teacherStudentCount.textContent =
-            "-";
+        teacherStudentsList.innerHTML = "";
 
-        teacherQuizCount.textContent =
-            "-";
+        if (!handleTeacherServerUnavailable(error))
+        {
+            teacherServerError.textContent =
+                "Impossible de charger le tableau de bord.";
 
-        teacherClassAverage.textContent =
-            "-";
-
-        teacherErrorCount.textContent =
-            "-";
-
-
-        teacherStudentsList.innerHTML =
-            "";
-
-
-        const message =
-            document.createElement(
-                "p"
-            );
-
-
-        message.textContent =
-            "Impossible de charger le tableau de bord.";
-
-
-        teacherStudentsList.appendChild(
-            message
-        );
+            teacherServerError.hidden = false;
+        }
     }
 }
+
 /* ==========================================================
    DÉCONNEXION PROFESSEUR
 ========================================================== */
 
-teacherLogoutButton.addEventListener(
-    "click",
-    () =>
+teacherLogoutButton.addEventListener("click", () =>
+{
+    closeTeacherStudentModal();
+    closeTeacherDeleteStudentModal();
+
+    if (typeof closeMessagesModal === "function")
     {
-        logoutUser();
-
-        document.getElementById(
-            "teacher-screen"
-        ).style.display = "none";
-
-        showDeparture();
-
-        document.getElementById(
-            "login-form"
-        ).reset();
-
-        openLoginModal();
+        closeMessagesModal();
     }
-);
+
+    resetTeacherServerState();
+
+    logoutUser();
+
+    document.getElementById(
+        "teacher-screen"
+    ).style.display = "none";
+
+    showDeparture();
+
+    document.getElementById(
+        "login-form"
+    ).reset();
+
+    openLoginModal();
+});
 
 /* ==========================================================
    ÉVÉNEMENTS MODALE CRÉATION ÉLÈVE
@@ -828,45 +580,33 @@ teacherCreateStudentButton.addEventListener(
     openTeacherStudentModal
 );
 
-
 teacherStudentModalClose.addEventListener(
     "click",
     closeTeacherStudentModal
 );
-
 
 teacherStudentCancelButton.addEventListener(
     "click",
     closeTeacherStudentModal
 );
 
-
 teacherStudentPasswordToggle.addEventListener(
     "click",
     toggleTeacherStudentPassword
 );
-
 
 teacherStudentPasswordConfirmToggle.addEventListener(
     "click",
     toggleTeacherStudentPasswordConfirm
 );
 
-
-teacherStudentModal.addEventListener(
-    "click",
-    (event) =>
+teacherStudentModal.addEventListener("click", (event) =>
+{
+    if (event.target === teacherStudentModal)
     {
-        if (
-            event.target ===
-            teacherStudentModal
-        )
-        {
-            closeTeacherStudentModal();
-        }
+        closeTeacherStudentModal();
     }
-);
-
+});
 
 /* ==========================================================
    ÉVÉNEMENTS MODALE SUPPRESSION ÉLÈVE
@@ -877,27 +617,18 @@ teacherDeleteStudentModalClose.addEventListener(
     closeTeacherDeleteStudentModal
 );
 
-
 teacherDeleteStudentCancelButton.addEventListener(
     "click",
     closeTeacherDeleteStudentModal
 );
 
-
-teacherDeleteStudentModal.addEventListener(
-    "click",
-    (event) =>
+teacherDeleteStudentModal.addEventListener("click", (event) =>
+{
+    if (event.target === teacherDeleteStudentModal)
     {
-        if (
-            event.target ===
-            teacherDeleteStudentModal
-        )
-        {
-            closeTeacherDeleteStudentModal();
-        }
+        closeTeacherDeleteStudentModal();
     }
-);
-
+});
 
 /* ==========================================================
    CONFIRMATION DE LA SUPPRESSION
@@ -907,113 +638,86 @@ teacherDeleteStudentConfirmButton.addEventListener(
     "click",
     async () =>
     {
-        if (!teacherStudentToDelete)
+        if (!teacherStudentToDelete || teacherServerOffline)
         {
             return;
         }
 
+        const studentId = teacherStudentToDelete.id;
 
-        const studentId =
-            teacherStudentToDelete.id;
-
-
-        teacherDeleteStudentMessage.textContent =
-            "";
-
-
-        teacherDeleteStudentConfirmButton.disabled =
-            true;
-
+        teacherDeleteStudentMessage.textContent = "";
+        teacherDeleteStudentConfirmButton.disabled = true;
 
         try
         {
-            await deleteTeacherStudent(
-                studentId
-            );
+            await deleteTeacherStudent(studentId);
 
+            if (teacherServerOffline)
+            {
+                return;
+            }
 
             closeTeacherDeleteStudentModal();
-
-
             await loadTeacherDashboard();
         }
         catch (error)
         {
-            console.error(
-                error
-            );
+            console.error(error);
 
+            if (handleTeacherServerUnavailable(error))
+            {
+                return;
+            }
 
-            if (
-                error.message ===
-                "STUDENT_NOT_FOUND"
-            )
+            if (error.message === "STUDENT_NOT_FOUND")
             {
                 teacherDeleteStudentMessage.textContent =
                     "Cet élève n'existe plus dans votre classe.";
-            }
-            else if (
-                error.message ===
-                "SERVER_UNAVAILABLE"
-            )
-            {
-                teacherDeleteStudentMessage.textContent =
-                    "Impossible de contacter le serveur.";
             }
             else
             {
                 teacherDeleteStudentMessage.textContent =
                     "Impossible de supprimer cet élève.";
             }
-
-
+        }
+        finally
+        {
             teacherDeleteStudentConfirmButton.disabled =
-                false;
+                teacherServerOffline;
         }
     }
 );
-
 
 /* ==========================================================
    TOUCHE ÉCHAP
 ========================================================== */
 
-document.addEventListener(
-    "keydown",
-    (event) =>
+document.addEventListener("keydown", (event) =>
+{
+    if (event.key !== "Escape")
     {
-        if (
-            event.key !==
-            "Escape"
-        )
-        {
-            return;
-        }
-
-
-        if (
-            teacherDeleteStudentModal.classList.contains(
-                "teacher-delete-student-modal--open"
-            )
-        )
-        {
-            closeTeacherDeleteStudentModal();
-
-            return;
-        }
-
-
-        if (
-            teacherStudentModal.classList.contains(
-                "teacher-student-modal--open"
-            )
-        )
-        {
-            closeTeacherStudentModal();
-        }
+        return;
     }
-);
 
+    if (
+        teacherDeleteStudentModal.classList.contains(
+            "teacher-delete-student-modal--open"
+        )
+    )
+    {
+        closeTeacherDeleteStudentModal();
+        return;
+    }
+
+    if (
+        teacherStudentModal.classList.contains(
+            "teacher-student-modal--open"
+        )
+    )
+    {
+        closeTeacherStudentModal();
+    }
+});
 
 /* ==========================================================
    CRÉATION D'UN ÉLÈVE
@@ -1025,32 +729,29 @@ teacherStudentForm.addEventListener(
     {
         event.preventDefault();
 
+        if (teacherServerOffline)
+        {
+            return;
+        }
 
-        const nom =
-            document.getElementById(
-                "teacher-student-lastname"
-            ).value.trim();
+        const nom = document.getElementById(
+            "teacher-student-lastname"
+        ).value.trim();
 
-        const prenom =
-            document.getElementById(
-                "teacher-student-firstname"
-            ).value.trim();
+        const prenom = document.getElementById(
+            "teacher-student-firstname"
+        ).value.trim();
 
-        const email =
-            document.getElementById(
-                "teacher-student-email"
-            ).value.trim();
+        const email = document.getElementById(
+            "teacher-student-email"
+        ).value.trim();
 
-        const motDePasse =
-            teacherStudentPassword.value;
+        const motDePasse = teacherStudentPassword.value;
 
         const confirmationMotDePasse =
             teacherStudentPasswordConfirm.value;
 
-
-        teacherStudentMessage.textContent =
-            "";
-
+        teacherStudentMessage.textContent = "";
 
         /* ==================================================
            CHAMPS OBLIGATOIRES
@@ -1070,15 +771,11 @@ teacherStudentForm.addEventListener(
             return;
         }
 
-
         /* ==================================================
            NOM
         ================================================== */
 
-        if (
-            nom.length < 2 ||
-            nom.length > 50
-        )
+        if (nom.length < 2 || nom.length > 50)
         {
             teacherStudentMessage.textContent =
                 "Nom invalide : entre 2 et 50 caractères.";
@@ -1086,16 +783,9 @@ teacherStudentForm.addEventListener(
             return;
         }
 
+        const namePattern = /^[\p{L}\p{M}' -]+$/u;
 
-        const namePattern =
-            /^[\p{L}\p{M}' -]+$/u;
-
-
-        if (
-            !namePattern.test(
-                nom
-            )
-        )
+        if (!namePattern.test(nom))
         {
             teacherStudentMessage.textContent =
                 "Nom invalide : lettres, espaces, apostrophes et tirets uniquement.";
@@ -1103,15 +793,11 @@ teacherStudentForm.addEventListener(
             return;
         }
 
-
         /* ==================================================
            PRÉNOM
         ================================================== */
 
-        if (
-            prenom.length < 2 ||
-            prenom.length > 50
-        )
+        if (prenom.length < 2 || prenom.length > 50)
         {
             teacherStudentMessage.textContent =
                 "Prénom invalide : entre 2 et 50 caractères.";
@@ -1119,12 +805,7 @@ teacherStudentForm.addEventListener(
             return;
         }
 
-
-        if (
-            !namePattern.test(
-                prenom
-            )
-        )
+        if (!namePattern.test(prenom))
         {
             teacherStudentMessage.textContent =
                 "Prénom invalide : lettres, espaces, apostrophes et tirets uniquement.";
@@ -1132,20 +813,15 @@ teacherStudentForm.addEventListener(
             return;
         }
 
-
         /* ==================================================
            E-MAIL
         ================================================== */
 
-        const emailPattern =
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (
             email.length > 254 ||
-            !emailPattern.test(
-                email
-            )
+            !emailPattern.test(email)
         )
         {
             teacherStudentMessage.textContent =
@@ -1153,7 +829,6 @@ teacherStudentForm.addEventListener(
 
             return;
         }
-
 
         /* ==================================================
            MOT DE PASSE
@@ -1170,22 +845,13 @@ teacherStudentForm.addEventListener(
             return;
         }
 
-
         const passwordHasLetter =
-            /\p{L}/u.test(
-                motDePasse
-            );
+            /\p{L}/u.test(motDePasse);
 
         const passwordHasNumber =
-            /\d/.test(
-                motDePasse
-            );
+            /\d/.test(motDePasse);
 
-
-        if (
-            !passwordHasLetter ||
-            !passwordHasNumber
-        )
+        if (!passwordHasLetter || !passwordHasNumber)
         {
             teacherStudentMessage.textContent =
                 "Mot de passe incomplet : au moins une lettre et un chiffre.";
@@ -1193,15 +859,11 @@ teacherStudentForm.addEventListener(
             return;
         }
 
-
         /* ==================================================
            CONFIRMATION DU MOT DE PASSE
         ================================================== */
 
-        if (
-            motDePasse !==
-            confirmationMotDePasse
-        )
+        if (motDePasse !== confirmationMotDePasse)
         {
             teacherStudentMessage.textContent =
                 "Les mots de passe ne correspondent pas.";
@@ -1209,20 +871,15 @@ teacherStudentForm.addEventListener(
             return;
         }
 
-
         /* ==================================================
            ENVOI AU SERVEUR
         ================================================== */
 
-        const submitButton =
-            document.getElementById(
-                "teacher-student-submit-button"
-            );
+        const submitButton = document.getElementById(
+            "teacher-student-submit-button"
+        );
 
-
-        submitButton.disabled =
-            true;
-
+        submitButton.disabled = true;
 
         try
         {
@@ -1233,37 +890,29 @@ teacherStudentForm.addEventListener(
                 motDePasse
             );
 
+            if (teacherServerOffline)
+            {
+                return;
+            }
 
             closeTeacherStudentModal();
-
-
             await loadTeacherDashboard();
         }
         catch (error)
         {
-            console.error(
-                error
-            );
+            console.error(error);
 
+            if (handleTeacherServerUnavailable(error))
+            {
+                return;
+            }
 
-            if (
-                error.message ===
-                "SERVER_UNAVAILABLE"
-            )
-            {
-                teacherStudentMessage.textContent =
-                    "Impossible de contacter le serveur.";
-            }
-            else
-            {
-                teacherStudentMessage.textContent =
-                    error.message;
-            }
+            teacherStudentMessage.textContent =
+                error.message;
         }
         finally
         {
-            submitButton.disabled =
-                false;
+            submitButton.disabled = teacherServerOffline;
         }
     }
 );

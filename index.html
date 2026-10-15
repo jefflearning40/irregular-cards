@@ -101,82 +101,83 @@
     </div>
 
 
-    <!-- =====================================================
-         CONNEXION
-    ====================================================== -->
+   <!-- =====================================================
+     CONNEXION
+====================================================== -->
 
-    <div
-        class="login-modal"
-        id="login-modal"
-        aria-hidden="false"
-    >
+<div
+    class="login-modal"
+    id="login-modal"
+    aria-hidden="false"
+>
 
-        <div class="login-modal__content">
+    <div class="login-modal__content">
 
-            <h2>
-                Connexion
-            </h2>
+        <h2>
+            Connexion
+        </h2>
 
-            <form id="login-form">
+        <form id="login-form">
 
-                <div class="login-field">
+            <div class="login-field">
 
-                    <label for="login-email">
-                        E-mail
-                    </label>
+                <label for="login-email">
+                    E-mail
+                </label>
 
-                    <input
-                        type="email"
-                        id="login-email"
-                        name="email"
-                        autocomplete="email"
-                        required
-                    >
-
-                </div>
-
-                <div class="login-field">
-
-                    <label for="login-password">
-                        Mot de passe
-                    </label>
-
-                    <input
-                        type="password"
-                        id="login-password"
-                        name="password"
-                        autocomplete="current-password"
-                        required
-                    >
-
-                </div>
-
-                <p
-                    class="login-error"
-                    id="login-error"
-                    aria-live="polite"
-                ></p>
-
-                <button
-                    class="login-button"
-                    id="login-button"
-                    type="submit"
+                <input
+                    type="email"
+                    id="login-email"
+                    name="email"
+                    autocomplete="off"
+                    required
                 >
-                    Se connecter
-                </button>
-                <button
-                    class="login-forgot-password"
-                    id="login-forgot-password"
-                    type="button"
+
+            </div>
+
+            <div class="login-field">
+
+                <label for="login-password">
+                    Mot de passe
+                </label>
+
+                <input
+                    type="password"
+                    id="login-password"
+                    name="password"
+                    autocomplete="current-password"
+                    required
                 >
-                    Mot de passe oublié ?
-                </button>
 
-            </form>
+            </div>
 
-        </div>
+            <p
+                class="login-error"
+                id="login-error"
+                aria-live="polite"
+            ></p>
+
+            <button
+                class="login-button"
+                id="login-button"
+                type="submit"
+            >
+                Se connecter
+            </button>
+
+            <button
+                class="login-forgot-password"
+                id="login-forgot-password"
+                type="button"
+            >
+                Mot de passe oublié ?
+            </button>
+
+        </form>
 
     </div>
+
+</div>
     <!-- =====================================================
      MOT DE PASSE OUBLIÉ
 ====================================================== -->
@@ -1078,32 +1079,39 @@
     <div class="teacher-container">
 
        <!-- =================================================
-             EN-TÊTE
-        ================================================== -->
+     EN-TÊTE
+================================================== -->
 
-        <header class="teacher-header">
+<header class="teacher-header">
 
-            <div class="teacher-heading">
+    <div class="teacher-heading">
 
-                <p class="teacher-heading-school">
-                    Carnet de classe
-                </p>
+        <p class="teacher-heading-school">
+            Carnet de classe
+        </p>
 
-                <h1 class="teacher-title">
-                    Tableau de bord
-                </h1>
+        <h1 class="teacher-title">
+            Tableau de bord
+        </h1>
 
-            </div>
+        <p
+            class="teacher-server-error"
+            id="teacher-server-error"
+            role="alert"
+            hidden
+        ></p>
 
-            <button
-                class="teacher-logout-button"
-                id="teacher-logout-button"
-                type="button"
-            >
-                Déconnexion
-            </button>
+    </div>
 
-        </header>
+    <button
+        class="teacher-logout-button"
+        id="teacher-logout-button"
+        type="button"
+    >
+        Déconnexion
+    </button>
+
+</header>
 
 
         <!-- =================================================

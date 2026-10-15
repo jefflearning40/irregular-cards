@@ -838,3 +838,17 @@
             750px;
     }
 }
+/* ==========================================================
+   MESSAGE D'ERREUR DU TABLEAU DE BORD
+========================================================== */
+
+.teacher-server-error:not([hidden])
+{
+    display: block;
+    margin: 8px 0 0;
+    color: var(--color-error);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: center;
+}
