@@ -1,0 +1,382 @@
+
+/* ==========================================================
+   RÉGLAGES AUDIO
+========================================================== */
+
+
+/* ==========================================================
+   ACCÈS AUDIO
+   À DROITE DU BOUTON MESSAGES
+========================================================== */
+
+#departure-screen .audio-settings-access {
+    position: absolute;
+
+    left: calc(
+        3%
+        + clamp(65px, 8vw, 105px)
+        + 35px
+        + clamp(85px, 10vw, 125px)
+        + 35px
+    );
+
+    bottom: 6%;
+    right: auto;
+    top: auto;
+
+    z-index: 20;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: clamp(65px, 8vw, 105px);
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    outline: 0;
+
+    color: var(--color-white);
+    background: transparent;
+
+    font-family: inherit;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================================
+   ICÔNE AUDIO
+========================================================== */
+
+#departure-screen .audio-settings-access svg {
+    display: block;
+
+    width: clamp(36px, 4.5vw, 60px);
+    height: clamp(36px, 4.5vw, 60px);
+
+    padding: clamp(8px, 1vw, 13px);
+
+    box-sizing: border-box;
+
+    border-radius: 50%;
+
+    color: #17395a;
+    background: #ffcc33;
+
+    pointer-events: none;
+
+    transition:
+        transform 200ms ease,
+        filter 200ms ease;
+}
+
+
+/* ==========================================================
+   TEXTE AUDIO
+========================================================== */
+
+#departure-screen .audio-settings-access span {
+    margin-top: clamp(3px, .4vw, 6px);
+
+    padding:
+        clamp(3px, .4vw, 5px)
+        clamp(8px, .8vw, 12px);
+
+    border-radius: 6px;
+
+    color: var(--color-white);
+    background: var(--color-background);
+
+    font-size: clamp(1.5rem, 1.8vw, 1.8rem);
+    font-weight: 700;
+
+    line-height: 1.1;
+    text-align: center;
+
+    white-space: nowrap;
+
+    text-shadow:
+        0 1px 2px var(--shadow-dark);
+
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   SURVOL AUDIO
+========================================================== */
+
+#departure-screen .audio-settings-access:hover svg {
+    transform: scale(1.12);
+}
+
+
+#departure-screen .audio-settings-access:hover span {
+    color: var(--color-warning);
+}
+
+
+/* ==========================================================
+   FOCUS AUDIO
+========================================================== */
+
+#departure-screen .audio-settings-access:focus-visible {
+    outline: 3px solid var(--color-warning);
+    outline-offset: 5px;
+    border-radius: 8px;
+}
+
+
+/* ==========================================================
+   FOND DE LA MODALE
+========================================================== */
+
+.audio-settings-modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 10000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0, 0, 0, .75);
+}
+
+
+.audio-settings-modal[hidden] {
+    display: none;
+}
+
+
+/* ==========================================================
+   CONTENU DE LA MODALE
+========================================================== */
+
+.audio-settings-dialog {
+    width: min(100%, 480px);
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    padding: clamp(18px, 3vw, 30px);
+
+    border: 2px solid var(--color-secondary);
+    border-radius: 15px;
+
+    color: var(--color-text);
+    background: var(--color-surface);
+
+    box-shadow:
+        0 15px 50px rgba(0, 0, 0, .4);
+}
+
+
+/* ==========================================================
+   EN-TÊTE
+========================================================== */
+
+.audio-settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+
+.audio-settings-header h2 {
+    margin: 0;
+
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+}
+
+
+/* ==========================================================
+   BOUTON FERMER
+========================================================== */
+
+.audio-settings-close {
+    padding: 0 8px;
+
+    border: 0;
+
+    color: var(--color-text);
+    background: transparent;
+
+    font-size: 2rem;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+.audio-settings-close:hover {
+    color: var(--color-warning);
+}
+
+
+/* ==========================================================
+   CORPS DE LA MODALE
+========================================================== */
+
+.audio-settings-body {
+    display: flex;
+    flex-direction: column;
+
+    gap: 22px;
+
+    margin-top: 25px;
+}
+
+
+/* ==========================================================
+   INTERRUPTEURS
+========================================================== */
+
+.audio-settings-toggle {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.audio-settings-toggle input {
+    width: 20px;
+    height: 20px;
+
+    flex-shrink: 0;
+
+    accent-color: var(--color-primary);
+
+    cursor: pointer;
+}
+
+
+/* ==========================================================
+   CURSEURS
+========================================================== */
+
+.audio-settings-field {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    font-weight: 700;
+}
+
+
+.audio-settings-field input {
+    width: 100%;
+
+    accent-color: var(--color-primary);
+
+    cursor: pointer;
+}
+
+
+.audio-settings-field input:disabled {
+    opacity: .4;
+
+    cursor: not-allowed;
+}
+
+
+/* ==========================================================
+   VALEURS
+========================================================== */
+
+.audio-settings-field output {
+    align-self: flex-end;
+
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* ==========================================================
+   PIED DE LA MODALE
+========================================================== */
+
+.audio-settings-footer {
+    margin-top: 30px;
+
+    text-align: right;
+}
+
+
+/* ==========================================================
+   BOUTON ENREGISTRER
+========================================================== */
+
+.audio-settings-footer button {
+    padding: 10px 18px;
+
+    border: 2px solid var(--color-secondary);
+    border-radius: 8px;
+
+    color: var(--color-text);
+    background: var(--color-background);
+
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        color 200ms ease,
+        background-color 200ms ease;
+}
+
+
+.audio-settings-footer button:hover {
+    color: var(--color-background);
+    background: var(--color-success);
+}
+
+
+/* ==========================================================
+   ACCESSIBILITÉ CLAVIER
+========================================================== */
+
+.audio-settings-dialog button:focus-visible,
+.audio-settings-dialog input:focus-visible {
+    outline: 3px solid var(--color-warning);
+    outline-offset: 4px;
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 768px) {
+
+    .audio-settings-dialog {
+        padding: 16px;
+    }
+
+    .audio-settings-body {
+        gap: 15px;
+
+        margin-top: 15px;
+    }
+
+    .audio-settings-footer {
+        margin-top: 20px;
+    }
+}

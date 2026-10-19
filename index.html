@@ -42,6 +42,7 @@
 <link rel="stylesheet" href="assets/styles/responsive-classroom.css">
 <link rel="stylesheet" href="assets/styles/responsive-admin.css">
 <link rel="stylesheet" href="assets/styles/responsive-messagerie.css">
+<link rel="stylesheet" href="assets/styles/audio-settings.css">
 
 
 </head>
@@ -420,6 +421,7 @@
 
 </button>
 
+
 <!-- =====================================================
      ACCÈS MESSAGERIE
 ====================================================== -->
@@ -441,13 +443,182 @@
 
 </button>
 
+
+<!-- =====================================================
+     ACCÈS RÉGLAGES AUDIO
+====================================================== -->
+
+<button
+    class="audio-settings-access"
+    id="audio-settings-button"
+    type="button"
+    aria-label="Ouvrir les réglages audio"
+    aria-haspopup="dialog"
+    aria-controls="audio-settings-modal"
+    title="Réglages audio"
+>
+    <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    >
+        <path d="M11 5 6 9H3v6h3l5 4V5Z"/>
+        <path d="M15 9a5 5 0 0 1 0 6"/>
+        <path d="M18 6a9 9 0 0 1 0 12"/>
+    </svg>
+
+    <span>Sons</span>
+
+</button>
+
+
         </div>
     </section>
 
 
 <!-- =====================================================
+     MODALE RÉGLAGES AUDIO
+====================================================== -->
+
+<div
+    class="audio-settings-modal"
+    id="audio-settings-modal"
+    hidden
+>
+    <div
+        class="audio-settings-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="audio-settings-title"
+        tabindex="-1"
+    >
+        <header class="audio-settings-header">
+
+            <h2 id="audio-settings-title">
+                Réglages audio
+            </h2>
+
+            <button
+                id="audio-settings-close"
+                class="audio-settings-close"
+                type="button"
+                aria-label="Fermer les réglages audio"
+            >
+                ×
+            </button>
+
+        </header>
+
+
+        <div class="audio-settings-body">
+
+            <label class="audio-settings-toggle">
+                <input
+                    type="checkbox"
+                    id="audio-voice-enabled"
+                >
+
+                <span>Activer l'assistance vocale</span>
+            </label>
+
+
+            <label
+                class="audio-settings-field"
+                for="audio-voice-volume"
+            >
+                Volume de la voix
+
+                <input
+                    type="range"
+                    id="audio-voice-volume"
+                    min="0"
+                    max="100"
+                    value="80"
+                >
+
+                <output id="audio-voice-volume-value">
+                    80 %
+                </output>
+            </label>
+
+
+            <label
+                class="audio-settings-field"
+                for="audio-voice-rate"
+            >
+                Vitesse de prononciation
+
+                <input
+                    type="range"
+                    id="audio-voice-rate"
+                    min="0.5"
+                    max="1.5"
+                    step="0.1"
+                    value="1"
+                >
+
+                <output id="audio-voice-rate-value">
+                    1×
+                </output>
+            </label>
+
+
+            <label class="audio-settings-toggle">
+                <input
+                    type="checkbox"
+                    id="audio-effects-enabled"
+                    checked
+                >
+
+                <span>Activer les effets sonores</span>
+            </label>
+
+
+            <label
+                class="audio-settings-field"
+                for="audio-effects-volume"
+            >
+                Volume des effets sonores
+
+                <input
+                    type="range"
+                    id="audio-effects-volume"
+                    min="0"
+                    max="100"
+                    value="70"
+                >
+
+                <output id="audio-effects-volume-value">
+                    70 %
+                </output>
+            </label>
+
+        </div>
+
+
+        <footer class="audio-settings-footer">
+
+            <button
+                id="audio-settings-save"
+                type="button"
+            >
+                Enregistrer et fermer
+            </button>
+
+        </footer>
+
+    </div>
+</div>
+
+
+<!-- =====================================================
      MODALE COLLECTION
 ====================================================== -->
+
 
 <div
     class="collection-modal"
@@ -3615,6 +3786,7 @@
 <script src="assets/JS/statistics.js"></script>
 <script src="assets/JS/messages.js"></script>
 <script src="assets/JS/collection.js"></script>
+<script src="assets/JS/audio-settings.js"></script>
 <script src="assets/JS/script.js"></script>
 </body>
 

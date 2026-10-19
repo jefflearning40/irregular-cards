@@ -1,3 +1,4 @@
+
 "use strict";
 
 /* ==========================================================
@@ -5,26 +6,10 @@
 ========================================================== */
 
 const QUIZ_CONFIG = {
-    easy: {
-        questions: 20,
-        time: 20
-    },
-
-    medium: {
-        questions: 30,
-        time: 15
-    },
-
-    hard: {
-        questions: 50,
-        time: 10
-    }
+    easy: { questions: 20, time: 20 },
+    medium: { questions: 30, time: 15 },
+    hard: { questions: 50, time: 10 }
 };
-
-
-/* ==========================================================
-   TYPES DE QUESTIONS
-========================================================== */
 
 const MIXED_QUIZ_TYPES = [
     "preterite",
@@ -33,130 +18,215 @@ const MIXED_QUIZ_TYPES = [
     "translation"
 ];
 
-
 /* ==========================================================
    ÉLÉMENTS HTML
 ========================================================== */
 
 const quizQuestion =
-    document.getElementById(
-        "quiz-question"
-    );
+    document.getElementById("quiz-question");
 
 const quizQuestionNumber =
-    document.getElementById(
-        "quiz-question-number"
-    );
+    document.getElementById("quiz-question-number");
 
 const quizQuestionText =
-    document.getElementById(
-        "quiz-question-text"
-    );
+    document.getElementById("quiz-question-text");
 
 const quizQuestionAnswers =
-    document.getElementById(
-        "quiz-question-answers"
-    );
+    document.getElementById("quiz-question-answers");
 
+/* ==========================================================
+   PRONONCIATION ACCESSIBLE DU QUIZ
+========================================================== */
+
+let quizSpeechSequence = 0;
+let quizQuestionIsSpeaking = false;
+
+function stopQuizSpeech()
+{
+    quizSpeechSequence++;
+    quizQuestionIsSpeaking = false;
+
+    if ("speechSynthesis" in window)
+    {
+        window.speechSynthesis.cancel();
+    }
+}
+
+function speakQuizText(text, language, after = null)
+{
+    if (!("speechSynthesis" in window))
+    {
+        if (after) after();
+        return;
+    }
+
+    const utterance =
+        new SpeechSynthesisUtterance(text);
+
+    utterance.lang = language;
+    utterance.rate = 0.8;
+
+    const voices =
+        window.speechSynthesis.getVoices();
+
+    if (language === "en-GB")
+    {
+        utterance.voice =
+            voices.find(
+                voice =>
+                    voice.name === "Google UK English Male"
+            ) ||
+            voices.find(
+                voice => voice.lang === "en-GB"
+            ) ||
+            null;
+    }
+    else
+    {
+        utterance.voice =
+            voices.find(
+                voice => voice.lang === "fr-FR"
+            ) ||
+            null;
+    }
+
+    if (after)
+    {
+        utterance.onend = after;
+        utterance.onerror = after;
+    }
+
+    window.speechSynthesis.speak(utterance);
+}
+
+/* ==========================================================
+   LECTURE PRIORITAIRE DE LA QUESTION
+========================================================== */
+
+function speakQuizQuestion(verb, type)
+{
+    stopQuizSpeech();
+
+    quizQuestionIsSpeaking = true;
+
+    const prompts = {
+        infinitive: "Quel est l'infinitif de",
+        pastParticiple: "Quel est le participe passé de",
+        translation: "Quelle est la traduction de",
+        preterite: "Quel est le prétérit de"
+    };
+
+    const englishVerb =
+        type === "infinitive"
+            ? getDisplayAnswer(verb.preterite)
+            : verb.infinitive;
+
+    const sequence = quizSpeechSequence;
+
+    speakQuizText(
+        prompts[type] || prompts.preterite,
+        "fr-FR",
+        () =>
+        {
+            if (sequence !== quizSpeechSequence)
+            {
+                return;
+            }
+
+            speakQuizText(
+                englishVerb,
+                "en-GB",
+                () =>
+                {
+                    if (sequence === quizSpeechSequence)
+                    {
+                        quizQuestionIsSpeaking = false;
+                    }
+                }
+            );
+        }
+    );
+}
+
+/* ==========================================================
+   LECTURE DES RÉPONSES
+========================================================== */
+
+function speakQuizAnswer(answer, language)
+{
+    // La question reste prioritaire.
+    if (quizQuestionIsSpeaking)
+    {
+        return;
+    }
+
+    stopQuizSpeech();
+
+    speakQuizText(answer, language);
+}
 
 /* ==========================================================
    ÉTAT DU QUIZ
 ========================================================== */
 
 let quizScore = 0;
-
 let currentQuestionIndex = 0;
-
 let quizErrors = [];
-
 let currentQuizConfig = null;
-
 let currentQuestionType = null;
-
 let irregularVerbs = [];
-
 let quizVerbs = [];
-
 let currentVerb = null;
-
 let quizQuestionLocked = false;
-
 let quizStartTime = null;
-
 let currentQuizDifficulty = null;
-
 
 /* ==========================================================
    ÉTAT DU RETOUR
 ========================================================== */
 
 let returnErrors = [];
-
 let currentReturnErrorIndex = 0;
-
 let returnQuestionLocked = false;
-
 let automaticReturnInterval = null;
-
 
 /* ==========================================================
    INITIALISATION
 ========================================================== */
 
-async function initialiseQuizGame(
-    difficulty
-)
+async function initialiseQuizGame(difficulty)
 {
-    currentQuizConfig =
-        QUIZ_CONFIG[difficulty];
+    stopQuizSpeech();
 
-    currentQuizDifficulty =
-        difficulty;
-
-    quizStartTime =
-        Date.now();
+    currentQuizConfig = QUIZ_CONFIG[difficulty];
+    currentQuizDifficulty = difficulty;
+    quizStartTime = Date.now();
 
     quizScore = 0;
-
     currentQuestionIndex = 0;
-
     quizErrors = [];
-
     currentQuestionType = null;
-
     quizQuestionLocked = false;
 
     returnErrors = [];
-
     currentReturnErrorIndex = 0;
-
     returnQuestionLocked = false;
-
 
     if (automaticReturnInterval)
     {
-        clearInterval(
-            automaticReturnInterval
-        );
-
+        clearInterval(automaticReturnInterval);
         automaticReturnInterval = null;
     }
 
-
     clearQuizTimer();
 
-
-    quizQuestion.style.display =
-        "block";
-
+    quizQuestion.style.display = "block";
 
     try
     {
-        const response =
-            await fetch(
-                "assets/data/irregular-verbs.json"
-            );
-
+        const response = await fetch(
+            "assets/data/irregular-verbs.json"
+        );
 
         if (!response.ok)
         {
@@ -165,32 +235,21 @@ async function initialiseQuizGame(
             );
         }
 
-
-        irregularVerbs =
-            await response.json();
-
+        irregularVerbs = await response.json();
 
         prepareQuizVerbs();
-
-
         showQuizQuestion();
     }
     catch (error)
     {
-        console.error(
-            error
-        );
-
+        console.error(error);
 
         quizQuestionText.textContent =
             "Erreur lors du chargement des verbes.";
 
-
-        quizQuestionAnswers.innerHTML =
-            "";
+        quizQuestionAnswers.innerHTML = "";
     }
 }
-
 
 /* ==========================================================
    PRÉPARATION DES VERBES
@@ -198,27 +257,19 @@ async function initialiseQuizGame(
 
 function prepareQuizVerbs()
 {
-    quizVerbs =
-        shuffleArray(
-            irregularVerbs
-        ).slice(
-            0,
-            currentQuizConfig.questions
-        );
+    quizVerbs = shuffleArray(irregularVerbs).slice(
+        0,
+        currentQuizConfig.questions
+    );
 }
-
 
 /* ==========================================================
    MÉLANGE
 ========================================================== */
 
-function shuffleArray(
-    array
-)
+function shuffleArray(array)
 {
-    const shuffled =
-        [...array];
-
+    const shuffled = [...array];
 
     for (
         let index = shuffled.length - 1;
@@ -226,27 +277,21 @@ function shuffleArray(
         index--
     )
     {
-        const randomIndex =
-            Math.floor(
-                Math.random() *
-                (index + 1)
-            );
-
+        const randomIndex = Math.floor(
+            Math.random() * (index + 1)
+        );
 
         [
             shuffled[index],
             shuffled[randomIndex]
-        ] =
-        [
+        ] = [
             shuffled[randomIndex],
             shuffled[index]
         ];
     }
 
-
     return shuffled;
 }
-
 
 /* ==========================================================
    TYPE DE QUESTION
@@ -254,113 +299,75 @@ function shuffleArray(
 
 function selectQuestionType()
 {
-    const randomIndex =
-        Math.floor(
-            Math.random() *
-            MIXED_QUIZ_TYPES.length
-        );
-
+    const randomIndex = Math.floor(
+        Math.random() * MIXED_QUIZ_TYPES.length
+    );
 
     currentQuestionType =
-        MIXED_QUIZ_TYPES[
-            randomIndex
-        ];
+        MIXED_QUIZ_TYPES[randomIndex];
 }
-
 
 /* ==========================================================
    VARIANTES DE RÉPONSE
 ========================================================== */
 
-function getAnswerVariants(
-    value
-)
+function getAnswerVariants(value)
 {
     return value
         .split("/")
-        .map(
-            (answer) =>
-                answer
-                    .trim()
-                    .toLowerCase()
-        );
+        .map(answer => answer.trim().toLowerCase());
 }
-
 
 /* ==========================================================
    RÉPONSE AFFICHÉE
 ========================================================== */
 
-function getDisplayAnswer(
-    value
-)
+function getDisplayAnswer(value)
 {
-    return value
-        .split("/")[0]
-        .trim();
+    return value.split("/")[0].trim();
 }
-
 
 /* ==========================================================
    NORMALISATION
 ========================================================== */
 
-function normaliseAnswer(
-    value
-)
+function normaliseAnswer(value)
 {
-    return value
-        .trim()
-        .toLowerCase();
+    return value.trim().toLowerCase();
 }
-
 
 /* ==========================================================
    RÉPONSE CORRECTE
 ========================================================== */
 
-function getCorrectAnswer(
-    verb
-)
+function getCorrectAnswer(verb)
 {
     switch (currentQuestionType)
     {
         case "infinitive":
-
             return verb.infinitive;
 
-
         case "pastParticiple":
-
             return verb.pastParticiple;
 
-
         case "translation":
-
             return verb.translation;
 
-
         case "preterite":
-
         default:
-
             return verb.preterite;
     }
 }
-
 
 /* ==========================================================
    TEXTE DE LA QUESTION
 ========================================================== */
 
-function getQuestionText(
-    verb
-)
+function getQuestionText(verb)
 {
     switch (currentQuestionType)
     {
         case "infinitive":
-
             return (
                 `Quel est l'infinitif de ` +
                 `${getDisplayAnswer(
@@ -368,27 +375,20 @@ function getQuestionText(
                 ).toUpperCase()} ?`
             );
 
-
         case "pastParticiple":
-
             return (
                 `Quel est le participe passé de ` +
                 `${verb.infinitive.toUpperCase()} ?`
             );
 
-
         case "translation":
-
             return (
                 `Quelle est la traduction de ` +
                 `${verb.infinitive.toUpperCase()} ?`
             );
 
-
         case "preterite":
-
         default:
-
             return (
                 `Quel est le prétérit de ` +
                 `${verb.infinitive.toUpperCase()} ?`
@@ -396,21 +396,15 @@ function getQuestionText(
     }
 }
 
-
 /* ==========================================================
    FAUSSES RÉPONSES DU JSON
 ========================================================== */
 
-function getWrongAnswers(
-    verb,
-    validAnswers
-)
+function getWrongAnswers(verb, validAnswers)
 {
     if (
         !verb.wrongAnswers ||
-        !verb.wrongAnswers[
-            currentQuestionType
-        ]
+        !verb.wrongAnswers[currentQuestionType]
     )
     {
         console.error(
@@ -422,76 +416,45 @@ function getWrongAnswers(
         return [];
     }
 
-
     const wrongAnswers =
-        verb.wrongAnswers[
-            currentQuestionType
-        ];
-
+        verb.wrongAnswers[currentQuestionType];
 
     const candidates = [];
 
-
-    wrongAnswers.forEach(
-        (answer) =>
+    wrongAnswers.forEach(answer =>
+    {
+        if (
+            !answer ||
+            typeof answer !== "string"
+        )
         {
-            if (
-                !answer ||
-                typeof answer !== "string"
-            )
-            {
-                return;
-            }
-
-
-            const displayAnswer =
-                answer.trim();
-
-
-            const normalisedAnswer =
-                normaliseAnswer(
-                    displayAnswer
-                );
-
-
-            if (
-                validAnswers.includes(
-                    normalisedAnswer
-                )
-            )
-            {
-                return;
-            }
-
-
-            const alreadyExists =
-                candidates.some(
-                    (candidate) =>
-                        normaliseAnswer(
-                            candidate
-                        ) ===
-                        normalisedAnswer
-                );
-
-
-            if (!alreadyExists)
-            {
-                candidates.push(
-                    displayAnswer
-                );
-            }
+            return;
         }
-    );
 
+        const displayAnswer = answer.trim();
 
-    return shuffleArray(
-        candidates
-    ).slice(
-        0,
-        3
-    );
+        const normalisedAnswer =
+            normaliseAnswer(displayAnswer);
+
+        if (validAnswers.includes(normalisedAnswer))
+        {
+            return;
+        }
+
+        const alreadyExists = candidates.some(
+            candidate =>
+                normaliseAnswer(candidate) ===
+                normalisedAnswer
+        );
+
+        if (!alreadyExists)
+        {
+            candidates.push(displayAnswer);
+        }
+    });
+
+    return shuffleArray(candidates).slice(0, 3);
 }
-
 
 /* ==========================================================
    AFFICHAGE QUESTION
@@ -499,70 +462,48 @@ function getWrongAnswers(
 
 function showQuizQuestion()
 {
-    quizQuestion.style.display =
-        "block";
+    quizQuestion.style.display = "block";
+    quizQuestionLocked = false;
 
-
-    quizQuestionLocked =
-        false;
-
-
-    currentVerb =
-        quizVerbs[
-            currentQuestionIndex
-        ];
-
+    currentVerb = quizVerbs[currentQuestionIndex];
 
     if (!currentVerb)
     {
         finishQuiz();
-
         return;
     }
 
-
     selectQuestionType();
-
 
     quizQuestionNumber.textContent =
         `Question ${currentQuestionIndex + 1} / ` +
         `${currentQuizConfig.questions}`;
 
-
     quizQuestionText.textContent =
-        getQuestionText(
-            currentVerb
-        );
+        getQuestionText(currentVerb);
 
+    // Démarrer la question avant les réponses.
+    speakQuizQuestion(
+        currentVerb,
+        currentQuestionType
+    );
 
-    quizQuestionAnswers.innerHTML =
-        "";
-
+    quizQuestionAnswers.innerHTML = "";
 
     const correctAnswer =
-        getCorrectAnswer(
-            currentVerb
-        );
-
+        getCorrectAnswer(currentVerb);
 
     const correctDisplayAnswer =
-        getDisplayAnswer(
-            correctAnswer
-        );
-
+        getDisplayAnswer(correctAnswer);
 
     const validAnswers =
-        getAnswerVariants(
-            correctAnswer
-        );
-
+        getAnswerVariants(correctAnswer);
 
     const wrongAnswers =
         getWrongAnswers(
             currentVerb,
             validAnswers
         );
-
 
     if (wrongAnswers.length < 3)
     {
@@ -573,136 +514,116 @@ function showQuizQuestion()
         );
     }
 
-
     const answers = [
         correctDisplayAnswer,
         ...wrongAnswers
     ];
 
+    shuffleArray(answers).forEach(answer =>
+    {
+        const button =
+            document.createElement("button");
 
-    shuffleArray(
-        answers
-    ).forEach(
-        (answer) =>
-        {
-            const button =
-                document.createElement(
-                    "button"
-                );
+        button.type = "button";
+        button.className = "quiz-answer-button";
+        button.textContent = answer;
 
+        const answerLanguage =
+            currentQuestionType === "translation"
+                ? "fr-FR"
+                : "en-GB";
 
-            button.type =
-                "button";
-
-
-            button.className =
-                "quiz-answer-button";
-
-
-            button.textContent =
-                answer;
-
-
-            button.addEventListener(
-                "click",
-                () =>
+        // Survol : une seule lecture par entrée.
+        button.addEventListener(
+            "mouseenter",
+            () =>
+            {
+                if (button.disabled)
                 {
-                    checkQuizAnswer(
-                        answer
-                    );
+                    return;
                 }
-            );
 
+                speakQuizAnswer(
+                    answer,
+                    answerLanguage
+                );
+            }
+        );
 
-            quizQuestionAnswers.appendChild(
-                button
-            );
-        }
-    );
+        // Accessibilité clavier.
+        button.addEventListener(
+            "focus",
+            () =>
+            {
+                if (button.disabled)
+                {
+                    return;
+                }
 
+                speakQuizAnswer(
+                    answer,
+                    answerLanguage
+                );
+            }
+        );
 
-    startQuizTimer(
-        currentQuizConfig.time
-    );
+        button.addEventListener(
+            "click",
+            () =>
+            {
+                checkQuizAnswer(answer);
+            }
+        );
+
+        quizQuestionAnswers.appendChild(button);
+    });
+
+    startQuizTimer(currentQuizConfig.time);
 }
-
 
 /* ==========================================================
    VÉRIFICATION
 ========================================================== */
 
-function checkQuizAnswer(
-    answer
-)
+function checkQuizAnswer(answer)
 {
     if (quizQuestionLocked)
     {
         return;
     }
 
-
-    quizQuestionLocked =
-        true;
-
+    quizQuestionLocked = true;
 
     clearQuizTimer();
-
-
+    stopQuizSpeech();
     disableQuizAnswers();
 
-
     const correctAnswer =
-        getCorrectAnswer(
-            currentVerb
-        );
-
+        getCorrectAnswer(currentVerb);
 
     const validAnswers =
-        getAnswerVariants(
-            correctAnswer
-        );
-
+        getAnswerVariants(correctAnswer);
 
     const userAnswer =
-        normaliseAnswer(
-            answer
-        );
+        normaliseAnswer(answer);
 
-
-    if (
-        validAnswers.includes(
-            userAnswer
-        )
-    )
+    if (validAnswers.includes(userAnswer))
     {
         quizScore++;
     }
     else
     {
-        quizErrors.push(
-            {
-                verb:
-                    currentVerb.infinitive,
-
-                type:
-                    currentQuestionType,
-
-                answer:
-                    answer,
-
-                correctAnswer:
-                    correctAnswer,
-
-                reason:
-                    "wrong"
-            }
-        );
+        quizErrors.push({
+            verb: currentVerb.infinitive,
+            type: currentQuestionType,
+            answer: answer,
+            correctAnswer: correctAnswer,
+            reason: "wrong"
+        });
     }
-
 
     finishCurrentQuestion();
 }
-
 
 /* ==========================================================
    TEMPS ÉCOULÉ
@@ -715,39 +636,21 @@ function handleQuizTimeout()
         return;
     }
 
-
-    quizQuestionLocked =
-        true;
-
+    quizQuestionLocked = true;
 
     disableQuizAnswers();
+    stopQuizSpeech();
 
-
-    quizErrors.push(
-        {
-            verb:
-                currentVerb.infinitive,
-
-            type:
-                currentQuestionType,
-
-            answer:
-                null,
-
-            correctAnswer:
-                getCorrectAnswer(
-                    currentVerb
-                ),
-
-            reason:
-                "timeout"
-        }
-    );
-
+    quizErrors.push({
+        verb: currentVerb.infinitive,
+        type: currentQuestionType,
+        answer: null,
+        correctAnswer: getCorrectAnswer(currentVerb),
+        reason: "timeout"
+    });
 
     finishCurrentQuestion();
 }
-
 
 /* ==========================================================
    DÉSACTIVATION DES RÉPONSES
@@ -760,16 +663,11 @@ function disableQuizAnswers()
             ".quiz-answer-button"
         );
 
-
-    buttons.forEach(
-        (button) =>
-        {
-            button.disabled =
-                true;
-        }
-    );
+    buttons.forEach(button =>
+    {
+        button.disabled = true;
+    });
 }
-
 
 /* ==========================================================
    FIN DE QUESTION
@@ -779,9 +677,7 @@ function finishCurrentQuestion()
 {
     advanceQuizBoat();
 
-
     currentQuestionIndex++;
-
 
     setTimeout(
         () =>
@@ -792,18 +688,14 @@ function finishCurrentQuestion()
             )
             {
                 finishQuiz();
-
                 return;
             }
 
-
             showQuizQuestion();
         },
-
         700
     );
 }
-
 
 /* ==========================================================
    AVANCEMENT DU BATEAU
@@ -811,15 +703,11 @@ function finishCurrentQuestion()
 
 function advanceQuizBoat()
 {
-    if (
-        typeof advanceBoat ===
-        "function"
-    )
+    if (typeof advanceBoat === "function")
     {
         advanceBoat();
     }
 }
-
 
 /* ==========================================================
    ÉTAT DU PROFESSEUR SELON LE SCORE
@@ -830,27 +718,21 @@ function getProfessorResultState()
     const totalQuestions =
         currentQuizConfig.questions;
 
-
     const ratio =
-        quizScore /
-        totalQuestions;
-
+        quizScore / totalQuestions;
 
     if (ratio < 0.5)
     {
         return "error";
     }
 
-
     if (ratio > 0.75)
     {
         return "bravo";
     }
 
-
     return "neutral";
 }
-
 
 /* ==========================================================
    PROFESSEUR D'ARRIVÉE
@@ -863,16 +745,13 @@ function updateArrivalProfessor()
             "professeur-arrivee"
         );
 
-
     if (!professor)
     {
         return;
     }
 
-
     const state =
         getProfessorResultState();
-
 
     if (state === "error")
     {
@@ -882,7 +761,6 @@ function updateArrivalProfessor()
         return;
     }
 
-
     if (state === "neutral")
     {
         professor.data =
@@ -891,11 +769,9 @@ function updateArrivalProfessor()
         return;
     }
 
-
     professor.data =
         "assets/images/decor/personnages/professeur_pasgif_animation_bravo.svg";
 }
-
 
 /* ==========================================================
    FIN DU QUIZ
@@ -903,37 +779,26 @@ function updateArrivalProfessor()
 
 async function finishQuiz()
 {
+    stopQuizSpeech();
     clearQuizTimer();
 
+    quizQuestionLocked = true;
 
-    quizQuestionLocked =
-        true;
-
-
-    quizQuestion.style.display =
-        "none";
-
-
-    quizQuestionAnswers.innerHTML =
-        "";
-
+    quizQuestion.style.display = "none";
+    quizQuestionAnswers.innerHTML = "";
 
     /* ======================================================
        DURÉE DU QUIZ
     ====================================================== */
 
-    const quizEndTime =
-        Date.now();
-
+    const quizEndTime = Date.now();
 
     const durationInSeconds =
         quizStartTime
             ? Math.round(
-                (quizEndTime - quizStartTime) /
-                1000
+                (quizEndTime - quizStartTime) / 1000
             )
             : null;
-
 
     /* ======================================================
        ENREGISTREMENT API
@@ -950,7 +815,6 @@ async function finishQuiz()
                 durationInSeconds
             );
 
-
         await createQuizErrors(
             session.id,
             quizErrors
@@ -964,7 +828,6 @@ async function finishQuiz()
         );
     }
 
-
     /* ======================================================
        AFFICHAGE DU SCORE
     ====================================================== */
@@ -974,12 +837,10 @@ async function finishQuiz()
             "arrival-score"
         );
 
-
     const arrivalScoreValue =
         document.getElementById(
             "arrival-score-value"
         );
-
 
     if (arrivalScoreValue)
     {
@@ -987,19 +848,14 @@ async function finishQuiz()
             `${quizScore} / ${currentQuizConfig.questions}`;
     }
 
-
     if (arrivalScore)
     {
-        arrivalScore.style.display =
-            "block";
+        arrivalScore.style.display = "block";
     }
-
 
     updateArrivalProfessor();
 
-
     showArrival();
-
 
     initialiseArrivalProfessorFromScore(
         quizScore,
@@ -1007,61 +863,46 @@ async function finishQuiz()
     );
 }
 
-
 /* ==========================================================
    RETOUR VERS LA FRANCE
 ========================================================== */
 
 function startQuizReturn()
 {
+    stopQuizSpeech();
     clearQuizTimer();
 
+    returnErrors = [...quizErrors];
 
-    returnErrors =
-        [...quizErrors];
-
-
-    currentReturnErrorIndex =
-        0;
-
-
-    returnQuestionLocked =
-        false;
-
+    currentReturnErrorIndex = 0;
+    returnQuestionLocked = false;
 
     /*
-     * AUCUNE ERREUR :
-     * RETOUR AUTOMATIQUE
-     */
+       AUCUNE ERREUR :
+       RETOUR AUTOMATIQUE
+    */
 
     if (returnErrors.length === 0)
     {
         startAutomaticReturn();
-
         return;
     }
 
-
     /*
-     * ERREURS :
-     * UNE ERREUR = UNE ÉTAPE
-     */
+       ERREURS :
+       UNE ERREUR = UNE ÉTAPE
+    */
 
-    startBackCrossing(
-        returnErrors.length
-    );
-
+    startBackCrossing(returnErrors.length);
 
     setTimeout(
         () =>
         {
             showReturnError();
         },
-
         500
     );
 }
-
 
 /* ==========================================================
    RETOUR AUTOMATIQUE
@@ -1071,18 +912,12 @@ function startAutomaticReturn()
 {
     if (automaticReturnInterval)
     {
-        clearInterval(
-            automaticReturnInterval
-        );
-
-        automaticReturnInterval =
-            null;
+        clearInterval(automaticReturnInterval);
+        automaticReturnInterval = null;
     }
-
 
     startAutomaticBackCrossing();
 }
-
 
 /* ==========================================================
    AFFICHAGE D'UNE ERREUR
@@ -1091,74 +926,60 @@ function startAutomaticReturn()
 function showReturnError()
 {
     const error =
-        returnErrors[
-            currentReturnErrorIndex
-        ];
-
+        returnErrors[currentReturnErrorIndex];
 
     if (!error)
     {
         finishReturnRevision();
-
         return;
     }
 
+    returnQuestionLocked = false;
 
-    returnQuestionLocked =
-        false;
-
-
-    quizQuestion.style.display =
-        "block";
-
+    quizQuestion.style.display = "block";
 
     quizQuestionNumber.textContent =
         `Correction ${currentReturnErrorIndex + 1} / ` +
         `${returnErrors.length}`;
 
-
     quizQuestionText.textContent =
-        getReturnQuestionText(
-            error
-        );
+        getReturnQuestionText(error);
 
-
-    quizQuestionAnswers.innerHTML =
-        "";
-
-
-    createReturnCorrection(
-        error
+    const returnVerb = irregularVerbs.find(
+        item => item.infinitive === error.verb
     );
-}
 
+    if (returnVerb)
+    {
+        speakQuizQuestion(
+            returnVerb,
+            error.type
+        );
+    }
+
+    quizQuestionAnswers.innerHTML = "";
+
+    createReturnCorrection(error);
+}
 
 /* ==========================================================
    TEXTE DE LA QUESTION À CORRIGER
 ========================================================== */
 
-function getReturnQuestionText(
-    error
-)
+function getReturnQuestionText(error)
 {
-    const verb =
-        irregularVerbs.find(
-            (item) =>
-                item.infinitive ===
-                error.verb
-        );
-
+    const verb = irregularVerbs.find(
+        item => item.infinitive === error.verb
+    );
 
     if (!verb)
     {
         return error.verb;
     }
 
-
     switch (error.type)
     {
         case "infinitive":
-
             return (
                 `Quel est l'infinitif de ` +
                 `${getDisplayAnswer(
@@ -1166,27 +987,20 @@ function getReturnQuestionText(
                 ).toUpperCase()} ?`
             );
 
-
         case "pastParticiple":
-
             return (
                 `Quel est le participe passé de ` +
                 `${verb.infinitive.toUpperCase()} ?`
             );
 
-
         case "translation":
-
             return (
                 `Quelle est la traduction de ` +
                 `${verb.infinitive.toUpperCase()} ?`
             );
 
-
         case "preterite":
-
         default:
-
             return (
                 `Quel est le prétérit de ` +
                 `${verb.infinitive.toUpperCase()} ?`
@@ -1194,56 +1008,35 @@ function getReturnQuestionText(
     }
 }
 
-
 /* ==========================================================
    CRÉATION DE LA CORRECTION
 ========================================================== */
 
-function createReturnCorrection(
-    error
-)
+function createReturnCorrection(error)
 {
-    const verb =
-        irregularVerbs.find(
-            (item) =>
-                item.infinitive ===
-                error.verb
-        );
-
+    const verb = irregularVerbs.find(
+        item => item.infinitive === error.verb
+    );
 
     if (!verb)
     {
         finishReturnRevision();
-
         return;
     }
-
 
     const previousQuestionType =
         currentQuestionType;
 
-
-    currentQuestionType =
-        error.type;
-
+    currentQuestionType = error.type;
 
     const correctAnswer =
-        getCorrectAnswer(
-            verb
-        );
-
+        getCorrectAnswer(verb);
 
     const correctDisplayAnswer =
-        getDisplayAnswer(
-            correctAnswer
-        );
-
+        getDisplayAnswer(correctAnswer);
 
     const validAnswers =
-        getAnswerVariants(
-            correctAnswer
-        );
-
+        getAnswerVariants(correctAnswer);
 
     const wrongAnswers =
         getWrongAnswers(
@@ -1251,118 +1044,114 @@ function createReturnCorrection(
             validAnswers
         );
 
-
     currentQuestionType =
         previousQuestionType;
-
 
     const answers = [
         correctDisplayAnswer,
         ...wrongAnswers
     ];
 
+    shuffleArray(answers).forEach(answer =>
+    {
+        const button =
+            document.createElement("button");
 
-    shuffleArray(
-        answers
-    ).forEach(
-        (answer) =>
-        {
-            const button =
-                document.createElement(
-                    "button"
-                );
+        button.type = "button";
+        button.className = "quiz-answer-button";
+        button.textContent = answer;
 
+        const answerLanguage =
+            error.type === "translation"
+                ? "fr-FR"
+                : "en-GB";
 
-            button.type =
-                "button";
-
-
-            button.className =
-                "quiz-answer-button";
-
-
-            button.textContent =
-                answer;
-
-
-            button.addEventListener(
-                "click",
-                () =>
+        button.addEventListener(
+            "mouseenter",
+            () =>
+            {
+                if (button.disabled)
                 {
-                    checkReturnAnswer(
-                        answer,
-                        correctAnswer
-                    );
+                    return;
                 }
-            );
 
+                speakQuizAnswer(
+                    answer,
+                    answerLanguage
+                );
+            }
+        );
 
-            quizQuestionAnswers.appendChild(
-                button
-            );
-        }
-    );
+        button.addEventListener(
+            "focus",
+            () =>
+            {
+                if (button.disabled)
+                {
+                    return;
+                }
+
+                speakQuizAnswer(
+                    answer,
+                    answerLanguage
+                );
+            }
+        );
+
+        button.addEventListener(
+            "click",
+            () =>
+            {
+                checkReturnAnswer(
+                    answer,
+                    correctAnswer
+                );
+            }
+        );
+
+        quizQuestionAnswers.appendChild(button);
+    });
 }
-
 
 /* ==========================================================
    VALIDATION D'UNE CORRECTION
 ========================================================== */
 
-function checkReturnAnswer(
-    answer,
-    correctAnswer
-)
+function checkReturnAnswer(answer, correctAnswer)
 {
     if (returnQuestionLocked)
     {
         return;
     }
 
-
     const validAnswers =
-        getAnswerVariants(
-            correctAnswer
-        );
-
+        getAnswerVariants(correctAnswer);
 
     const userAnswer =
-        normaliseAnswer(
-            answer
-        );
-
+        normaliseAnswer(answer);
 
     /*
-     * ERREUR :
-     * LE BATEAU NE BOUGE PAS
-     */
+       ERREUR :
+       LE BATEAU NE BOUGE PAS
+    */
 
-    if (
-        !validAnswers.includes(
-            userAnswer
-        )
-    )
+    if (!validAnswers.includes(userAnswer))
     {
         return;
     }
 
-
     /*
-     * BONNE RÉPONSE
-     */
+       BONNE RÉPONSE
+    */
 
-    returnQuestionLocked =
-        true;
-
+    returnQuestionLocked = true;
 
     disableQuizAnswers();
-
+    stopQuizSpeech();
 
     advanceReturnBoat();
 
-
     currentReturnErrorIndex++;
-
 
     setTimeout(
         () =>
@@ -1373,18 +1162,14 @@ function checkReturnAnswer(
             )
             {
                 finishReturnRevision();
-
                 return;
             }
 
-
             showReturnError();
         },
-
         700
     );
 }
-
 
 /* ==========================================================
    FIN DES CORRECTIONS
@@ -1392,18 +1177,13 @@ function checkReturnAnswer(
 
 function finishReturnRevision()
 {
-    quizQuestion.style.display =
-        "none";
+    stopQuizSpeech();
 
+    quizQuestion.style.display = "none";
+    quizQuestionAnswers.innerHTML = "";
 
-    quizQuestionAnswers.innerHTML =
-        "";
-
-
-    returnQuestionLocked =
-        true;
+    returnQuestionLocked = true;
 }
-
 
 /* ==========================================================
    RÉINITIALISATION DU QUIZ
@@ -1411,64 +1191,30 @@ function finishReturnRevision()
 
 function resetQuizGame()
 {
+    stopQuizSpeech();
     clearQuizTimer();
-
 
     if (automaticReturnInterval)
     {
-        clearInterval(
-            automaticReturnInterval
-        );
-
-        automaticReturnInterval =
-            null;
+        clearInterval(automaticReturnInterval);
+        automaticReturnInterval = null;
     }
 
+    quizScore = 0;
+    currentQuestionIndex = 0;
+    quizErrors = [];
+    currentQuizConfig = null;
+    currentQuestionType = null;
+    quizVerbs = [];
+    currentVerb = null;
+    quizQuestionLocked = false;
+    quizStartTime = null;
+    currentQuizDifficulty = null;
 
-    quizScore =
-        0;
+    returnErrors = [];
+    currentReturnErrorIndex = 0;
+    returnQuestionLocked = false;
 
-    currentQuestionIndex =
-        0;
-
-    quizErrors =
-        [];
-
-    currentQuizConfig =
-        null;
-
-    currentQuestionType =
-        null;
-
-    quizVerbs =
-        [];
-
-    currentVerb =
-        null;
-
-    quizQuestionLocked =
-        false;
-
-    quizStartTime =
-        null;
-
-    currentQuizDifficulty =
-        null;
-
-
-    returnErrors =
-        [];
-
-    currentReturnErrorIndex =
-        0;
-
-    returnQuestionLocked =
-        false;
-
-
-    quizQuestion.style.display =
-        "none";
-
-    quizQuestionAnswers.innerHTML =
-        "";
+    quizQuestion.style.display = "none";
+    quizQuestionAnswers.innerHTML = "";
 }
