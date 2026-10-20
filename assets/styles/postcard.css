@@ -98,9 +98,11 @@
     height: auto;
 
     user-select: none;
-    pointer-events: none;
-}
+    -webkit-user-drag: none;
 
+    pointer-events: auto;
+    cursor: default;
+}
 
 /* ==========================================================
    BOUTONS CARTES POSTALES

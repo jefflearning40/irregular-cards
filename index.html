@@ -380,13 +380,25 @@
             </button>
 
 
-            <object
-                class="postcard-professor postcard-professor--neutral"
-                id="professeur-depart"
-                data="assets/images/decor/personnages/professeur_pasgif_animation_neutre.svg"
-                type="image/svg+xml"
-                aria-label="Professeur prêt pour le départ"
-            ></object>
+           
+<object
+    class="postcard-professor postcard-professor--neutral"
+    id="professeur-depart"
+    data="assets/images/decor/personnages/professeur_pasgif_animation_neutre.svg"
+    type="image/svg+xml"
+    aria-label="Professeur prêt pour le départ"
+></object>
+
+        <!-- =====================================================
+            ZONE VOCALE DU PROFESSEUR BASIL
+        ====================================================== -->
+
+            <div
+                class="professor-voice-hotspot"
+                id="professor-voice-hotspot"
+                aria-hidden="true"
+            ></div>
+
 
 
             <button
@@ -395,6 +407,15 @@
                 type="button"
                 aria-label="Lancer le quiz"
             ></button>
+            <!-- =====================================================
+                ZONE SONORE DU BATEAU
+            ====================================================== -->
+
+            <div
+                class="boat-horn-hotspot"
+                id="boat-horn-hotspot"
+                aria-hidden="true"
+            ></div>
 
 
 <!-- =====================================================
@@ -480,6 +501,7 @@
     </section>
 
 
+
 <!-- =====================================================
      MODALE RÉGLAGES AUDIO
 ====================================================== -->
@@ -496,123 +518,168 @@
         aria-labelledby="audio-settings-title"
         tabindex="-1"
     >
-        <header class="audio-settings-header">
 
-            <h2 id="audio-settings-title">
-                Réglages audio
-            </h2>
-
-            <button
-                id="audio-settings-close"
-                class="audio-settings-close"
-                type="button"
-                aria-label="Fermer les réglages audio"
-            >
-                ×
-            </button>
-
-        </header>
+        <h2
+            id="audio-settings-title"
+            class="audio-settings-title"
+        >
+            Réglages audio
+        </h2>
 
 
-        <div class="audio-settings-body">
+        <!-- =====================================================
+             MOLETTE 1 - VOLUME DE LA VOIX
+        ====================================================== -->
 
-            <label class="audio-settings-toggle">
-                <input
-                    type="checkbox"
-                    id="audio-voice-enabled"
-                >
+        <div class="audio-radio-control audio-radio-control--voice">
 
-                <span>Activer l'assistance vocale</span>
+            <label for="audio-voice-volume">
+                Volume voix
             </label>
 
+            <input
+                type="range"
+                id="audio-voice-volume"
+                class="audio-radio-knob"
+                min="0"
+                max="100"
+                value="80"
+                aria-label="Volume de la voix"
+            >
 
-            <label
-                class="audio-settings-field"
+            <output
+                id="audio-voice-volume-value"
                 for="audio-voice-volume"
             >
-                Volume de la voix
-
-                <input
-                    type="range"
-                    id="audio-voice-volume"
-                    min="0"
-                    max="100"
-                    value="80"
-                >
-
-                <output id="audio-voice-volume-value">
-                    80 %
-                </output>
-            </label>
-
-
-            <label
-                class="audio-settings-field"
-                for="audio-voice-rate"
-            >
-                Vitesse de prononciation
-
-                <input
-                    type="range"
-                    id="audio-voice-rate"
-                    min="0.5"
-                    max="1.5"
-                    step="0.1"
-                    value="1"
-                >
-
-                <output id="audio-voice-rate-value">
-                    1×
-                </output>
-            </label>
-
-
-            <label class="audio-settings-toggle">
-                <input
-                    type="checkbox"
-                    id="audio-effects-enabled"
-                    checked
-                >
-
-                <span>Activer les effets sonores</span>
-            </label>
-
-
-            <label
-                class="audio-settings-field"
-                for="audio-effects-volume"
-            >
-                Volume des effets sonores
-
-                <input
-                    type="range"
-                    id="audio-effects-volume"
-                    min="0"
-                    max="100"
-                    value="70"
-                >
-
-                <output id="audio-effects-volume-value">
-                    70 %
-                </output>
-            </label>
+                80 %
+            </output>
 
         </div>
 
 
-        <footer class="audio-settings-footer">
+        <!-- =====================================================
+             MOLETTE 2 - VITESSE DE PRONONCIATION
+        ====================================================== -->
 
-            <button
-                id="audio-settings-save"
-                type="button"
+        <div class="audio-radio-control audio-radio-control--rate">
+
+            <label for="audio-voice-rate">
+                Vitesse
+            </label>
+
+            <input
+                type="range"
+                id="audio-voice-rate"
+                class="audio-radio-knob"
+                min="0.5"
+                max="1.5"
+                step="0.1"
+                value="1"
+                aria-label="Vitesse de prononciation"
             >
-                Enregistrer et fermer
-            </button>
 
-        </footer>
+            <output
+                id="audio-voice-rate-value"
+                for="audio-voice-rate"
+            >
+                1.0×
+            </output>
+
+        </div>
+
+
+        <!-- =====================================================
+             MOLETTE 3 - VOLUME DES EFFETS SONORES
+        ====================================================== -->
+
+        <div class="audio-radio-control audio-radio-control--effects">
+
+            <label for="audio-effects-volume">
+                Volume effets
+            </label>
+
+            <input
+                type="range"
+                id="audio-effects-volume"
+                class="audio-radio-knob"
+                min="0"
+                max="100"
+                value="70"
+                aria-label="Volume des effets sonores"
+            >
+
+            <output
+                id="audio-effects-volume-value"
+                for="audio-effects-volume"
+            >
+                70 %
+            </output>
+
+        </div>
+
+
+        <!-- =====================================================
+             BOUTON 1 - ASSISTANCE VOCALE
+        ====================================================== -->
+
+        <label class="audio-radio-switch audio-radio-switch--voice">
+
+            <input
+                type="checkbox"
+                id="audio-voice-enabled"
+            >
+
+            <span>Assistance vocale</span>
+
+        </label>
+
+
+        <!-- =====================================================
+             BOUTON 2 - EFFETS SONORES
+        ====================================================== -->
+
+        <label class="audio-radio-switch audio-radio-switch--effects">
+
+            <input
+                type="checkbox"
+                id="audio-effects-enabled"
+                checked
+            >
+
+            <span>Effets sonores</span>
+
+        </label>
+
+
+        <!-- =====================================================
+             BOUTON 3 - ENREGISTRER ET FERMER
+        ====================================================== -->
+
+        <button
+            id="audio-settings-save"
+            class="audio-radio-save"
+            type="button"
+        >
+            Enregistrer et fermer
+        </button>
+
+
+        <!-- =====================================================
+             FERMETURE ACCESSIBLE
+        ====================================================== -->
+
+        <button
+            id="audio-settings-close"
+            class="audio-settings-close"
+            type="button"
+            aria-label="Fermer sans enregistrer"
+        >
+            ×
+        </button>
 
     </div>
 </div>
+
 
 
 <!-- =====================================================

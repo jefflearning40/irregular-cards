@@ -1,7 +1,7 @@
+
 /* ==========================================================
    CARTE DE DÉPART
 ========================================================== */
-
 
 /* ==========================================================
    ZONE CLIQUABLE APPRENTISSAGE
@@ -27,7 +27,6 @@
     cursor: pointer;
 }
 
-
 /* ==========================================================
    MOUETTE - CARTE DE DÉPART FRANCE
 ========================================================== */
@@ -42,8 +41,9 @@
         translateY(55px)
         scaleX(-1);
 }
+
 /* ==========================================================
-   ZONE QUIZ
+   ZONE QUIZ - PANNEAU CAP SUR L'ANGLETERRE
 ========================================================== */
 
 .quiz-hotspot {
@@ -60,7 +60,35 @@
 
     border: 0;
     outline: 0;
+
     background: transparent;
 
     cursor: pointer;
+}
+
+/* ==========================================================
+   ZONE SONORE - BATEAU THE QUIZZ
+========================================================== */
+
+.boat-horn-hotspot {
+    position: absolute;
+
+    top: 51%;
+    left: 26%;
+
+    z-index: 16;
+
+    width: 32%;
+    height: 34%;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    pointer-events: auto;
+    cursor: default;
 }
