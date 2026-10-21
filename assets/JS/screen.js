@@ -23,6 +23,7 @@ const statisticsScreen =
 const teacherScreen =
     document.getElementById("teacher-screen");
 
+
 /* ==========================================================
    AMBIANCE OCÉANIQUE
 ========================================================== */
@@ -33,6 +34,7 @@ const crossingOceanAudio =
 crossingOceanAudio.loop = true;
 crossingOceanAudio.preload = "auto";
 crossingOceanAudio.volume = 0;
+
 
 /* ==========================================================
    AMBIANCE PORTUAIRE
@@ -45,6 +47,7 @@ harborAudio.loop = true;
 harborAudio.preload = "auto";
 harborAudio.volume = 0;
 
+
 /* ==========================================================
    CRI DE LA MOUETTE
 ========================================================== */
@@ -56,6 +59,7 @@ seagullAudio.loop = false;
 seagullAudio.preload = "auto";
 seagullAudio.volume = 0;
 
+
 /* ==========================================================
    CORNE DU BATEAU
 ========================================================== */
@@ -66,6 +70,7 @@ const boatHornAudio =
 boatHornAudio.loop = false;
 boatHornAudio.preload = "auto";
 boatHornAudio.volume = 0;
+
 
 /* ==========================================================
    VOLUME DES EFFETS SONORES
@@ -83,6 +88,7 @@ function getCrossingAudioVolume()
 
     return window.irregularAudio.getEffectsVolume();
 }
+
 
 /* ==========================================================
    LECTURE AUDIO AVEC DÉTECTION DES ERREURS
@@ -107,6 +113,7 @@ function playAudioSafely(audio, label)
         });
     }
 }
+
 
 /* ==========================================================
    DÉMARRER UNE AMBIANCE
@@ -135,6 +142,7 @@ function startAmbientAudio(audio)
     );
 }
 
+
 /* ==========================================================
    ARRÊTER UNE AMBIANCE
 ========================================================== */
@@ -144,6 +152,7 @@ function stopAmbientAudio(audio)
     audio.pause();
     audio.currentTime = 0;
 }
+
 
 /* ==========================================================
    AMBIANCE OCÉANIQUE
@@ -159,6 +168,7 @@ function stopCrossingOceanAudio()
     stopAmbientAudio(crossingOceanAudio);
 }
 
+
 /* ==========================================================
    AMBIANCE PORTUAIRE
 ========================================================== */
@@ -172,6 +182,7 @@ function stopHarborAudio()
 {
     stopAmbientAudio(harborAudio);
 }
+
 
 /* ==========================================================
    LECTURE DES EFFETS SONORES
@@ -199,6 +210,7 @@ function playSoundEffect(audio)
         audio.src
     );
 }
+
 
 /* ==========================================================
    MOUETTES AU SURVOL
@@ -267,6 +279,7 @@ postcardSeagulls.forEach((seagull) =>
     );
 });
 
+
 /* ==========================================================
    CORNE DU BATEAU AU SURVOL
 ========================================================== */
@@ -289,8 +302,9 @@ if (boatHornHotspot)
     );
 }
 
+
 /* ==========================================================
-   PROFESSEUR BASIL
+   PROFESSEUR BASIL AU DÉPART
 ========================================================== */
 
 const departureProfessor =
@@ -304,8 +318,9 @@ const professorBasilMessage =
     "votre guide dans l'apprentissage " +
     "des verbes irréguliers anglais !";
 
+
 /* ==========================================================
-   POSITIONNEMENT DE LA ZONE VOCALE
+   POSITIONNEMENT DE LA ZONE VOCALE DU DÉPART
    GÉRÉ PAR PROFESSEUR.CSS
 ========================================================== */
 
@@ -328,8 +343,66 @@ function updateProfessorVoiceHotspot()
     professorVoiceHotspot.style.background = "";
 }
 
+
 /* ==========================================================
-   VOIX DE BASIL AU SURVOL
+   ANNONCES VOCALES
+   VOIX MASCULINE MICROSOFT PAUL
+========================================================== */
+
+function speakButtonLabel(message)
+{
+    if (
+        !window.irregularAudio ||
+        !window.irregularAudio.isVoiceEnabled() ||
+        !("speechSynthesis" in window)
+    )
+    {
+        return;
+    }
+
+    try
+    {
+        const utterance =
+            new SpeechSynthesisUtterance(message);
+
+        const settings =
+            window.irregularAudio.getSettings();
+
+        utterance.lang = "fr-FR";
+        utterance.rate = 0.8;
+        utterance.volume =
+            settings.voiceVolume / 100;
+
+        const voices =
+            window.speechSynthesis.getVoices();
+
+        utterance.voice =
+            voices.find(
+                voice =>
+                    voice.name ===
+                    "Microsoft Paul - French (France)"
+            ) ||
+            voices.find(
+                voice =>
+                    voice.lang === "fr-FR"
+            ) ||
+            null;
+
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utterance);
+    }
+    catch (error)
+    {
+        console.error(
+            "[AUDIO] Annonce vocale :",
+            error
+        );
+    }
+}
+
+
+/* ==========================================================
+   VOIX DE BASIL AU DÉPART
 ========================================================== */
 
 if (professorVoiceHotspot)
@@ -342,63 +415,7 @@ if (professorVoiceHotspot)
                 "[SURVOL] Professeur Basil détecté"
             );
 
-            if (
-                !window.irregularAudio ||
-                !window.irregularAudio.isVoiceEnabled()
-            )
-            {
-                console.info(
-                    "[AUDIO] Voix désactivée."
-                );
-
-                return;
-            }
-
-            try
-            {
-               const utterance =
-    new SpeechSynthesisUtterance(
-        professorBasilMessage
-    );
-
-utterance.lang = "fr-FR";
-utterance.rate = 0.8;
-
-utterance.volume =
-    window.irregularAudio.getSettings().voiceVolume / 100;
-
-const voices =
-    window.speechSynthesis.getVoices();
-
-utterance.voice =
-    voices.find(
-        voice => voice.lang === "fr-FR"
-    ) || null;
-
-window.speechSynthesis.cancel();
-window.speechSynthesis.speak(utterance);
-
-                if (
-                    result &&
-                    typeof result.catch === "function"
-                )
-                {
-                    result.catch((error) =>
-                    {
-                        console.error(
-                            "[AUDIO] Voix de Basil :",
-                            error
-                        );
-                    });
-                }
-            }
-            catch (error)
-            {
-                console.error(
-                    "[AUDIO] Voix de Basil :",
-                    error
-                );
-            }
+            speakButtonLabel(professorBasilMessage);
         }
     );
 
@@ -415,6 +432,568 @@ window.speechSynthesis.speak(utterance);
     updateProfessorVoiceHotspot();
 }
 
+
+/* ==========================================================
+   ANNONCES VOCALES DES SIX BOUTONS
+========================================================== */
+
+const spokenButtons = [
+    {
+        id: "statistics-button",
+        message: "Statistiques"
+    },
+    {
+        id: "messages-button",
+        message: "Messages"
+    },
+    {
+        id: "audio-settings-button",
+        message: "Paramètres audio"
+    },
+    {
+        id: "logout-button",
+        message: "Déconnexion"
+    },
+    {
+        id: "quiz-button",
+        message: "Lancer le quiz"
+    },
+    {
+        id: "learning-button",
+        message:
+            "Entraîne-toi avant le départ, " +
+            "tu vas rentrer dans la classe d'apprentissage"
+    }
+];
+
+spokenButtons.forEach(({ id, message }) =>
+{
+    const button = document.getElementById(id);
+
+    if (!button)
+    {
+        return;
+    }
+
+    button.addEventListener(
+        "mouseenter",
+        () =>
+        {
+            speakButtonLabel(message);
+        }
+    );
+});
+
+
+/* ==========================================================
+   ARRIVÉE : ÉLÉMENTS HTML
+========================================================== */
+
+const arrivalContainer = arrivalScreen
+    ? arrivalScreen.querySelector(".postcard-container")
+    : null;
+
+const arrivalProfessor =
+    document.getElementById("professeur-arrivee");
+
+const arrivalReturnButton =
+    document.getElementById("return-button");
+
+let arrivalScoreHotspot = null;
+let arrivalProfessorHotspot = null;
+
+let arrivalConfettiLayer = null;
+let arrivalConfettiTimeout = null;
+
+
+/* ==========================================================
+   CALCUL DE LA NOTE SUR 20
+========================================================== */
+
+function getArrivalMark()
+{
+    if (
+        typeof quizScore !== "number" ||
+        typeof currentQuizConfig === "undefined" ||
+        !currentQuizConfig ||
+        !currentQuizConfig.questions
+    )
+    {
+        return null;
+    }
+
+    return (
+        quizScore /
+        currentQuizConfig.questions
+    ) * 20;
+}
+
+
+/* ==========================================================
+   FORMATAGE DE LA NOTE
+========================================================== */
+
+function getArrivalMarkLabel()
+{
+    const mark = getArrivalMark();
+
+    if (mark === null)
+    {
+        return "";
+    }
+
+    const rounded =
+        Math.round(mark * 10) / 10;
+
+    return Number.isInteger(rounded)
+        ? String(rounded)
+        : String(rounded).replace(".", ",");
+}
+
+
+/* ==========================================================
+   MESSAGE DU PROFESSEUR SELON LA NOTE
+========================================================== */
+
+function getArrivalProfessorMessage()
+{
+    const mark = getArrivalMark();
+
+    if (mark === null)
+    {
+        return "";
+    }
+
+    /* ======================================================
+       NOTE PARFAITE : 20/20
+    ====================================================== */
+
+    if (mark === 20)
+    {
+        return (
+            "Félicitations ! Tu as obtenu 20 sur 20 ! " +
+            "C'est un sans-faute ! " +
+            "Bravo pour ton excellent travail !"
+        );
+    }
+
+    /* ======================================================
+       MOINS DE 10/20
+    ====================================================== */
+
+    if (mark < 10)
+    {
+        return (
+            `Ta note est de ${getArrivalMarkLabel()} sur 20. ` +
+            "Je t'invite à aller réviser en classe " +
+            "après avoir corrigé les fautes " +
+            "sur la traversée du retour."
+        );
+    }
+
+    /* ======================================================
+       DE 10 À 15/20
+    ====================================================== */
+
+    if (mark <= 15)
+    {
+        return (
+            "C'est pas mal, mais tu peux mieux faire. " +
+            "Je t'invite à aller réviser en classe " +
+            "après avoir corrigé les fautes " +
+            "sur la traversée du retour."
+        );
+    }
+
+    /* ======================================================
+       PLUS DE 15/20 ET MOINS DE 20/20
+    ====================================================== */
+
+    return (
+        "Pas mal du tout ! " +
+        "Corrige les fautes pendant la traversée du retour, " +
+        "puis recommence jusqu'à obtenir 20 sur 20."
+    );
+}
+
+
+/* ==========================================================
+   CRÉATION D'UNE ZONE VOCALE TRANSPARENTE
+========================================================== */
+
+function makeArrivalHotspot(label)
+{
+    const hotspot =
+        document.createElement("button");
+
+    hotspot.type = "button";
+
+    hotspot.setAttribute(
+        "aria-label",
+        label
+    );
+
+    hotspot.style.position = "absolute";
+    hotspot.style.border = "0";
+    hotspot.style.padding = "0";
+    hotspot.style.background = "transparent";
+    hotspot.style.cursor = "default";
+    hotspot.style.zIndex = "35";
+
+    return hotspot;
+}
+
+
+/* ==========================================================
+   POSITION DE LA ZONE DU PROFESSEUR
+========================================================== */
+
+function updateArrivalProfessorHotspot()
+{
+    if (
+        !arrivalContainer ||
+        !arrivalProfessor ||
+        !arrivalProfessorHotspot
+    )
+    {
+        return;
+    }
+
+    const containerRect =
+        arrivalContainer.getBoundingClientRect();
+
+    const professorRect =
+        arrivalProfessor.getBoundingClientRect();
+
+    arrivalProfessorHotspot.style.left =
+        `${professorRect.left - containerRect.left}px`;
+
+    arrivalProfessorHotspot.style.top =
+        `${professorRect.top - containerRect.top}px`;
+
+    arrivalProfessorHotspot.style.width =
+        `${professorRect.width}px`;
+
+    arrivalProfessorHotspot.style.height =
+        `${professorRect.height}px`;
+}
+
+
+/* ==========================================================
+   INITIALISATION DES ZONES VOCALES D'ARRIVÉE
+========================================================== */
+
+function initialiseArrivalVoiceHotspots()
+{
+    if (!arrivalContainer)
+    {
+        return;
+    }
+
+    /* ======================================================
+       PARCHEMIN GAUCHE : NOTE
+    ====================================================== */
+
+    if (!arrivalScoreHotspot)
+    {
+        arrivalScoreHotspot =
+            makeArrivalHotspot(
+                "Écouter la note obtenue"
+            );
+
+        arrivalScoreHotspot.style.left = "6%";
+        arrivalScoreHotspot.style.top = "13%";
+        arrivalScoreHotspot.style.width = "34%";
+        arrivalScoreHotspot.style.height = "37%";
+
+        arrivalScoreHotspot.addEventListener(
+            "mouseenter",
+            () =>
+            {
+                const label =
+                    getArrivalMarkLabel();
+
+                if (label)
+                {
+                    speakButtonLabel(
+                        "Bienvenue en Angleterre ! " +
+                        `Ta note est de ${label} sur 20.`
+                    );
+                }
+            }
+        );
+
+        arrivalContainer.appendChild(
+            arrivalScoreHotspot
+        );
+    }
+
+    /* ======================================================
+       PROFESSEUR BASIL : ARRIVÉE
+    ====================================================== */
+
+    if (
+        !arrivalProfessorHotspot &&
+        arrivalProfessor
+    )
+    {
+        arrivalProfessorHotspot =
+            makeArrivalHotspot(
+                "Écouter le professeur Basil"
+            );
+
+        arrivalProfessorHotspot.addEventListener(
+            "mouseenter",
+            () =>
+            {
+                const message =
+                    getArrivalProfessorMessage();
+
+                if (message)
+                {
+                    speakButtonLabel(message);
+                }
+            }
+        );
+
+        arrivalContainer.appendChild(
+            arrivalProfessorHotspot
+        );
+    }
+
+    updateArrivalProfessorHotspot();
+}
+
+
+/* ==========================================================
+   CORRECTION : INITIALISATION AUTOMATIQUE
+   DES ZONES VOCALES D'ARRIVÉE
+========================================================== */
+
+initialiseArrivalVoiceHotspots();
+
+window.addEventListener(
+    "load",
+    () =>
+    {
+        initialiseArrivalVoiceHotspots();
+
+        if (
+            arrivalScreen &&
+            arrivalScreen.style.display === "flex"
+        )
+        {
+            requestAnimationFrame(
+                updateArrivalProfessorHotspot
+            );
+        }
+    }
+);
+
+
+/* ==========================================================
+   PARCHEMIN DROIT : RETOUR VERS LA FRANCE
+========================================================== */
+
+if (arrivalReturnButton)
+{
+    arrivalReturnButton.addEventListener(
+        "mouseenter",
+        () =>
+        {
+            speakButtonLabel(
+                "Il est temps de rentrer en France ! " +
+                "Prêt à repartir ? " +
+                "Clique ici pour commencer la traversée du retour. " +
+                "Si tu n'as commis aucune erreur, " +
+                "le bateau rentrera automatiquement !"
+            );
+        }
+    );
+}
+
+window.addEventListener(
+    "resize",
+    updateArrivalProfessorHotspot
+);
+
+
+/* ==========================================================
+   CONFETTIS : NETTOYAGE
+========================================================== */
+
+function clearArrivalConfetti()
+{
+    if (arrivalConfettiTimeout)
+    {
+        clearTimeout(arrivalConfettiTimeout);
+
+        arrivalConfettiTimeout = null;
+    }
+
+    if (arrivalConfettiLayer)
+    {
+        arrivalConfettiLayer.remove();
+
+        arrivalConfettiLayer = null;
+    }
+}
+
+
+/* ==========================================================
+   CONFETTIS : RÉCOMPENSE POUR 20/20
+========================================================== */
+
+function celebratePerfectArrival()
+{
+    clearArrivalConfetti();
+
+    if (
+        !arrivalContainer ||
+        getArrivalMark() !== 20 ||
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches
+    )
+    {
+        return;
+    }
+
+    /* ======================================================
+       ANIMATION CSS
+    ====================================================== */
+
+    if (
+        !document.getElementById(
+            "arrival-confetti-style"
+        )
+    )
+    {
+        const style =
+            document.createElement("style");
+
+        style.id = "arrival-confetti-style";
+
+        style.textContent = `
+            @keyframes arrival-confetti-fall {
+                from {
+                    transform:
+                        translateY(-20px)
+                        rotate(0deg);
+
+                    opacity: 1;
+                }
+
+                to {
+                    transform:
+                        translateY(650px)
+                        rotate(720deg);
+
+                    opacity: 0;
+                }
+            }
+        `;
+
+        document.head.appendChild(style);
+    }
+
+    /* ======================================================
+       CALQUE DE CONFETTIS
+    ====================================================== */
+
+    arrivalConfettiLayer =
+        document.createElement("div");
+
+    arrivalConfettiLayer.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    Object.assign(
+        arrivalConfettiLayer.style,
+        {
+            position: "absolute",
+            inset: "0",
+            overflow: "hidden",
+            pointerEvents: "none",
+            zIndex: "50"
+        }
+    );
+
+    /* ======================================================
+       COULEURS
+    ====================================================== */
+
+    const colors = [
+        "#f5c542",
+        "#e34b68",
+        "#49b7c8",
+        "#6fcf72",
+        "#a776d4"
+    ];
+
+    /* ======================================================
+       CRÉATION DES 90 CONFETTIS
+    ====================================================== */
+
+    for (
+        let index = 0;
+        index < 90;
+        index++
+    )
+    {
+        const piece =
+            document.createElement("span");
+
+        Object.assign(
+            piece.style,
+            {
+                position: "absolute",
+
+                top: "-20px",
+
+                left:
+                    `${Math.random() * 100}%`,
+
+                width:
+                    `${5 + Math.random() * 6}px`,
+
+                height:
+                    `${8 + Math.random() * 8}px`,
+
+                background:
+                    colors[index % colors.length],
+
+                opacity: "0",
+
+                animation:
+                    `arrival-confetti-fall ` +
+                    `${3 + Math.random() * 2}s ` +
+                    `linear ` +
+                    `${Math.random() * 1.2}s forwards`
+            }
+        );
+
+        arrivalConfettiLayer.appendChild(
+            piece
+        );
+    }
+
+    arrivalContainer.appendChild(
+        arrivalConfettiLayer
+    );
+
+    /* ======================================================
+       SUPPRESSION APRÈS 6,5 SECONDES
+    ====================================================== */
+
+    arrivalConfettiTimeout = setTimeout(
+        clearArrivalConfetti,
+        6500
+    );
+}
+
+
 /* ==========================================================
    ARRÊTER LA VOIX DU PROFESSEUR
 ========================================================== */
@@ -426,6 +1005,7 @@ function stopProfessorVoice()
         window.speechSynthesis.cancel();
     }
 }
+
 
 /* ==========================================================
    ACTUALISATION DES RÉGLAGES AUDIO
@@ -477,12 +1057,15 @@ window.addEventListener(
     }
 );
 
+
 /* ==========================================================
    MASQUER TOUS LES ÉCRANS
 ========================================================== */
 
 function hideAllScreens()
 {
+    clearArrivalConfetti();
+
     stopCrossingOceanAudio();
     stopHarborAudio();
 
@@ -525,6 +1108,7 @@ function hideAllScreens()
     }
 }
 
+
 /* ==========================================================
    ÉCRAN DE DÉPART
 ========================================================== */
@@ -542,6 +1126,7 @@ function showDeparture()
     );
 }
 
+
 /* ==========================================================
    ÉCRAN CLASSE / APPRENTISSAGE
 ========================================================== */
@@ -552,6 +1137,7 @@ function showClassroom()
 
     classroomScreen.style.display = "flex";
 }
+
 
 /* ==========================================================
    ÉCRAN DE TRAVERSÉE
@@ -566,6 +1152,7 @@ function showCrossing()
     startCrossingOceanAudio();
 }
 
+
 /* ==========================================================
    ÉCRAN D'ARRIVÉE
 ========================================================== */
@@ -577,7 +1164,16 @@ function showArrival()
     arrivalScreen.style.display = "flex";
 
     startHarborAudio();
+
+    initialiseArrivalVoiceHotspots();
+
+    requestAnimationFrame(
+        updateArrivalProfessorHotspot
+    );
+
+    celebratePerfectArrival();
 }
+
 
 /* ==========================================================
    ÉCRAN STATISTIQUES ÉLÈVE
@@ -589,6 +1185,7 @@ function showStatistics()
 
     statisticsScreen.style.display = "block";
 }
+
 
 /* ==========================================================
    ÉCRAN PROFESSEUR
