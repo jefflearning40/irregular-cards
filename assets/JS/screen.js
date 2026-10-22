@@ -304,6 +304,29 @@ if (boatHornHotspot)
 
 
 /* ==========================================================
+   CORNE DU BATEAU À L'ARRIVÉE
+========================================================== */
+
+const arrivalBoatHornHotspot =
+    document.getElementById("arrival-boat-horn-hotspot");
+
+if (arrivalBoatHornHotspot)
+{
+    arrivalBoatHornHotspot.addEventListener(
+        "mouseenter",
+        () =>
+        {
+            console.info(
+                "[SURVOL] Bateau d'arrivée détecté"
+            );
+
+            playSoundEffect(boatHornAudio);
+        }
+    );
+}
+
+
+/* ==========================================================
    PROFESSEUR BASIL AU DÉPART
 ========================================================== */
 
@@ -645,37 +668,25 @@ function makeArrivalHotspot(label)
 
 
 /* ==========================================================
-   POSITION DE LA ZONE DU PROFESSEUR
+   POSITION DE LA ZONE VOCALE DU PROFESSEUR
+   À L'ARRIVÉE
 ========================================================== */
 
 function updateArrivalProfessorHotspot()
 {
     if (
         !arrivalContainer ||
-        !arrivalProfessor ||
         !arrivalProfessorHotspot
     )
     {
         return;
     }
 
-    const containerRect =
-        arrivalContainer.getBoundingClientRect();
+    arrivalProfessorHotspot.style.left = "69%";
+    arrivalProfessorHotspot.style.top = "47%";
 
-    const professorRect =
-        arrivalProfessor.getBoundingClientRect();
-
-    arrivalProfessorHotspot.style.left =
-        `${professorRect.left - containerRect.left}px`;
-
-    arrivalProfessorHotspot.style.top =
-        `${professorRect.top - containerRect.top}px`;
-
-    arrivalProfessorHotspot.style.width =
-        `${professorRect.width}px`;
-
-    arrivalProfessorHotspot.style.height =
-        `${professorRect.height}px`;
+    arrivalProfessorHotspot.style.width = "15%";
+    arrivalProfessorHotspot.style.height = "44%";
 }
 
 
@@ -766,7 +777,7 @@ function initialiseArrivalVoiceHotspots()
 
 
 /* ==========================================================
-   CORRECTION : INITIALISATION AUTOMATIQUE
+   INITIALISATION AUTOMATIQUE
    DES ZONES VOCALES D'ARRIVÉE
 ========================================================== */
 

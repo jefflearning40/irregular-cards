@@ -3748,90 +3748,105 @@
     </main>
 
 
-    <!-- =====================================================
-         ARRIVÉE
-    ====================================================== -->
+    
+<!-- =====================================================
+     ARRIVÉE
+====================================================== -->
 
-    <section
-        class="postcard-screen"
-        id="arrival-screen"
-    >
+<section
+    class="postcard-screen"
+    id="arrival-screen"
+>
 
-        <div class="postcard-container">
+    <div class="postcard-container">
 
 
-            <!-- =================================================
-                 CARTE POSTALE
-            ================================================== -->
+        <!-- =================================================
+             CARTE POSTALE
+        ================================================== -->
 
-            <img
-                class="postcard"
-                src="assets/images/decor/cartepostalearrivee.png"
-                alt="Carte postale d'arrivée en Angleterre"
-                draggable="false"
+        <img
+            class="postcard"
+            src="assets/images/decor/cartepostalearrivee.png"
+            alt="Carte postale d'arrivée en Angleterre"
+            draggable="false"
+        >
+
+
+        <!-- =================================================
+             ZONE SONORE DU BATEAU À L'ARRIVÉE
+        ================================================== -->
+
+        <button
+            class="arrival-boat-horn-hotspot"
+            id="arrival-boat-horn-hotspot"
+            type="button"
+            aria-label="Écouter la corne du bateau"
+        ></button>
+
+
+        <!-- =================================================
+             ZONE CLIQUABLE DU RETOUR
+        ================================================== -->
+
+        <button
+            class="arrival-return-hotspot"
+            id="return-button"
+            type="button"
+            aria-label="Commencer le retour vers la France"
+        ></button>
+
+
+        <!-- =================================================
+             SCORE
+        ================================================== -->
+
+        <div
+            class="arrival-score"
+            id="arrival-score"
+            aria-live="polite"
+        >
+
+            <p
+                class="arrival-score__value"
+                id="arrival-score-value"
             >
-
-
-            <!-- =================================================
-                 ZONE CLIQUABLE DU RETOUR
-            ================================================== -->
-
-            <button
-                class="arrival-return-hotspot"
-                id="return-button"
-                type="button"
-                aria-label="Commencer le retour vers la France"
-            ></button>
-
-
-            <!-- =================================================
-                 SCORE
-            ================================================== -->
-
-            <div
-                class="arrival-score"
-                id="arrival-score"
-                aria-live="polite"
-            >
-
-                <p
-                    class="arrival-score__value"
-                    id="arrival-score-value"
-                >
-                    0 / 20
-                </p>
-
-            </div>
-
-
-            <!-- =================================================
-                 MOUETTE
-            ================================================== -->
-
-            <img
-                class="postcard-seagull postcard-seagull--arrival"
-                src="assets/images/decor/mouette3.gif"
-                alt=""
-                aria-hidden="true"
-                draggable="false"
-            >
-
-
-            <!-- =================================================
-                 PROFESSEUR ARRIVÉE
-            ================================================== -->
-
-            <object
-                class="postcard-professor postcard-professor--bravo"
-                id="professeur-arrivee"
-                data="assets/images/decor/personnages/professeur_pasgif_animation_bravo.svg"
-                type="image/svg+xml"
-                aria-label="Professeur"
-            ></object>
+                0 / 20
+            </p>
 
         </div>
 
-    </section>
+
+        <!-- =================================================
+             MOUETTE
+        ================================================== -->
+
+        <img
+            class="postcard-seagull postcard-seagull--arrival"
+            src="assets/images/decor/mouette3.gif"
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+        >
+
+
+        <!-- =================================================
+             PROFESSEUR ARRIVÉE
+        ================================================== -->
+
+        <object
+            class="postcard-professor postcard-professor--bravo"
+            id="professeur-arrivee"
+            data="assets/images/decor/personnages/professeur_pasgif_animation_bravo.svg"
+            type="image/svg+xml"
+            aria-label="Professeur"
+        ></object>
+
+
+    </div>
+
+</section>
+
 
 
     <!-- =====================================================
