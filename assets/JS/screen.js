@@ -1139,7 +1139,72 @@ function showDeparture()
 
 
 /* ==========================================================
+   DESCRIPTION VOCALE GÉNÉRALE DE LA SALLE DE CLASSE
+========================================================== */
+
+const classroomIntroductionMessage =
+    "Bienvenue dans notre salle d'apprentissage ! " +
+    "Je suis le professeur Basil. " +
+    "Devant toi se trouve un grand tableau sur lequel " +
+    "tu peux réviser les verbes irréguliers anglais " +
+    "et faire des exercices. " +
+    "Autour de nous, tu découvriras plusieurs objets " +
+    "et une fenêtre donnant sur le port. " +
+    "Prends ton temps pour explorer la classe !";
+
+
+/* ==========================================================
    ÉCRAN CLASSE / APPRENTISSAGE
+========================================================== */
+
+let classroomIntroductionPlaying = false;
+
+
+/* ==========================================================
+   PRÉSENTATION VOCALE DE LA CLASSE
+========================================================== */
+
+function speakClassroomIntroduction()
+{
+    if (
+        !window.irregularAudio ||
+        !window.irregularAudio.isVoiceEnabled() ||
+        !("speechSynthesis" in window)
+    )
+    {
+        classroomIntroductionPlaying = false;
+        return;
+    }
+
+    classroomIntroductionPlaying = true;
+
+    speakButtonLabel(classroomIntroductionMessage);
+
+    const checkIntroduction = () =>
+    {
+        if (!classroomIntroductionPlaying)
+        {
+            return;
+        }
+
+        if (
+            !window.speechSynthesis.speaking &&
+            !window.speechSynthesis.pending
+        )
+        {
+            classroomIntroductionPlaying = false;
+            return;
+        }
+
+        setTimeout(checkIntroduction, 200);
+    };
+
+    setTimeout(checkIntroduction, 200);
+}
+
+
+/* ==========================================================
+   AFFICHAGE DE LA CLASSE
 ========================================================== */
 
 function showClassroom()
@@ -1147,6 +1212,223 @@ function showClassroom()
     hideAllScreens();
 
     classroomScreen.style.display = "flex";
+
+    speakClassroomIntroduction();
+}
+
+
+/* ==========================================================
+   DESCRIPTION VOCALE : PLANTE VERTE
+========================================================== */
+
+const classroomPlantHotspot =
+    document.getElementById("classroom-plant-hotspot");
+
+const classroomPlantMessage =
+    "Une jolie plante verte retombe " +
+    "d'une étagère en bois.";
+
+
+/* ==========================================================
+   ANNONCE VOCALE DE LA PLANTE
+========================================================== */
+
+function speakClassroomPlant()
+{
+    if (classroomIntroductionPlaying)
+    {
+        return;
+    }
+
+    speakButtonLabel(classroomPlantMessage);
+}
+
+
+/* ==========================================================
+   ÉVÉNEMENTS DE LA PLANTE
+========================================================== */
+
+if (classroomPlantHotspot)
+{
+    classroomPlantHotspot.addEventListener(
+        "mouseenter",
+        speakClassroomPlant
+    );
+
+    classroomPlantHotspot.addEventListener(
+        "focus",
+        speakClassroomPlant
+    );
+}
+
+/* ==========================================================
+   DESCRIPTION VOCALE : AFFICHE DE VOCABULAIRE
+========================================================== */
+
+const classroomVocabularyHotspot =
+    document.getElementById("classroom-vocabulary-hotspot");
+
+const classroomVocabularyMessage =
+    "Un tableau de vocabulaire anglais " +
+    "qui sera abordé dans le tome 2 de notre collection.";
+
+function speakClassroomVocabulary()
+{
+    if (classroomIntroductionPlaying)
+    {
+        return;
+    }
+
+    speakButtonLabel(classroomVocabularyMessage);
+}
+
+if (classroomVocabularyHotspot)
+{
+    classroomVocabularyHotspot.addEventListener(
+        "mouseenter",
+        speakClassroomVocabulary
+    );
+
+    classroomVocabularyHotspot.addEventListener(
+        "focus",
+        speakClassroomVocabulary
+    );
+}
+/* ==========================================================
+   DESCRIPTION VOCALE : PANNEAU APPRENTISSAGE
+========================================================== */
+
+const classroomLearningHotspot =
+    document.getElementById("classroom-learning-hotspot");
+
+const classroomLearningMessage =
+    "Bienvenue dans notre espace d'apprentissage " +
+    "des verbes irréguliers anglais.";
+
+function speakClassroomLearning()
+{
+    if (classroomIntroductionPlaying)
+    {
+        return;
+    }
+
+    speakButtonLabel(classroomLearningMessage);
+}
+
+if (classroomLearningHotspot)
+{
+    classroomLearningHotspot.addEventListener(
+        "mouseenter",
+        speakClassroomLearning
+    );
+
+    classroomLearningHotspot.addEventListener(
+        "focus",
+        speakClassroomLearning
+    );
+}
+/* ==========================================================
+   DESCRIPTION VOCALE : POT À CRAYONS
+========================================================== */
+
+const classroomPencilsHotspot =
+    document.getElementById("classroom-pencils-hotspot");
+
+const classroomPencilsMessage =
+    "Sur le bureau du professeur se trouve " +
+    "un pot contenant plusieurs crayons de couleur.";
+
+function speakClassroomPencils()
+{
+    if (classroomIntroductionPlaying)
+    {
+        return;
+    }
+
+    speakButtonLabel(classroomPencilsMessage);
+}
+
+if (classroomPencilsHotspot)
+{
+    classroomPencilsHotspot.addEventListener(
+        "mouseenter",
+        speakClassroomPencils
+    );
+
+    classroomPencilsHotspot.addEventListener(
+        "focus",
+        speakClassroomPencils
+    );
+}
+/* ==========================================================
+   DESCRIPTION VOCALE : FENÊTRE
+========================================================== */
+
+const classroomWindowHotspot =
+    document.getElementById("classroom-window-hotspot");
+
+const classroomWindowMessage =
+    "Une grande fenêtre à neuf carreaux donne sur le port . " +
+    "On aperçoit des maisons, un phare, " +
+    "un bateau qui quitte le port " +
+    "et une mouette qui vole dans le ciel.";
+
+function speakClassroomWindow()
+{
+    if (classroomIntroductionPlaying)
+    {
+        return;
+    }
+
+    speakButtonLabel(classroomWindowMessage);
+}
+
+if (classroomWindowHotspot)
+{
+    classroomWindowHotspot.addEventListener(
+        "mouseenter",
+        speakClassroomWindow
+    );
+
+    classroomWindowHotspot.addEventListener(
+        "focus",
+        speakClassroomWindow
+    );
+}
+/* ==========================================================
+   AMBIANCE SONORE : FENÊTRE DU PORT
+========================================================== */
+
+const classroomHarbourAudio = new Audio(
+    "assets/sounds/harbour.mp3"
+);
+
+classroomHarbourAudio.loop = true;
+classroomHarbourAudio.volume = 0.3;
+
+if (classroomWindowHotspot)
+{
+    classroomWindowHotspot.addEventListener(
+        "mouseenter",
+        () =>
+        {
+            classroomHarbourAudio.currentTime = 0;
+
+            classroomHarbourAudio.play().catch(error =>
+            {
+                console.error("[AUDIO] Ambiance du port :", error);
+            });
+        }
+    );
+
+    classroomWindowHotspot.addEventListener(
+        "mouseleave",
+        () =>
+        {
+            classroomHarbourAudio.pause();
+            classroomHarbourAudio.currentTime = 0;
+        }
+    );
 }
 
 

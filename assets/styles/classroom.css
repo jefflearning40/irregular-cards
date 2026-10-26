@@ -463,3 +463,119 @@
     border-bottom-color:
         var(--color-error);
 }
+/* ==========================================================
+   ZONE VOCALE : PLANTE VERTE
+========================================================== */
+
+.classroom-plant-hotspot {
+    position: absolute;
+
+    left: 0%;
+    top: 1%;
+
+    width: 15%;
+    height: 19%;
+
+    z-index: 25;
+
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    background: transparent;
+
+    cursor: default;
+}
+
+.classroom-plant-hotspot:focus-visible {
+    outline: 3px solid var(--classroom-button-focus);
+    outline-offset: -3px;
+}
+/* =================================================
+   ZONE VOCALE : AFFICHE DE VOCABULAIRE
+================================================== */
+
+.classroom-vocabulary-hotspot {
+    position: absolute;
+    left: 2%;
+    top: 23%;
+    width: 15%;
+    height: 28%;
+    z-index: 25;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    cursor: default;
+}
+
+.classroom-vocabulary-hotspot:focus-visible {
+    outline: 3px solid var(--classroom-button-focus);
+    outline-offset: -3px;
+}
+/* =================================================
+   ZONE VOCALE : PANNEAU APPRENTISSAGE
+================================================== */
+
+.classroom-learning-hotspot {
+    position: absolute;
+    left: 26%;
+    top: 4%;
+    width: 40%;
+    height: 15%;
+    z-index: 25;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    cursor: default;
+}
+
+.classroom-learning-hotspot:focus-visible {
+    outline: 3px solid var(--classroom-button-focus);
+    outline-offset: -3px;
+}
+/* =================================================
+   ZONE VOCALE : POT À CRAYONS
+================================================== */
+
+.classroom-pencils-hotspot {
+    position: absolute;
+    left: 75%;
+    top: 67%;
+    width: 11%;
+    height: 18%;
+    z-index: 25;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    cursor: default;
+}
+
+.classroom-pencils-hotspot:focus-visible {
+    outline: 3px solid var(--classroom-button-focus);
+    outline-offset: -3px;
+}
+/* =================================================
+   ZONE VOCALE : FENÊTRE
+================================================== */
+
+.classroom-window-hotspot {
+    position: absolute;
+    left: 77%;
+    top: 2%;
+    width: 22%;
+    height: 62%;
+    z-index: 25;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    cursor: default;
+}
+
+.classroom-window-hotspot:focus-visible {
+    outline: 3px solid var(--classroom-button-focus);
+    outline-offset: -3px;
+}
