@@ -1,4 +1,3 @@
-
 /* ==========================================================
    RÉGLAGES AUDIO
 ========================================================== */
@@ -150,10 +149,10 @@
 .audio-settings-dialog {
     position: relative;
 
-    width: min(94vw, 900px);
+    width: min(76vw, 720px, calc(76vh * 1.5));
     aspect-ratio: 3 / 2;
 
-    max-height: 94vh;
+    max-height: 76vh;
 
     flex-shrink: 1;
 
@@ -181,7 +180,6 @@
 
 /* ==========================================================
    TITRE ACCESSIBLE
-   LE TITRE EST DÉJÀ PRÉSENT SUR L'IMAGE
 ========================================================== */
 
 .audio-settings-title {
@@ -249,14 +247,19 @@
 
 .audio-radio-control label {
     position: absolute;
+
     width: 1px;
     height: 1px;
+
     padding: 0;
     margin: -1px;
+
     overflow: hidden;
+
     clip-path: inset(50%);
     white-space: nowrap;
 }
+
 
 /* ==========================================================
    ZONE INTERACTIVE DES MOLETTES
@@ -369,52 +372,116 @@
     cursor: pointer;
 }
 
+
+/* ==========================================================
+   MASQUAGE DES ANCIENS LIBELLÉS
+========================================================== */
+
 .audio-radio-switch span {
-    position: relative;
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    padding: 0;
+    margin: -1px;
+
+    overflow: hidden;
+
+    clip-path: inset(50%);
+    white-space: nowrap;
 
     pointer-events: none;
-
-    font-size: clamp(9px, 1.3vw, 15px);
-    font-weight: 700;
-
-    color: #fff3d4;
-
-    text-align: center;
-
-    text-shadow: 0 2px 3px #000;
 }
 
 
 /* ==========================================================
-   ÉTAT ACTIVÉ
+   INDICATION ON / OFF
 ========================================================== */
 
-.audio-radio-switch:has(input:checked) span {
-    color: #a7ff85;
+.audio-radio-switch::after {
+    content: "OFF";
+
+    position: absolute;
+
+    left: 46%;
+    top: 0%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 2;
+
+    font-size: clamp(9px, 1vw, 13px);
+    font-weight: 900;
+
+    letter-spacing: 0.5px;
+
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   ASSISTANCE VOCALE - VERT
+========================================================== */
+
+.audio-radio-switch--voice::after {
+    left: 46%;
+
+    color: #174d24;
 
     text-shadow:
-        0 0 7px rgba(122, 255, 75, .8),
-        0 2px 3px #000;
+        0 1px 1px rgba(255, 255, 255, 0.35);
+}
+
+.audio-radio-switch--voice:has(input:checked)::after {
+    content: "ON";
+
+    color: #baff9b;
+
+    text-shadow:
+        0 0 5px #22ff44,
+        0 0 10px #00cc33,
+        0 1px 2px #003300;
+}
+
+
+/* ==========================================================
+   EFFETS SONORES - BLEU
+========================================================== */
+
+.audio-radio-switch--effects::after {
+    left: 50%;
+
+    color: #123f65;
+
+    text-shadow:
+        0 1px 1px rgba(255, 255, 255, 0.35);
+}
+
+.audio-radio-switch--effects:has(input:checked)::after {
+    content: "ON";
+
+    color: #d1f8ff;
+
+    text-shadow:
+        0 0 5px #66eaff,
+        0 0 10px #00aaff,
+        0 1px 2px #003c66;
 }
 
 
 /* ==========================================================
    ENREGISTRER ET FERMER
+   MASQUAGE DU TEXTE SOUS LE BOUTON ROUGE
 ========================================================== */
 
 .audio-radio-save {
     padding: 0;
 
-    font-size: clamp(9px, 1.3vw, 15px);
-    font-weight: 700;
+    font-size: 0;
 
-    color: #fff3d4;
-
-    text-shadow: 0 2px 3px #000;
-}
-
-.audio-radio-save:hover {
-    color: #a7ff85;
+    color: transparent;
+    text-shadow: none;
 }
 
 
@@ -466,7 +533,7 @@
 @media (max-width: 768px) {
 
     .audio-settings-dialog {
-        width: min(98vw, 900px);
+        width: min(90vw, 720px, calc(76vh * 1.5));
     }
 
     .audio-radio-control label,
@@ -474,9 +541,8 @@
         font-size: clamp(8px, 2vw, 13px);
     }
 
-    .audio-radio-switch span,
-    .audio-radio-save {
-        font-size: clamp(7px, 1.7vw, 12px);
+    .audio-radio-switch::after {
+        font-size: clamp(8px, 1.7vw, 12px);
     }
 
 }

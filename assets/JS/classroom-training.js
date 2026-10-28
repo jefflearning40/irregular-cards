@@ -1,3 +1,4 @@
+
 "use strict";
 
 
@@ -382,6 +383,17 @@ function returnToClassroomLearning()
         classroomExerciseButton.textContent =
             "Exercice";
     }
+
+
+    /* ======================================================
+       RESTAURATION DES TROIS FORMES DU VERBE
+    ====================================================== */
+
+    classroomTrainingForms.replaceChildren(
+        classroomVerbInfinitive,
+        classroomVerbPreterite,
+        classroomVerbParticiple
+    );
 
 
     /* ======================================================

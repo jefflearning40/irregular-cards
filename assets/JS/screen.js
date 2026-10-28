@@ -1150,7 +1150,29 @@ const classroomIntroductionMessage =
     "et faire des exercices. " +
     "Autour de nous, tu découvriras plusieurs objets " +
     "et une fenêtre donnant sur le port. " +
-    "Prends ton temps pour explorer la classe !";
+    "Prends ton temps pour explorer la classe ! " +
+
+    "Tu pourras également communiquer avec moi " +
+    "grâce à la reconnaissance vocale. " +
+    "Pour utiliser cette fonction, " +
+    "active le microphone avec le bouton " +
+    "Commandes vocales. " +
+
+    "Une fois le microphone activé, " +
+    "tu pourras me demander : " +
+    "Basil, verbe suivant, " +
+    "pour passer au verbe suivant. " +
+    "Basil, verbe précédent, " +
+    "pour revenir au verbe précédent. " +
+    "Basil, répète, " +
+    "pour réécouter mon explication. " +
+    "Et Basil, arrête, " +
+    "pour interrompre ma lecture. " +
+
+    "Tu pourras désactiver le microphone " +
+    "à tout moment. " +
+    "Les boutons du tableau resteront " +
+    "également disponibles.";
 
 
 /* ==========================================================
