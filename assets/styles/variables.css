@@ -457,4 +457,47 @@
 
 --collection-description-shadow:
     rgba(115, 77, 38, 0.08);
+
+
+/* ==========================================================
+   RÉGLAGES AUDIO / RADIO VINTAGE
+========================================================== */
+
+/* Icône Sons sur la carte de départ */
+--audio-icon-color: #17395a;
+--audio-icon-background: #ffcc33;
+
+/* Fond de la modale */
+--audio-modal-overlay: rgba(0, 0, 0, 0.82);
+
+/* Texte de la radio */
+--audio-radio-text: #f5e3b8;
+--audio-radio-output: #ffe4a0;
+
+/* Ombre des valeurs des molettes */
+--audio-output-shadow: #000000;
+
+/* Assistance vocale - bouton vert */
+--audio-voice-off: #174d24;
+--audio-voice-on: #baff9b;
+--audio-voice-glow-light: #22ff44;
+--audio-voice-glow: #00cc33;
+--audio-voice-shadow: #003300;
+
+/* Effets sonores - bouton bleu */
+--audio-effects-off: #123f65;
+--audio-effects-on: #d1f8ff;
+--audio-effects-glow-light: #66eaff;
+--audio-effects-glow: #00aaff;
+--audio-effects-shadow: #003c66;
+
+/* Reflet des indications OFF */
+--audio-switch-reflection: rgba(255, 255, 255, 0.35);
+
+/* Bouton de fermeture */
+--audio-close-background: rgba(35, 20, 10, 0.75);
+
+/* Contour de focus clavier */
+--audio-focus: #ffcc33;
+
 }

@@ -1177,7 +1177,68 @@ if (classroomVoiceExerciseButton)
         stopClassroomBasilReading
     );
 }
+/* ==========================================================
+   COMMANDES VOCALES : SUIVANT ET PRÉCÉDENT
+========================================================== */
 
+window.addEventListener(
+    "classroom-voice-command",
+    function(event)
+    {
+        const transcript =
+            String(event.detail?.transcript ?? "")
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/[.,!?;:]/g, "")
+                .trim();
+
+        const classroomScreen =
+            document.getElementById("classroom-screen");
+
+        if (
+            !classroomScreen ||
+            classroomScreen.hidden ||
+            window.getComputedStyle(classroomScreen).display === "none"
+        )
+        {
+            return;
+        }
+
+        switch (transcript)
+        {
+            case "suivant":
+
+                showNextClassroomVerb();
+
+                readClassroomVerbWithBasil();
+
+                break;
+
+            case "precedent":
+
+                showPreviousClassroomVerb();
+
+                readClassroomVerbWithBasil();
+
+                break;
+           
+            case "repete":
+
+                readClassroomVerbWithBasil();
+
+                break;
+             
+            case "arrete":
+
+                console.log("Commande ARRÊTE exécutée");
+
+                stopClassroomBasilReading();
+
+                break;
+        }
+    }
+);
 
 /* ==========================================================
    INITIALISATION

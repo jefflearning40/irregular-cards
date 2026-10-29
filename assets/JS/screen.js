@@ -392,7 +392,10 @@ function speakButtonLabel(message)
             window.irregularAudio.getSettings();
 
         utterance.lang = "fr-FR";
-        utterance.rate = 0.8;
+
+        utterance.rate =
+            settings.voiceRate;
+
         utterance.volume =
             settings.voiceVolume / 100;
 
@@ -1138,6 +1141,7 @@ function showDeparture()
 }
 
 
+
 /* ==========================================================
    DESCRIPTION VOCALE GÉNÉRALE DE LA SALLE DE CLASSE
 ========================================================== */
@@ -1154,9 +1158,26 @@ const classroomIntroductionMessage =
 
     "Tu pourras également communiquer avec moi " +
     "grâce à la reconnaissance vocale. " +
-    "Pour utiliser cette fonction, " +
-    "active le microphone avec le bouton " +
-    "Commandes vocales. " +
+
+    "Pour activer le microphone, " +
+    "appuie simplement sur la touche F 8 " +
+    "de ton clavier. " +
+    "Tu n'as pas besoin de chercher " +
+    "le bouton à l'écran. " +
+    "Tu peux également utiliser le bouton " +
+    "Commandes vocales, situé sous le tableau. " +
+
+    "Lors de ta première utilisation, " +
+    "le navigateur Chrome pourra te demander " +
+    "l'autorisation d'utiliser ton microphone. " +
+    "Tu pourras répondre à cette demande " +
+    "à l'aide de ton lecteur d'écran, " +
+    "ou demander l'assistance d'une personne " +
+    "si nécessaire. " +
+    "Si tu choisis d'autoriser le microphone " +
+    "lors de chaque visite, " +
+    "tu n'auras normalement plus à répondre " +
+    "à cette question les fois suivantes. " +
 
     "Une fois le microphone activé, " +
     "tu pourras me demander : " +
@@ -1169,8 +1190,9 @@ const classroomIntroductionMessage =
     "Et Basil, arrête, " +
     "pour interrompre ma lecture. " +
 
-    "Tu pourras désactiver le microphone " +
-    "à tout moment. " +
+    "Pour désactiver le microphone, " +
+    "appuie une nouvelle fois sur la touche F 8. " +
+
     "Les boutons du tableau resteront " +
     "également disponibles.";
 
@@ -1178,6 +1200,7 @@ const classroomIntroductionMessage =
 /* ==========================================================
    ÉCRAN CLASSE / APPRENTISSAGE
 ========================================================== */
+
 
 let classroomIntroductionPlaying = false;
 
