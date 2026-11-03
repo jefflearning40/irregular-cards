@@ -536,20 +536,22 @@ loginForm.addEventListener(
 
 
             /* ==============================================
-               CONNEXION ADMINISTRATEUR
+                 CONNEXION ADMINISTRATEUR
             ============================================== */
 
-            if (
-                loginData.role ===
-                "administrateur"
-            )
-            {
-                showAdmin();
+                if (
+                    loginData.role ===
+                    "administrateur"
+                )
+                {
+                    await startAdminBoot();
 
-                await loadAdminDashboard();
+                    showAdmin();
 
-                return;
-            }
+                    await loadAdminDashboard();
+
+                    return;
+                }
 
 
             /* ==============================================

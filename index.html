@@ -38,6 +38,7 @@
 <link rel="stylesheet" href="assets/styles/teacher-student-modal.css">
 <link rel="stylesheet" href="assets/styles/teacher-delete-student-modal.css">
 <link rel="stylesheet" href="assets/styles/admin.css">
+<link rel="stylesheet" href="assets/styles/admin-boot.css">
 <link rel="stylesheet" href="assets/styles/responsive.css">
 <link rel="stylesheet" href="assets/styles/responsive-classroom.css">
 <link rel="stylesheet" href="assets/styles/responsive-admin.css">
@@ -1884,6 +1885,31 @@
     </div>
 
 </div>
+<!-- =====================================================
+     DÉMARRAGE IBM PC 5150
+====================================================== -->
+
+<section
+    id="admin-boot-screen"
+    class="admin-boot-screen"
+    aria-label="Démarrage de l'ordinateur IBM PC 5150"
+    hidden
+>
+    <div class="admin-boot-monitor">
+
+        <div
+            id="admin-boot-output"
+            class="admin-boot-output"
+            role="log"
+            aria-live="off"
+        ></div>
+
+        <div class="admin-boot-footer">
+            APPUYEZ SUR ÉCHAP POUR PASSER LE DÉMARRAGE
+        </div>
+
+    </div>
+</section>
 
 <!-- =====================================================
      ESPACE ADMINISTRATEUR
@@ -3951,6 +3977,7 @@
 <script src="assets/JS/api.js"></script>
 <script src="assets/JS/teacher.js"></script>
 <script src="assets/JS/admin.js"></script>
+<script src="assets/JS/admin-boot.js"></script>
 <script src="assets/JS/login.js"></script>
 <script src="assets/JS/quiz-game.js"></script>
 <script src="assets/JS/quiz.js"></script>
