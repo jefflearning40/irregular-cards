@@ -39,9 +39,11 @@
 <link rel="stylesheet" href="assets/styles/teacher-delete-student-modal.css">
 <link rel="stylesheet" href="assets/styles/admin.css">
 <link rel="stylesheet" href="assets/styles/admin-boot.css">
+<link rel="stylesheet" href="assets/styles/admin-mode.css">
 <link rel="stylesheet" href="assets/styles/responsive.css">
 <link rel="stylesheet" href="assets/styles/responsive-classroom.css">
 <link rel="stylesheet" href="assets/styles/responsive-admin.css">
+<link rel="stylesheet" href="assets/styles/admin-normal.css">
 <link rel="stylesheet" href="assets/styles/responsive-messagerie.css">
 <link rel="stylesheet" href="assets/styles/audio-settings.css">
 
@@ -315,7 +317,78 @@
 
 </div>
 
-    
+    <!-- =====================================================
+     CHOIX DU MODE ADMINISTRATEUR
+====================================================== -->
+
+<div
+    id="admin-mode-modal"
+    class="admin-mode-modal"
+    aria-hidden="true"
+>
+    <div
+        class="admin-mode-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="admin-mode-title"
+        aria-describedby="admin-mode-description"
+    >
+
+        <h2
+            id="admin-mode-title"
+            class="admin-mode-title"
+        >
+            Choisissez votre version
+        </h2>
+
+        <p
+            id="admin-mode-description"
+            class="admin-mode-description"
+        >
+            Comment souhaitez-vous accéder
+            à votre administration ?
+        </p>
+
+        <div class="admin-mode-options">
+
+            <button
+                id="admin-mode-normal"
+                class="admin-mode-option"
+                type="button"
+            >
+                <strong>NORMAL</strong>
+
+                <span>
+                    Administration professionnelle,
+                    sans animation rétro.
+                </span>
+            </button>
+
+            <button
+                id="admin-mode-fun"
+                class="admin-mode-option"
+                type="button"
+            >
+                <strong>FUN</strong>
+
+                <span>
+                    Démarrage IBM 5150,
+                    ambiance et bruitages rétro.
+                </span>
+            </button>
+
+        </div>
+
+        <button
+            id="admin-mode-cancel"
+            class="admin-mode-cancel"
+            type="button"
+        >
+            Annuler
+        </button>
+
+    </div>
+</div>
 
 
       <!-- =====================================================
@@ -3355,73 +3428,83 @@
 
 
 </section>
-    <!-- =====================================================
-         MODALE PRÉPARATION DU QUIZ
-    ====================================================== -->
+   
+<!-- =====================================================
+     MODALE PRÉPARATION DU QUIZ
+====================================================== -->
 
-    <div
-        class="quiz-modal"
-        id="quiz-modal"
-        aria-hidden="true"
-    >
+<div
+    class="quiz-modal"
+    id="quiz-modal"
+    aria-hidden="true"
+>
 
-        <div class="quiz-modal__content">
+    <div class="quiz-modal__content">
 
-            <h2>
-                Prépare ton quiz
-            </h2>
+        <!-- BOUTON FERMER -->
 
-            <p>
-                Choisis ton niveau.
-            </p>
+        <button
+            type="button"
+            class="quiz-modal__close"
+            id="quiz-modal-close-button"
+            aria-label="Fermer la préparation du quiz"
+        >
+            &times;
+        </button>
 
+        <h2>
+            Prépare ton quiz
+        </h2>
 
-            <div class="quiz-difficulty">
+        <p>
+            Choisis ton niveau.
+        </p>
 
-                <h3>
-                    Difficulté
-                </h3>
+        <div class="quiz-difficulty">
 
-                <div class="quiz-difficulty__choices">
+            <h3>
+                Difficulté
+            </h3>
 
-                    <button
-                        type="button"
-                        data-difficulty="easy"
-                    >
-                        Facile
-                    </button>
+            <div class="quiz-difficulty__choices">
 
-                    <button
-                        type="button"
-                        data-difficulty="medium"
-                    >
-                        Moyen
-                    </button>
+                <button
+                    type="button"
+                    data-difficulty="easy"
+                >
+                    Facile
+                </button>
 
-                    <button
-                        type="button"
-                        data-difficulty="hard"
-                    >
-                        Difficile
-                    </button>
+                <button
+                    type="button"
+                    data-difficulty="medium"
+                >
+                    Moyen
+                </button>
 
-                </div>
+                <button
+                    type="button"
+                    data-difficulty="hard"
+                >
+                    Difficile
+                </button>
 
             </div>
 
-
-            <button
-                class="quiz-start-button"
-                id="quiz-start-button"
-                type="button"
-                disabled
-            >
-                Démarrer le quiz
-            </button>
-
         </div>
 
+        <button
+            class="quiz-start-button"
+            id="quiz-start-button"
+            type="button"
+            disabled
+        >
+            Démarrer le quiz
+        </button>
+
     </div>
+
+</div>
 
 
  

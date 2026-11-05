@@ -1,0 +1,584 @@
+
+/* ==========================================================
+   ADMINISTRATION — MODE NORMAL
+   Interface indépendante du mode FUN
+========================================================== */
+
+/* ==========================================================
+   1. ÉCRAN ET VARIABLES DU THÈME
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"] {
+    --admin-theme-background: var(--admin-normal-surface);
+    --admin-theme-background-light: var(--admin-normal-surface);
+    --admin-theme-color: var(--admin-normal-text);
+    --admin-theme-color-soft: var(--admin-normal-text-secondary);
+    --admin-theme-color-dark: var(--admin-normal-border);
+    --admin-theme-transparent: var(--admin-normal-surface-hover);
+    --admin-theme-hover: var(--admin-normal-nav-hover);
+    --admin-theme-glow: transparent;
+    --admin-theme-terminal-shadow: transparent;
+    --admin-theme-modal-glow: var(--admin-normal-card-shadow);
+    --admin-theme-focus: var(--admin-normal-nav-active);
+
+    min-height: 100vh;
+    background: var(--admin-normal-background);
+    color: var(--admin-normal-text);
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: none;
+}
+
+/* ==========================================================
+   2. TERMINAL — SUPPRESSION DES EFFETS CRT
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"] .admin-terminal {
+    width: 100%;
+    max-width: none;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
+    text-shadow: none;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-terminal::before,
+#admin-screen[data-admin-mode="normal"] .admin-terminal::after {
+    content: none;
+    display: none;
+}
+
+/* ==========================================================
+   3. EN-TÊTE
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"] .admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 76px;
+    padding: 16px 32px;
+    border: 0;
+    background: var(--admin-normal-surface);
+    box-shadow: 0 1px 5px var(--admin-normal-header-shadow);
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-header__title {
+    color: var(--admin-normal-text);
+    font-family: inherit;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-shadow: none;
+}
+
+/* DÉCONNEXION */
+
+#admin-screen[data-admin-mode="normal"] .admin-button--logout {
+    flex-shrink: 0;
+    padding: 11px 18px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--admin-normal-danger);
+    color: var(--color-white);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-shadow: none;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-button--logout:hover {
+    background: var(--admin-normal-danger);
+    color: var(--color-white);
+    opacity: 0.85;
+}
+
+/* ==========================================================
+   4. STRUCTURE PRINCIPALE
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"] .admin-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    min-height: calc(100vh - 76px);
+    padding: 0;
+    border: 0;
+}
+
+/* ==========================================================
+   5. NAVIGATION HORIZONTALE
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"] .admin-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 12px 32px;
+    border: 0;
+    border-bottom: 1px solid var(--admin-normal-nav-border);
+    border-radius: 0;
+    background: var(--admin-normal-surface);
+    box-shadow: none;
+}
+
+/* ÉLÉMENTS RÉSERVÉS AU MODE FUN */
+
+#admin-screen[data-admin-mode="normal"] .admin-menu__title,
+#admin-screen[data-admin-mode="normal"] .admin-theme-selector {
+    display: none;
+}
+
+/* BOUTONS DE NAVIGATION */
+
+#admin-screen[data-admin-mode="normal"] .admin-menu__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    min-height: 42px;
+    margin: 0;
+    padding: 10px 17px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--admin-normal-text-muted);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-align: center;
+    text-shadow: none;
+    box-shadow: none;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-menu__button:hover,
+#admin-screen[data-admin-mode="normal"] .admin-menu__button:focus-visible {
+    background: var(--admin-normal-nav-hover);
+    color: var(--admin-normal-primary);
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-menu__button--active {
+    background: var(--admin-normal-nav-active);
+    color: var(--admin-normal-primary);
+}
+
+/* ==========================================================
+   6. CONTENU
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"] .admin-content {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 32px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-view {
+    width: 100%;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-view__title {
+    margin: 0 0 24px;
+    color: var(--admin-normal-text);
+    font-family: inherit;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-shadow: none;
+}
+
+/* ==========================================================
+   7. INFORMATIONS SYSTÈME ET BLOCS
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"] .admin-system-info,
+#admin-screen[data-admin-mode="normal"] .admin-dashboard-block {
+    padding: 24px;
+    border: 1px solid var(--admin-normal-border);
+    border-radius: 12px;
+    background: var(--admin-normal-surface);
+    color: var(--admin-normal-text);
+    box-shadow: 0 2px 8px var(--admin-normal-card-shadow);
+    text-shadow: none;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-system-info {
+    width: min(600px, 100%);
+    margin-bottom: 30px;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--admin-normal-border);
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-block-header h3 {
+    color: var(--admin-normal-text);
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* ==========================================================
+   8. BOUTONS ADMINISTRATIFS
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"] .admin-button:not(.admin-button--logout),
+#admin-screen[data-admin-mode="normal"] .admin-action-button {
+    padding: 10px 16px;
+    border: 1px solid var(--admin-normal-primary);
+    border-radius: 8px;
+    background: var(--admin-normal-primary);
+    color: var(--color-white);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-shadow: none;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-button:not(.admin-button--logout):hover,
+#admin-screen[data-admin-mode="normal"] .admin-action-button:hover {
+    background: var(--admin-normal-primary-hover);
+    color: var(--color-white);
+    text-shadow: none;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-button:focus-visible,
+#admin-screen[data-admin-mode="normal"] .admin-action-button:focus-visible {
+    outline: 2px solid var(--admin-normal-primary);
+    outline-offset: 3px;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-button:disabled,
+#admin-screen[data-admin-mode="normal"] .admin-action-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ==========================================================
+   9. TABLEAUX
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"] .admin-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--admin-normal-border);
+    border-radius: 8px;
+    background: var(--admin-normal-surface);
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--admin-normal-surface);
+    color: var(--admin-normal-text);
+    font-family: inherit;
+    font-size: 14px;
+    text-shadow: none;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-table th,
+#admin-screen[data-admin-mode="normal"] .admin-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--admin-normal-border);
+    text-align: left;
+    vertical-align: middle;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-table th {
+    background: var(--admin-normal-surface-hover);
+    color: var(--admin-normal-text-muted);
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-table td {
+    color: var(--admin-normal-text-secondary);
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-table tbody tr:hover {
+    background: var(--admin-normal-surface-hover);
+}
+
+/* ==========================================================
+   10. PROMPT TERMINAL
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"] .admin-prompt,
+#admin-screen[data-admin-mode="normal"] .admin-cursor {
+    display: none;
+}
+
+/* ==========================================================
+   11. MODALES ADMINISTRATIVES
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"] .admin-transfer-modal {
+    background: var(--admin-modal-overlay);
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-transfer-modal__content {
+    border: 1px solid var(--admin-normal-border);
+    border-radius: 12px;
+    background: var(--admin-normal-surface);
+    color: var(--admin-normal-text);
+    font-family: inherit;
+    box-shadow: 0 2px 8px var(--admin-normal-header-shadow);
+    text-shadow: none;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-transfer-modal__header {
+    border-bottom: 1px solid var(--admin-normal-border);
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-transfer-modal__header h2,
+#admin-screen[data-admin-mode="normal"] .admin-transfer-field label,
+#admin-screen[data-admin-mode="normal"] .admin-delete-teacher-warning__title {
+    color: var(--admin-normal-text);
+    font-family: inherit;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-transfer-field input,
+#admin-screen[data-admin-mode="normal"] .admin-transfer-field select {
+    border: 1px solid var(--admin-normal-border);
+    border-radius: 8px;
+    background: var(--admin-normal-surface);
+    color: var(--admin-normal-text);
+    font-family: inherit;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-transfer-field input:focus,
+#admin-screen[data-admin-mode="normal"] .admin-transfer-field select:focus {
+    border-color: var(--admin-normal-primary);
+    outline: 2px solid var(--admin-normal-nav-active);
+    box-shadow: none;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-transfer-message {
+    color: var(--admin-normal-text);
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-transfer-message--error {
+    color: var(--color-white);
+    background: var(--admin-normal-danger);
+    border-radius: 6px;
+    animation: none;
+}
+
+/* SUPPRESSION PROFESSEUR */
+
+#admin-screen[data-admin-mode="normal"] .admin-delete-teacher-warning__icon {
+    border-bottom-color: var(--admin-normal-danger);
+    filter: none;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-delete-teacher-warning__icon::before {
+    border-bottom-color: var(--admin-normal-surface);
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-delete-teacher-warning__icon span {
+    color: var(--admin-normal-danger);
+}
+
+/* ==========================================================
+   12. MESSAGERIE
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"] .admin-messages {
+    width: 100%;
+}
+
+/* POLICE DE LA MESSAGERIE — MODE NORMAL UNIQUEMENT */
+
+#admin-screen[data-admin-mode="normal"] .admin-messages,
+#admin-screen[data-admin-mode="normal"] .admin-messages * {
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: normal;
+    text-shadow: none;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-messages__navigation {
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--admin-normal-border);
+}
+
+/* BOUTONS DE MESSAGERIE */
+
+#admin-screen[data-admin-mode="normal"] .admin-messages__navigation .admin-action-button,
+#admin-screen[data-admin-mode="normal"] .admin-messages__list > .admin-action-button,
+#admin-screen[data-admin-mode="normal"] .admin-messages__form .admin-action-button {
+    padding: 10px 16px;
+    border: 1px solid var(--admin-normal-primary);
+    border-radius: 8px;
+    background: var(--admin-normal-primary);
+    color: var(--color-white);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-shadow: none;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-messages__navigation .admin-action-button:hover,
+#admin-screen[data-admin-mode="normal"] .admin-messages__list > .admin-action-button:hover,
+#admin-screen[data-admin-mode="normal"] .admin-messages__form .admin-action-button:hover {
+    background: var(--admin-normal-primary-hover);
+    color: var(--color-white);
+}
+
+/* LISTE DES MESSAGES */
+
+#admin-screen[data-admin-mode="normal"] .admin-message-row {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--admin-normal-border);
+    color: var(--admin-normal-text);
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-message-row:hover {
+    background: var(--admin-normal-surface-hover);
+}
+
+/* CASES À COCHER */
+
+#admin-screen[data-admin-mode="normal"] .admin-message-row__selector {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--admin-normal-border);
+    border-radius: 4px;
+    background: var(--admin-normal-surface);
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-message-row__selector:checked {
+    border-color: var(--admin-normal-primary);
+    background: var(--admin-normal-primary);
+    box-shadow: inset 0 0 0 3px var(--admin-normal-surface);
+}
+
+/* FORMULAIRE */
+
+#admin-screen[data-admin-mode="normal"] .admin-messages__form label {
+    color: var(--admin-normal-text);
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-messages__form input,
+#admin-screen[data-admin-mode="normal"] .admin-messages__form textarea,
+#admin-screen[data-admin-mode="normal"] .admin-messages-recipient__button {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--admin-normal-border);
+    border-radius: 8px;
+    background: var(--admin-normal-surface);
+    color: var(--admin-normal-text);
+    font-family: inherit;
+    text-shadow: none;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-messages__form input:focus,
+#admin-screen[data-admin-mode="normal"] .admin-messages__form textarea:focus,
+#admin-screen[data-admin-mode="normal"] .admin-messages-recipient__button:focus-visible {
+    border-color: var(--admin-normal-primary);
+    outline: 2px solid var(--admin-normal-nav-active);
+    box-shadow: none;
+}
+
+/* LISTE DES DESTINATAIRES */
+
+#admin-screen[data-admin-mode="normal"] .admin-messages-recipient__list {
+    border: 1px solid var(--admin-normal-border);
+    border-radius: 8px;
+    background: var(--admin-normal-surface);
+    box-shadow: 0 2px 8px var(--admin-normal-card-shadow);
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-messages-recipient__option {
+    border-bottom: 1px solid var(--admin-normal-border);
+    background: var(--admin-normal-surface);
+    color: var(--admin-normal-text);
+    font-family: inherit;
+    text-shadow: none;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-messages-recipient__option:hover,
+#admin-screen[data-admin-mode="normal"] .admin-messages-recipient__option:focus-visible {
+    background: var(--admin-normal-nav-hover);
+    color: var(--admin-normal-primary);
+}
+
+/* ==========================================================
+   13. RESPONSIVE
+========================================================== */
+
+@media (max-width: 768px) {
+
+    #admin-screen[data-admin-mode="normal"] .admin-header {
+        padding: 14px 18px;
+    }
+
+    #admin-screen[data-admin-mode="normal"] .admin-header__title {
+        font-size: 18px;
+    }
+
+    #admin-screen[data-admin-mode="normal"] .admin-menu {
+        padding: 12px 18px;
+    }
+
+    #admin-screen[data-admin-mode="normal"] .admin-menu__button {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+
+    #admin-screen[data-admin-mode="normal"] .admin-content {
+        padding: 20px 16px;
+    }
+
+    #admin-screen[data-admin-mode="normal"] .admin-system-info,
+    #admin-screen[data-admin-mode="normal"] .admin-dashboard-block {
+        padding: 16px;
+    }
+
+    #admin-screen[data-admin-mode="normal"] .admin-transfer-modal__content {
+        padding: 20px;
+    }
+
+    #admin-screen[data-admin-mode="normal"] .admin-delete-teacher-warning {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+}

@@ -3848,222 +3848,198 @@ async function updateAdminMessageCounters()
         );
     }
 }
+
+/* ==========================================================
+   LECTURE D'UN MESSAGE — ADMINISTRATEUR
+========================================================== */
+
+function openAdminMessageReader(message, folder)
+{
+    adminMessagesList.replaceChildren();
+
+    const reader = document.createElement("div");
+    reader.className = "messages-reader";
+
+    const header = document.createElement("div");
+    header.className = "messages-reader__header";
+
+    const subject = document.createElement("h3");
+    subject.className = "messages-reader__subject";
+    subject.textContent = message.objet;
+
+    const closeButton = document.createElement("button");
+    closeButton.type = "button";
+    closeButton.className = "messages-reader__close";
+    closeButton.textContent = "×";
+    closeButton.setAttribute("aria-label", "Retour aux messages");
+
+    closeButton.addEventListener("click", () => {
+        if (folder === "received") {
+            showAdminReceivedMessages();
+        } else {
+            showAdminSentMessages();
+        }
+    });
+
+    const content = document.createElement("p");
+    content.className = "messages-reader__content";
+    content.textContent = message.contenu ?? "";
+
+    header.append(subject, closeButton);
+    reader.append(header, content);
+    adminMessagesList.appendChild(reader);
+}
+
+
+/* ==========================================================
+   CRÉATION D'UNE LIGNE DE MESSAGE — ADMINISTRATEUR
+========================================================== */
+
+function createAdminMessageRow(message, folder)
+{
+    const row = document.createElement("div");
+    row.className = "admin-message-row";
+
+    const selector = document.createElement("input");
+    selector.type = "checkbox";
+    selector.className = "admin-message-row__selector";
+    selector.value = message.id;
+    selector.setAttribute(
+        "aria-label",
+        `Sélectionner le message ${message.objet}`
+    );
+
+    const correspondent = document.createElement("span");
+
+    correspondent.textContent = folder === "received"
+        ? `${message.expediteur_type} #${message.expediteur_id}`
+        : `${message.destinataire_type} #${message.destinataire_id}`;
+
+    const subject = document.createElement("button");
+    subject.type = "button";
+    subject.className = "admin-message-row__subject";
+    subject.textContent = message.objet;
+    subject.setAttribute(
+        "aria-label",
+        `Lire le message ${message.objet}`
+    );
+
+    const status = document.createElement("span");
+    status.className = "admin-message-row__status";
+    status.textContent =
+        Number(message.est_lu) === 1 ? "LU" : "NON LU";
+
+    subject.addEventListener("click", async () => {
+        if (
+            folder === "received" &&
+            Number(message.est_lu) !== 1
+        ) {
+            try {
+                await markMessageAsRead(message.id);
+                message.est_lu = 1;
+                await updateAdminMessageCounters();
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        openAdminMessageReader(message, folder);
+    });
+
+    row.append(selector, correspondent, subject, status);
+
+    return row;
+}
+
+
+/* ==========================================================
+   SUPPRESSION DES MESSAGES — ADMINISTRATEUR
+========================================================== */
+
+function createAdminMessagesDeleteButton(folder)
+{
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "admin-action-button";
+    deleteButton.textContent = "SUPPRIMER";
+
+    deleteButton.addEventListener("click", async () => {
+        const selectedMessages =
+            adminMessagesList.querySelectorAll(
+                ".admin-message-row__selector:checked"
+            );
+
+        const messageIds = Array.from(selectedMessages).map(
+            (selector) => Number(selector.value)
+        );
+
+        if (messageIds.length === 0) {
+            return;
+        }
+
+        deleteButton.disabled = true;
+
+        try {
+            if (folder === "received") {
+                await deleteReceivedMessages(messageIds);
+                await showAdminReceivedMessages();
+            } else {
+                await deleteSentMessages(messageIds);
+                await showAdminSentMessages();
+            }
+
+            await updateAdminMessageCounters();
+        } catch (error) {
+            console.error(error);
+            deleteButton.disabled = false;
+        }
+    });
+
+    return deleteButton;
+}
+
+
 /* ==========================================================
    AFFICHAGE DES MESSAGES REÇUS — ADMINISTRATEUR
 ========================================================== */
 
 async function showAdminReceivedMessages()
 {
-    adminMessagesForm.hidden =
-        true;
+    adminMessagesForm.hidden = true;
+    adminMessagesList.hidden = false;
 
-    adminMessagesList.hidden =
-        false;
+    adminMessagesList.textContent =
+        "> CHARGEMENT DES MESSAGES...";
 
-    adminMessagesList.innerHTML =
-        "&gt; CHARGEMENT DES MESSAGES...";
+    try {
+        const messages = await getReceivedMessages();
 
+        adminMessagesList.replaceChildren();
 
-    try
-    {
-        const messages =
-            await getReceivedMessages();
-
-
-        adminMessagesList.innerHTML =
-            "";
-
-
-        if (
-            messages.length === 0
-        )
-        {
-            adminMessagesList.innerHTML =
-                "&gt; AUCUN MESSAGE RECU";
-
+        if (messages.length === 0) {
+            adminMessagesList.textContent =
+                "> AUCUN MESSAGE RECU";
 
             await updateAdminMessageCounters();
-
-
             return;
         }
 
-
-        const deleteButton =
-            document.createElement(
-                "button"
-            );
-
-
-        deleteButton.type =
-            "button";
-
-        deleteButton.className =
-            "admin-action-button";
-
-        deleteButton.textContent =
-            "SUPPRIMER";
-
-
-        deleteButton.addEventListener(
-            "click",
-            async () =>
-            {
-                const selectedMessages =
-                    adminMessagesList.querySelectorAll(
-                        ".admin-message-row__selector:checked"
-                    );
-
-
-                const messageIds =
-                    Array.from(
-                        selectedMessages
-                    ).map(
-                        (selector) =>
-                            Number(
-                                selector.value
-                            )
-                    );
-
-
-                if (
-                    messageIds.length === 0
-                )
-                {
-                    return;
-                }
-
-
-                try
-                {
-                    await deleteReceivedMessages(
-                        messageIds
-                    );
-
-
-                    await showAdminReceivedMessages();
-
-                    await updateAdminMessageCounters();
-                }
-                catch (error)
-                {
-                    console.error(
-                        error
-                    );
-                }
-            }
-        );
-
-
         adminMessagesList.appendChild(
-            deleteButton
+            createAdminMessagesDeleteButton("received")
         );
 
-
-        for (
-            const message of messages
-        )
-        {
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-
-            row.className =
-                "admin-message-row";
-
-
-            const selector =
-                document.createElement(
-                    "input"
-                );
-
-
-            selector.type =
-                "checkbox";
-
-            selector.className =
-                "admin-message-row__selector";
-
-            selector.value =
-                message.id;
-
-
-            const sender =
-                document.createElement(
-                    "span"
-                );
-
-
-            sender.textContent =
-                `${message.expediteur_type} #${message.expediteur_id}`;
-
-
-            const subject =
-                document.createElement(
-                    "span"
-                );
-
-
-            subject.className =
-                "admin-message-row__subject";
-
-            subject.textContent =
-                message.objet;
-
-
-            const status =
-                document.createElement(
-                    "span"
-                );
-
-
-            status.className =
-                "admin-message-row__status";
-
-            status.textContent =
-                Number(
-                    message.est_lu
-                ) === 1
-                    ? "LU"
-                    : "NON LU";
-
-
-            row.appendChild(
-                selector
-            );
-
-            row.appendChild(
-                sender
-            );
-
-            row.appendChild(
-                subject
-            );
-
-            row.appendChild(
-                status
-            );
-
-
+        for (const message of messages) {
             adminMessagesList.appendChild(
-                row
+                createAdminMessageRow(message, "received")
             );
         }
 
-
         await updateAdminMessageCounters();
-    }
-    catch (error)
-    {
-        console.error(
-            error
-        );
+    } catch (error) {
+        console.error(error);
 
-
-        adminMessagesList.innerHTML =
-            "&gt; ERREUR : IMPOSSIBLE DE CHARGER LES MESSAGES";
+        adminMessagesList.textContent =
+            "> ERREUR : IMPOSSIBLE DE CHARGER LES MESSAGES";
     }
 }
 
@@ -4074,219 +4050,43 @@ async function showAdminReceivedMessages()
 
 async function showAdminSentMessages()
 {
-    adminMessagesForm.hidden =
-        true;
+    adminMessagesForm.hidden = true;
+    adminMessagesList.hidden = false;
 
-    adminMessagesList.hidden =
-        false;
+    adminMessagesList.textContent =
+        "> CHARGEMENT DES MESSAGES...";
 
-    adminMessagesList.innerHTML =
-        "&gt; CHARGEMENT DES MESSAGES...";
+    try {
+        const messages = await getSentMessages();
 
+        adminMessagesList.replaceChildren();
 
-    try
-    {
-        const messages =
-            await getSentMessages();
-
-
-        adminMessagesList.innerHTML =
-            "";
-
-
-        if (
-            messages.length === 0
-        )
-        {
-            adminMessagesList.innerHTML =
-                "&gt; AUCUN MESSAGE ENVOYE";
-
+        if (messages.length === 0) {
+            adminMessagesList.textContent =
+                "> AUCUN MESSAGE ENVOYE";
 
             await updateAdminMessageCounters();
-
-
             return;
         }
 
-
-        const deleteButton =
-            document.createElement(
-                "button"
-            );
-
-
-        deleteButton.type =
-            "button";
-
-        deleteButton.className =
-            "admin-action-button";
-
-        deleteButton.textContent =
-            "SUPPRIMER";
-
-
-        deleteButton.addEventListener(
-            "click",
-            async () =>
-            {
-                const selectedMessages =
-                    adminMessagesList.querySelectorAll(
-                        ".admin-message-row__selector:checked"
-                    );
-
-
-                const messageIds =
-                    Array.from(
-                        selectedMessages
-                    ).map(
-                        (selector) =>
-                            Number(
-                                selector.value
-                            )
-                    );
-
-
-                if (
-                    messageIds.length === 0
-                )
-                {
-                    return;
-                }
-
-
-                try
-                {
-                    await deleteSentMessages(
-                        messageIds
-                    );
-
-
-                    await showAdminSentMessages();
-
-                    await updateAdminMessageCounters();
-                }
-                catch (error)
-                {
-                    console.error(
-                        error
-                    );
-                }
-            }
-        );
-
-
         adminMessagesList.appendChild(
-            deleteButton
+            createAdminMessagesDeleteButton("sent")
         );
 
-
-        for (
-            const message of messages
-        )
-        {
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-
-            row.className =
-                "admin-message-row";
-
-
-            const selector =
-                document.createElement(
-                    "input"
-                );
-
-
-            selector.type =
-                "checkbox";
-
-            selector.className =
-                "admin-message-row__selector";
-
-            selector.value =
-                message.id;
-
-
-            const recipient =
-                document.createElement(
-                    "span"
-                );
-
-
-            recipient.textContent =
-                `${message.destinataire_type} #${message.destinataire_id}`;
-
-
-            const subject =
-                document.createElement(
-                    "span"
-                );
-
-
-            subject.className =
-                "admin-message-row__subject";
-
-            subject.textContent =
-                message.objet;
-
-
-            const status =
-                document.createElement(
-                    "span"
-                );
-
-
-            status.className =
-                "admin-message-row__status";
-
-            status.textContent =
-                Number(
-                    message.est_lu
-                ) === 1
-                    ? "LU"
-                    : "NON LU";
-
-
-            row.appendChild(
-                selector
-            );
-
-            row.appendChild(
-                recipient
-            );
-
-            row.appendChild(
-                subject
-            );
-
-            row.appendChild(
-                status
-            );
-
-
+        for (const message of messages) {
             adminMessagesList.appendChild(
-                row
+                createAdminMessageRow(message, "sent")
             );
         }
 
-
         await updateAdminMessageCounters();
-    }
-    catch (error)
-    {
-        console.error(
-            error
-        );
+    } catch (error) {
+        console.error(error);
 
-
-        adminMessagesList.innerHTML =
-            "&gt; ERREUR : IMPOSSIBLE DE CHARGER LES MESSAGES";
+        adminMessagesList.textContent =
+            "> ERREUR : IMPOSSIBLE DE CHARGER LES MESSAGES";
     }
 }
-
 
 /* ==========================================================
    BOUTON MESSAGES REÇUS — ADMINISTRATEUR
@@ -4796,4 +4596,128 @@ adminThemeSwitch.addEventListener(
                 : "false"
         );
     }
+);
+
+/* ==========================================================
+   ADMINISTRATION — LECTURE DE DISQUETTE AVANT AFFICHAGE
+========================================================== */
+
+const adminNavigationDiskSound =
+    new Audio("assets/sounds/readerdisk2.mp3");
+
+adminNavigationDiskSound.preload = "auto";
+adminNavigationDiskSound.volume = 0.45;
+
+const adminDiskNavigationTargets =
+    new Set([
+        "professeurs",
+        "eleves",
+        "contacts"
+    ]);
+
+let adminDiskNavigationPending = false;
+let adminDiskNavigationReplay = false;
+
+/* ==========================================================
+   INTERCEPTION DES BOUTONS DU MENU
+========================================================== */
+
+document.addEventListener(
+    "click",
+    async (event) =>
+    {
+        if (adminDiskNavigationReplay)
+        {
+            return;
+        }
+        /* ==========================================================
+             MODE NORMAL — NAVIGATION SANS BRUITAGE
+        ========================================================== */
+
+            const currentAdminScreen =
+                document.getElementById("admin-screen");
+
+            if (
+                currentAdminScreen?.dataset.adminMode === "normal"
+            )
+            {
+                return;
+            }
+
+        const button = event.target.closest(
+            "[data-admin-view]"
+        );
+
+        if (
+            !button ||
+            !adminDiskNavigationTargets.has(
+                button.dataset.adminView
+            )
+        )
+        {
+            return;
+        }
+
+        if (adminDiskNavigationPending)
+        {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return;
+        }
+
+        if (
+            typeof adminSoundEnabled === "function" &&
+            !adminSoundEnabled()
+        )
+        {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        adminDiskNavigationPending = true;
+
+        const finish = () =>
+        {
+            adminNavigationDiskSound.pause();
+            adminNavigationDiskSound.currentTime = 0;
+
+            adminDiskNavigationReplay = true;
+
+            try
+            {
+                button.click();
+            }
+            finally
+            {
+                adminDiskNavigationReplay = false;
+                adminDiskNavigationPending = false;
+            }
+        };
+
+        adminNavigationDiskSound.currentTime = 0;
+
+        const timeout = setTimeout(
+            finish,
+            5000
+        );
+
+        adminNavigationDiskSound.onended = () =>
+        {
+            clearTimeout(timeout);
+            finish();
+        };
+
+        try
+        {
+            await adminNavigationDiskSound.play();
+        }
+        catch (error)
+        {
+            clearTimeout(timeout);
+            finish();
+        }
+    },
+    true
 );

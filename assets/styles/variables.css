@@ -1,62 +1,35 @@
+
 /* ==========================================================
    POLICES
 ========================================================== */
 
-
-/* ==========================================================
-   CABIN SKETCH
-========================================================== */
-
 @font-face {
     font-family: "Cabin Sketch";
-
-    src: url("../polices/cabin-sketch/cabin-sketch-latin-400-normal.woff2")
-        format("woff2");
-
+    src: url("../polices/cabin-sketch/cabin-sketch-latin-400-normal.woff2") format("woff2");
     font-style: normal;
     font-weight: 400;
     font-display: swap;
 }
 
-
 @font-face {
     font-family: "Cabin Sketch";
-
-    src: url("../polices/cabin-sketch/cabin-sketch-latin-700-normal.woff2")
-        format("woff2");
-
+    src: url("../polices/cabin-sketch/cabin-sketch-latin-700-normal.woff2") format("woff2");
     font-style: normal;
     font-weight: 700;
     font-display: swap;
 }
 
-
-/* ==========================================================
-   SPECIAL ELITE
-========================================================== */
-
 @font-face {
     font-family: "Special Elite";
-
-    src: url("../polices/Special_Elite/SpecialElite-Regular.ttf")
-        format("truetype");
-
+    src: url("../polices/Special_Elite/SpecialElite-Regular.ttf") format("truetype");
     font-style: normal;
     font-weight: 400;
     font-display: swap;
 }
-
-
-/* ==========================================================
-   GLASS TTY VT220
-========================================================== */
 
 @font-face {
     font-family: "Glass TTY VT220";
-
-    src: url("../polices/terminal/Glass_TTY_VT220.ttf")
-        format("truetype");
-
+    src: url("../polices/terminal/Glass_TTY_VT220.ttf") format("truetype");
     font-style: normal;
     font-weight: 400;
     font-display: swap;
@@ -64,27 +37,21 @@
 
 
 /* ==========================================================
-   VARIABLES
+   VARIABLES GLOBALES
 ========================================================== */
 
 :root {
 
-    /* ===========================
-       Palette principale
-    =========================== */
+    /* ======================================================
+       1. PALETTE PRINCIPALE
+    ====================================================== */
 
     --color-background: #1C1C1F;
     --color-surface: #394054;
     --color-primary: #5DA6B3;
     --color-secondary: #BCCDD4;
     --color-text: #DCE2EA;
-
     --color-white: #FFFFFF;
-
-
-    /* ===========================
-       Palette Accent
-    =========================== */
 
     --color-success: #05EA6F;
     --color-warning: #F7B800;
@@ -93,9 +60,9 @@
     --color-reward: #87FF00;
 
 
-    /* ===========================
-       Carte postale / Parchemin
-    =========================== */
+    /* ======================================================
+       2. CARTE POSTALE / PARCHEMIN
+    ====================================================== */
 
     --postcard-blue: #073F69;
     --postcard-blue-light: #0875B5;
@@ -114,390 +81,221 @@
     --postcard-paper-dark: #DEB56F;
 
 
-    /* ===========================
-       Transparences / Ombres
-    =========================== */
+    /* ======================================================
+       3. TRANSPARENCES / OMBRES GLOBALES
+    ====================================================== */
 
-    --overlay-dark:
-        rgba(18, 32, 42, 0.55);
+    --overlay-dark: rgba(18, 32, 42, 0.55);
 
-    --shadow-dark:
-        rgba(0, 0, 0, 0.40);
+    --shadow-dark: rgba(0, 0, 0, 0.40);
+    --shadow-medium: rgba(0, 0, 0, 0.32);
+    --shadow-soft: rgba(0, 0, 0, 0.30);
 
-    --shadow-medium:
-        rgba(0, 0, 0, 0.32);
+    --shadow-brown: rgba(111, 69, 27, 0.22);
+    --shadow-brown-dark: rgba(90, 54, 20, 0.45);
+    --shadow-brown-input: rgba(74, 48, 20, 0.15);
 
-    --shadow-soft:
-        rgba(0, 0, 0, 0.30);
+    --highlight-white: rgba(255, 255, 255, 0.25);
+    --highlight-white-light: rgba(255, 255, 255, 0.60);
 
-    --shadow-brown:
-        rgba(111, 69, 27, 0.22);
-
-    --shadow-brown-dark:
-        rgba(90, 54, 20, 0.45);
-
-    --shadow-brown-input:
-        rgba(74, 48, 20, 0.15);
-
-    --highlight-white:
-        rgba(255, 255, 255, 0.25);
-
-    --highlight-white-light:
-        rgba(255, 255, 255, 0.60);
-
-    --focus-blue:
-        rgba(7, 63, 105, 0.15);
-
-    --postcard-inner-border:
-        rgba(139, 91, 39, 0.32);
+    --focus-blue: rgba(7, 63, 105, 0.15);
+    --postcard-inner-border: rgba(139, 91, 39, 0.32);
 
 
-    /* ===========================
-       Classe / Tableau
-    =========================== */
+    /* ======================================================
+       4. SALLE DE CLASSE
+    ====================================================== */
 
     --classroom-chalk: #F1EEE3;
 
-    --classroom-button-background:
-        rgba(0, 0, 0, 0.18);
+    --classroom-button-background: rgba(0, 0, 0, 0.18);
+    --classroom-button-hover: rgba(255, 255, 255, 0.12);
+    --classroom-button-border: rgba(255, 255, 255, 0.75);
+    --classroom-button-focus: rgba(255, 255, 255, 0.90);
 
-    --classroom-button-hover:
-        rgba(255, 255, 255, 0.12);
 
-    --classroom-button-border:
-        rgba(255, 255, 255, 0.75);
+    /* ======================================================
+       5. ADMINISTRATION FUN — CRT VERT
+    ====================================================== */
 
-    --classroom-button-focus:
-        rgba(255, 255, 255, 0.90);
+    --admin-black: #020502;
+    --admin-black-light: #061006;
 
+    --admin-green: #24C94F;
+    --admin-green-soft: #1FAE43;
+    --admin-green-dark: #0B6B27;
 
-    /* ===========================
-   Administration / Terminal CRT
-=========================== */
+    --admin-green-transparent: rgba(36, 201, 79, 0.12);
+    --admin-green-hover: rgba(36, 201, 79, 0.06);
+    --admin-green-glow: rgba(36, 201, 79, 0.25);
 
+    --admin-crt-light: rgba(255, 255, 255, 0.015);
+    --admin-crt-dark: rgba(0, 0, 0, 0.08);
 
-/* ---------------------------
-   FONDS PRINCIPAUX
+    --admin-terminal-shadow: var(--admin-green-hover);
+    --admin-modal-overlay: rgba(0, 0, 0, 0.82);
+    --admin-glow: var(--admin-green-glow);
+    --admin-glow-focus: rgba(36, 201, 79, 0.30);
 
-   --admin-black
-   → fond général de .admin-screen
-   → fond des champs <select>
-   → couleur du texte au survol
-     des boutons
 
-   --admin-black-light
-   → centre du dégradé du terminal
-   → fond de la modale de transfert
---------------------------- */
+    /* ======================================================
+       6. ADMINISTRATION FUN — CRT AMBRE
+    ====================================================== */
 
---admin-black:
-    #020502;
+    --admin-amber-black: #080603;
+    --admin-amber-black-light: #161006;
 
---admin-black-light:
-    #061006;
+    --admin-amber: #D99A32;
+    --admin-amber-soft: #B97A24;
+    --admin-amber-dark: #754612;
 
+    --admin-amber-transparent: rgba(217, 154, 50, 0.12);
+    --admin-amber-hover: rgba(217, 154, 50, 0.06);
+    --admin-amber-glow: rgba(217, 154, 50, 0.22);
 
-/* ---------------------------
-   TEXTE ET CONTOURS PRINCIPAUX
+    --admin-amber-terminal-shadow: var(--admin-amber-hover);
+    --admin-amber-modal-glow: var(--admin-amber-glow);
+    --admin-amber-focus: rgba(217, 154, 50, 0.28);
 
-   --admin-green
-   → couleur générale du texte
-   → contour de l'en-tête
-   → contours principaux
-   → séparation menu / contenu
-   → titres
-   → boutons
-   → tableaux
-   → modale de transfert
-   → champs de sélection
---------------------------- */
 
---admin-green:
-    #24C94F;
+    /* ======================================================
+       7. COLLECTION / MODALE
+    ====================================================== */
 
+    --collection-overlay: rgba(12, 20, 30, 0.72);
 
-/* ---------------------------
-   VERT SECONDAIRE
+    --collection-paper-light: #F4E5C7;
+    --collection-paper-dark: #E7D1A5;
 
-   --admin-green-soft
-   → vert secondaire disponible
-   → peut servir pour des informations
-     moins importantes ou des états
-     secondaires
---------------------------- */
+    --collection-border-red: #C82936;
+    --collection-border-blue: #2368A0;
+    --collection-border-brown: #A87948;
+    --collection-border-light: #B99462;
 
---admin-green-soft:
-    #1FAE43;
+    --collection-text: #493A29;
+    --collection-text-dark: #653B28;
+    --collection-title-highlight: #FFF8E8;
 
+    --collection-button: #F9EDCF;
+    --collection-button-hover: #E9C894;
 
-/* ---------------------------
-   CONTOURS INTÉRIEURS
+    --collection-owned: #188E45;
+    --collection-status: #237243;
 
-   --admin-green-dark
-   → cadre extérieur CRT
-   → barre gauche des informations
-     système
-   → séparateurs pointillés
-   → contour extérieur des tableaux
-   → lignes intérieures des tableaux
-   → séparation du prompt terminal
---------------------------- */
+    --collection-description-background: rgba(255, 249, 229, 0.75);
 
---admin-green-dark:
-    #0B6B27;
+    --collection-shadow: rgba(0, 0, 0, 0.65);
+    --collection-inner-shadow: rgba(112, 75, 35, 0.12);
+    --collection-button-shadow: rgba(77, 51, 27, 0.20);
+    --collection-book-shadow: rgba(55, 35, 20, 0.35);
+    --collection-badge-shadow: rgba(0, 0, 0, 0.35);
+    --collection-description-shadow: rgba(115, 77, 38, 0.08);
 
 
-/* ---------------------------
-   BOUTONS DU MENU
+    /* ======================================================
+       8. RÉGLAGES AUDIO / RADIO VINTAGE
+    ====================================================== */
 
-   --admin-green-transparent
-   → fond du bouton actif
-   → fond au survol des boutons
-     du menu
---------------------------- */
+    --audio-icon-color: #17395A;
+    --audio-icon-background: #FFCC33;
 
---admin-green-transparent:
-    rgba(36, 201, 79, 0.12);
+    --audio-modal-overlay: var(--admin-modal-overlay);
 
+    --audio-radio-text: #F5E3B8;
+    --audio-radio-output: #FFE4A0;
+    --audio-output-shadow: #000000;
 
-/* ---------------------------
-   LIGNES DES TABLEAUX
+    --audio-voice-off: #174D24;
+    --audio-voice-on: #BAFF9B;
+    --audio-voice-glow-light: #22FF44;
+    --audio-voice-glow: #00CC33;
+    --audio-voice-shadow: #003300;
 
-   --admin-green-hover
-   → fond d'une ligne du tableau
-     lorsque la souris passe dessus
---------------------------- */
+    --audio-effects-off: #123F65;
+    --audio-effects-on: #D1F8FF;
+    --audio-effects-glow-light: #66EAFF;
+    --audio-effects-glow: #00AAFF;
+    --audio-effects-shadow: #003C66;
 
---admin-green-hover:
-    rgba(36, 201, 79, 0.06);
+    --audio-switch-reflection: rgba(255, 255, 255, 0.35);
+    --audio-close-background: rgba(35, 20, 10, 0.75);
+    --audio-focus: var(--audio-icon-background);
 
 
-/* ---------------------------
-   LUEUR DU TEXTE
+    /* ======================================================
+       9. ADMINISTRATION FUN — DÉMARRAGE IBM PC 5150
+    ====================================================== */
 
-   --admin-green-glow
-   → halo vert autour du texte
-     de la console
---------------------------- */
+    --admin-boot-background-center: #24241E;
+    --admin-boot-background-middle: #10100E;
+    --admin-boot-background-edge: #030303;
 
---admin-green-glow:
-    rgba(36, 201, 79, 0.25);
+    --admin-boot-screen-center: #0D190E;
+    --admin-boot-screen-middle: #071008;
+    --admin-boot-screen-edge: var(--admin-black);
 
+    --admin-boot-frame: #AAA18B;
+    --admin-boot-frame-shadow-light: #39372E;
+    --admin-boot-frame-shadow-dark: #171713;
+    --admin-boot-shadow-black: var(--audio-output-shadow);
+    --admin-boot-screen-glow: rgba(103, 255, 120, 0.08);
 
-/* ---------------------------
-   EFFET ÉCRAN CRT
+    --admin-boot-text: #79FF86;
+    --admin-boot-text-glow: rgba(121, 255, 134, 0.90);
+    --admin-boot-text-glow-soft: rgba(50, 255, 90, 0.35);
 
-   --admin-crt-light
-   → partie claire des lignes
-     horizontales de l'écran
+    --admin-boot-cursor: #A3FFAB;
+    --admin-boot-cursor-glow: #62FF74;
 
-   --admin-crt-dark
-   → partie sombre des lignes
-     horizontales de l'écran
---------------------------- */
+    --admin-boot-scanline: rgba(0, 0, 0, 0.23);
+    --admin-boot-vignette-middle: var(--collection-badge-shadow);
+    --admin-boot-vignette-edge: rgba(0, 0, 0, 0.80);
+    --admin-boot-reflection: rgba(255, 255, 255, 0.045);
 
---admin-crt-light:
-    rgba(255, 255, 255, 0.015);
+    --admin-boot-footer-text: #638B68;
+    --admin-boot-footer-glow: rgba(70, 255, 100, 0.20);
 
---admin-crt-dark:
-    rgba(0, 0, 0, 0.08);
 
+    /* ======================================================
+       10. ADMINISTRATION — SÉLECTION NORMAL / FUN
+    ====================================================== */
 
-/* ---------------------------
-   OMBRE DU CADRE TERMINAL
+    --admin-mode-overlay: rgba(10, 15, 25, 0.88);
 
-   --admin-terminal-shadow
-   → légère lueur intérieure du
-     grand cadre de la console
---------------------------- */
+    --admin-mode-background: var(--color-white);
+    --admin-mode-text: #1C2938;
+    --admin-mode-shadow: var(--collection-badge-shadow);
+    --admin-mode-text-secondary: #526174;
 
---admin-terminal-shadow:
-    rgba(36, 201, 79, 0.06);
+    --admin-mode-option-border: #D9E1EA;
+    --admin-mode-option-background: #F8FAFC;
+    --admin-mode-option-border-hover: var(--color-action);
+    --admin-mode-option-background-hover: #EDF4FF;
 
 
-/* ---------------------------
-   MODALE DE TRANSFERT
+    /* ======================================================
+       11. ADMINISTRATION — MODE NORMAL
+    ====================================================== */
 
-   --admin-modal-overlay
-   → assombrit toute la console
-     derrière la modale
+    --admin-normal-background: #F3F5F9;
+    --admin-normal-surface: var(--color-white);
+    --admin-normal-surface-hover: var(--admin-mode-option-background);
 
-   --admin-glow
-   → halo autour du contour
-     extérieur de la modale
+    --admin-normal-nav-hover: #EDF4F8;
+    --admin-normal-nav-active: #E2F1F6;
 
-   --admin-glow-focus
-   → halo du champ de sélection
-     lorsqu'il reçoit le focus
---------------------------- */
+    --admin-normal-text: #202938;
+    --admin-normal-text-secondary: #334155;
+    --admin-normal-text-muted: #475569;
 
---admin-modal-overlay:
-    rgba(0, 0, 0, 0.82);
+    --admin-normal-primary: #176A86;
+    --admin-normal-primary-hover: #12556C;
+    --admin-normal-danger: #DC3545;
 
---admin-glow:
-    rgba(36, 201, 79, 0.25);
+    --admin-normal-border: #E2E8F0;
+    --admin-normal-nav-border: var(--color-text);
 
---admin-glow-focus:
-    rgba(36, 201, 79, 0.30);
-
-
-    /* ===========================
-   Administration / Terminal CRT
-   THÈME AMBRE
-=========================== */
-
-/* Fond principal */
---admin-amber-black:
-    #080603;
-
-/* Fond légèrement éclairci */
---admin-amber-black-light:
-    #161006;
-
-/* Texte + contours principaux */
---admin-amber:
-    #D99A32;
-
-/* Texte secondaire */
---admin-amber-soft:
-    #B97A24;
-
-/* Contours intérieurs */
---admin-amber-dark:
-    #754612;
-
-/* Fond bouton actif */
---admin-amber-transparent:
-    rgba(217, 154, 50, 0.12);
-
-/* Survol lignes tableau */
---admin-amber-hover:
-    rgba(217, 154, 50, 0.06);
-
-/* Halo du texte */
---admin-amber-glow:
-    rgba(217, 154, 50, 0.22);
-
-/* Ombre intérieure terminal */
---admin-amber-terminal-shadow:
-    rgba(217, 154, 50, 0.06);
-
-/* Halo modale */
---admin-amber-modal-glow:
-    rgba(217, 154, 50, 0.22);
-
-/* Focus champs */
---admin-amber-focus:
-    rgba(217, 154, 50, 0.28);
-
-
-/* ===========================
-   Collection / Modale
-=========================== */
-
---collection-overlay:
-    rgba(12, 20, 30, 0.72);
-
---collection-paper-light:
-    #F4E5C7;
-
---collection-paper-dark:
-    #E7D1A5;
-
---collection-border-red:
-    #C82936;
-
---collection-border-blue:
-    #2368A0;
-
---collection-text:
-    #493A29;
-
---collection-text-dark:
-    #653B28;
-
---collection-border-brown:
-    #A87948;
-
---collection-border-light:
-    #B99462;
-
---collection-button:
-    #F9EDCF;
-
---collection-button-hover:
-    #E9C894;
-
---collection-title-highlight:
-    #FFF8E8;
-
---collection-owned:
-    #188E45;
-
---collection-status:
-    #237243;
-
---collection-description-background:
-    rgba(255, 249, 229, 0.75);
-
---collection-shadow:
-    rgba(0, 0, 0, 0.65);
-
---collection-inner-shadow:
-    rgba(112, 75, 35, 0.12);
-
---collection-button-shadow:
-    rgba(77, 51, 27, 0.20);
-
---collection-book-shadow:
-    rgba(55, 35, 20, 0.35);
-
---collection-badge-shadow:
-    rgba(0, 0, 0, 0.35);
-
---collection-description-shadow:
-    rgba(115, 77, 38, 0.08);
-
-
-/* ==========================================================
-   RÉGLAGES AUDIO / RADIO VINTAGE
-========================================================== */
-
-/* Icône Sons sur la carte de départ */
---audio-icon-color: #17395a;
---audio-icon-background: #ffcc33;
-
-/* Fond de la modale */
---audio-modal-overlay: rgba(0, 0, 0, 0.82);
-
-/* Texte de la radio */
---audio-radio-text: #f5e3b8;
---audio-radio-output: #ffe4a0;
-
-/* Ombre des valeurs des molettes */
---audio-output-shadow: #000000;
-
-/* Assistance vocale - bouton vert */
---audio-voice-off: #174d24;
---audio-voice-on: #baff9b;
---audio-voice-glow-light: #22ff44;
---audio-voice-glow: #00cc33;
---audio-voice-shadow: #003300;
-
-/* Effets sonores - bouton bleu */
---audio-effects-off: #123f65;
---audio-effects-on: #d1f8ff;
---audio-effects-glow-light: #66eaff;
---audio-effects-glow: #00aaff;
---audio-effects-shadow: #003c66;
-
-/* Reflet des indications OFF */
---audio-switch-reflection: rgba(255, 255, 255, 0.35);
-
-/* Bouton de fermeture */
---audio-close-background: rgba(35, 20, 10, 0.75);
-
-/* Contour de focus clavier */
---audio-focus: #ffcc33;
+    --admin-normal-header-shadow: var(--admin-crt-dark);
+    --admin-normal-card-shadow: rgba(0, 0, 0, 0.04);
 
 }

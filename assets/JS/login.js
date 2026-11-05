@@ -464,6 +464,160 @@ resetPasswordForm.addEventListener(
         }
     }
 );
+
+/* ==========================================================
+   CHOIX DU MODE ADMINISTRATEUR
+========================================================== */
+
+const adminModeModal =
+    document.getElementById("admin-mode-modal");
+
+const adminModeNormalButton =
+    document.getElementById("admin-mode-normal");
+
+const adminModeFunButton =
+    document.getElementById("admin-mode-fun");
+
+const adminModeCancelButton =
+    document.getElementById("admin-mode-cancel");
+
+
+/* ==========================================================
+   OUVERTURE DE LA MODALE NORMAL / FUN
+========================================================== */
+
+function chooseAdminMode()
+{
+    return new Promise((resolve) =>
+    {
+        adminModeModal.classList.add(
+            "admin-mode-modal--open"
+        );
+
+        adminModeModal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        let finished = false;
+
+        function close(mode)
+        {
+            if (finished)
+            {
+                return;
+            }
+
+            finished = true;
+
+            adminModeModal.classList.remove(
+                "admin-mode-modal--open"
+            );
+
+            adminModeModal.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            adminModeNormalButton.removeEventListener(
+                "click",
+                selectNormal
+            );
+
+            adminModeFunButton.removeEventListener(
+                "click",
+                selectFun
+            );
+
+            adminModeCancelButton.removeEventListener(
+                "click",
+                cancel
+            );
+
+            adminModeModal.removeEventListener(
+                "keydown",
+                handleKeyboard
+            );
+
+            resolve(mode);
+        }
+
+        function selectNormal()
+        {
+            close("normal");
+        }
+
+        function selectFun()
+        {
+            close("fun");
+        }
+
+        function cancel()
+        {
+            close(null);
+        }
+
+        function handleKeyboard(event)
+        {
+            if (event.key === "Escape")
+            {
+                event.preventDefault();
+                cancel();
+                return;
+            }
+
+            if (event.key !== "Tab")
+            {
+                return;
+            }
+
+            const buttons = [
+                adminModeNormalButton,
+                adminModeFunButton,
+                adminModeCancelButton
+            ];
+
+            if (
+                event.shiftKey &&
+                document.activeElement === buttons[0]
+            )
+            {
+                event.preventDefault();
+                buttons[2].focus();
+            }
+            else if (
+                !event.shiftKey &&
+                document.activeElement === buttons[2]
+            )
+            {
+                event.preventDefault();
+                buttons[0].focus();
+            }
+        }
+
+        adminModeNormalButton.addEventListener(
+            "click",
+            selectNormal
+        );
+
+        adminModeFunButton.addEventListener(
+            "click",
+            selectFun
+        );
+
+        adminModeCancelButton.addEventListener(
+            "click",
+            cancel
+        );
+
+        adminModeModal.addEventListener(
+            "keydown",
+            handleKeyboard
+        );
+
+        adminModeNormalButton.focus();
+    });
+}
 /* ==========================================================
    CONNEXION
 ========================================================== */
@@ -535,23 +689,51 @@ loginForm.addEventListener(
             }
 
 
-            /* ==============================================
-                 CONNEXION ADMINISTRATEUR
-            ============================================== */
+            /* ==========================================================
+   CONNEXION ADMINISTRATEUR
+========================================================== */
 
-                if (
-                    loginData.role ===
-                    "administrateur"
-                )
-                {
-                    await startAdminBoot();
+if (loginData.role === "administrateur")
+{
+    hideAllScreens();
 
-                    showAdmin();
+    const selectedAdminMode =
+        await chooseAdminMode();
 
-                    await loadAdminDashboard();
+    if (selectedAdminMode === null)
+    {
+        logoutUser();
 
-                    return;
-                }
+        loginForm.reset();
+
+        openLoginModal();
+
+        return;
+    }
+
+    adminScreen.dataset.adminMode =
+        selectedAdminMode;
+
+    if (selectedAdminMode === "fun")
+    {
+        await startAdminBoot();
+    }
+    else
+    {
+        if (
+            typeof stopAdminBootSessionAudio === "function"
+        )
+        {
+            stopAdminBootSessionAudio();
+        }
+    }
+
+    showAdmin();
+
+    await loadAdminDashboard();
+
+    return;
+}
 
 
             /* ==============================================

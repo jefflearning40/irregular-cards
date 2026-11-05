@@ -26,6 +26,11 @@ const quizStartButton =
         "quiz-start-button"
     );
 
+const quizModalCloseButton =
+    document.getElementById(
+        "quiz-modal-close-button"
+    );
+
 
 /* ==========================================================
    ÉTAT DU QUIZ
@@ -180,6 +185,21 @@ quizStartButton.addEventListener(
 
 
 /* ==========================================================
+   BOUTON FERMER AU SURVOL
+========================================================== */
+
+quizModalCloseButton.addEventListener(
+    "mouseenter",
+    () =>
+    {
+        speakQuizModalLabel(
+            "Fermer la préparation du quiz"
+        );
+    }
+);
+
+
+/* ==========================================================
    SÉLECTION DE LA DIFFICULTÉ
 ========================================================== */
 
@@ -212,6 +232,56 @@ difficultyButtons.forEach(
                 updateQuizStartButton();
             }
         );
+    }
+);
+
+
+/* ==========================================================
+   FERMETURE DE LA MODALE
+========================================================== */
+
+function closeQuizModal()
+{
+    quizModal.classList.remove(
+        "quiz-modal--open"
+    );
+
+    quizModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    selectedDifficulty = null;
+
+    difficultyButtons.forEach(
+        (button) =>
+        {
+            button.classList.remove(
+                "quiz-choice--selected"
+            );
+        }
+    );
+
+    updateQuizStartButton();
+
+    if ("speechSynthesis" in window)
+    {
+        window.speechSynthesis.cancel();
+    }
+
+    quizButton.focus();
+}
+
+
+/* ==========================================================
+   BOUTON FERMER LA MODALE
+========================================================== */
+
+quizModalCloseButton.addEventListener(
+    "click",
+    () =>
+    {
+        closeQuizModal();
     }
 );
 
