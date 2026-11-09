@@ -433,6 +433,9 @@ resetPasswordForm.addEventListener(
             loginError.textContent =
                 "Mot de passe modifié. Vous pouvez maintenant vous connecter.";
 
+            loginError.style.color =
+                "var(--success, #05EA6F)";
+
 
             openLoginModal();
         }
@@ -631,6 +634,8 @@ loginForm.addEventListener(
 
         loginError.textContent =
             "";
+        loginError.style.color =
+            "var(--error, #EA0505)";
 
 
         loginButton.disabled =
