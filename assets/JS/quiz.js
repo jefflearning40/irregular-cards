@@ -286,18 +286,33 @@ quizModalCloseButton.addEventListener(
 );
 
 
+
 /* ==========================================================
-   OUVERTURE DE LA MODALE
+   OUVERTURE DU QUIZ OU DE LA DÉMONSTRATION
 ========================================================== */
 
 quizButton.addEventListener(
     "click",
     () =>
     {
+        /* VISITEUR NON CONNECTÉ */
+
+        if (
+            !apiToken ||
+            currentRole !== "eleve"
+        )
+        {
+            openDemoVideoModal();
+
+            return;
+        }
+
+
+        /* ÉLÈVE CONNECTÉ */
+
         quizModal.classList.add(
             "quiz-modal--open"
         );
-
 
         quizModal.setAttribute(
             "aria-hidden",
@@ -305,6 +320,7 @@ quizButton.addEventListener(
         );
     }
 );
+
 
 
 /* ==========================================================

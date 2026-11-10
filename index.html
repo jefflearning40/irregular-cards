@@ -31,6 +31,7 @@
 <link rel="stylesheet" href="assets/styles/postcard.css">
 <link rel="stylesheet" href="assets/styles/collection.css">
 <link rel="stylesheet" href="assets/styles/quiz.css">
+<link rel="stylesheet" href="assets/styles/demo-video.css">
 <link rel="stylesheet" href="assets/styles/login.css">
 <link rel="stylesheet" href="assets/styles/statistics.css">
 <link rel="stylesheet" href="assets/styles/messages.css">
@@ -4048,6 +4049,73 @@
 </section>
 
 
+<!-- ==========================================================
+     MODALE VIDÉO DE DÉMONSTRATION
+========================================================== -->
+
+<div
+    class="demo-video-modal"
+    id="demo-video-modal"
+    aria-hidden="true"
+    hidden
+>
+    <div
+        class="demo-video-modal__content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="demo-video-title"
+    >
+        <button
+            class="demo-video-modal__close"
+            id="demo-video-close"
+            type="button"
+            aria-label="Fermer la démonstration"
+        >
+            &times;
+        </button>
+
+        <h2 id="demo-video-title">
+            Découvrez la traversée !
+        </h2>
+
+        <p>
+            Embarquez avec le professeur Basil
+            pour découvrir le quiz des verbes irréguliers.
+        </p>
+
+        <div class="demo-video-modal__player">
+            <video
+                id="demo-video-player"
+                controls
+                playsinline
+                preload="none"
+                aria-label="Vidéo de démonstration du quiz"
+                hidden
+            >
+                <source
+                    src="assets/videos/demo-traversee.mp4"
+                    type="video/mp4"
+                >
+                Votre navigateur ne prend pas en charge
+                la lecture vidéo.
+            </video>
+
+            <p id="demo-video-placeholder">
+                La vidéo de démonstration
+                sera bientôt disponible.
+            </p>
+        </div>
+
+        <button
+            class="demo-video-modal__login"
+            id="demo-video-login"
+            type="button"
+        >
+            Se connecter pour jouer
+        </button>
+    </div>
+</div>
+
 
     <!-- =====================================================
          JAVASCRIPT
@@ -4063,6 +4131,7 @@
 <script src="assets/JS/admin-boot.js"></script>
 <script src="assets/JS/login.js"></script>
 <script src="assets/JS/quiz-game.js"></script>
+<script src="assets/JS/demo-video.js"></script>
 <script src="assets/JS/quiz.js"></script>
 <script src="assets/JS/classroom-learning.js"></script>
 <script src="assets/JS/classroom-training.js"></script>
