@@ -460,7 +460,7 @@ if (professorVoiceHotspot)
 
 
 /* ==========================================================
-   ANNONCES VOCALES DES SIX BOUTONS
+   ANNONCES VOCALES DES SEPT BOUTONS
 ========================================================== */
 
 const spokenButtons = [
@@ -475,6 +475,10 @@ const spokenButtons = [
     {
         id: "audio-settings-button",
         message: "Paramètres audio"
+    },
+    {
+        id: "welcome-login-button",
+        message: "Connexion"
     },
     {
         id: "logout-button",

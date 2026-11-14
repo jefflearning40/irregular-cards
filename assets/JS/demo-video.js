@@ -22,7 +22,7 @@ const demoVideoLogin =
 
 
 /* ==========================================================
-   OUVERTURE
+   OUVERTURE ET LECTURE AUTOMATIQUE
 ========================================================== */
 
 function openDemoVideoModal()
@@ -36,6 +36,22 @@ function openDemoVideoModal()
     demoVideoModal.setAttribute(
         "aria-hidden",
         "false"
+    );
+
+    demoVideoPlayer.hidden = false;
+
+    demoVideoPlaceholder.hidden = true;
+
+    demoVideoPlayer.currentTime = 0;
+
+    demoVideoPlayer.play().catch(
+        (error) =>
+        {
+            console.error(
+                "Impossible de démarrer la vidéo :",
+                error
+            );
+        }
     );
 
     demoVideoClose.focus();

@@ -411,6 +411,14 @@
 
             <button
                 class="logout-button"
+                id="welcome-login-button"
+                type="button"
+            >
+                Connexion
+            </button>
+
+            <button
+                class="logout-button"
                 id="logout-button"
                 type="button"
                 hidden
@@ -444,15 +452,40 @@
                 draggable="false"
             >
             
-            <button
-                class="postcard-version"
-                id="collection-open-button"
-                type="button"
-                aria-haspopup="dialog"
-                aria-controls="collection-modal"
-            >
-                Tome 1 : Verbes irréguliers — vers. 1.0.2026
-            </button>
+          <!-- =====================================================
+                 BOUTON COLLECTION
+        ====================================================== -->
+
+<button
+    class="postcard-action-button postcard-collection-button"
+    id="collection-open-button"
+    type="button"
+    aria-label="Collection"
+    aria-haspopup="dialog"
+    aria-controls="collection-modal"
+>
+    <span class="postcard-action-button__icon" aria-hidden="true">
+        <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#004477"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <rect x="3" y="5" width="5" height="15" rx="1"/>
+            <rect x="9" y="3" width="5" height="17" rx="1"/>
+            <rect x="15" y="7" width="5" height="13" rx="1"/>
+            <path d="M5 9h1M11 7h1M17 11h1"/>
+        </svg>
+    </span>
+
+    <span class="postcard-action-button__label">
+        Collection
+    </span>
+</button>
 
 
            
@@ -4083,22 +4116,21 @@
             pour découvrir le quiz des verbes irréguliers.
         </p>
 
-        <div class="demo-video-modal__player">
-            <video
-                id="demo-video-player"
-                controls
-                playsinline
-                preload="none"
-                aria-label="Vidéo de démonstration du quiz"
-                hidden
-            >
-                <source
-                    src="assets/videos/demo-traversee.mp4"
-                    type="video/mp4"
-                >
-                Votre navigateur ne prend pas en charge
-                la lecture vidéo.
-            </video>
+       <div class="demo-video-modal__player">
+    <video
+        id="demo-video-player"
+        controls
+        playsinline
+        preload="metadata"
+        aria-label="Vidéo de démonstration du quiz"
+    >
+        <source
+            src="assets/videos/Demo-Traversee1.mp4"
+            type="video/mp4"
+        >
+        Votre navigateur ne prend pas en charge
+        la lecture vidéo.
+    </video>
 
             <p id="demo-video-placeholder">
                 La vidéo de démonstration

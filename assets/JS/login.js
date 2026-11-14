@@ -1,220 +1,210 @@
-"use strict";
 
+"use strict";
 
 /* ==========================================================
    ÉLÉMENTS HTML
 ========================================================== */
 
 const loginModal =
-    document.getElementById(
-        "login-modal"
-    );
+    document.getElementById("login-modal");
 
 const loginForm =
-    document.getElementById(
-        "login-form"
-    );
+    document.getElementById("login-form");
 
 const loginEmail =
-    document.getElementById(
-        "login-email"
-    );
+    document.getElementById("login-email");
 
 const loginPassword =
-    document.getElementById(
-        "login-password"
-    );
+    document.getElementById("login-password");
 
 const loginButton =
-    document.getElementById(
-        "login-button"
-    );
+    document.getElementById("login-button");
 
 const loginError =
-    document.getElementById(
-        "login-error"
-    );
+    document.getElementById("login-error");
 
-    const loginForgotPassword =
-    document.getElementById(
-        "login-forgot-password"
-    );
+const loginForgotPassword =
+    document.getElementById("login-forgot-password");
 
 const forgotPasswordModal =
-    document.getElementById(
-        "forgot-password-modal"
-    );
+    document.getElementById("forgot-password-modal");
 
 const forgotPasswordForm =
-    document.getElementById(
-        "forgot-password-form"
-    );
+    document.getElementById("forgot-password-form");
 
 const forgotPasswordEmail =
-    document.getElementById(
-        "forgot-password-email"
-    );
+    document.getElementById("forgot-password-email");
 
 const forgotPasswordMessage =
-    document.getElementById(
-        "forgot-password-message"
-    );
+    document.getElementById("forgot-password-message");
 
 const forgotPasswordSubmit =
-    document.getElementById(
-        "forgot-password-submit"
-    );
+    document.getElementById("forgot-password-submit");
 
 const forgotPasswordBack =
-    document.getElementById(
-        "forgot-password-back"
-    );
+    document.getElementById("forgot-password-back");
 
-    const resetPasswordModal =
-    document.getElementById(
-        "reset-password-modal"
-    );
+const resetPasswordModal =
+    document.getElementById("reset-password-modal");
 
 const resetPasswordForm =
-    document.getElementById(
-        "reset-password-form"
-    );
+    document.getElementById("reset-password-form");
 
 const resetPassword =
-    document.getElementById(
-        "reset-password"
-    );
+    document.getElementById("reset-password");
 
 const resetPasswordConfirm =
-    document.getElementById(
-        "reset-password-confirm"
-    );
+    document.getElementById("reset-password-confirm");
 
 const resetPasswordMessage =
-    document.getElementById(
-        "reset-password-message"
-    );
+    document.getElementById("reset-password-message");
 
 const resetPasswordSubmit =
-    document.getElementById(
-        "reset-password-submit"
-    );
+    document.getElementById("reset-password-submit");
 
 const logoutButton =
-    document.getElementById(
-        "logout-button"
-    );
+    document.getElementById("logout-button");
+
+const welcomeLoginButton =
+    document.getElementById("welcome-login-button");
 
 const adminScreen =
-    document.getElementById(
-        "admin-screen"
-    );
+    document.getElementById("admin-screen");
 
 const adminLogoutButton =
-    document.getElementById(
-        "admin-logout-button"
-    );
+    document.getElementById("admin-logout-button");
+
+const adminModeModal =
+    document.getElementById("admin-mode-modal");
+
+const adminModeNormalButton =
+    document.getElementById("admin-mode-normal");
+
+const adminModeFunButton =
+    document.getElementById("admin-mode-fun");
+
+const adminModeCancelButton =
+    document.getElementById("admin-mode-cancel");
 
 
 /* ==========================================================
-   OUVERTURE DE LA MODALE
+   GESTION DES MODALES
 ========================================================== */
+
+function openModal(modal)
+{
+    modal.classList.add("login-modal--open");
+
+    modal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+}
+
+function closeModal(modal)
+{
+    modal.classList.remove("login-modal--open");
+
+    modal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+}
 
 function openLoginModal()
 {
-    loginModal.classList.add(
-        "login-modal--open"
-    );
-
-    loginModal.setAttribute(
-        "aria-hidden",
-        "false"
-    );
+    openModal(loginModal);
 }
-
-
-/* ==========================================================
-   FERMETURE DE LA MODALE
-========================================================== */
 
 function closeLoginModal()
 {
-    loginModal.classList.remove(
-        "login-modal--open"
-    );
-
-    loginModal.setAttribute(
-        "aria-hidden",
-        "true"
-    );
+    closeModal(loginModal);
 }
-/* ==========================================================
-   OUVERTURE MOT DE PASSE OUBLIÉ
-========================================================== */
 
 function openForgotPasswordModal()
 {
-    forgotPasswordModal.classList.add(
-        "login-modal--open"
-    );
-
-    forgotPasswordModal.setAttribute(
-        "aria-hidden",
-        "false"
-    );
+    openModal(forgotPasswordModal);
 }
-
-
-/* ==========================================================
-   FERMETURE MOT DE PASSE OUBLIÉ
-========================================================== */
 
 function closeForgotPasswordModal()
 {
-    forgotPasswordModal.classList.remove(
-        "login-modal--open"
-    );
-
-    forgotPasswordModal.setAttribute(
-        "aria-hidden",
-        "true"
-    );
+    closeModal(forgotPasswordModal);
 }
-/* ==========================================================
-   OUVERTURE RÉINITIALISATION DU MOT DE PASSE
-========================================================== */
 
 function openResetPasswordModal()
 {
-    resetPasswordModal.classList.add(
-        "login-modal--open"
-    );
-
-    resetPasswordModal.setAttribute(
-        "aria-hidden",
-        "false"
-    );
+    openModal(resetPasswordModal);
 }
-
-
-/* ==========================================================
-   FERMETURE RÉINITIALISATION DU MOT DE PASSE
-========================================================== */
 
 function closeResetPasswordModal()
 {
-    resetPasswordModal.classList.remove(
-        "login-modal--open"
-    );
+    closeModal(resetPasswordModal);
+}
 
-    resetPasswordModal.setAttribute(
-        "aria-hidden",
-        "true"
+
+/* ==========================================================
+   AFFICHAGE DES BOUTONS CONNEXION / DÉCONNEXION
+========================================================== */
+
+function updateWelcomeButtons(isConnected)
+{
+    if (welcomeLoginButton)
+    {
+        welcomeLoginButton.hidden = isConnected;
+    }
+
+    if (logoutButton)
+    {
+        logoutButton.hidden = !isConnected;
+    }
+}
+
+
+/* ==========================================================
+   ACCUEIL PUBLIC
+========================================================== */
+
+function showPublicWelcome()
+{
+    hideAdmin();
+
+    showDeparture();
+
+    updateWelcomeButtons(false);
+
+    closeLoginModal();
+
+    closeForgotPasswordModal();
+
+    closeResetPasswordModal();
+}
+
+
+/* ==========================================================
+   BOUTON CONNEXION DE LA CARTE POSTALE
+========================================================== */
+
+if (welcomeLoginButton)
+{
+    welcomeLoginButton.addEventListener(
+        "click",
+        () =>
+        {
+            loginForm.reset();
+
+            loginError.textContent = "";
+
+            loginError.style.color =
+                "var(--color-error)";
+
+            openLoginModal();
+        }
     );
 }
 
+
 /* ==========================================================
-   ACCÈS MOT DE PASSE OUBLIÉ
+   MOT DE PASSE OUBLIÉ
 ========================================================== */
 
 loginForgotPassword.addEventListener(
@@ -226,8 +216,7 @@ loginForgotPassword.addEventListener(
         forgotPasswordEmail.value =
             loginEmail.value.trim();
 
-        forgotPasswordMessage.textContent =
-            "";
+        forgotPasswordMessage.textContent = "";
 
         openForgotPasswordModal();
     }
@@ -246,12 +235,13 @@ forgotPasswordBack.addEventListener(
 
         forgotPasswordForm.reset();
 
-        forgotPasswordMessage.textContent =
-            "";
+        forgotPasswordMessage.textContent = "";
 
         openLoginModal();
     }
 );
+
+
 /* ==========================================================
    ENVOI DU LIEN DE RÉINITIALISATION
 ========================================================== */
@@ -262,14 +252,9 @@ forgotPasswordForm.addEventListener(
     {
         event.preventDefault();
 
+        forgotPasswordMessage.textContent = "";
 
-        forgotPasswordMessage.textContent =
-            "";
-
-
-        forgotPasswordSubmit.disabled =
-            true;
-
+        forgotPasswordSubmit.disabled = true;
 
         try
         {
@@ -278,17 +263,13 @@ forgotPasswordForm.addEventListener(
                     forgotPasswordEmail.value.trim()
                 );
 
-
             forgotPasswordMessage.textContent =
                 data.message ||
                 "Si cette adresse correspond à un compte, un e-mail de réinitialisation sera envoyé.";
         }
         catch (error)
         {
-            console.error(
-                error
-            );
-
+            console.error(error);
 
             if (
                 error.message ===
@@ -306,11 +287,11 @@ forgotPasswordForm.addEventListener(
         }
         finally
         {
-            forgotPasswordSubmit.disabled =
-                false;
+            forgotPasswordSubmit.disabled = false;
         }
     }
 );
+
 
 /* ==========================================================
    AFFICHAGE ADMINISTRATEUR
@@ -318,23 +299,21 @@ forgotPasswordForm.addEventListener(
 
 function showAdmin()
 {
-    adminScreen.hidden =
-        false;
+    adminScreen.hidden = false;
 
-    logoutButton.hidden =
-        true;
+    logoutButton.hidden = true;
+
+    if (welcomeLoginButton)
+    {
+        welcomeLoginButton.hidden = true;
+    }
 }
-
-
-/* ==========================================================
-   MASQUAGE ADMINISTRATEUR
-========================================================== */
 
 function hideAdmin()
 {
-    adminScreen.hidden =
-        true;
+    adminScreen.hidden = true;
 }
+
 
 /* ==========================================================
    RÉINITIALISATION DU MOT DE PASSE
@@ -346,10 +325,7 @@ resetPasswordForm.addEventListener(
     {
         event.preventDefault();
 
-
-        resetPasswordMessage.textContent =
-            "";
-
+        resetPasswordMessage.textContent = "";
 
         const password =
             resetPassword.value;
@@ -357,18 +333,13 @@ resetPasswordForm.addEventListener(
         const passwordConfirm =
             resetPasswordConfirm.value;
 
-
-        if (
-            password !==
-            passwordConfirm
-        )
+        if (password !== passwordConfirm)
         {
             resetPasswordMessage.textContent =
                 "Les deux mots de passe ne correspondent pas.";
 
             return;
         }
-
 
         if (
             password.length < 8 ||
@@ -381,17 +352,11 @@ resetPasswordForm.addEventListener(
             return;
         }
 
-
         const passwordHasLetter =
-            /\p{L}/u.test(
-                password
-            );
+            /\p{L}/u.test(password);
 
         const passwordHasNumber =
-            /\d/.test(
-                password
-            );
-
+            /\d/.test(password);
 
         if (
             !passwordHasLetter ||
@@ -404,10 +369,7 @@ resetPasswordForm.addEventListener(
             return;
         }
 
-
-        resetPasswordSubmit.disabled =
-            true;
-
+        resetPasswordSubmit.disabled = true;
 
         try
         {
@@ -416,12 +378,9 @@ resetPasswordForm.addEventListener(
                 password
             );
 
-
             resetPasswordForm.reset();
 
-
             closeResetPasswordModal();
-
 
             window.history.replaceState(
                 {},
@@ -429,22 +388,17 @@ resetPasswordForm.addEventListener(
                 window.location.pathname
             );
 
-
             loginError.textContent =
                 "Mot de passe modifié. Vous pouvez maintenant vous connecter.";
 
             loginError.style.color =
-                 "var(--color-success)";
-
+                "var(--color-success)";
 
             openLoginModal();
         }
         catch (error)
         {
-            console.error(
-                error
-            );
-
+            console.error(error);
 
             if (
                 error.message ===
@@ -462,31 +416,14 @@ resetPasswordForm.addEventListener(
         }
         finally
         {
-            resetPasswordSubmit.disabled =
-                false;
+            resetPasswordSubmit.disabled = false;
         }
     }
 );
 
+
 /* ==========================================================
    CHOIX DU MODE ADMINISTRATEUR
-========================================================== */
-
-const adminModeModal =
-    document.getElementById("admin-mode-modal");
-
-const adminModeNormalButton =
-    document.getElementById("admin-mode-normal");
-
-const adminModeFunButton =
-    document.getElementById("admin-mode-fun");
-
-const adminModeCancelButton =
-    document.getElementById("admin-mode-cancel");
-
-
-/* ==========================================================
-   OUVERTURE DE LA MODALE NORMAL / FUN
 ========================================================== */
 
 function chooseAdminMode()
@@ -565,7 +502,9 @@ function chooseAdminMode()
             if (event.key === "Escape")
             {
                 event.preventDefault();
+
                 cancel();
+
                 return;
             }
 
@@ -586,6 +525,7 @@ function chooseAdminMode()
             )
             {
                 event.preventDefault();
+
                 buttons[2].focus();
             }
             else if (
@@ -594,6 +534,7 @@ function chooseAdminMode()
             )
             {
                 event.preventDefault();
+
                 buttons[0].focus();
             }
         }
@@ -621,6 +562,8 @@ function chooseAdminMode()
         adminModeNormalButton.focus();
     });
 }
+
+
 /* ==========================================================
    CONNEXION
 ========================================================== */
@@ -631,16 +574,12 @@ loginForm.addEventListener(
     {
         event.preventDefault();
 
+        loginError.textContent = "";
 
-        loginError.textContent =
-            "";
         loginError.style.color =
             "var(--color-error)";
 
-
-        loginButton.disabled =
-            true;
-
+        loginButton.disabled = true;
 
         try
         {
@@ -650,111 +589,98 @@ loginForm.addEventListener(
                     loginPassword.value
                 );
 
-
             closeLoginModal();
-
 
             /* ==============================================
                CONNEXION ÉLÈVE
             ============================================== */
 
-            if (
-                loginData.role ===
-                "eleve"
-            )
+            if (loginData.role === "eleve")
             {
                 hideAdmin();
 
-                logoutButton.hidden =
-                    false;
+                updateWelcomeButtons(true);
 
                 showDeparture();
 
                 return;
             }
 
-
             /* ==============================================
                CONNEXION PROFESSEUR
             ============================================== */
 
-            if (
-                loginData.role ===
-                "professeur"
-            )
+            if (loginData.role === "professeur")
             {
                 hideAdmin();
 
-                logoutButton.hidden =
-                    false;
+                updateWelcomeButtons(true);
 
                 showTeacher();
 
                 return;
             }
 
+            /* ==============================================
+               CONNEXION ADMINISTRATEUR
+            ============================================== */
 
-            /* ==========================================================
-   CONNEXION ADMINISTRATEUR
-========================================================== */
+            if (loginData.role === "administrateur")
+            {
+                hideAllScreens();
 
-if (loginData.role === "administrateur")
-{
-    hideAllScreens();
+                const selectedAdminMode =
+                    await chooseAdminMode();
 
-    const selectedAdminMode =
-        await chooseAdminMode();
+                if (selectedAdminMode === null)
+                {
+                    logoutUser();
 
-    if (selectedAdminMode === null)
-    {
-        logoutUser();
+                    loginForm.reset();
 
-        loginForm.reset();
+                    updateWelcomeButtons(false);
 
-        openLoginModal();
+                    showDeparture();
 
-        return;
-    }
+                    openLoginModal();
 
-    adminScreen.dataset.adminMode =
-        selectedAdminMode;
+                    return;
+                }
 
-    if (selectedAdminMode === "fun")
-    {
-        await startAdminBoot();
-    }
-    else
-    {
-        if (
-            typeof stopAdminBootSessionAudio === "function"
-        )
-        {
-            stopAdminBootSessionAudio();
-        }
-    }
+                adminScreen.dataset.adminMode =
+                    selectedAdminMode;
 
-    showAdmin();
+                if (selectedAdminMode === "fun")
+                {
+                    await startAdminBoot();
+                }
+                else
+                {
+                    if (
+                        typeof stopAdminBootSessionAudio ===
+                        "function"
+                    )
+                    {
+                        stopAdminBootSessionAudio();
+                    }
+                }
 
-    await loadAdminDashboard();
+                showAdmin();
 
-    return;
-}
+                await loadAdminDashboard();
 
+                return;
+            }
 
             /* ==============================================
                RÔLE INCONNU
             ============================================== */
 
-            throw new Error(
-                "UNKNOWN_ROLE"
-            );
+            throw new Error("UNKNOWN_ROLE");
         }
         catch (error)
         {
-            console.error(
-                error
-            );
-
+            console.error(error);
 
             if (
                 error.message ===
@@ -777,11 +703,12 @@ if (loginData.role === "administrateur")
                 loginError.textContent =
                     "Une erreur est survenue lors de la connexion.";
             }
+
+            openLoginModal();
         }
         finally
         {
-            loginButton.disabled =
-                false;
+            loginButton.disabled = false;
         }
     }
 );
@@ -797,7 +724,6 @@ logoutButton.addEventListener(
     {
         logoutUser();
 
-
         if (
             typeof resetQuizGame ===
             "function"
@@ -806,25 +732,11 @@ logoutButton.addEventListener(
             resetQuizGame();
         }
 
-
-        hideAdmin();
-
-
-        showDeparture();
-
-
-        logoutButton.hidden =
-            true;
-
-
         loginForm.reset();
 
+        loginError.textContent = "";
 
-        loginError.textContent =
-            "";
-
-
-        openLoginModal();
+        showPublicWelcome();
     }
 );
 
@@ -839,21 +751,21 @@ adminLogoutButton.addEventListener(
     {
         logoutUser();
 
-
-        hideAdmin();
-
+        if (
+            typeof stopAdminBootSessionAudio ===
+            "function"
+        )
+        {
+            stopAdminBootSessionAudio();
+        }
 
         loginForm.reset();
 
+        loginError.textContent = "";
 
-        loginError.textContent =
-            "";
-
-
-        openLoginModal();
+        showPublicWelcome();
     }
 );
-
 
 
 /* ==========================================================
@@ -862,32 +774,31 @@ adminLogoutButton.addEventListener(
 
 hideAdmin();
 
-
 const urlParams =
     new URLSearchParams(
         window.location.search
     );
 
 const resetToken =
-    urlParams.get(
-        "reset_token"
-    );
+    urlParams.get("reset_token");
 
 
 async function initializeLogin()
 {
-    if (!resetToken)
-    {
-        openLoginModal();
-
-        return;
-    }
-
+    updateWelcomeButtons(false);
 
     closeLoginModal();
 
     closeForgotPasswordModal();
 
+    closeResetPasswordModal();
+
+    if (!resetToken)
+    {
+        showPublicWelcome();
+
+        return;
+    }
 
     try
     {
@@ -895,22 +806,17 @@ async function initializeLogin()
             resetToken
         );
 
-
         openResetPasswordModal();
     }
     catch (error)
     {
-        console.error(
-            error
-        );
-
+        console.error(error);
 
         window.history.replaceState(
             {},
             document.title,
             window.location.pathname
         );
-
 
         if (
             error.message ===
@@ -926,10 +832,8 @@ async function initializeLogin()
                 "Le lien de réinitialisation est invalide ou a expiré. Demandez un nouveau lien.";
         }
 
-
         openLoginModal();
     }
 }
-
 
 initializeLogin();
