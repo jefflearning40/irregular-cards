@@ -667,7 +667,35 @@ loginForm.addEventListener(
 
                 showAdmin();
 
-                await loadAdminDashboard();
+/* ==================================================
+   AFFICHAGE DES INFORMATIONS ADMINISTRATEUR
+================================================== */
+
+const adminAccountName =
+    document.getElementById(
+        "admin-account-name"
+    );
+
+const adminAccountFirstname =
+    document.getElementById(
+        "admin-account-firstname"
+    );
+
+const adminAccountEmail =
+    document.getElementById(
+        "admin-account-email"
+    );
+
+adminAccountName.textContent =
+    loginData.utilisateur.nom;
+
+adminAccountFirstname.textContent =
+    loginData.utilisateur.prenom;
+
+adminAccountEmail.textContent =
+    loginData.utilisateur.email;
+
+await loadAdminDashboard();
 
                 return;
             }

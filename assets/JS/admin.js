@@ -4721,3 +4721,462 @@ document.addEventListener(
     },
     true
 );
+/* ==========================================================
+   MON COMPTE — MODIFICATION DES INFORMATIONS PERSONNELLES
+========================================================== */
+
+const adminAccountEditButton =
+    document.getElementById("admin-account-edit-button");
+
+const adminAccountEditForm =
+    document.getElementById("admin-account-edit-form");
+
+const adminAccountEditName =
+    document.getElementById("admin-account-edit-name");
+
+const adminAccountEditFirstname =
+    document.getElementById("admin-account-edit-firstname");
+
+const adminAccountEditEmail =
+    document.getElementById("admin-account-edit-email");
+
+const adminAccountEditPassword =
+    document.getElementById("admin-account-edit-password");
+
+const adminAccountCancelButton =
+    document.getElementById("admin-account-cancel-button");
+
+const adminAccountEditMessage =
+    document.getElementById("admin-account-edit-message");
+
+
+/* ==========================================================
+   OUVERTURE DU FORMULAIRE
+========================================================== */
+
+adminAccountEditButton.addEventListener(
+    "click",
+    () =>
+    {
+        adminAccountEditName.value =
+            document.getElementById("admin-account-name").textContent.trim();
+
+        adminAccountEditFirstname.value =
+            document.getElementById("admin-account-firstname").textContent.trim();
+
+        adminAccountEditEmail.value =
+            document.getElementById("admin-account-email").textContent.trim();
+
+        adminAccountEditPassword.value = "";
+
+        adminAccountEditMessage.textContent = "";
+
+        adminAccountEditForm.hidden = false;
+
+        adminAccountEditButton.hidden = true;
+
+        adminAccountEditName.focus();
+    }
+);
+
+
+/* ==========================================================
+   ANNULATION DE LA MODIFICATION
+========================================================== */
+
+adminAccountCancelButton.addEventListener(
+    "click",
+    () =>
+    {
+        adminAccountEditForm.reset();
+
+        adminAccountEditMessage.textContent = "";
+
+        adminAccountEditForm.hidden = true;
+
+        adminAccountEditButton.hidden = false;
+    }
+);
+
+/* ==========================================================
+   MON COMPTE — ENREGISTREMENT DES INFORMATIONS
+========================================================== */
+
+adminAccountEditForm.addEventListener(
+    "submit",
+    async (event) =>
+    {
+        event.preventDefault();
+
+        const nom =
+            adminAccountEditName.value.trim();
+
+        const prenom =
+            adminAccountEditFirstname.value.trim();
+
+        const email =
+            adminAccountEditEmail.value.trim();
+
+        const motDePasseActuel =
+            adminAccountEditPassword.value;
+
+        const saveButton =
+            document.getElementById(
+                "admin-account-save-button"
+            );
+
+        saveButton.disabled = true;
+
+        adminAccountEditMessage.textContent =
+            "Enregistrement en cours...";
+
+        try
+        {
+            const result = await updateAdminAccount(
+                nom,
+                prenom,
+                email,
+                motDePasseActuel
+            );
+
+            document.getElementById(
+                "admin-account-name"
+            ).textContent = result.administrateur.nom;
+
+            document.getElementById(
+                "admin-account-firstname"
+            ).textContent = result.administrateur.prenom;
+
+            document.getElementById(
+                "admin-account-email"
+            ).textContent = result.administrateur.email;
+
+            adminAccountEditPassword.value = "";
+
+            adminAccountEditForm.hidden = true;
+
+            adminAccountEditButton.hidden = false;
+
+            adminAccountEditMessage.textContent = "";
+        }
+        catch (error)
+        {
+            adminAccountEditMessage.textContent =
+                error.message;
+        }
+        finally
+        {
+            saveButton.disabled = false;
+        }
+    }
+);
+
+/* ==========================================================
+   MON COMPTE — MODIFICATION DU MOT DE PASSE
+========================================================== */
+
+const adminAccountPasswordButton =
+    document.getElementById("admin-account-password-button");
+
+const adminAccountPasswordForm =
+    document.getElementById("admin-account-password-form");
+
+const adminPasswordCurrent =
+    document.getElementById("admin-password-current");
+
+const adminPasswordNew =
+    document.getElementById("admin-password-new");
+
+const adminPasswordConfirm =
+    document.getElementById("admin-password-confirm");
+
+const adminPasswordSaveButton =
+    document.getElementById("admin-password-save-button");
+
+const adminPasswordCancelButton =
+    document.getElementById("admin-password-cancel-button");
+
+const adminPasswordMessage =
+    document.getElementById("admin-password-message");
+
+
+/* ==========================================================
+   AFFICHER / MASQUER LES MOTS DE PASSE
+========================================================== */
+
+function resetAdminPasswordVisibility()
+{
+    document.querySelectorAll(
+        ".admin-password-toggle"
+    ).forEach((button) =>
+    {
+        const input = document.getElementById(
+            button.dataset.passwordTarget
+        );
+
+        if (!input)
+        {
+            return;
+        }
+
+        input.type = "password";
+
+        button.setAttribute(
+            "aria-pressed",
+            "false"
+        );
+
+        button.setAttribute(
+            "aria-label",
+            "Afficher le mot de passe"
+        );
+    });
+}
+
+
+document.querySelectorAll(
+    ".admin-password-toggle"
+).forEach((button) =>
+{
+    button.addEventListener("click", () =>
+    {
+        const input = document.getElementById(
+            button.dataset.passwordTarget
+        );
+
+        if (!input)
+        {
+            return;
+        }
+
+        const visible =
+            input.type === "password";
+
+        input.type = visible
+            ? "text"
+            : "password";
+
+        button.setAttribute(
+            "aria-pressed",
+            String(visible)
+        );
+
+        button.setAttribute(
+            "aria-label",
+            visible
+                ? "Masquer le mot de passe"
+                : "Afficher le mot de passe"
+        );
+
+        const svg = button.querySelector("svg");
+
+        if (svg)
+        {
+            svg.innerHTML = visible
+                ? `
+                    <path d="M3 3l18 18"/>
+                    <path d="M10.6 5.1A10.7 10.7 0 0 1 12 5c6.5 0 10 7 10 7a15 15 0 0 1-3.1 3.8"/>
+                    <path d="M6.2 6.2C3.5 8.1 2 12 2 12s3.5 7 10 7a10.6 10.6 0 0 0 4.1-.8"/>
+                    <path d="M10 10a3 3 0 0 0 4 4"/>
+                  `
+                : `
+                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  `;
+        }
+    });
+});
+
+
+/* ==========================================================
+   OUVERTURE DU FORMULAIRE
+========================================================== */
+
+adminAccountPasswordButton.addEventListener(
+    "click",
+    () =>
+    {
+        adminAccountPasswordForm.reset();
+
+        adminPasswordMessage.textContent = "";
+
+        resetAdminPasswordVisibility();
+
+        adminAccountPasswordForm.hidden = false;
+
+        adminAccountPasswordButton.hidden = true;
+
+        adminPasswordCurrent.focus();
+    }
+);
+
+
+/* ==========================================================
+   ANNULATION
+========================================================== */
+
+adminPasswordCancelButton.addEventListener(
+    "click",
+    () =>
+    {
+        adminAccountPasswordForm.reset();
+
+        adminPasswordMessage.textContent = "";
+
+        resetAdminPasswordVisibility();
+
+        adminAccountPasswordForm.hidden = true;
+
+        adminAccountPasswordButton.hidden = false;
+    }
+);
+
+
+
+/* ==========================================================
+   ENREGISTREMENT DU NOUVEAU MOT DE PASSE
+========================================================== */
+
+adminAccountPasswordForm.addEventListener(
+    "submit",
+    async (event) =>
+    {
+        event.preventDefault();
+
+        const motDePasseActuel =
+            adminPasswordCurrent.value;
+
+        const nouveauMotDePasse =
+            adminPasswordNew.value;
+
+        const confirmation =
+            adminPasswordConfirm.value;
+
+        /* ==================================================
+           VERIFICATION DE LA CONFIRMATION
+        ================================================== */
+
+        if (nouveauMotDePasse !== confirmation)
+        {
+            adminPasswordMessage.textContent =
+                "Les deux nouveaux mots de passe ne correspondent pas.";
+
+            return;
+        }
+
+        /* ==================================================
+           VALIDATION DU NOUVEAU MOT DE PASSE
+        ================================================== */
+
+        if (
+            nouveauMotDePasse.length < 8 ||
+            nouveauMotDePasse.length > 72 ||
+            !/\p{L}/u.test(nouveauMotDePasse) ||
+            !/\d/.test(nouveauMotDePasse)
+        )
+        {
+            adminPasswordMessage.textContent =
+                "Le mot de passe doit contenir entre 8 et 72 caractères, au moins une lettre et un chiffre.";
+
+            return;
+        }
+
+        /* ==================================================
+           ENREGISTREMENT
+        ================================================== */
+
+        adminPasswordSaveButton.disabled = true;
+
+        adminPasswordMessage.textContent =
+            "Enregistrement en cours...";
+
+        try
+        {
+            await updateAdminPassword(
+                motDePasseActuel,
+                nouveauMotDePasse
+            );
+
+            /* ==============================================
+               REINITIALISATION DU FORMULAIRE
+            ============================================== */
+
+            adminAccountPasswordForm.reset();
+
+            resetAdminPasswordVisibility();
+
+            adminPasswordMessage.textContent = "";
+
+            adminAccountPasswordForm.hidden = true;
+
+            adminAccountPasswordButton.hidden = false;
+
+            /* ==============================================
+               MESSAGE DE CONFIRMATION VISIBLE
+            ============================================== */
+
+            let successMessage =
+                document.getElementById(
+                    "admin-password-success-message"
+                );
+
+            if (!successMessage)
+            {
+                successMessage =
+                    document.createElement("p");
+
+                successMessage.id =
+                    "admin-password-success-message";
+
+                successMessage.setAttribute(
+                    "role",
+                    "status"
+                );
+
+                successMessage.setAttribute(
+                    "aria-live",
+                    "polite"
+                );
+
+                adminAccountPasswordButton.insertAdjacentElement(
+                    "afterend",
+                    successMessage
+                );
+            }
+
+            successMessage.textContent =
+                "Mot de passe modifié avec succès.";
+        }
+        catch (error)
+        {
+            adminPasswordMessage.textContent =
+                error.message;
+        }
+        finally
+        {
+            adminPasswordSaveButton.disabled = false;
+        }
+    }
+);
+
+
+/* ==========================================================
+   SUPPRESSION DU MESSAGE A LA PROCHAINE OUVERTURE
+========================================================== */
+
+adminAccountPasswordButton.addEventListener(
+    "click",
+    () =>
+    {
+        const successMessage =
+            document.getElementById(
+                "admin-password-success-message"
+            );
+
+        if (successMessage)
+        {
+            successMessage.remove();
+        }
+    }
+);
+

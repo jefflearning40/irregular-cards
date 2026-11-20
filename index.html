@@ -2109,51 +2109,442 @@
                 </div>
 
 
-                <!-- =====================================
-                     NAVIGATION
-                ====================================== -->
+               <!-- =====================================
+     NAVIGATION
+====================================== -->
 
-                <button
-                    class="admin-menu__button admin-menu__button--active"
-                    type="button"
-                    data-admin-view="dashboard"
-                >
-                    TABLEAU DE BORD
-                </button>
+<button
+    class="admin-menu__button admin-menu__button--active"
+    type="button"
+    data-admin-view="dashboard"
+>
+    TABLEAU DE BORD
+</button>
 
-                <button
-                    class="admin-menu__button"
-                    type="button"
-                    data-admin-view="professeurs"
-                >
-                    PROFESSEURS
-                </button>
+<button
+    class="admin-menu__button"
+    type="button"
+    data-admin-view="professeurs"
+>
+    PROFESSEURS
+</button>
 
-                <button
-                    class="admin-menu__button"
-                    type="button"
-                    data-admin-view="eleves"
-                >
-                    ELEVES
-                </button>
+<button
+    class="admin-menu__button"
+    type="button"
+    data-admin-view="eleves"
+>
+    ELEVES
+</button>
 
-                <button
-                    class="admin-menu__button"
-                    type="button"
-                    data-admin-view="contacts"
-                >
-                    MESSAGERIE
-                </button>
+<button
+    class="admin-menu__button"
+    type="button"
+    data-admin-view="contacts"
+>
+    MESSAGERIE
+</button>
 
-            </nav>
+<!-- =====================================
+     COMPTE ADMINISTRATEUR
+====================================== -->
+
+<button
+    class="admin-menu__button"
+    type="button"
+    data-admin-view="compte"
+>
+    MON COMPTE
+</button>
+
+</nav>
 
 
-            <!-- =========================================
-                 ZONE PRINCIPALE
-            ========================================== -->
+<!-- =========================================
+     ZONE PRINCIPALE
+========================================== -->
 
             <main class="admin-content">
 
+                <!-- =====================================
+     MON COMPTE ADMINISTRATEUR
+====================================== -->
+
+<section
+    id="admin-account-view"
+    class="admin-view"
+    data-admin-section="compte"
+    hidden
+>
+
+    <h2 class="admin-view__title">
+        &gt; MON COMPTE
+    </h2>
+
+   <!-- INFORMATIONS PERSONNELLES -->
+
+<div class="admin-dashboard-block">
+
+    <div class="admin-block-header">
+        <h3>&gt; INFORMATIONS PERSONNELLES</h3>
+    </div>
+
+    <div class="admin-system-info">
+
+        <p>
+            NOM .............
+            <span id="admin-account-name">-</span>
+        </p>
+
+        <p>
+            PRENOM ..........
+            <span id="admin-account-firstname">-</span>
+        </p>
+
+        <p>
+            EMAIL ...........
+            <span id="admin-account-email">-</span>
+        </p>
+
+    </div>
+
+    <button
+        id="admin-account-edit-button"
+        class="admin-button"
+        type="button"
+    >
+        MODIFIER MES INFORMATIONS
+    </button>
+
+    <!-- FORMULAIRE DE MODIFICATION -->
+
+    <form
+        id="admin-account-edit-form"
+        hidden
+    >
+
+        <div class="admin-account-field">
+
+            <label for="admin-account-edit-name">
+                NOM
+            </label>
+
+            <input
+                id="admin-account-edit-name"
+                type="text"
+                maxlength="50"
+                autocomplete="family-name"
+                required
+            >
+
+        </div>
+
+        <div class="admin-account-field">
+
+            <label for="admin-account-edit-firstname">
+                PRÉNOM
+            </label>
+
+            <input
+                id="admin-account-edit-firstname"
+                type="text"
+                maxlength="50"
+                autocomplete="given-name"
+                required
+            >
+
+        </div>
+
+        <div class="admin-account-field">
+
+            <label for="admin-account-edit-email">
+                ADRESSE E-MAIL
+            </label>
+
+            <input
+                id="admin-account-edit-email"
+                type="email"
+                maxlength="254"
+                autocomplete="email"
+                required
+            >
+
+        </div>
+
+        <div class="admin-account-field">
+
+            <label for="admin-account-edit-password">
+                MOT DE PASSE ACTUEL
+            </label>
+
+            <input
+                id="admin-account-edit-password"
+                type="password"
+                autocomplete="current-password"
+                required
+            >
+
+        </div>
+
+        <div class="admin-account-actions">
+
+            <button
+                id="admin-account-save-button"
+                class="admin-button"
+                type="submit"
+            >
+                ENREGISTRER
+            </button>
+
+            <button
+                id="admin-account-cancel-button"
+                class="admin-button"
+                type="button"
+            >
+                ANNULER
+            </button>
+
+        </div>
+
+        <p
+            id="admin-account-edit-message"
+            role="status"
+            aria-live="polite"
+        ></p>
+
+    </form>
+
+</div>
+
+
+<!-- SECURITE DU COMPTE -->
+
+<div class="admin-dashboard-block">
+
+    <div class="admin-block-header">
+        <h3>&gt; SECURITE DU COMPTE</h3>
+    </div>
+
+    <button
+        id="admin-account-password-button"
+        class="admin-button"
+        type="button"
+    >
+        MODIFIER MON MOT DE PASSE
+    </button>
+
+    <!-- FORMULAIRE DE MODIFICATION DU MOT DE PASSE -->
+
+    <form
+        id="admin-account-password-form"
+        hidden
+    >
+
+        <!-- MOT DE PASSE ACTUEL -->
+
+        <div class="admin-account-field">
+
+            <label for="admin-password-current">
+                MOT DE PASSE ACTUEL
+            </label>
+
+            <div class="admin-password-wrapper">
+
+                <input
+                    id="admin-password-current"
+                    type="password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button
+                    class="admin-password-toggle"
+                    type="button"
+                    data-password-target="admin-password-current"
+                    aria-label="Afficher le mot de passe actuel"
+                    aria-pressed="false"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="22"
+                        height="22"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- NOUVEAU MOT DE PASSE -->
+
+        <div class="admin-account-field">
+
+            <label for="admin-password-new">
+                NOUVEAU MOT DE PASSE
+            </label>
+
+            <div class="admin-password-wrapper">
+
+                <input
+                    id="admin-password-new"
+                    type="password"
+                    minlength="8"
+                    maxlength="72"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <button
+                    class="admin-password-toggle"
+                    type="button"
+                    data-password-target="admin-password-new"
+                    aria-label="Afficher le nouveau mot de passe"
+                    aria-pressed="false"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="22"
+                        height="22"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- CONFIRMATION -->
+
+        <div class="admin-account-field">
+
+            <label for="admin-password-confirm">
+                CONFIRMER LE NOUVEAU MOT DE PASSE
+            </label>
+
+            <div class="admin-password-wrapper">
+
+                <input
+                    id="admin-password-confirm"
+                    type="password"
+                    minlength="8"
+                    maxlength="72"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <button
+                    class="admin-password-toggle"
+                    type="button"
+                    data-password-target="admin-password-confirm"
+                    aria-label="Afficher la confirmation du mot de passe"
+                    aria-pressed="false"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="22"
+                        height="22"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </button>
+
+            </div>
+
+        </div>
+
+        <p class="admin-password-help">
+            Le nouveau mot de passe doit contenir entre
+            8 et 72 caractères, au moins une lettre et un chiffre.
+        </p>
+
+        <!-- ACTIONS -->
+
+        <div class="admin-account-actions">
+
+            <button
+                id="admin-password-save-button"
+                class="admin-button"
+                type="submit"
+            >
+                ENREGISTRER
+            </button>
+
+            <button
+                id="admin-password-cancel-button"
+                class="admin-button"
+                type="button"
+            >
+                ANNULER
+            </button>
+
+        </div>
+
+        <p
+            id="admin-password-message"
+            role="status"
+            aria-live="polite"
+        ></p>
+
+    </form>
+
+</div>
+
+<!-- DOUBLE AUTHENTIFICATION -->
+
+
+    <div class="admin-dashboard-block">
+
+        <div class="admin-block-header">
+            <h3>&gt; DOUBLE AUTHENTIFICATION</h3>
+        </div>
+
+        <div class="admin-system-info">
+
+            <p>
+                AUTHENTIFICATION TOTP ..........
+                <span id="admin-account-totp-status">
+                    NON CONFIGUREE
+                </span>
+            </p>
+
+        </div>
+
+        <button
+            id="admin-account-totp-button"
+            class="admin-button"
+            type="button"
+            disabled
+        >
+            CONFIGURER LA DOUBLE AUTHENTIFICATION
+        </button>
+
+    </div>
+
+</section>
 
                 <!-- =====================================
                      TABLEAU DE BORD

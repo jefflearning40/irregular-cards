@@ -2485,3 +2485,141 @@ async function deleteSentMessages(
 
     return data;
 }
+
+/* ==========================================================
+   MODIFICATION DES INFORMATIONS DU COMPTE ADMINISTRATEUR
+========================================================== */
+
+async function updateAdminAccount(
+    nom,
+    prenom,
+    email,
+    motDePasseActuel
+)
+{
+    if (
+        !apiToken ||
+        currentRole !== "administrateur"
+    )
+    {
+        throw new Error("UNAUTHORIZED");
+    }
+
+    let response;
+
+    try
+    {
+        response = await fetch(
+            `${API_URL}/administrateur/mon-compte`,
+            {
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${apiToken}`
+                },
+
+                body: JSON.stringify({
+                    nom: nom,
+                    prenom: prenom,
+                    email: email,
+                    mot_de_passe_actuel: motDePasseActuel
+                })
+            }
+        );
+    }
+    catch (error)
+    {
+        throw new Error("SERVER_UNAVAILABLE");
+    }
+
+    let data = {};
+
+    try
+    {
+        data = await response.json();
+    }
+    catch (error)
+    {
+        data = {};
+    }
+
+    if (!response.ok)
+    {
+        throw new Error(
+            data.error ||
+            "Impossible de modifier les informations du compte."
+        );
+    }
+
+    if (currentUser)
+    {
+        currentUser.nom = data.administrateur.nom;
+        currentUser.prenom = data.administrateur.prenom;
+        currentUser.email = data.administrateur.email;
+    }
+
+    return data;
+}
+
+/* ==========================================================
+   MODIFICATION DU MOT DE PASSE ADMINISTRATEUR
+========================================================== */
+
+async function updateAdminPassword(
+    motDePasseActuel,
+    nouveauMotDePasse
+)
+{
+    if (!apiToken || currentRole !== "administrateur")
+    {
+        throw new Error("Session administrateur invalide");
+    }
+
+    let response;
+
+    try
+    {
+        response = await fetch(
+            `${API_URL}/administrateur/mon-compte/mot-de-passe`,
+            {
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${apiToken}`
+                },
+
+                body: JSON.stringify({
+                    mot_de_passe_actuel: motDePasseActuel,
+                    nouveau_mot_de_passe: nouveauMotDePasse
+                })
+            }
+        );
+    }
+    catch (error)
+    {
+        throw new Error("Serveur indisponible");
+    }
+
+    let data = {};
+
+    try
+    {
+        data = await response.json();
+    }
+    catch (error)
+    {
+        data = {};
+    }
+
+    if (!response.ok)
+    {
+        throw new Error(
+            data.error ||
+            "Impossible de modifier le mot de passe."
+        );
+    }
+
+    return data;
+}

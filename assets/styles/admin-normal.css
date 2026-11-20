@@ -582,3 +582,178 @@
     }
 
 }
+/* ==========================================================
+   MON COMPTE — FORMULAIRE INFORMATIONS PERSONNELLES
+========================================================== */
+
+/* Respect de l'attribut hidden */
+
+#admin-screen[data-admin-mode="normal"] #admin-account-edit-button[hidden],
+#admin-screen[data-admin-mode="normal"] #admin-account-edit-form[hidden] {
+    display: none;
+}
+
+/* Formulaire */
+
+#admin-screen[data-admin-mode="normal"] #admin-account-edit-form {
+    width: min(600px, 100%);
+    margin-top: 24px;
+}
+
+/* Champs */
+
+#admin-screen[data-admin-mode="normal"] .admin-account-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-account-field label {
+    color: var(--admin-normal-text);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-account-field input {
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 12px;
+    border: 1px solid var(--admin-normal-border);
+    border-radius: 8px;
+    background: var(--admin-normal-surface);
+    color: var(--admin-normal-text);
+    font-family: inherit;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#admin-screen[data-admin-mode="normal"] .admin-account-field input:focus {
+    border-color: var(--admin-normal-primary);
+    outline: 2px solid var(--admin-normal-nav-active);
+}
+
+/* Boutons */
+
+#admin-screen[data-admin-mode="normal"] .admin-account-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* Messages */
+
+#admin-screen[data-admin-mode="normal"] #admin-account-edit-message {
+    margin-top: 16px;
+    font-size: 14px;
+}
+
+/* ==========================================================
+   MON COMPTE — FORMULAIRE DE MODIFICATION DU MOT DE PASSE
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"]
+#admin-account-password-button[hidden],
+
+#admin-screen[data-admin-mode="normal"]
+#admin-account-password-form[hidden]
+{
+    display: none;
+}
+
+#admin-screen[data-admin-mode="normal"]
+#admin-account-password-form
+{
+    width: min(600px, 100%);
+    margin-top: 24px;
+}
+
+
+/* ==========================================================
+   CHAMPS DE MOT DE PASSE AVEC BOUTON ŒIL
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"]
+.admin-password-wrapper
+{
+    position: relative;
+    width: 100%;
+}
+
+#admin-screen[data-admin-mode="normal"]
+.admin-password-wrapper input
+{
+    width: 100%;
+    padding-right: 52px;
+}
+
+#admin-screen[data-admin-mode="normal"]
+.admin-password-toggle
+{
+    position: absolute;
+
+    top: 50%;
+    right: 10px;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 6px;
+
+    background: transparent;
+    color: var(--admin-normal-text);
+
+    cursor: pointer;
+}
+
+#admin-screen[data-admin-mode="normal"]
+.admin-password-toggle:hover
+{
+    color: var(--admin-normal-primary);
+}
+
+#admin-screen[data-admin-mode="normal"]
+.admin-password-toggle:focus-visible
+{
+    outline: 2px solid var(--admin-normal-primary);
+    outline-offset: 2px;
+}
+
+#admin-screen[data-admin-mode="normal"]
+.admin-password-toggle svg
+{
+    width: 22px;
+    height: 22px;
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   INDICATIONS ET MESSAGES
+========================================================== */
+
+#admin-screen[data-admin-mode="normal"]
+.admin-password-help
+{
+    margin-top: 8px;
+    color: var(--admin-normal-text);
+    font-size: 13px;
+}
+
+#admin-screen[data-admin-mode="normal"]
+#admin-password-message
+{
+    margin-top: 16px;
+    font-size: 14px;
+}

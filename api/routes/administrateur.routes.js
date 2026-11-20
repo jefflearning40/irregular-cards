@@ -3304,6 +3304,424 @@ router.put(
     }
 );
 
+/* ==========================================================
+   MODIFICATION DU COMPTE ADMINISTRATEUR
+========================================================== */
+
+router.put(
+    "/mon-compte",
+    verifyToken,
+    requireAdmin,
+    (request, response) =>
+    {
+        let {
+            nom,
+            prenom,
+            email,
+            mot_de_passe_actuel
+        } = request.body || {};
+
+        const administrateurId =
+            request.user.id;
+
+        /* ==================================================
+           VÉRIFICATION DES CHAMPS
+        ================================================== */
+
+        if (
+            typeof nom !== "string" ||
+            typeof prenom !== "string" ||
+            typeof email !== "string" ||
+            typeof mot_de_passe_actuel !== "string"
+        )
+        {
+            return response.status(400).json({
+                error: "Tous les champs sont obligatoires"
+            });
+        }
+
+        nom = nom.trim();
+        prenom = prenom.trim();
+        email = email.trim().toLowerCase();
+
+        if (
+            nom.length < 2 ||
+            nom.length > 50 ||
+            !namePattern.test(nom) ||
+            prenom.length < 2 ||
+            prenom.length > 50 ||
+            !namePattern.test(prenom)
+        )
+        {
+            return response.status(400).json({
+                error: "Nom ou prénom invalide"
+            });
+        }
+
+        if (
+            email.length > 254 ||
+            !emailPattern.test(email)
+        )
+        {
+            return response.status(400).json({
+                error: "Adresse e-mail invalide"
+            });
+        }
+
+        if (!mot_de_passe_actuel)
+        {
+            return response.status(400).json({
+                error: "Mot de passe actuel obligatoire"
+            });
+        }
+
+        /* ==================================================
+           RECHERCHE DU COMPTE CONNECTÉ
+        ================================================== */
+
+        database.query(
+            `
+                SELECT id, mot_de_passe
+                FROM administrateur
+                WHERE id = ?
+            `,
+            [administrateurId],
+            async (accountError, accounts) =>
+            {
+                if (accountError)
+                {
+                    console.error(accountError);
+
+                    return response.status(500).json({
+                        error: "Erreur serveur"
+                    });
+                }
+
+                if (accounts.length === 0)
+                {
+                    return response.status(404).json({
+                        error: "Compte administrateur introuvable"
+                    });
+                }
+
+                /* ==========================================
+                   VÉRIFICATION DU MOT DE PASSE
+                ========================================== */
+
+                let passwordValid;
+
+                try
+                {
+                    passwordValid = await bcrypt.compare(
+                        mot_de_passe_actuel,
+                        accounts[0].mot_de_passe
+                    );
+                }
+                catch (error)
+                {
+                    console.error(error);
+
+                    return response.status(500).json({
+                        error: "Erreur serveur"
+                    });
+                }
+
+                if (!passwordValid)
+                {
+                    return response.status(401).json({
+                        error: "Mot de passe actuel incorrect"
+                    });
+                }
+
+                /* ==========================================
+                   VÉRIFICATION DE L'ADRESSE E-MAIL
+                ========================================== */
+
+                database.query(
+                    `
+                        SELECT id
+                        FROM administrateur
+                        WHERE email = ?
+                        AND id <> ?
+
+                        UNION ALL
+
+                        SELECT id
+                        FROM professeur
+                        WHERE email = ?
+
+                        UNION ALL
+
+                        SELECT id
+                        FROM eleve
+                        WHERE email = ?
+                    `,
+                    [
+                        email,
+                        administrateurId,
+                        email,
+                        email
+                    ],
+                    (emailError, existingAccounts) =>
+                    {
+                        if (emailError)
+                        {
+                            console.error(emailError);
+
+                            return response.status(500).json({
+                                error: "Erreur serveur"
+                            });
+                        }
+
+                        if (existingAccounts.length > 0)
+                        {
+                            return response.status(409).json({
+                                error: "Cette adresse e-mail est déjà utilisée"
+                            });
+                        }
+
+                        /* ==================================
+                           ENREGISTREMENT
+                        ================================== */
+
+                        database.query(
+                            `
+                                UPDATE administrateur
+
+                                SET
+                                    nom = ?,
+                                    prenom = ?,
+                                    email = ?
+
+                                WHERE id = ?
+                            `,
+                            [
+                                nom,
+                                prenom,
+                                email,
+                                administrateurId
+                            ],
+                            (updateError, result) =>
+                            {
+                                if (updateError)
+                                {
+                                    console.error(updateError);
+
+                                    if (updateError.code === "ER_DUP_ENTRY")
+                                    {
+                                        return response.status(409).json({
+                                            error: "Cette adresse e-mail est déjà utilisée"
+                                        });
+                                    }
+
+                                    return response.status(500).json({
+                                        error: "Erreur serveur"
+                                    });
+                                }
+
+                                if (result.affectedRows === 0)
+                                {
+                                    return response.status(404).json({
+                                        error: "Compte administrateur introuvable"
+                                    });
+                                }
+
+                                response.status(200).json({
+                                    message: "Informations personnelles modifiées avec succès",
+
+                                    administrateur: {
+                                        id: administrateurId,
+                                        nom: nom,
+                                        prenom: prenom,
+                                        email: email
+                                    }
+                                });
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    }
+);
+
+/* ==========================================================
+   MODIFICATION DU MOT DE PASSE ADMINISTRATEUR
+========================================================== */
+
+router.put(
+    "/mon-compte/mot-de-passe",
+    verifyToken,
+    requireAdmin,
+    async (request, response) =>
+    {
+        const {
+            mot_de_passe_actuel,
+            nouveau_mot_de_passe
+        } = request.body || {};
+
+        const administrateurId = request.user.id;
+
+        /* ==================================================
+           VALIDATION DES MOTS DE PASSE
+        ================================================== */
+
+        if (
+            typeof mot_de_passe_actuel !== "string" ||
+            typeof nouveau_mot_de_passe !== "string"
+        )
+        {
+            return response.status(400).json({
+                error: "Tous les champs sont obligatoires"
+            });
+        }
+
+        if (
+            !mot_de_passe_actuel ||
+            nouveau_mot_de_passe.length < 8 ||
+            nouveau_mot_de_passe.length > 72 ||
+            !/\p{L}/u.test(nouveau_mot_de_passe) ||
+            !/\d/.test(nouveau_mot_de_passe)
+        )
+        {
+            return response.status(400).json({
+                error: "Le nouveau mot de passe doit contenir entre 8 et 72 caractères, au moins une lettre et un chiffre"
+            });
+        }
+
+        try
+        {
+            /* ==============================================
+               RECHERCHE DU COMPTE
+            ============================================== */
+
+            database.query(
+                `
+                    SELECT id, mot_de_passe
+                    FROM administrateur
+                    WHERE id = ?
+                `,
+                [administrateurId],
+                async (accountError, accounts) =>
+                {
+                    if (accountError)
+                    {
+                        console.error(accountError);
+
+                        return response.status(500).json({
+                            error: "Erreur serveur"
+                        });
+                    }
+
+                    if (accounts.length === 0)
+                    {
+                        return response.status(404).json({
+                            error: "Compte administrateur introuvable"
+                        });
+                    }
+
+                    try
+                    {
+                        /* ==================================
+                           VÉRIFICATION DU MOT DE PASSE ACTUEL
+                        ================================== */
+
+                        const passwordValid = await bcrypt.compare(
+                            mot_de_passe_actuel,
+                            accounts[0].mot_de_passe
+                        );
+
+                        if (!passwordValid)
+                        {
+                            return response.status(401).json({
+                                error: "Mot de passe actuel incorrect"
+                            });
+                        }
+
+                        /* ==================================
+                           REFUS DU MOT DE PASSE IDENTIQUE
+                        ================================== */
+
+                        const samePassword = await bcrypt.compare(
+                            nouveau_mot_de_passe,
+                            accounts[0].mot_de_passe
+                        );
+
+                        if (samePassword)
+                        {
+                            return response.status(400).json({
+                                error: "Le nouveau mot de passe doit être différent de l'ancien"
+                            });
+                        }
+
+                        /* ==================================
+                           CHIFFREMENT DU NOUVEAU MOT DE PASSE
+                        ================================== */
+
+                        const hashedPassword = await bcrypt.hash(
+                            nouveau_mot_de_passe,
+                            12
+                        );
+
+                        /* ==================================
+                           ENREGISTREMENT
+                        ================================== */
+
+                        database.query(
+                            `
+                                UPDATE administrateur
+                                SET mot_de_passe = ?
+                                WHERE id = ?
+                            `,
+                            [
+                                hashedPassword,
+                                administrateurId
+                            ],
+                            (updateError, result) =>
+                            {
+                                if (updateError)
+                                {
+                                    console.error(updateError);
+
+                                    return response.status(500).json({
+                                        error: "Erreur serveur"
+                                    });
+                                }
+
+                                if (result.affectedRows === 0)
+                                {
+                                    return response.status(404).json({
+                                        error: "Compte administrateur introuvable"
+                                    });
+                                }
+
+                                return response.status(200).json({
+                                    message: "Mot de passe modifié avec succès"
+                                });
+                            }
+                        );
+                    }
+                    catch (error)
+                    {
+                        console.error(error);
+
+                        return response.status(500).json({
+                            error: "Erreur serveur"
+                        });
+                    }
+                }
+            );
+        }
+        catch (error)
+        {
+            console.error(error);
+
+            return response.status(500).json({
+                error: "Erreur serveur"
+            });
+        }
+    }
+);
 
 /* ==========================================================
    EXPORT
