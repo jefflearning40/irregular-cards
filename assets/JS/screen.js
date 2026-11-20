@@ -1417,7 +1417,7 @@ const classroomWindowHotspot =
     document.getElementById("classroom-window-hotspot");
 
 const classroomWindowMessage =
-    "Une grande fenêtre à neuf carreaux donne sur le port . " +
+    "Une grande fenêtre à douzes carreaux donne sur le port . " +
     "On aperçoit des maisons, un phare, " +
     "un bateau qui quitte le port " +
     "et une mouette qui vole dans le ciel.";
