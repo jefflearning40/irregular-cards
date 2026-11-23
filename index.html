@@ -195,6 +195,132 @@
     </div>
 
 </div>
+
+
+<!-- =====================================================
+     DOUBLE AUTHENTIFICATION 2FA
+====================================================== -->
+
+<div
+    class="login-modal"
+    id="two-factor-modal"
+    aria-hidden="true"
+>
+    <div
+        class="login-modal__content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="two-factor-title"
+    >
+
+        <h2 id="two-factor-title">
+            Double authentification
+        </h2>
+
+        <!-- CHOIX DE LA MÉTHODE -->
+
+        <div id="two-factor-method-selection" hidden>
+
+            <p>
+                Choisissez votre méthode de sécurité.
+            </p>
+
+            <button
+                class="login-button"
+                id="two-factor-select-totp"
+                type="button"
+            >
+                Application Authenticator
+            </button>
+
+            <button
+                class="login-button"
+                id="two-factor-select-email"
+                type="button"
+            >
+                Recevoir un code par e-mail
+            </button>
+
+        </div>
+
+        <!-- CONFIGURATION AUTHENTICATOR -->
+
+        <div id="two-factor-totp-setup" hidden>
+
+            <p>
+                Scannez ce QR code avec votre application
+                Authenticator.
+            </p>
+
+            <img
+                id="two-factor-qr-code"
+                alt="QR code de configuration Authenticator"
+                width="180"
+                height="180"
+            >
+
+            <p>
+                Clé de configuration :
+                <strong id="two-factor-secret"></strong>
+            </p>
+
+        </div>
+
+        <!-- VÉRIFICATION DU CODE -->
+
+        <form id="two-factor-form" hidden>
+
+            <div class="login-field">
+
+                <label for="two-factor-code">
+                    Code de vérification à 6 chiffres
+                </label>
+
+                <input
+                    id="two-factor-code"
+                    name="code"
+                    type="text"
+                    inputmode="numeric"
+                    pattern="[0-9]{6}"
+                    minlength="6"
+                    maxlength="6"
+                    autocomplete="one-time-code"
+                    required
+                >
+
+            </div>
+
+            <p
+                class="login-error"
+                id="two-factor-message"
+                role="status"
+                aria-live="polite"
+            ></p>
+
+            <button
+                class="login-button"
+                id="two-factor-submit"
+                type="submit"
+            >
+                Vérifier le code
+            </button>
+
+        </form>
+
+        <!-- ANNULATION -->
+
+        <button
+            class="login-forgot-password"
+            id="two-factor-cancel"
+            type="button"
+        >
+            Annuler et revenir à la connexion
+        </button>
+
+    </div>
+</div>
+
+
     <!-- =====================================================
      MOT DE PASSE OUBLIÉ
 ====================================================== -->

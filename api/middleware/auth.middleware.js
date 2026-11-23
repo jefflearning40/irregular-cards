@@ -21,53 +21,67 @@ function verifyToken(
     const authorizationHeader =
         request.headers.authorization;
 
-
-    if (!authorizationHeader)
+    if (
+        !authorizationHeader ||
+        !/^Bearer\s+\S+$/i.test(authorizationHeader)
+    )
     {
-        response.status(401).json({
-            error:
-                "Token manquant"
+        return response.status(401).json({
+            error: "Token manquant ou mal formé"
         });
-
-        return;
     }
-
 
     const token =
-        authorizationHeader.split(" ")[1];
-
-
-    if (!token)
-    {
-        response.status(401).json({
-            error:
-                "Token manquant"
-        });
-
-        return;
-    }
-
+        authorizationHeader.split(/\s+/)[1];
 
     try
     {
         const decoded =
             jwt.verify(
                 token,
-                process.env.JWT_SECRET
+                process.env.JWT_SECRET,
+                {
+                    algorithms: ["HS256"]
+                }
             );
 
+        /*
+           Seuls les tokens de session complète sont acceptés.
+
+           Les futurs tokens temporaires 2FA porteront
+           token_type = "2fa_challenge" et seront refusés.
+        */
+
+        if (
+            !decoded ||
+            typeof decoded !== "object" ||
+            !Number.isInteger(decoded.id) ||
+            decoded.id <= 0 ||
+            ![
+                "eleve",
+                "professeur",
+                "administrateur"
+            ].includes(decoded.role) ||
+            (
+                decoded.token_type !== undefined &&
+                decoded.token_type !== "access"
+            )
+        )
+        {
+            return response.status(401).json({
+                error: "Token non autorisé"
+            });
+        }
 
         request.user =
             decoded;
-
 
         next();
     }
     catch (error)
     {
-        response.status(401).json({
-            error:
-                "Token invalide ou expiré"
+        return response.status(401).json({
+            error: "Token invalide ou expiré"
         });
     }
 }
@@ -88,14 +102,10 @@ function requireProfessor(
         request.user.role !== "professeur"
     )
     {
-        response.status(403).json({
-            error:
-                "Accès réservé aux professeurs"
+        return response.status(403).json({
+            error: "Accès réservé aux professeurs"
         });
-
-        return;
     }
-
 
     next();
 }
@@ -116,14 +126,10 @@ function requireStudent(
         request.user.role !== "eleve"
     )
     {
-        response.status(403).json({
-            error:
-                "Accès réservé aux élèves"
+        return response.status(403).json({
+            error: "Accès réservé aux élèves"
         });
-
-        return;
     }
-
 
     next();
 }
@@ -144,14 +150,10 @@ function requireAdmin(
         request.user.role !== "administrateur"
     )
     {
-        response.status(403).json({
-            error:
-                "Accès réservé aux administrateurs"
+        return response.status(403).json({
+            error: "Accès réservé aux administrateurs"
         });
-
-        return;
     }
-
 
     next();
 }
