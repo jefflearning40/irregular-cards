@@ -1,3 +1,4 @@
+
 /* ==========================================================
    MODALE DU QUIZ
 ========================================================== */
@@ -69,6 +70,92 @@
     border-radius: 8px;
 
     pointer-events: none;
+}
+
+
+/* ==========================================================
+   BOUTON FERMETURE
+========================================================== */
+
+.quiz-modal__close {
+    display: flex;
+
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    left: auto;
+
+    z-index: 2;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+
+    padding: 0;
+
+    border:
+        2px
+        solid
+        var(--postcard-brown-light);
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--postcard-blue-light) 0%,
+            var(--postcard-blue-mid) 55%,
+            var(--postcard-blue-dark) 100%
+        );
+
+    color: var(--color-white);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 1;
+
+    box-shadow:
+        0 0 0 1px var(--postcard-brown-dark),
+        0 3px 6px var(--shadow-medium),
+        inset 0 1px 2px var(--highlight-white);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        filter 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.quiz-modal__close:hover {
+    transform: scale(1.1);
+
+    filter: brightness(1.15);
+
+    box-shadow:
+        0 0 0 1px var(--postcard-brown-dark),
+        0 5px 10px var(--shadow-medium),
+        inset 0 1px 2px var(--highlight-white);
+}
+
+.quiz-modal__close:active {
+    transform: scale(0.95);
+}
+
+.quiz-modal__close:focus-visible {
+    outline:
+        3px
+        solid
+        var(--postcard-blue);
+
+    outline-offset: 4px;
 }
 
 
@@ -512,6 +599,17 @@
         width: 100%;
 
         padding: 26px 18px 28px;
+    }
+
+    .quiz-modal__close {
+        top: 10px;
+        right: 10px;
+        left: auto;
+
+        width: 30px;
+        height: 30px;
+
+        font-size: 22px;
     }
 
     .quiz-modal__content h2 {

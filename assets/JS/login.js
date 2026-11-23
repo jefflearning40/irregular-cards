@@ -8,6 +8,9 @@
 const loginModal =
     document.getElementById("login-modal");
 
+const loginModalClose =
+    document.getElementById("login-modal-close");
+
 const loginForm =
     document.getElementById("login-form");
 
@@ -140,6 +143,26 @@ function closeResetPasswordModal()
 {
     closeModal(resetPasswordModal);
 }
+
+
+/* ==========================================================
+   FERMETURE DE LA FENÊTRE DE CONNEXION
+========================================================== */
+
+loginModalClose.addEventListener(
+    "click",
+    () =>
+    {
+        closeLoginModal();
+
+        loginForm.reset();
+
+        loginError.textContent = "";
+
+        loginError.style.color =
+            "var(--color-error)";
+    }
+);
 
 
 /* ==========================================================
@@ -667,35 +690,35 @@ loginForm.addEventListener(
 
                 showAdmin();
 
-/* ==================================================
-   AFFICHAGE DES INFORMATIONS ADMINISTRATEUR
-================================================== */
+                /* ==================================================
+                   AFFICHAGE DES INFORMATIONS ADMINISTRATEUR
+                ================================================== */
 
-const adminAccountName =
-    document.getElementById(
-        "admin-account-name"
-    );
+                const adminAccountName =
+                    document.getElementById(
+                        "admin-account-name"
+                    );
 
-const adminAccountFirstname =
-    document.getElementById(
-        "admin-account-firstname"
-    );
+                const adminAccountFirstname =
+                    document.getElementById(
+                        "admin-account-firstname"
+                    );
 
-const adminAccountEmail =
-    document.getElementById(
-        "admin-account-email"
-    );
+                const adminAccountEmail =
+                    document.getElementById(
+                        "admin-account-email"
+                    );
 
-adminAccountName.textContent =
-    loginData.utilisateur.nom;
+                adminAccountName.textContent =
+                    loginData.utilisateur.nom;
 
-adminAccountFirstname.textContent =
-    loginData.utilisateur.prenom;
+                adminAccountFirstname.textContent =
+                    loginData.utilisateur.prenom;
 
-adminAccountEmail.textContent =
-    loginData.utilisateur.email;
+                adminAccountEmail.textContent =
+                    loginData.utilisateur.email;
 
-await loadAdminDashboard();
+                await loadAdminDashboard();
 
                 return;
             }
